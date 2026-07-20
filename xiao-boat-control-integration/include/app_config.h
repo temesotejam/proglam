@@ -2,7 +2,7 @@
 #include <Arduino.h>
 namespace app_config {
 constexpr char kFirmwareName[]="xiao-boat-control-integration";
-constexpr char kFirmwareVersion[]="0.1.0-integration-bringup";
+constexpr char kFirmwareVersion[]="0.2.1-heartbeat-task";
 constexpr int kPeripheralSdaPin=D1,kPeripheralSclPin=D0;
 constexpr int kBnoRstPin=D2,kBnoIntPin=D3,kBnoSdaPin=D4,kBnoSclPin=D5;
 constexpr int kLinkRxPin=D6,kLinkTxPin=D7,kVescRxPin=D8,kVescTxPin=D9,kFuturePcaOePin=D10;
