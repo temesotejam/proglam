@@ -1,5 +1,11 @@
 # 作業ログ
 
+## 2026-07-20 — UI版の実機確認とGNSS送信の排他強化
+
+- `RUN0016.BIN`: 232.897秒、102,858レコード。GNSS_NAV 2,329件、9.999 Hz、平均100.014 ms。SD queue drop=0、write error=0、TXT概要正常作成。STOP/E-STOPは2件ともACK accepted、DRY_RUN=1。
+- 一方で制御側のGNSS_PROCESS_RESULTにsequence gap=1を検出。UI更新の影響ではなく、通信側UART送信mutexを20 msで取得できない場合にGNSS_NAVをスキップし得る実装が原因候補。
+- `sendControl`を成功／失敗を返す関数へ変更し、GNSS_NAVはUART mutexを取得するまで待って全バイトを書けた場合だけSDの送信記録へ残すよう強化。ビルド成功、実機書込みと再試験はXIAO再接続後。
+
 ## 2026-07-20 — Web UIの操作結果を明確化
 
 - Web UIを日本語の状態中心画面へ変更。SD、制御リンク、DRY_RUNを色付き表示し、記録状態・GNSS・往復結果・RTT・ACK・SDエラーを分けて表示する。

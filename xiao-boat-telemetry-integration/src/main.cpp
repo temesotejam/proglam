@@ -323,20 +323,23 @@ void serviceGnss() {
   }
 }
 
-void sendControl(boat::Type type, const void* payload = nullptr, uint16_t payloadLength = 0) {
+bool sendControl(boat::Type type, const void* payload = nullptr, uint16_t payloadLength = 0) {
   // This is a separate direction of the link. Keep SD-log sequence numbers
   // contiguous so an offline parser can use gaps as loss evidence.
   boat::Header header{boat::kVersion,static_cast<uint8_t>(type),payloadLength,++controlTxSequence,commBootId,nowUs(),0};
   uint8_t encoded[boat::kMaxEncoded]; const size_t length=boat::encode(header,static_cast<const uint8_t*>(payload),encoded,sizeof(encoded));
-  if (!length) return;
-  if (controlTxMutex && xSemaphoreTake(controlTxMutex,pdMS_TO_TICKS(20)) != pdTRUE) return;
-  controlUart.write(encoded,length);
+  if (!length) return false;
+  // A GNSS_NAV sequence must never be skipped merely because heartbeat or a
+  // command is using the same UART. The wire is fast enough that this wait is bounded in practice.
+  if (controlTxMutex && xSemaphoreTake(controlTxMutex,portMAX_DELAY) != pdTRUE) return false;
+  const size_t written=controlUart.write(encoded,length);
   if (controlTxMutex) xSemaphoreGive(controlTxMutex);
+  return written == length;
 }
 
 void sendGnssNav() {
   const boat::GnssNavPayload nav = makeNavPayload();
-  sendControl(boat::Type::GnssNav, &nav, sizeof(nav));
+  if (!sendControl(boat::Type::GnssNav, &nav, sizeof(nav))) return;
   emitLocal(boat::Type::GnssNav, &nav, sizeof(nav), 1); ++linkLatest.navTx; pendingNewFix = false;
 }
 void gnssNavTask(void*) { TickType_t last=xTaskGetTickCount(); for(;;) { sendGnssNav(); vTaskDelayUntil(&last,pdMS_TO_TICKS(kGnssNavIntervalMs)); } }
