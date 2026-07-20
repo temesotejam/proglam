@@ -4,7 +4,7 @@
 
 namespace app_config {
 constexpr char kFirmwareName[] = "xiao-boat-telemetry-integration";
-constexpr char kFirmwareVersion[] = "0.1.2-sd-fault-stop";
+constexpr char kFirmwareVersion[] = "0.2.0-auto-benchmark";
 
 // SoftAP/Web UI. Connect directly and open http://192.168.4.1/.
 constexpr char kApSsid[] = "XIAO-BOAT-TELEMETRY";
@@ -55,4 +55,19 @@ constexpr uint32_t kControlHeartbeatIntervalMs = 100UL;
 constexpr uint32_t kTimeSyncIntervalMs = 1000UL;
 constexpr uint32_t kControlLinkTimeoutMs = 500UL;
 constexpr uint32_t kDiagnosticIntervalMs = 1000UL;
+
+// Automated benchmark. The browser only starts/stops a campaign; this state
+// machine runs on the communication XIAO and continues after a page reload.
+constexpr char kBenchDirectory[] = "/BENCH";
+constexpr uint32_t kBenchWebRefreshMs = 500UL;
+constexpr uint32_t kBenchPreflightMs = 1000UL;
+constexpr uint32_t kBenchWarmupInaMs = 10000UL;
+constexpr uint32_t kBenchWarmupTofMs = 20000UL;
+constexpr uint32_t kBenchWarmupI2cMs = 20000UL;
+constexpr uint32_t kBenchWarmupUartMs = 5000UL;
+constexpr uint32_t kBenchCommandTimeoutMs = 500UL;
+constexpr uint32_t kBenchLinkWarnMs = 300UL;
+constexpr uint32_t kBenchLinkAbortMs = 500UL;
+constexpr uint16_t kBenchSyntheticPayloadBytes = 64;
+constexpr bool kDryRunActuators = true;  // Required for benchmark admission.
 }  // namespace app_config
