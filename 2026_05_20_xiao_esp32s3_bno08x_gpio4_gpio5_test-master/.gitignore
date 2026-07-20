@@ -1,0 +1,15 @@
+.pio/
+.vscode/
+.cache/
+*.bin
+*.elf
+*.map
+*.hex
+*.log
+
+# PlatformIO generated files
+compile_commands.json
+
+# OS files
+Thumbs.db
+.DS_Store

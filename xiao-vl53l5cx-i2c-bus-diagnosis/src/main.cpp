@@ -1,0 +1,9 @@
+#include <Arduino.h>
+#include <Wire.h>
+#include <WiFi.h>
+#include <WebServer.h>
+TwoWire bus(1); WebServer web(80); char result[320]="booting";
+void one(const char*name,int sda,int scl,uint32_t hz){bus.begin(sda,scl,hz);char found[80]="";size_t n=0;for(uint8_t a=1;a<0x78;a++){bus.beginTransmission(a);if(bus.endTransmission()==0)n+=snprintf(found+n,sizeof(found)-n,"%s0x%02X",n?",":"",a);}Serial.printf("%s SDA=%d SCL=%d %luHz: %s\n",name,sda,scl,(unsigned long)hz,n?found:"none");size_t u=strlen(result);snprintf(result+u,sizeof(result)-u,"%s%s:%s",u?" | ":"",name,n?found:"none");}
+void scan(){snprintf(result,sizeof(result),"");one("D1SDA_D0SCL_100k",2,1,100000);one("D1SDA_D0SCL_400k",2,1,400000);one("D0SDA_D1SCL_100k",1,2,100000);one("D0SDA_D1SCL_400k",1,2,400000);bus.begin(2,1,400000);}
+const char page[]=R"HTML(<!doctype html><meta name=viewport content="width=device-width,initial-scale=1"><style>body{font:16px system-ui;background:#10151c;color:#eaf0f6;margin:16px}.c{padding:12px;background:#1d2836;border-radius:8px;white-space:pre-wrap}</style><h2>VL53L5CX XIAO I2C diagnosis</h2><div class=c id=x>loading</div><p>Expected address: 0x29. This test scans D1/D0 in both directions at 100k and 400k.</p><script>async function f(){x.textContent=(await(await fetch('/api')).json()).scan}f();setInterval(f,1000)</script>)HTML";
+void setup(){Serial.begin(115200);delay(1000);scan();WiFi.mode(WIFI_AP);WiFi.softAP("XIAO-TOF-DIAG","12345678");web.on("/",[]{web.send(200,"text/html",page);});web.on("/api",[]{char j[380];snprintf(j,sizeof(j),"{\"scan\":\"%s\"}",result);web.send(200,"application/json",j);});web.begin();}void loop(){web.handleClient();delay(1);}

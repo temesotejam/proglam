@@ -1,0 +1,3 @@
+sequence,rx_us,sensor_us,sensor_time_valid,accuracy,sensor_sequence,fault_code,v0,v1,v2,v3,v4,v5,v6
+241,343295954,0,0,0,0,0,288.0,288.0,0.0,15421.0,1.0,0.0,1096.0
+519,344327779,0,0,0,0,0,278.0,277.0,1.0,8176.0,0.0,0.0,1062.0
