@@ -4,7 +4,7 @@
 
 namespace app_config {
 constexpr char kFirmwareName[] = "xiao-boat-telemetry-integration";
-constexpr char kFirmwareVersion[] = "0.2.1-sd-diagnostics";
+constexpr char kFirmwareVersion[] = "0.2.2-benchmark-results";
 
 // SoftAP/Web UI. Connect directly and open http://192.168.4.1/.
 constexpr char kApSsid[] = "XIAO-BOAT-TELEMETRY";
@@ -69,6 +69,7 @@ constexpr uint32_t kBenchWarmupTofMs = 20000UL;
 constexpr uint32_t kBenchWarmupI2cMs = 20000UL;
 constexpr uint32_t kBenchWarmupUartMs = 5000UL;
 constexpr uint32_t kBenchCommandTimeoutMs = 500UL;
+constexpr uint32_t kBenchResultTimeoutMs = 3000UL;
 constexpr uint32_t kBenchPrepareTimeoutMs = 10000UL;  // ToF/I2C reinitialization may briefly block heartbeats.
 constexpr uint32_t kBenchLinkWarnMs = 300UL;
 constexpr uint32_t kBenchLinkAbortMs = 500UL;

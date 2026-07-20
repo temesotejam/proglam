@@ -2,7 +2,7 @@
 #include <Arduino.h>
 namespace app_config {
 constexpr char kFirmwareName[]="xiao-boat-control-integration";
-constexpr char kFirmwareVersion[]="0.2.1-heartbeat-task";
+constexpr char kFirmwareVersion[]="0.2.2-bounded-link-rx";
 constexpr int kPeripheralSdaPin=D1,kPeripheralSclPin=D0;
 constexpr int kBnoRstPin=D2,kBnoIntPin=D3,kBnoSdaPin=D4,kBnoSclPin=D5;
 constexpr int kLinkRxPin=D6,kLinkTxPin=D7,kVescRxPin=D8,kVescTxPin=D9,kFuturePcaOePin=D10;
@@ -20,5 +20,6 @@ constexpr uint16_t kInaConfig=0x08DF,kInaCalibration=0x0800; constexpr uint16_t 
 constexpr bool kEnableOverCurrentTrip=false,kEnableLowVoltageTrip=false; constexpr float kOverCurrentTripA=30.0f,kLowVoltageTripV=6.0f;
 constexpr uint32_t kDiagnosticIntervalMs=1000UL,kBnoNoDataTimeoutMs=3000UL,kReinitIntervalMs=2000UL;
 constexpr uint16_t kLinkMaxPayload=768,kLinkTxQueueDepth=64;
+constexpr uint16_t kLinkRxByteBudget=512;
 }
 namespace cfg=app_config;
