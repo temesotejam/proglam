@@ -38,12 +38,15 @@ struct BnoLatest {
 
 struct LogStats {
   bool sdReady = false, logging = false;
+  bool normalStop = true, faultSummaryWritten = false;
   uint32_t records = 0, writeErrors = 0, queueDrops = 0, controlFrames = 0;
+  uint32_t sdWriteCalls = 0, sdLastRequest = 0, sdLastWritten = 0, sdLastWriteUs = 0, sdMaxWriteUs = 0;
   uint32_t localFrames = 0, controlCrc = 0, controlCobs = 0, controlLength = 0;
   uint16_t queueHighWater = 0;
   char runName[16] = "none";
   char directory[12] = "/BOATLOG";
   char fault[48] = "none";
+  char sdOperation[16] = "none";
 } logStats;
 
 boat::Frame frameQueue[kFrameQueueDepth];
@@ -116,7 +119,8 @@ bool dequeueFrame(boat::Frame& frame) {
 }
 
 void clearLogQueue() { portENTER_CRITICAL(&queueMux); queueHead=queueTail=queueUsed=0; portEXIT_CRITICAL(&queueMux); }
-void abortLog(const char* reason) { snprintf(logStats.fault,sizeof(logStats.fault),"%s",reason); logStats.logging=false; sdUsed=0; if(logFile) logFile.close(); clearLogQueue(); Serial.printf("LOG aborted: %s\n",reason); }
+void writeAbortSummary(const char* reason) { if(!logStats.sdReady||!strcmp(logStats.runName,"none"))return;char path[32]{};snprintf(path,sizeof(path),"%s/%s",logStats.directory,logStats.runName);char* e=strstr(path,".BIN");if(!e)return;memcpy(e,".TXT",5);File f=SD.open(path,FILE_WRITE);if(!f){Serial.printf("FAULT SUMMARY OPEN FAILED: %s\n",reason);return;}f.printf("firmware=%s\nversion=%s\nprotocol=%u\nnormal_stop=0\nabort_reason=%s\nrecords_before_abort=%lu\nqueue_drops=%lu\nsd_write_errors=%lu\nlog_fault=%s\nsd_operation=%s\nsd_write_chunk_bytes=%u\nsd_write_calls=%lu\nsd_last_request_bytes=%lu\nsd_last_written_bytes=%lu\nsd_last_write_us=%lu\nsd_max_write_us=%lu\nsd_card_type=%u\nsd_card_bytes=%llu\nsd_total_bytes=%llu\nsd_used_bytes=%llu\ncampaign_id=%lu\nphase=%u\ndirectory=%s\n",kFirmwareName,kFirmwareVersion,boat::kVersion,reason,(unsigned long)logStats.records,(unsigned long)logStats.queueDrops,(unsigned long)logStats.writeErrors,logStats.fault,logStats.sdOperation,(unsigned)kSdWriteChunkBytes,(unsigned long)logStats.sdWriteCalls,(unsigned long)logStats.sdLastRequest,(unsigned long)logStats.sdLastWritten,(unsigned long)logStats.sdLastWriteUs,(unsigned long)logStats.sdMaxWriteUs,(unsigned)SD.cardType(),(unsigned long long)SD.cardSize(),(unsigned long long)SD.totalBytes(),(unsigned long long)SD.usedBytes(),(unsigned long)benchmark.id,benchmark.phaseIndex,logStats.directory);f.close();logStats.faultSummaryWritten=true;}
+void abortLog(const char* reason) { snprintf(logStats.fault,sizeof(logStats.fault),"%s",reason); logStats.normalStop=false; logStats.logging=false; sdUsed=0; if(logFile) logFile.close(); writeAbortSummary(reason); clearLogQueue(); Serial.printf("LOG aborted: %s summary=%d\n",reason,logStats.faultSummaryWritten); }
 
 void emitLocal(boat::Type type, const void* payload, uint16_t length, uint16_t flags = 0) {
   if (!logStats.logging || length > boat::kMaxPayload) return;
@@ -127,6 +131,32 @@ void emitLocal(boat::Type type, const void* payload, uint16_t length, uint16_t f
   if (enqueueFrame(frame)) ++logStats.localFrames;
 }
 
+bool commitSdBuffer(const char* operation) {
+  if (!logFile || !sdUsed) return true;
+  const size_t total = sdUsed;
+  size_t offset = 0;
+  while (offset < total) {
+    const size_t requested = min(kSdWriteChunkBytes, total - offset);
+    const uint64_t startedUs = nowUs();
+    const size_t written = logFile.write(sdBuffer + offset, requested);
+    const uint32_t elapsedUs = (uint32_t)(nowUs() - startedUs);
+    ++logStats.sdWriteCalls;
+    logStats.sdLastRequest = requested;
+    logStats.sdLastWritten = written;
+    logStats.sdLastWriteUs = elapsedUs;
+    logStats.sdMaxWriteUs = max(logStats.sdMaxWriteUs, elapsedUs);
+    if (written != requested) {
+      ++logStats.writeErrors;
+      snprintf(logStats.sdOperation, sizeof(logStats.sdOperation), "%s", operation);
+      sdUsed = 0;  // Do not repeatedly retry a buffer after an SD write failure.
+      return false;
+    }
+    offset += written;
+  }
+  sdUsed = 0;
+  return true;
+}
+
 bool appendBytes(const void* data, size_t length) {
   const uint8_t* source = static_cast<const uint8_t*>(data);
   while (length) {
@@ -134,18 +164,14 @@ bool appendBytes(const void* data, size_t length) {
     const size_t part = length < space ? length : space;
     memcpy(sdBuffer + sdUsed, source, part);
     sdUsed += part; source += part; length -= part;
-    if (sdUsed == sizeof(sdBuffer)) {
-      if (logFile.write(sdBuffer, sdUsed) != sdUsed) { ++logStats.writeErrors; sdUsed=0; return false; }
-      sdUsed = 0;
-    }
+    if (sdUsed == sizeof(sdBuffer) && !commitSdBuffer("buffer_full")) return false;
   }
   return true;
 }
 
 bool flushLog() {
   if (!logFile || !sdUsed) return true;
-  if (logFile.write(sdBuffer, sdUsed) != sdUsed) { ++logStats.writeErrors; sdUsed=0; return false; }
-  sdUsed = 0;
+  if (!commitSdBuffer("periodic_flush")) return false;
   logFile.flush();
   lastFlushMs = millis();
   return true;
@@ -153,7 +179,7 @@ bool flushLog() {
 
 bool startLog(const char* directory = kLogDirectory) {
   if (!logStats.sdReady || logStats.logging) return logStats.logging;
-  logStats.records=0; logStats.writeErrors=0; logStats.queueDrops=0; logStats.localFrames=0; logStats.queueHighWater=0; snprintf(logStats.fault,sizeof(logStats.fault),"none"); snprintf(logStats.directory,sizeof(logStats.directory),"%s",directory); clearLogQueue();
+  logStats.records=0; logStats.writeErrors=0; logStats.queueDrops=0; logStats.localFrames=0; logStats.queueHighWater=0; logStats.sdWriteCalls=0; logStats.sdLastRequest=0; logStats.sdLastWritten=0; logStats.sdLastWriteUs=0; logStats.sdMaxWriteUs=0; logStats.normalStop=true; logStats.faultSummaryWritten=false; snprintf(logStats.fault,sizeof(logStats.fault),"none"); snprintf(logStats.sdOperation,sizeof(logStats.sdOperation),"none"); snprintf(logStats.directory,sizeof(logStats.directory),"%s",directory); clearLogQueue();
   SD.mkdir(logStats.directory);
   char path[32];
   for (uint16_t index = 1; index < 10000; ++index) {
@@ -172,7 +198,7 @@ void writeRunSummary() {
   char path[32]{}; snprintf(path,sizeof(path),"%s/%s",logStats.directory,logStats.runName);
   char* extension=strstr(path,".BIN"); if (!extension) return; memcpy(extension,".TXT",5);
   File summary=SD.open(path,FILE_WRITE); if (!summary) { ++logStats.writeErrors; return; }
-  summary.printf("firmware=%s\nversion=%s\nprotocol=%u\nnormal_stop=1\nrecords=%lu\nqueue_drops=%lu\nsd_write_errors=%lu\ngnss_nav_tx=%lu\ngnss_result_rx=%lu\nresult_bad_crc=%lu\nlast_rtt_us=%llu\ncommand_ack_rx=%lu\n",kFirmwareName,kFirmwareVersion,boat::kVersion,(unsigned long)logStats.records,(unsigned long)logStats.queueDrops,(unsigned long)logStats.writeErrors,(unsigned long)linkLatest.navTx,(unsigned long)linkLatest.resultRx,(unsigned long)linkLatest.resultBadCrc,(unsigned long long)linkLatest.lastRttUs,(unsigned long)linkLatest.commandAckRx);
+  summary.printf("firmware=%s\nversion=%s\nprotocol=%u\nnormal_stop=%u\nrecords=%lu\nqueue_drops=%lu\nsd_write_errors=%lu\nlog_fault=%s\nsd_write_chunk_bytes=%u\nsd_write_calls=%lu\nsd_max_write_us=%lu\ngnss_nav_tx=%lu\ngnss_result_rx=%lu\nresult_bad_crc=%lu\nlast_rtt_us=%llu\ncommand_ack_rx=%lu\n",kFirmwareName,kFirmwareVersion,boat::kVersion,logStats.normalStop?1:0,(unsigned long)logStats.records,(unsigned long)logStats.queueDrops,(unsigned long)logStats.writeErrors,logStats.fault,(unsigned)kSdWriteChunkBytes,(unsigned long)logStats.sdWriteCalls,(unsigned long)logStats.sdMaxWriteUs,(unsigned long)linkLatest.navTx,(unsigned long)linkLatest.resultRx,(unsigned long)linkLatest.resultBadCrc,(unsigned long long)linkLatest.lastRttUs,(unsigned long)linkLatest.commandAckRx);
   summary.close();
 }
 
@@ -381,17 +407,20 @@ const char* benchPresetName(BenchPreset p) { return p==BenchPreset::Quick?"QUICK
 void emitBenchEvent(uint8_t code, boat::BenchmarkStatus status, uint32_t value=0) { boat::BenchmarkEventPayload e{}; e.campaignId=benchmark.id; e.phaseId=benchmark.phaseIndex; e.code=code; e.status=(uint8_t)status; e.value=value; e.flags=boat::BenchmarkDryRun; e.timestampUs=nowUs(); e.canonicalCrc=boat::canonicalCrc(&e,offsetof(boat::BenchmarkEventPayload,canonicalCrc)); emitLocal(boat::Type::BenchmarkEvent,&e,sizeof(e),1); }
 bool sendBenchCommand(boat::BenchmarkAction action) { const auto& p=currentBenchPhase(); boat::BenchmarkCommandPayload c{}; c.campaignId=benchmark.id;c.phaseId=benchmark.phaseIndex;c.phase=(uint8_t)p.phase;c.action=(uint8_t)action;c.durationMs=benchPhaseDurationMs(p);c.i2cClockHz=p.i2cHz;c.inaProfile=p.inaProfile;c.tofProfile=p.tofProfile;c.uartProfile=p.uartProfile;c.canonicalCrc=boat::canonicalCrc(&c,offsetof(boat::BenchmarkCommandPayload,canonicalCrc)); const boat::Type type=action==boat::BenchmarkAction::Prepare?boat::Type::BenchmarkPrepare:action==boat::BenchmarkAction::Start?boat::Type::BenchmarkStart:action==boat::BenchmarkAction::Stop?boat::Type::BenchmarkStop:boat::Type::BenchmarkAbort; if(!sendControl(type,&c,sizeof(c)))return false; emitLocal(type,&c,sizeof(c),1); return true; }
 void appendBenchmarkSummary(const char* outcome) { if (!logStats.sdReady||!strcmp(logStats.runName,"none"))return;char path[32]{};snprintf(path,sizeof(path),"%s/%s",logStats.directory,logStats.runName);char* e=strstr(path,".BIN");if(!e)return;memcpy(e,".TXT",5);File f=SD.open(path,FILE_WRITE);if(!f)return;f.printf("benchmark_outcome=%s\ncampaign_id=%lu\npreset=%s\ncable_profile=%s\ncable_length_cm=%u\nwiring_type=%s\npullup_resistance_ohm=%s\ntarget_distance_mm=%s\nnote=%s\nrun_gnss_nav_tx=%lu\nrun_gnss_result_rx=%lu\nphase_count=%u\nlast_phase=%u\n",outcome,(unsigned long)benchmark.id,benchPresetName(benchmark.preset),benchmark.cableProfile,benchmark.cableLengthCm,benchmark.wiringType,benchmark.pullup,benchmark.target,benchmark.note,(unsigned long)(linkLatest.navTx-benchmark.runNavStart),(unsigned long)(linkLatest.resultRx-benchmark.runResultStart),(unsigned)(sizeof(kBenchPhases)/sizeof(kBenchPhases[0])),benchmark.phaseIndex);f.close(); }
-void finishBenchmark(const char* outcome, bool emergency=false) { if (benchmark.state==BenchState::Idle||benchmark.state==BenchState::Completed||benchmark.state==BenchState::Aborted)return;emitBenchEvent(emergency?9:8,emergency?boat::BenchmarkStatus::Aborted:boat::BenchmarkStatus::Pass);benchmark.state=emergency?BenchState::Estop:BenchState::FinalizingCampaign;if(logStats.logging){stopLog();appendBenchmarkSummary(outcome);} }
+void finishBenchmark(const char* outcome, bool emergency=false) { if (benchmark.state==BenchState::Idle||benchmark.state==BenchState::Completed||benchmark.state==BenchState::Aborted)return;emitBenchEvent(emergency?9:8,emergency?boat::BenchmarkStatus::Aborted:boat::BenchmarkStatus::Pass);if(strcmp(outcome,"completed")&&strcmp(outcome,"user_stop")){logStats.normalStop=false;snprintf(logStats.fault,sizeof(logStats.fault),"%s",outcome);}benchmark.state=emergency?BenchState::Estop:BenchState::FinalizingCampaign;if(logStats.logging){stopLog();appendBenchmarkSummary(outcome);} }
 void serviceBenchSynthetic() { if (benchmark.state!=BenchState::Measuring)return;const uint8_t profile=currentBenchPhase().uartProfile;if(!profile)return;const uint32_t hz=profile==1?250:profile==2?500:630;const uint64_t period=1000000ULL/hz;const uint64_t n=nowUs();if(n<benchmark.nextSyntheticUs)return;benchmark.nextSyntheticUs=n+period;boat::SyntheticDataPayload p{};p.campaignId=benchmark.id;p.sequence=++benchmark.syntheticSeq;p.stream=p.sequence%8;p.bytes=sizeof(p);p.generatedUs=n;for(uint8_t i=0;i<sizeof(p.pattern);++i)p.pattern[i]=(uint8_t)((p.sequence+i*17u)&0xffu);p.payloadCrc=boat::crc32((const uint8_t*)&p,offsetof(boat::SyntheticDataPayload,payloadCrc));if(sendControl(boat::Type::SyntheticData,&p,sizeof(p)))emitLocal(boat::Type::SyntheticData,&p,sizeof(p),1); }
 void serviceBenchmark() {
   if (benchmark.state==BenchState::Idle||benchmark.state==BenchState::Completed||benchmark.state==BenchState::Aborted||benchmark.state==BenchState::Estop)return;
   const uint32_t elapsed=millis()-benchmark.stateMs;
   if (logStats.writeErrors) { benchmark.state=BenchState::Aborted; return; }
   if (!logStats.logging) { if(benchmark.state==BenchState::FinalizingCampaign)benchmark.state=BenchState::Completed; else benchmark.state=BenchState::Aborted; return; }
-  if (ageMs(linkLatest.lastHeartbeatUs,nowUs())>kBenchLinkAbortMs) { finishBenchmark("link_timeout",false); benchmark.state=BenchState::Aborted; return; }
+  // PHASE_PREPARE deliberately reinitializes the shared I2C devices on the
+  // control XIAO. It can block its normal heartbeat longer than 500 ms, so
+  // enforce the fast link-loss rule only while an actual measurement is live.
+  if (benchmark.state==BenchState::Measuring&&ageMs(linkLatest.lastHeartbeatUs,nowUs())>kBenchLinkAbortMs) { finishBenchmark("link_timeout",false); benchmark.state=BenchState::Aborted; return; }
   if (benchmark.state==BenchState::Preflight) { if (!logStats.sdReady||!bno.ready||!gnssRx.receiving(nowUs())) { finishBenchmark("preflight_failed",false); benchmark.state=BenchState::Aborted; return; } if(linkLatest.lastCommandId<benchmark.stopCommandId){if(elapsed>kBenchCommandTimeoutMs){finishBenchmark("stop_ack_timeout",false);benchmark.state=BenchState::Aborted;}return;} if(linkLatest.ack.safetyState!=1||linkLatest.ack.disposition!=0){finishBenchmark("stop_not_disarmed",false);benchmark.state=BenchState::Aborted;return;} benchmark.state=BenchState::PreparePhase;benchmark.stateMs=millis();return; }
   if (benchmark.state==BenchState::PreparePhase) { benchmark.controlReady=false; if(!sendBenchCommand(boat::BenchmarkAction::Prepare)){finishBenchmark("prepare_send_failed",false);benchmark.state=BenchState::Aborted;return;} emitBenchEvent(2,boat::BenchmarkStatus::Pass);benchmark.state=BenchState::WaitControlReady;benchmark.stateMs=millis();return; }
-  if (benchmark.state==BenchState::WaitControlReady) { if(benchmark.controlReady){if(benchmark.ready.status!=(uint8_t)boat::BenchmarkStatus::Pass||!(benchmark.ready.flags&boat::BenchmarkDryRun)||!(benchmark.ready.flags&boat::BenchmarkPcaOff)||!(benchmark.ready.flags&boat::BenchmarkVescZero)){finishBenchmark("control_preflight_failed",false);benchmark.state=BenchState::Aborted;return;} benchmark.state=BenchState::Warmup;benchmark.stateMs=millis();emitBenchEvent(3,boat::BenchmarkStatus::Pass);return;} if(elapsed>kBenchCommandTimeoutMs){finishBenchmark("prepare_timeout",false);benchmark.state=BenchState::Aborted;} return; }
+  if (benchmark.state==BenchState::WaitControlReady) { if(benchmark.controlReady){if(benchmark.ready.status!=(uint8_t)boat::BenchmarkStatus::Pass||!(benchmark.ready.flags&boat::BenchmarkDryRun)||!(benchmark.ready.flags&boat::BenchmarkPcaOff)||!(benchmark.ready.flags&boat::BenchmarkVescZero)){finishBenchmark("control_preflight_failed",false);benchmark.state=BenchState::Aborted;return;} benchmark.state=BenchState::Warmup;benchmark.stateMs=millis();emitBenchEvent(3,boat::BenchmarkStatus::Pass);return;} if(elapsed>kBenchPrepareTimeoutMs){finishBenchmark("prepare_timeout",false);benchmark.state=BenchState::Aborted;} return; }
   if (benchmark.state==BenchState::Warmup) { if(elapsed<benchWarmupMs(currentBenchPhase()))return; if(!sendBenchCommand(boat::BenchmarkAction::Start)){finishBenchmark("start_send_failed",false);benchmark.state=BenchState::Aborted;return;} benchmark.phaseStartMs=millis();benchmark.nextSyntheticUs=nowUs();benchmark.state=BenchState::Measuring;benchmark.stateMs=millis();emitBenchEvent(4,boat::BenchmarkStatus::Pass);return; }
   if (benchmark.state==BenchState::Measuring) { serviceBenchSynthetic();if(millis()-benchmark.phaseStartMs<benchPhaseDurationMs(currentBenchPhase()))return;benchmark.resultReady=false;if(!sendBenchCommand(boat::BenchmarkAction::Stop)){finishBenchmark("stop_send_failed",false);benchmark.state=BenchState::Aborted;return;}benchmark.state=BenchState::FinalizingPhase;benchmark.stateMs=millis();return; }
   if (benchmark.state==BenchState::FinalizingPhase) { if(benchmark.resultReady){emitBenchEvent(5,(boat::BenchmarkStatus)benchmark.result.status,benchmark.result.tofFrames);benchmark.state=BenchState::NextPhase;benchmark.stateMs=millis();return;}if(elapsed>kBenchCommandTimeoutMs){emitBenchEvent(6,boat::BenchmarkStatus::Fail);benchmark.state=BenchState::NextPhase;benchmark.stateMs=millis();}return; }
