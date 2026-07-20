@@ -30,6 +30,8 @@ pio run -t upload
 
 通信側UART→SD保存の実機BIN解析結果は、[`docs/BOATLOG_ANALYSIS.md`](docs/BOATLOG_ANALYSIS.md) に記録しています。
 
+2台・全センサ・記録・監視・安全停止を先に接続する方針と実装順序は、[`docs/SYSTEM_VERTICAL_SLICE_PLAN.md`](docs/SYSTEM_VERTICAL_SLICE_PLAN.md) に記録しています。
+
 作業を終えるときは、計画の状態・次の作業・検証結果を必ず更新します。
 
 ## Git 管理方針
