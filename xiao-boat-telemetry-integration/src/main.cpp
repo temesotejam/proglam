@@ -42,6 +42,7 @@ struct LogStats {
   uint32_t localFrames = 0, controlCrc = 0, controlCobs = 0, controlLength = 0;
   uint16_t queueHighWater = 0;
   char runName[16] = "none";
+  char fault[48] = "none";
 } logStats;
 
 boat::Frame frameQueue[kFrameQueueDepth];
@@ -95,6 +96,9 @@ bool dequeueFrame(boat::Frame& frame) {
   return true;
 }
 
+void clearLogQueue() { portENTER_CRITICAL(&queueMux); queueHead=queueTail=queueUsed=0; portEXIT_CRITICAL(&queueMux); }
+void abortLog(const char* reason) { snprintf(logStats.fault,sizeof(logStats.fault),"%s",reason); logStats.logging=false; sdUsed=0; if(logFile) logFile.close(); clearLogQueue(); Serial.printf("LOG aborted: %s\n",reason); }
+
 void emitLocal(boat::Type type, const void* payload, uint16_t length, uint16_t flags = 0) {
   if (!logStats.logging || length > boat::kMaxPayload) return;
   boat::Frame frame{};
@@ -112,23 +116,25 @@ bool appendBytes(const void* data, size_t length) {
     memcpy(sdBuffer + sdUsed, source, part);
     sdUsed += part; source += part; length -= part;
     if (sdUsed == sizeof(sdBuffer)) {
-      if (logFile.write(sdBuffer, sdUsed) != sdUsed) { ++logStats.writeErrors; return false; }
+      if (logFile.write(sdBuffer, sdUsed) != sdUsed) { ++logStats.writeErrors; sdUsed=0; return false; }
       sdUsed = 0;
     }
   }
   return true;
 }
 
-void flushLog() {
-  if (!logFile || !sdUsed) return;
-  if (logFile.write(sdBuffer, sdUsed) != sdUsed) ++logStats.writeErrors;
+bool flushLog() {
+  if (!logFile || !sdUsed) return true;
+  if (logFile.write(sdBuffer, sdUsed) != sdUsed) { ++logStats.writeErrors; sdUsed=0; return false; }
   sdUsed = 0;
   logFile.flush();
   lastFlushMs = millis();
+  return true;
 }
 
 bool startLog() {
   if (!logStats.sdReady || logStats.logging) return logStats.logging;
+  logStats.records=0; logStats.writeErrors=0; logStats.queueDrops=0; logStats.localFrames=0; logStats.queueHighWater=0; snprintf(logStats.fault,sizeof(logStats.fault),"none"); clearLogQueue();
   SD.mkdir(kLogDirectory);
   char path[32];
   for (uint16_t index = 1; index < 10000; ++index) {
@@ -155,14 +161,12 @@ void stopLog() {
   if (!logStats.logging) return;
   boat::Frame frame{};
   while (dequeueFrame(frame)) {
-    appendBytes(&kLogMagic, sizeof(kLogMagic));
     const uint64_t receivedUs = nowUs();
-    appendBytes(&receivedUs, sizeof(receivedUs));
-    appendBytes(&frame.header, sizeof(frame.header));
-    appendBytes(frame.payload, frame.header.length);
+    if (!appendBytes(&kLogMagic, sizeof(kLogMagic)) || !appendBytes(&receivedUs, sizeof(receivedUs)) ||
+        !appendBytes(&frame.header, sizeof(frame.header)) || !appendBytes(frame.payload, frame.header.length)) { abortLog("SD write failed while stopping"); return; }
     ++logStats.records;
   }
-  flushLog();
+  if (!flushLog()) { abortLog("SD flush failed while stopping"); return; }
   logFile.close(); logStats.logging = false; writeRunSummary();
   Serial.printf("LOG stopped: records=%lu errors=%lu\n", (unsigned long)logStats.records, (unsigned long)logStats.writeErrors);
 }
@@ -174,11 +178,11 @@ void serviceLog() {
     const uint64_t receivedUs = nowUs();
     if (!appendBytes(&kLogMagic, sizeof(kLogMagic)) || !appendBytes(&receivedUs, sizeof(receivedUs)) ||
         !appendBytes(&frame.header, sizeof(frame.header)) || !appendBytes(frame.payload, frame.header.length)) {
-      continue;
+      abortLog("SD write failed"); return;
     }
     ++logStats.records;
   }
-  if (millis() - lastFlushMs >= kSdFlushIntervalMs) flushLog();
+  if (millis() - lastFlushMs >= kSdFlushIntervalMs && !flushLog()) abortLog("SD flush failed");
 }
 
 void controlRxTask(void*) {
@@ -362,6 +366,17 @@ const char linkPage[] PROGMEM = R"HTML(<!doctype html><meta name=viewport conten
 
 const char clearPage[] PROGMEM = R"HTML(<!doctype html><html lang=ja><meta name=viewport content="width=device-width,initial-scale=1"><style>body{font:16px system-ui;margin:12px;background:#101720;color:#edf3fa}.card{background:#1d2a38;border-radius:10px;padding:12px;margin:10px 0}.pill{display:inline-block;padding:4px 8px;border-radius:99px;margin:2px;background:#46576a}.ok{background:#176b42}.bad{background:#8d3039}.wait{background:#8b641b}button{font:inherit;padding:12px 10px;margin:3px;border:0;border-radius:8px;background:#2f8fce;color:white}button:disabled{opacity:.45}.danger{background:#b32d3b}pre{margin:0;white-space:pre-wrap;font:14px ui-monospace,monospace}canvas{width:100%;height:110px;background:#090d12}</style><h2>ボート統合テレメトリ</h2><div class=card><span id=sd class=pill>SD確認中</span><span id=link class=pill>制御リンク確認中</span><span id=dry class=pill>DRY_RUN確認中</span><div id=feedback class=wait style="margin-top:8px;padding:8px;border-radius:6px">状態を取得中です。</div></div><div class=card><b>記録</b><br><button id=start onclick="act('/api/log/start','記録開始','start')">記録を開始</button><button id=stop onclick="act('/api/log/stop','記録停止','stop')">記録を停止</button><div id=loghint></div></div><div class=card><b>安全操作（制御側へ送信）</b><br><button id=bstop class=danger onclick="act('/api/control/stop','STOP','ack')">STOP</button><button id=bestop class=danger onclick="act('/api/control/estop','E-STOP','ack')">E-STOP</button><div>操作を押すと「送信要求」→「制御側ACK受信」を表示します。</div></div><div class=card><b>現在の状態</b><pre id=data>読み込み中</pre></div><canvas id=graph></canvas><script>let h=[],last={},pending=null;const state=['BOOT','DISARMED','ARMED_IDLE','RUNNING','E_STOP','FAULT'];function pill(e,ok,text){e.className='pill '+(ok?'ok':'bad');e.textContent=text}function say(t,c='wait'){feedback.className=c;feedback.textContent=t}function buttons(x){for(let e of document.querySelectorAll('button'))e.disabled=x}async function act(url,label,kind){buttons(true);pending={label,kind,ack:last.ack_id||0,at:Date.now()};say(label+'：通信側へ送信要求を登録しました。','wait');try{let r=await fetch(url,{method:'POST'});if(!r.ok)throw Error(r.status)}catch(e){pending=null;say(label+'：送信要求に失敗しました。','bad');buttons(false)}}function draw(){let w=graph.width=graph.clientWidth*devicePixelRatio,H=graph.height=graph.clientHeight*devicePixelRatio,c=graph.getContext('2d');c.clearRect(0,0,w,H);let m=Math.max(1,...h.map(Math.abs));c.strokeStyle='#78e39d';c.beginPath();h.forEach((v,i)=>{let x=i*w/159,y=H/2-v/m*H*.42;i?c.lineTo(x,y):c.moveTo(x,y)});c.stroke()}function confirm(j){if(!pending)return;if(pending.kind==='start'&&j.logging){say('記録開始：反映済みです。','ok');pending=null;buttons(false)}else if(pending.kind==='stop'&&!j.logging){say('記録停止：SDを閉じ、TXT概要を作成しました。','ok');pending=null;buttons(false)}else if(pending.kind==='ack'&&j.ack_id>pending.ack){let s=state[j.ack_state]||j.ack_state;say(pending.label+'：制御側ACK受信。状態は '+s+' です。','ok');pending=null;buttons(false)}else if(Date.now()-pending.at>600){say(pending.label+'：制御側の応答を待っています…','wait')}}async function load(){try{let j=await(await fetch('/api/ui',{cache:'no-store'})).json();last=j;pill(sd,j.sd==='ready','SD: '+j.sd);pill(link,j.link_healthy,'制御リンク: '+(j.link_healthy?'正常':'未接続/停止'));pill(dry,j.dry_run,'DRY_RUN: '+(j.dry_run?'有効':'無効'));loghint.textContent='現在: '+(j.logging?'記録中 '+j.run:'停止中')+' / '+j.records+' 件';data.textContent=`GNSS: ${j.gnss_fix?'有効fix':'fixなし'}  age ${j.gnss_age_ms} ms\n緯度 ${j.lat.toFixed(7)}  経度 ${j.lon.toFixed(7)}  HDOP ${j.hdop.toFixed(2)}\nGNSS_NAV送信 ${j.nav_tx} / 結果返信 ${j.result_rx} / RTT ${j.rtt_ms} ms\n制御状態 ${state[j.control_state]||j.control_state} / 結果age ${j.result_age_ms} ms\nACK id ${j.ack_id} / ACK age ${j.ack_age_ms} ms / SD drop ${j.queue_drops} / SD error ${j.sd_errors}`;h.push(j.north_m);if(h.length>160)h.shift();draw();confirm(j)}catch(e){say('画面の状態取得に失敗しました。接続を確認してください。','bad')}}setInterval(load,250);load()</script></html>)HTML";
 
+// The default page deliberately requires an on-screen confirmation before a
+// log is started. A stale tab or an automatic HTTP retry cannot create a RUN
+// file by merely calling the former start endpoint.
+const char manualPage[] PROGMEM = R"HTML(<!doctype html><html lang="ja"><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{font:16px system-ui;margin:12px;background:#101720;color:#edf3fa}.card{background:#1d2a38;border-radius:10px;padding:12px;margin:10px 0}.ok{color:#8ce8b1}.bad{color:#ff9da5}.warn{color:#ffd477}button{font:inherit;padding:12px;margin:4px;border:0;border-radius:8px;background:#2f8fce;color:#fff}.danger{background:#b32d3b}button:disabled{opacity:.45}pre{white-space:pre-wrap;margin:0}</style><h2>ボート通信・記録</h2><div class="card"><b id="state">状態を取得中</b><div id="message" class="warn">記録は停止中です。</div></div><div class="card"><b>SD 記録</b><p>「記録を開始」を押した後、確認を選んだ場合だけ新しい RUN ファイルを作成します。</p><button id="start" onclick="startLog()">記録を開始</button><button id="stop" class="danger" onclick="post('/api/log/stop','停止要求を送信しました。')">記録を停止</button></div><div class="card"><b>制御側へ送る安全操作</b><br><button class="danger" onclick="post('/api/control/stop','STOP を送信しました。')">STOP</button><button class="danger" onclick="post('/api/control/estop','E-STOP を送信しました。')">E-STOP</button></div><div class="card"><pre id="detail">読み込み中</pre></div><script>let busy=false;function show(t,c='warn'){let e=document.getElementById('message');e.className=c;e.textContent=t}async function post(url,text){if(busy)return;busy=true;try{let r=await fetch(url,{method:'POST'});if(!r.ok)throw Error(r.status);show(text,'warn')}catch(e){show('要求に失敗しました: '+e,'bad')}finally{busy=false}}function startLog(){if(confirm('SD に新しい RUN ファイルを作成して、記録を開始します。よろしいですか？'))post('/api/log/start?confirm=1','開始要求を送信しました。状態が「記録中」になることを確認してください。')}async function load(){try{let j=await(await fetch('/api/manual',{cache:'no-store'})).json();let e=document.getElementById('state');e.textContent='SD: '+j.sd+' / '+(j.logging?'記録中: '+j.run:'記録停止中');e.className=j.fault==='none'?'ok':'bad';document.getElementById('detail').textContent='records: '+j.records+'\nqueue drops: '+j.queue_drops+'\nSD write errors: '+j.sd_errors+'\nlog fault: '+j.fault+'\nGNSS NAV: '+j.nav_tx+' / result: '+j.result_rx+'\ncontrol link: '+(j.link_healthy?'正常':'未接続・古い')+' / DRY_RUN: '+j.dry_run;if(j.fault!=='none')show('記録異常: '+j.fault,'bad')}catch(e){show('状態の取得に失敗しました。','bad')}}setInterval(load,500);load()</script></html>)HTML";
+
+void apiManual() {
+  const uint64_t now=nowUs(); char json[700];
+  snprintf(json,sizeof(json),"{\"sd\":\"%s\",\"logging\":%s,\"run\":\"%s\",\"records\":%lu,\"queue_drops\":%lu,\"sd_errors\":%lu,\"fault\":\"%s\",\"nav_tx\":%lu,\"result_rx\":%lu,\"link_healthy\":%s,\"dry_run\":%s}",logStats.sdReady?"ready":"error",logStats.logging?"true":"false",logStats.runName,(unsigned long)logStats.records,(unsigned long)logStats.queueDrops,(unsigned long)logStats.writeErrors,logStats.fault,(unsigned long)linkLatest.navTx,(unsigned long)linkLatest.resultRx,ageMs(linkLatest.lastHeartbeatUs,now)<=kControlLinkTimeoutMs?"true":"false",linkLatest.result.dryRun?"true":"false");
+  web.send(200,"application/json",json);
+}
+
 void apiUi() { const uint64_t now=nowUs(); const auto& g=gnssRx.latest(); char json[1600]; snprintf(json,sizeof(json),"{\"sd\":\"%s\",\"logging\":%s,\"run\":\"%s\",\"records\":%lu,\"queue_drops\":%lu,\"sd_errors\":%lu,\"gnss_fix\":%s,\"gnss_age_ms\":%lu,\"lat\":%.8f,\"lon\":%.8f,\"hdop\":%.2f,\"nav_tx\":%lu,\"result_rx\":%lu,\"result_age_ms\":%lu,\"rtt_ms\":%lu,\"link_healthy\":%s,\"dry_run\":%s,\"control_state\":%u,\"north_m\":%.3f,\"ack_id\":%lu,\"ack_state\":%u,\"ack_age_ms\":%lu}",logStats.sdReady?"ready":"error",logStats.logging?"true":"false",logStats.runName,(unsigned long)logStats.records,(unsigned long)logStats.queueDrops,(unsigned long)logStats.writeErrors,(g.flags&gnss::FixValid)?"true":"false",(unsigned long)ageMs(g.lastSentenceEndUs,now),g.latitude,g.longitude,g.hdop,(unsigned long)linkLatest.navTx,(unsigned long)linkLatest.resultRx,(unsigned long)ageMs(linkLatest.lastResultUs,now),(unsigned long)(linkLatest.lastRttUs/1000ULL),ageMs(linkLatest.lastHeartbeatUs,now)<=kControlLinkTimeoutMs?"true":"false",linkLatest.result.dryRun?"true":"false",linkLatest.result.safetyState,linkLatest.result.northMm/1000.0f,(unsigned long)linkLatest.lastCommandId,linkLatest.ack.safetyState,(unsigned long)ageMs(linkLatest.lastAckUs,now)); web.send(200,"application/json",json); }
 
 void apiLink() { const uint64_t now=nowUs(); const auto& g=gnssRx.latest(); char json[1500]; snprintf(json,sizeof(json),"{\"sd\":\"%s\",\"logging\":%s,\"run\":\"%s\",\"records\":%lu,\"gnss_fix\":%s,\"gnss_age_ms\":%lu,\"lat\":%.8f,\"lon\":%.8f,\"hdop\":%.2f,\"nav_tx\":%lu,\"result_rx\":%lu,\"result_age_ms\":%lu,\"rtt_ms\":%lu,\"link_healthy\":%s,\"result_bad_crc\":%lu,\"result_dry_run\":%u,\"control_state\":%u,\"north_m\":%.3f,\"ack_id\":%lu,\"ack_age_ms\":%lu}",logStats.sdReady?"ready":"error",logStats.logging?"true":"false",logStats.runName,(unsigned long)logStats.records,(g.flags&gnss::FixValid)?"true":"false",(unsigned long)ageMs(g.lastSentenceEndUs,now),g.latitude,g.longitude,g.hdop,(unsigned long)linkLatest.navTx,(unsigned long)linkLatest.resultRx,(unsigned long)ageMs(linkLatest.lastResultUs,now),(unsigned long)(linkLatest.lastRttUs/1000ULL),ageMs(linkLatest.lastHeartbeatUs,now)<=kControlLinkTimeoutMs?"true":"false",(unsigned long)linkLatest.resultBadCrc,linkLatest.result.dryRun,linkLatest.result.safetyState,linkLatest.result.northMm/1000.0f,(unsigned long)linkLatest.lastCommandId,(unsigned long)ageMs(linkLatest.lastAckUs,now)); web.send(200,"application/json",json); }
@@ -372,14 +387,14 @@ void apiLatest() {
   snprintf(json,sizeof(json),"{\"sd\":\"%s\",\"logging\":%s,\"run\":\"%s\",\"records\":%lu,\"queue\":%u,\"drops\":%lu,\"control_frames\":%lu,\"control_errors\":%lu,\"control_age_ms\":%lu,\"bno\":%s,\"bno_fault\":\"%s\",\"accel_age_ms\":%lu,\"gyro_age_ms\":%lu,\"quat_age_ms\":%lu,\"ax\":%.5f,\"ay\":%.5f,\"az\":%.5f,\"gnss_receiving\":%s,\"gnss_fix\":%s,\"gnss_age_ms\":%lu,\"lat\":%.8f,\"lon\":%.8f,\"alt_m\":%.2f,\"speed_mps\":%.3f,\"course_deg\":%.2f,\"sats\":%u,\"hdop\":%.2f,\"lat_valid\":%s,\"lon_valid\":%s,\"alt_valid\":%s,\"speed_valid\":%s,\"sats_valid\":%s}",logStats.sdReady?"ready":"error",logStats.logging?"true":"false",logStats.runName,(unsigned long)logStats.records,used,(unsigned long)logStats.queueDrops,(unsigned long)logStats.controlFrames,(unsigned long)(logStats.controlCrc+logStats.controlCobs+logStats.controlLength),(unsigned long)ageMs(lastControlFrameUs,now),bno.ready?"true":"false",bno.fault,(unsigned long)ageMs(bno.accelUs,now),(unsigned long)ageMs(bno.gyroUs,now),(unsigned long)ageMs(bno.quatUs,now),bno.ax,bno.ay,bno.az,gnssRx.receiving(now)?"true":"false",(g.flags&gnss::FixValid)?"true":"false",(unsigned long)ageMs(g.lastSentenceEndUs,now),g.latitude,g.longitude,g.altitudeM,g.speedMps,g.courseDeg,g.satellites,g.hdop,(g.flags&gnss::LatitudeValid)?"true":"false",(g.flags&gnss::LongitudeValid)?"true":"false",(g.flags&gnss::AltitudeValid)?"true":"false",(g.flags&gnss::SpeedValid)?"true":"false",(g.flags&gnss::SatellitesValid)?"true":"false");
   web.send(200,"application/json",json);
 }
-void requestStart() { pendingCommand=CommandStartLog; web.send(202,"application/json","{\"requested\":\"start\"}"); }
+void requestStart() { if(!web.hasArg("confirm") || web.arg("confirm")!="1") { web.send(400,"application/json","{\"error\":\"confirmation required\"}"); return; } pendingCommand=CommandStartLog; web.send(202,"application/json","{\"requested\":\"start\"}"); }
 void requestStop() { pendingCommand=CommandStopLog; web.send(202,"application/json","{\"requested\":\"stop\"}"); }
 void requestControlStop() { pendingCommand=CommandStop; web.send(202,"application/json","{\"requested\":\"stop\"}"); }
 void requestControlEstop() { pendingCommand=CommandEstop; web.send(202,"application/json","{\"requested\":\"estop\"}"); }
 
 void beginWeb() {
   WiFi.persistent(false); WiFi.mode(WIFI_AP); WiFi.softAP(kApSsid,kApPassword);
-  web.on("/",HTTP_GET,[]{ web.send_P(200,"text/html; charset=utf-8",clearPage); }); web.on("/api/latest",HTTP_GET,apiLatest); web.on("/api/link",HTTP_GET,apiLink); web.on("/api/ui",HTTP_GET,apiUi);
+  web.on("/",HTTP_GET,[]{ web.send_P(200,"text/html; charset=utf-8",manualPage); }); web.on("/api/latest",HTTP_GET,apiLatest); web.on("/api/link",HTTP_GET,apiLink); web.on("/api/ui",HTTP_GET,apiUi); web.on("/api/manual",HTTP_GET,apiManual);
   web.on("/api/log/start",HTTP_POST,requestStart); web.on("/api/log/stop",HTTP_POST,requestStop);
   web.on("/api/control/stop",HTTP_POST,requestControlStop); web.on("/api/control/estop",HTTP_POST,requestControlEstop); web.begin();
 }

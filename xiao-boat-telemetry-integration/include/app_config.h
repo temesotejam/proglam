@@ -4,7 +4,7 @@
 
 namespace app_config {
 constexpr char kFirmwareName[] = "xiao-boat-telemetry-integration";
-constexpr char kFirmwareVersion[] = "0.1.1-manual-log";
+constexpr char kFirmwareVersion[] = "0.1.2-sd-fault-stop";
 
 // SoftAP/Web UI. Connect directly and open http://192.168.4.1/.
 constexpr char kApSsid[] = "XIAO-BOAT-TELEMETRY";

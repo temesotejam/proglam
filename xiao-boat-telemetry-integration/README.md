@@ -12,7 +12,7 @@
 
 機械読み取り用の状態は `GET /api/latest` です。主なフィールドは `sd`、`logging`、`records`、`control_age_ms`、`bno`、`accel_age_ms`、`gnss_receiving`、`gnss_fix`、`gnss_age_ms`、`lat`、`lon`、`alt_m`、`speed_mps`、`sats` です。
 
-`POST /api/log/start` と `POST /api/log/stop` で記録を操作できます。`POST /api/control/stop` と `POST /api/control/estop` はUARTで制御側へSTOP/E-STOPを送ります。これは初期統合用の安全停止経路であり、航行制御画面ではありません。
+`POST /api/log/start?confirm=1` と `POST /api/log/stop` で記録を操作できます。開始には `confirm=1` が必須で、確認なしの開始要求は拒否します。`GET /api/manual` は、SD状態、記録状態、RUN名、SD書込みエラー、記録異常理由、GNSS往復数、制御リンク状態を返します。`POST /api/control/stop` と `POST /api/control/estop` はUARTで制御側へSTOP/E-STOPを送ります。これは初期統合用の安全停止経路であり、航行制御画面ではありません。
 
 ## 配線
 
@@ -27,7 +27,7 @@ UARTは双方のGNDを必ず共通化し、TX/RXを交差接続します。
 
 ## ログ
 
-Web UIの「記録を開始」を押した時だけ `/BOATLOG/RUNxxxx.BIN` を作成します。起動・再起動・書込みだけではSDへファイルを作りません。各レコードは、既存の成功済みUART→SDロガーと同じ `GOLB` マジック、受信時刻、COBS/CRC検証済みのボートプロトコルヘッダー、payloadで構成されます。通信側が生成したGNSS/BNOレコードは通信側のboot IDで区別されます。
+Web UIの「記録を開始」を押し、確認ダイアログで了承した時だけ `/BOATLOG/RUNxxxx.BIN` を作成します。起動・再起動・書込みだけではSDへファイルを作りません。SD書込みに失敗した場合は、そのRUNを直ちに停止して画面の `log fault` に表示し、同じバッファへの再試行でエラー数だけを増やし続けません。各レコードは、既存の成功済みUART→SDロガーと同じ `GOLB` マジック、受信時刻、COBS/CRC検証済みのボートプロトコルヘッダー、payloadで構成されます。通信側が生成したGNSS/BNOレコードは通信側のboot IDで区別されます。
 
 GNSS往復・DRY_RUN・Heartbeat・STOP/E-STOP ACKの詳細は [`docs/GNSS_ROUNDTRIP_PROTOCOL.md`](../docs/GNSS_ROUNDTRIP_PROTOCOL.md) にあります。
 
