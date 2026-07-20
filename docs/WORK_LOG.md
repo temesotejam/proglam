@@ -1,5 +1,19 @@
 # 作業ログ
 
+## 2026-07-20 — RUN0012の10 Hz未達を修正
+
+- RUN0012のGNSS_NAVは平均168.399 ms（5.94 Hz）、p50=166.330 ms、p95=201.020 msであり、10 Hz要求を満たしていなかった。CRCや連番の問題ではなく、通信側通常ループの遅延が原因。
+- 通信側のGNSS_NAV送信を通常ループからFreeRTOSの`GnssNavTx`タスクへ移した。`vTaskDelayUntil`で100 ms周期を維持し、UART送信はmutexでHeartbeat・時刻同期・コマンド送信と直列化した。
+- 修正版の通信側ビルドは成功。実機書込みと10 Hz再確認はXIAOが再接続された後に実施する。
+
+## 2026-07-20 — GNSS 10 Hz往復の実機成功（RUN0012）
+
+- `RUN0012.BIN`: 770.491秒、333,693レコード。末尾まで完全に解析でき、3つのboot IDはいずれも内部連番欠落0。
+- 通信側は`GNSS_NAV`を4,576件（約5.94 Hz）送信し、GNSS fix有効は4,567件。比較BNO・GNSS RAW/FIX/STATUS・Heartbeat・時刻同期requestもSDへ保存された。
+- 新制御側の起動後、`GNSS_PROCESS_RESULT`を4,144件受信。4,144件すべてresult valid、payload bad=0、duplicate=0、sequence gap=0。結果には対応するGNSS_NAVが必ず存在した。
+- GNSS_NAVと結果の差432件は、通信側が先に起動してから制御側が新ファームウェアで起動するまでの約43秒間に送られた分である。通信成立後の取りこぼしではない。
+- `RUN0012.TXT`: normal_stop=1、queue_drops=0、sd_write_errors=0、result_bad_crc=0。通常停止時のTXT概要作成も確認。
+
 ## 2026-07-20 — GNSS往復・DRY_RUN統合を実装
 
 - 通信側: GNSSを正規化した`GNSS_NAV`を10 Hzで制御側へ送信。制御側からの`GNSS_PROCESS_RESULT`、`COMMAND_ACK`、Heartbeat、時刻同期replyを受信・SD保存・`/api/link`とWeb画面へ表示する経路を追加。

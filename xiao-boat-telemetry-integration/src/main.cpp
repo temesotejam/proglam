@@ -8,6 +8,7 @@
 #include <esp_timer.h>
 #include <stddef.h>
 #include <math.h>
+#include <freertos/semphr.h>
 
 #include "app_config.h"
 #include "gnss_receiver.h"
@@ -61,6 +62,7 @@ struct LinkLatest {
   boat::CommandAckPayload ack{};
 } linkLatest;
 volatile uint8_t pendingCommand = 0;
+SemaphoreHandle_t controlTxMutex = nullptr;
 enum PendingCommand : uint8_t { CommandNone, CommandStartLog, CommandStopLog, CommandStop, CommandEstop };
 
 uint64_t nowUs() { return static_cast<uint64_t>(esp_timer_get_time()); }
@@ -326,15 +328,18 @@ void sendControl(boat::Type type, const void* payload = nullptr, uint16_t payloa
   // contiguous so an offline parser can use gaps as loss evidence.
   boat::Header header{boat::kVersion,static_cast<uint8_t>(type),payloadLength,++controlTxSequence,commBootId,nowUs(),0};
   uint8_t encoded[boat::kMaxEncoded]; const size_t length=boat::encode(header,static_cast<const uint8_t*>(payload),encoded,sizeof(encoded));
-  if (length) controlUart.write(encoded,length);
+  if (!length) return;
+  if (controlTxMutex && xSemaphoreTake(controlTxMutex,pdMS_TO_TICKS(20)) != pdTRUE) return;
+  controlUart.write(encoded,length);
+  if (controlTxMutex) xSemaphoreGive(controlTxMutex);
 }
 
-void serviceGnssNav() {
-  if (millis() - lastNavMs < kGnssNavIntervalMs) return;
-  lastNavMs = millis(); const boat::GnssNavPayload nav = makeNavPayload();
+void sendGnssNav() {
+  const boat::GnssNavPayload nav = makeNavPayload();
   sendControl(boat::Type::GnssNav, &nav, sizeof(nav));
   emitLocal(boat::Type::GnssNav, &nav, sizeof(nav), 1); ++linkLatest.navTx; pendingNewFix = false;
 }
+void gnssNavTask(void*) { TickType_t last=xTaskGetTickCount(); for(;;) { sendGnssNav(); vTaskDelayUntil(&last,pdMS_TO_TICKS(kGnssNavIntervalMs)); } }
 void serviceTimeSync() {
   if (millis() - lastTimeSyncMs < kTimeSyncIntervalMs) return;
   lastTimeSyncMs = millis(); boat::TimeSyncRequestPayload request{++timeSyncSequence, nowUs()};
@@ -374,14 +379,14 @@ void beginWeb() {
 
 void setup() {
   Serial.begin(115200); delay(300); commBootId=esp_random();
-  controlUart.setRxBufferSize(kControlUartRxBufferBytes); controlUart.begin(kControlUartBaud,SERIAL_8N1,kControlUartRxPin,kControlUartTxPin);
+  controlUart.setRxBufferSize(kControlUartRxBufferBytes); controlUart.begin(kControlUartBaud,SERIAL_8N1,kControlUartRxPin,kControlUartTxPin); controlTxMutex=xSemaphoreCreateMutex();
   gnssUart.setRxBufferSize(kGnssUartRxBufferBytes); gnssRx.begin(gnssUart);
   SPI.begin(kSdSckPin,kSdMisoPin,kSdMosiPin,kSdCsPin); logStats.sdReady=SD.begin(kSdCsPin,SPI);
-  startBno(); xTaskCreatePinnedToCore(controlRxTask,"ControlRx",4096,nullptr,2,nullptr,0); beginWeb(); startLog();
+  startBno(); xTaskCreatePinnedToCore(controlRxTask,"ControlRx",4096,nullptr,2,nullptr,0); xTaskCreatePinnedToCore(gnssNavTask,"GnssNavTx",4096,nullptr,2,nullptr,1); beginWeb(); startLog();
   Serial.printf("%s %s boot=%lu SD=%d AP=%s URL=http://%s/\n",kFirmwareName,kFirmwareVersion,(unsigned long)commBootId,logStats.sdReady,kApSsid,WiFi.softAPIP().toString().c_str());
 }
 void loop() {
-  serviceBno(); serviceGnss(); serviceGnssNav(); serviceTimeSync(); serviceCommands(); serviceLog(); web.handleClient(); serviceLog();
+  serviceBno(); serviceGnss(); serviceTimeSync(); serviceCommands(); serviceLog(); web.handleClient(); serviceLog();
   if (millis()-lastDiagMs >= kDiagnosticIntervalMs) { lastDiagMs=millis(); Serial.printf("SD=%d log=%d rec=%lu q=%u drop=%lu control=%lu GNSS=%d BNO=%d\n",logStats.sdReady,logStats.logging,(unsigned long)logStats.records,queueUsed,(unsigned long)logStats.queueDrops,(unsigned long)logStats.controlFrames,gnssRx.receiving(nowUs()),bno.ready); }
   delay(1);
 }
