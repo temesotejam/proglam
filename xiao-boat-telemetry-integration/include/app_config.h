@@ -10,7 +10,7 @@ constexpr char kFirmwareVersion[] = "0.1.0-vertical-slice";
 constexpr char kApSsid[] = "XIAO-BOAT-TELEMETRY";
 constexpr char kApPassword[] = "12345678";
 constexpr uint16_t kHttpPort = 80;
-constexpr uint32_t kWebRefreshMs = 50UL;
+constexpr uint32_t kWebRefreshMs = 250UL;  // Explicitly selected 4 Hz for this integration test.
 
 // Communication-side XIAO ESP32S3 Sense wiring.
 constexpr int kGnssRxPin = D0;
@@ -50,6 +50,9 @@ constexpr uint32_t kGnssSentenceTimeoutMs = 500UL;
 constexpr uint32_t kGnssNoDataTimeoutMs = 3000UL;
 constexpr uint32_t kGnssStatusIntervalMs = 1000UL;
 
-constexpr uint32_t kControlHeartbeatIntervalMs = 250UL;
+constexpr uint32_t kGnssNavIntervalMs = 100UL;
+constexpr uint32_t kControlHeartbeatIntervalMs = 100UL;
+constexpr uint32_t kTimeSyncIntervalMs = 1000UL;
+constexpr uint32_t kControlLinkTimeoutMs = 500UL;
 constexpr uint32_t kDiagnosticIntervalMs = 1000UL;
 }  // namespace app_config

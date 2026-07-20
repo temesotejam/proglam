@@ -6,6 +6,8 @@
 #include <Wire.h>
 #include <Adafruit_BNO08x.h>
 #include <esp_timer.h>
+#include <stddef.h>
+#include <math.h>
 
 #include "app_config.h"
 #include "gnss_receiver.h"
@@ -48,8 +50,16 @@ File logFile;
 uint8_t sdBuffer[kSdWriteBufferBytes];
 size_t sdUsed = 0;
 uint32_t commBootId = 0, localSequence = 0, controlTxSequence = 0;
+uint32_t navSequence = 0, gnssFixSequence = 0, commandSequence = 0, timeSyncSequence = 0;
 uint64_t lastControlFrameUs = 0;
-uint32_t lastFlushMs = 0, lastHeartbeatMs = 0, lastBnoRetryMs = 0, lastGnssStatusMs = 0, lastDiagMs = 0;
+uint32_t lastFlushMs = 0, lastHeartbeatMs = 0, lastBnoRetryMs = 0, lastGnssStatusMs = 0, lastDiagMs = 0, lastNavMs = 0, lastTimeSyncMs = 0;
+bool pendingNewFix = false;
+struct LinkLatest {
+  uint32_t navTx = 0, resultRx = 0, resultBadCrc = 0, commandAckRx = 0, lastCommandId = 0;
+  uint64_t lastHeartbeatUs = 0, lastResultUs = 0, lastAckUs = 0, lastRttUs = 0;
+  boat::GnssProcessResultPayload result{};
+  boat::CommandAckPayload ack{};
+} linkLatest;
 volatile uint8_t pendingCommand = 0;
 enum PendingCommand : uint8_t { CommandNone, CommandStartLog, CommandStopLog, CommandStop, CommandEstop };
 
@@ -130,6 +140,15 @@ bool startLog() {
   return true;
 }
 
+void writeRunSummary() {
+  if (!logStats.sdReady || !strcmp(logStats.runName, "none")) return;
+  char path[32]{}; snprintf(path,sizeof(path),"%s/%s",kLogDirectory,logStats.runName);
+  char* extension=strstr(path,".BIN"); if (!extension) return; memcpy(extension,".TXT",5);
+  File summary=SD.open(path,FILE_WRITE); if (!summary) { ++logStats.writeErrors; return; }
+  summary.printf("firmware=%s\nversion=%s\nprotocol=%u\nnormal_stop=1\nrecords=%lu\nqueue_drops=%lu\nsd_write_errors=%lu\ngnss_nav_tx=%lu\ngnss_result_rx=%lu\nresult_bad_crc=%lu\nlast_rtt_us=%llu\ncommand_ack_rx=%lu\n",kFirmwareName,kFirmwareVersion,boat::kVersion,(unsigned long)logStats.records,(unsigned long)logStats.queueDrops,(unsigned long)logStats.writeErrors,(unsigned long)linkLatest.navTx,(unsigned long)linkLatest.resultRx,(unsigned long)linkLatest.resultBadCrc,(unsigned long long)linkLatest.lastRttUs,(unsigned long)linkLatest.commandAckRx);
+  summary.close();
+}
+
 void stopLog() {
   if (!logStats.logging) return;
   boat::Frame frame{};
@@ -142,7 +161,7 @@ void stopLog() {
     ++logStats.records;
   }
   flushLog();
-  logFile.close(); logStats.logging = false;
+  logFile.close(); logStats.logging = false; writeRunSummary();
   Serial.printf("LOG stopped: records=%lu errors=%lu\n", (unsigned long)logStats.records, (unsigned long)logStats.writeErrors);
 }
 
@@ -167,6 +186,15 @@ void controlRxTask(void*) {
       if (controlDecoder.feed(static_cast<uint8_t>(controlUart.read()), frame)) {
         ++logStats.controlFrames;
         lastControlFrameUs = nowUs();
+        const boat::Type type = static_cast<boat::Type>(frame.header.type);
+        if (type == boat::Type::Heartbeat) linkLatest.lastHeartbeatUs = lastControlFrameUs;
+        if (type == boat::Type::GnssProcessResult && frame.header.length == sizeof(boat::GnssProcessResultPayload)) {
+          boat::GnssProcessResultPayload result{}; memcpy(&result, frame.payload, sizeof(result));
+          if (result.canonicalCrc == boat::canonicalCrc(&result, offsetof(boat::GnssProcessResultPayload, canonicalCrc))) { linkLatest.result=result; ++linkLatest.resultRx; linkLatest.lastResultUs=lastControlFrameUs; }
+          else ++linkLatest.resultBadCrc;
+        }
+        if (type == boat::Type::CommandAck && frame.header.length == sizeof(boat::CommandAckPayload)) { memcpy(&linkLatest.ack,frame.payload,sizeof(linkLatest.ack)); linkLatest.lastCommandId=linkLatest.ack.commandId; ++linkLatest.commandAckRx; linkLatest.lastAckUs=lastControlFrameUs; }
+        if (type == boat::Type::TimeSyncReply && frame.header.length == sizeof(boat::TimeSyncReplyPayload)) { boat::TimeSyncReplyPayload reply{}; memcpy(&reply,frame.payload,sizeof(reply)); if (reply.t1Us) linkLatest.lastRttUs=lastControlFrameUs-reply.t1Us; }
         if (logStats.logging) enqueueFrame(frame);
       }
     }
@@ -252,6 +280,32 @@ void logGnssSentence(const gnss::Sentence& sentence) {
   const auto& latest = gnssRx.latest();
   GnssFixPayload fix{}; fix.flags=latest.flags; fix.latitude=latest.latitude; fix.longitude=latest.longitude; fix.altitudeM=latest.altitudeM; fix.speedMps=latest.speedMps; fix.courseDeg=latest.courseDeg; fix.hdop=latest.hdop; fix.satellites=latest.satellites; fix.fixType=latest.fixType; strncpy(fix.utcTime,latest.utcTime,sizeof(fix.utcTime)-1); strncpy(fix.utcDate,latest.utcDate,sizeof(fix.utcDate)-1); strncpy(fix.lastType,latest.lastType,sizeof(fix.lastType)-1); fix.endUs=latest.lastSentenceEndUs; fix.parseUs=latest.lastParseUs;
   emitLocal(boat::Type::GnssFix, &fix, sizeof(fix));
+  ++gnssFixSequence;
+  pendingNewFix = true;
+}
+
+boat::GnssNavPayload makeNavPayload() {
+  const auto& latest = gnssRx.latest();
+  boat::GnssNavPayload nav{};
+  nav.navSequence = ++navSequence;
+  nav.fixSequence = gnssFixSequence;
+  if (latest.flags & gnss::FixValid) nav.flags |= boat::NavFixValid;
+  if (pendingNewFix) nav.flags |= boat::NavNewFix;
+  if (latest.flags & gnss::LatitudeValid) nav.flags |= boat::NavLatValid;
+  if (latest.flags & gnss::LongitudeValid) nav.flags |= boat::NavLonValid;
+  if (latest.flags & gnss::AltitudeValid) nav.flags |= boat::NavAltitudeValid;
+  if (latest.flags & gnss::SpeedValid) nav.flags |= boat::NavSpeedValid;
+  if (latest.flags & gnss::CourseValid) nav.flags |= boat::NavCourseValid;
+  if (latest.flags & gnss::HdopValid) nav.flags |= boat::NavHdopValid;
+  nav.latitudeE7 = static_cast<int32_t>(lround(latest.latitude * 1e7));
+  nav.longitudeE7 = static_cast<int32_t>(lround(latest.longitude * 1e7));
+  nav.altitudeMm = static_cast<int32_t>(lround(latest.altitudeM * 1000));
+  nav.speedMmPerSec = static_cast<int32_t>(lround(latest.speedMps * 1000));
+  nav.courseE5Deg = static_cast<int32_t>(lround(latest.courseDeg * 100000));
+  nav.hdopCenti = static_cast<uint16_t>(constrain(lround(latest.hdop * 100), 0L, 65535L));
+  nav.satellites = latest.satellites; nav.fixType = latest.fixType; nav.generatedUs = nowUs();
+  nav.canonicalCrc = boat::canonicalCrc(&nav, offsetof(boat::GnssNavPayload, canonicalCrc));
+  return nav;
 }
 
 void serviceGnss() {
@@ -267,21 +321,38 @@ void serviceGnss() {
   }
 }
 
-void sendControl(boat::Type type) {
+void sendControl(boat::Type type, const void* payload = nullptr, uint16_t payloadLength = 0) {
   // This is a separate direction of the link. Keep SD-log sequence numbers
   // contiguous so an offline parser can use gaps as loss evidence.
-  boat::Header header{boat::kVersion,static_cast<uint8_t>(type),0,++controlTxSequence,commBootId,nowUs(),0};
-  uint8_t encoded[boat::kMaxEncoded]; const size_t length=boat::encode(header,nullptr,encoded,sizeof(encoded));
+  boat::Header header{boat::kVersion,static_cast<uint8_t>(type),payloadLength,++controlTxSequence,commBootId,nowUs(),0};
+  uint8_t encoded[boat::kMaxEncoded]; const size_t length=boat::encode(header,static_cast<const uint8_t*>(payload),encoded,sizeof(encoded));
   if (length) controlUart.write(encoded,length);
+}
+
+void serviceGnssNav() {
+  if (millis() - lastNavMs < kGnssNavIntervalMs) return;
+  lastNavMs = millis(); const boat::GnssNavPayload nav = makeNavPayload();
+  sendControl(boat::Type::GnssNav, &nav, sizeof(nav));
+  emitLocal(boat::Type::GnssNav, &nav, sizeof(nav), 1); ++linkLatest.navTx; pendingNewFix = false;
+}
+void serviceTimeSync() {
+  if (millis() - lastTimeSyncMs < kTimeSyncIntervalMs) return;
+  lastTimeSyncMs = millis(); boat::TimeSyncRequestPayload request{++timeSyncSequence, nowUs()};
+  sendControl(boat::Type::TimeSyncRequest, &request, sizeof(request));
+  emitLocal(boat::Type::TimeSyncRequest, &request, sizeof(request), 1);
 }
 void serviceCommands() {
   const uint8_t command=pendingCommand; pendingCommand=CommandNone;
   if (command==CommandStartLog) startLog(); else if (command==CommandStopLog) stopLog();
-  else if (command==CommandStop) sendControl(boat::Type::Stop); else if (command==CommandEstop) sendControl(boat::Type::Estop);
-  if (millis()-lastHeartbeatMs >= kControlHeartbeatIntervalMs) { lastHeartbeatMs=millis(); sendControl(boat::Type::Heartbeat); }
+  else if (command==CommandStop || command==CommandEstop) { boat::CommandPayload request{++commandSequence, static_cast<uint8_t>(command==CommandStop ? boat::Type::Stop : boat::Type::Estop), {0,0,0}}; const boat::Type type=command==CommandStop?boat::Type::Stop:boat::Type::Estop; sendControl(type,&request,sizeof(request)); emitLocal(type,&request,sizeof(request),1); }
+  if (millis()-lastHeartbeatMs >= kControlHeartbeatIntervalMs) { lastHeartbeatMs=millis(); boat::HeartbeatPayload heartbeat{millis(),controlTxSequence,0,1,0}; sendControl(boat::Type::Heartbeat,&heartbeat,sizeof(heartbeat)); emitLocal(boat::Type::Heartbeat,&heartbeat,sizeof(heartbeat),1); }
 }
 
 const char page[] PROGMEM = R"HTML(<!doctype html><html lang=ja><meta name=viewport content="width=device-width,initial-scale=1"><style>body{font:15px system-ui;margin:12px;background:#101720;color:#edf3fa}.card{background:#1d2a38;border-radius:9px;padding:10px;margin:9px 0;white-space:pre-wrap}button{padding:9px;margin:2px}canvas{width:100%;height:130px;background:#080d13}</style><h2>ボート統合テレメトリ</h2><div class=card id=status>読み込み中</div><div class=card id=detail></div><div class=card><button onclick="post('/api/log/start')">記録開始</button><button onclick="post('/api/log/stop')">記録停止</button><button onclick="post('/api/control/stop')">STOP</button><button onclick="post('/api/control/estop')">E-STOP</button></div><canvas id=graph></canvas><script>let h=[];async function post(u){await fetch(u,{method:'POST'})}function draw(){let c=graph,w=c.width=c.clientWidth*devicePixelRatio,H=c.height=c.clientHeight*devicePixelRatio,x=c.getContext('2d');x.clearRect(0,0,w,H);x.strokeStyle='#79e5a0';x.beginPath();let m=Math.max(1,...h.map(Math.abs));h.forEach((v,i)=>{let X=i*w/159,Y=H/2-v/m*H*.42;i?x.lineTo(X,Y):x.moveTo(X,Y)});x.stroke()}async function update(){try{let j=await(await fetch('/api/latest',{cache:'no-store'})).json();status.textContent=`SD: ${j.sd}  記録: ${j.logging} (${j.run})\n制御リンク: ${j.control_age_ms} ms / frames ${j.control_frames} / error ${j.control_errors}\nBNO: ${j.bno} ${j.bno_fault}  age A/G/Q: ${j.accel_age_ms}/${j.gyro_age_ms}/${j.quat_age_ms} ms`;detail.textContent=`GNSS: ${j.gnss_receiving?'受信中':'未受信'}  fix: ${j.gnss_fix}  age: ${j.gnss_age_ms} ms\n緯度: ${j.lat_valid?j.lat.toFixed(7):'無効'}  経度: ${j.lon_valid?j.lon.toFixed(7):'無効'}\n高度: ${j.alt_valid?j.alt_m.toFixed(1)+' m':'無効'}  速度: ${j.speed_valid?j.speed_mps.toFixed(2)+' m/s':'無効'}  衛星: ${j.sats_valid?j.sats:'無効'}\n比較BNO Accel Z: ${j.az.toFixed(3)} m/s²  queue/drop: ${j.queue}/${j.drops}`;h.push(j.az);if(h.length>160)h.shift();draw()}catch(e){status.textContent='更新エラー'}}setInterval(update,50);update()</script></html>)HTML";
+
+const char linkPage[] PROGMEM = R"HTML(<!doctype html><meta name=viewport content="width=device-width,initial-scale=1"><style>body{font:15px system-ui;background:#101720;color:#edf3fa;margin:12px}.card{background:#1d2a38;border-radius:8px;padding:10px;margin:8px 0;white-space:pre-wrap}button{padding:8px;margin:2px}canvas{width:100%;height:120px;background:#080d13}</style><h2>Boat GNSS round-trip / DRY RUN</h2><div class=card id=s>loading</div><div class=card><button onclick="post('/api/log/start')">Start log</button><button onclick="post('/api/log/stop')">Stop log</button><button onclick="post('/api/control/stop')">STOP</button><button onclick="post('/api/control/estop')">E-STOP</button></div><canvas id=g></canvas><script>let a=[];async function post(u){await fetch(u,{method:'POST'})}function draw(){let w=g.width=g.clientWidth*devicePixelRatio,h=g.height=g.clientHeight*devicePixelRatio,c=g.getContext('2d');c.clearRect(0,0,w,h);let m=Math.max(1,...a.map(Math.abs));c.strokeStyle='#79e5a0';c.beginPath();a.forEach((v,i)=>{let x=i*w/159,y=h/2-v/m*h*.42;i?c.lineTo(x,y):c.moveTo(x,y)});c.stroke()}async function load(){try{let j=await(await fetch('/api/link',{cache:'no-store'})).json();s.textContent=`SD ${j.sd}, logging ${j.logging}, run ${j.run}, records ${j.records}\nGNSS ${j.gnss_fix?'valid fix':'no fix'} age ${j.gnss_age_ms} ms: ${j.lat.toFixed(7)}, ${j.lon.toFixed(7)}, HDOP ${j.hdop.toFixed(2)}\nGNSS_NAV TX ${j.nav_tx}; result RX ${j.result_rx}; result age ${j.result_age_ms} ms; RTT ${j.rtt_ms} ms\nControl link ${j.link_healthy?'healthy':'STALE'}; CRC bad ${j.result_bad_crc}; ACK id ${j.ack_id}, age ${j.ack_age_ms} ms\nDRY_RUN ${j.result_dry_run}; control state ${j.control_state}`;a.push(j.north_m);if(a.length>160)a.shift();draw()}catch(e){s.textContent='update failed'}}setInterval(load,250);load()</script>)HTML";
+
+void apiLink() { const uint64_t now=nowUs(); const auto& g=gnssRx.latest(); char json[1500]; snprintf(json,sizeof(json),"{\"sd\":\"%s\",\"logging\":%s,\"run\":\"%s\",\"records\":%lu,\"gnss_fix\":%s,\"gnss_age_ms\":%lu,\"lat\":%.8f,\"lon\":%.8f,\"hdop\":%.2f,\"nav_tx\":%lu,\"result_rx\":%lu,\"result_age_ms\":%lu,\"rtt_ms\":%lu,\"link_healthy\":%s,\"result_bad_crc\":%lu,\"result_dry_run\":%u,\"control_state\":%u,\"north_m\":%.3f,\"ack_id\":%lu,\"ack_age_ms\":%lu}",logStats.sdReady?"ready":"error",logStats.logging?"true":"false",logStats.runName,(unsigned long)logStats.records,(g.flags&gnss::FixValid)?"true":"false",(unsigned long)ageMs(g.lastSentenceEndUs,now),g.latitude,g.longitude,g.hdop,(unsigned long)linkLatest.navTx,(unsigned long)linkLatest.resultRx,(unsigned long)ageMs(linkLatest.lastResultUs,now),(unsigned long)(linkLatest.lastRttUs/1000ULL),ageMs(linkLatest.lastHeartbeatUs,now)<=kControlLinkTimeoutMs?"true":"false",(unsigned long)linkLatest.resultBadCrc,linkLatest.result.dryRun,linkLatest.result.safetyState,linkLatest.result.northMm/1000.0f,(unsigned long)linkLatest.lastCommandId,(unsigned long)ageMs(linkLatest.lastAckUs,now)); web.send(200,"application/json",json); }
 
 void apiLatest() {
   const uint64_t now=nowUs(); const auto& g=gnssRx.latest(); uint16_t used; portENTER_CRITICAL(&queueMux); used=queueUsed; portEXIT_CRITICAL(&queueMux);
@@ -296,7 +367,7 @@ void requestControlEstop() { pendingCommand=CommandEstop; web.send(202,"applicat
 
 void beginWeb() {
   WiFi.persistent(false); WiFi.mode(WIFI_AP); WiFi.softAP(kApSsid,kApPassword);
-  web.on("/",HTTP_GET,[]{ web.send_P(200,"text/html; charset=utf-8",page); }); web.on("/api/latest",HTTP_GET,apiLatest);
+  web.on("/",HTTP_GET,[]{ web.send_P(200,"text/html; charset=utf-8",linkPage); }); web.on("/api/latest",HTTP_GET,apiLatest); web.on("/api/link",HTTP_GET,apiLink);
   web.on("/api/log/start",HTTP_POST,requestStart); web.on("/api/log/stop",HTTP_POST,requestStop);
   web.on("/api/control/stop",HTTP_POST,requestControlStop); web.on("/api/control/estop",HTTP_POST,requestControlEstop); web.begin();
 }
@@ -310,7 +381,7 @@ void setup() {
   Serial.printf("%s %s boot=%lu SD=%d AP=%s URL=http://%s/\n",kFirmwareName,kFirmwareVersion,(unsigned long)commBootId,logStats.sdReady,kApSsid,WiFi.softAPIP().toString().c_str());
 }
 void loop() {
-  serviceBno(); serviceGnss(); serviceCommands(); serviceLog(); web.handleClient(); serviceLog();
+  serviceBno(); serviceGnss(); serviceGnssNav(); serviceTimeSync(); serviceCommands(); serviceLog(); web.handleClient(); serviceLog();
   if (millis()-lastDiagMs >= kDiagnosticIntervalMs) { lastDiagMs=millis(); Serial.printf("SD=%d log=%d rec=%lu q=%u drop=%lu control=%lu GNSS=%d BNO=%d\n",logStats.sdReady,logStats.logging,(unsigned long)logStats.records,queueUsed,(unsigned long)logStats.queueDrops,(unsigned long)logStats.controlFrames,gnssRx.receiving(nowUs()),bno.ready); }
   delay(1);
 }

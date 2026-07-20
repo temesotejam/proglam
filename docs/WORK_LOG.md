@@ -1,5 +1,12 @@
 # 作業ログ
 
+## 2026-07-20 — GNSS往復・DRY_RUN統合を実装
+
+- 通信側: GNSSを正規化した`GNSS_NAV`を10 Hzで制御側へ送信。制御側からの`GNSS_PROCESS_RESULT`、`COMMAND_ACK`、Heartbeat、時刻同期replyを受信・SD保存・`/api/link`とWeb画面へ表示する経路を追加。
+- 制御側: GNSS_NAVのpayload CRC／連番／有効性を検証し、原点からの北東位置を含む結果を返信。100 ms Heartbeat、500 msリンク喪失FAULT、STOP/E-STOP ACKを追加。
+- 安全: `kDryRunActuators=true`を既定にし、非ゼロVESC dutyとサーボパルスを抑止。安全停止時のVESC duty 0とPCA全OFFのみ許可。
+- 検証: 通信側・制御側ともPlatformIOビルド成功。実機書込み／往復試験は両XIAOが未接続のため未実施。
+
 ## 2026-07-20 — 二台UART統合の実機記録確認
 
 - `D:\BOATLOG\RUN0010.BIN` を解析。289.634秒、117,550レコードで末尾まで完全に読めた。
