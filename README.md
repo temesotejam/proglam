@@ -16,6 +16,16 @@ pio run
 pio run -t upload
 ```
 
+## 作業の引継ぎ
+
+会話が切り替わっても作業状況を復元できるよう、次のファイルを正本として管理します。新しい作業を始める際は、この順で確認してください。
+
+1. [`docs/PROJECT_CONTEXT.md`](docs/PROJECT_CONTEXT.md): 目的、アーキテクチャ、確定済み制約
+2. [`docs/WORK_PLAN.md`](docs/WORK_PLAN.md): 段階的な実施計画と現在地
+3. [`docs/WORK_LOG.md`](docs/WORK_LOG.md): 実施内容、結果、判断の時系列
+
+作業を終えるときは、計画の状態・次の作業・検証結果を必ず更新します。
+
 ## Git 管理方針
 
 - ソース、設定、README、変換・解析ツール、必要なサンプルデータを管理します。

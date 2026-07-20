@@ -1,0 +1,45 @@
+# プロジェクト・コンテキスト
+
+最終更新: 2026-07-20
+このファイルは、会話や担当者が切り替わった際に最初に読む技術的な正本です。
+
+## 最終目的
+
+小型水上ボートについて、船体状態の計測、安全なアクチュエータ制御、microSD記録、外部監視を統合する。将来的には、姿勢・速度・位置の状態推定、左右ロールサーボ、舵サーボ、VESC推進制御、GNSSウェイポイント追従を実装する。
+
+ウェイポイント航法の将来の移植元は [`waypoint_drift_los_goal_time_sim`](https://github.com/temesotejam/waypoint_drift_los_goal_time_sim) である。ただし、現段階でフィルタ、ESKF、閉ループ制御、航法を実装してはならない。
+
+## 現在の目的
+
+実機の統合状態で全センサ・通信・アクチュエータを同時動作させ、実測周期、最大データ間隔、遅延、欠損、I2C/UARTエラー、キュー使用量、干渉を記録・解析する。結果を根拠に、将来のフィルタ周期と制御周期を決める。
+
+生データ取得とmicroSD保存は省略不可。未検証の結果を成功扱いにしない。
+
+## 2台構成
+
+| ノード | 主な責務 | 載せないもの |
+| --- | --- | --- |
+| 制御側 XIAO ESP32S3 (`xiao-boat-control-integration`) | BNO08X、VL53L5CX、INA226、PCA9685、VESC UART、安全状態機械、リアルタイム制御、通信側への送信・コマンド受信 | GNSS、microSD、Wi-Fi、Web UI |
+| 通信・記録側 XIAO ESP32S3 Sense | GNSS、比較用BNO08X、通信側テレメトリー受信、microSD BIN/TXT、SoftAP/Web UI、ログ開始停止、時刻同期、将来の設定・ウェイポイント管理 | — |
+
+2台間は UART 921600 bps、8N1。予定プロトコルはCOBS（`0x00`終端）、CRC32、プロトコル版、種別、長さ、グローバルシーケンス、Boot ID、送信時刻、固定長バッファ、破損後の再同期を含む。
+
+## 確定済みの制約
+
+- 制御側のピン: 周辺I2Cは D1=SDA / D0=SCL、BNO専用I2Cは D4=SDA / D5=SCL、BNO RST=D2、INT=D3、通信UART RX=D6/TX=D7、VESC UART RX=D8/TX=D9、D10は未使用の予約ピン。
+- BNO08Xは専用I2C 100 kHzを維持する。INTは監視のみで、読取りのゲートにしない。要求は加速度・ジャイロ各200 Hz、Game Rotation Vector 50 Hzだが、全イベントを読み切れないことは既知。
+- 周辺I2Cは400 kHz。VL53L5CX=`0x29`、PCA9685=`0x40`、INA226=`0x44`。
+- VL53L5CXは水面に向け、64ゾーン生データを保存する。min/median/maxのみへの縮約は禁止。
+- INA226電流は符号付きで保存し、絶対値への変換は禁止。
+- VESCはUARTだけで制御する。PCA9685/PPMで制御しない。
+- PCA9685 OEは現在GND。停止はI2CのFull OFFで行う。D10へのOE接続は将来案であり、現時点で前提にしない。
+
+## 安全規則
+
+状態は `BOOT` / `DISARMED` / `ARMED_IDLE` / `RUNNING` / `E_STOP` / `FAULT` を基本とする。起動、DISARM、E-STOP、FAULT、通信断、試験時間終了では、必ずVESC Duty 0とPCA9685全チャンネルFull OFFにする。E-STOPはラッチし、自動復帰・自動再開を禁止する。
+
+RUNNING中に許可する外部操作はSTOP、E-STOP、状態参照、Heartbeat、時刻同期のみ。サーボ範囲、VESC Duty、制御ゲイン、センサ設定、ウェイポイント、動作モードの変更は禁止する。
+
+## 編集範囲
+
+個別の実機成功済み試験プロジェクトは変更しない。現在の編集対象は原則 `xiao-boat-control-integration` と、必要になった通信・記録側統合プロジェクトである。動作済みライブラリを不用意に置換せず、不明な値は各プロジェクトの `app_config.h` に集約する。
