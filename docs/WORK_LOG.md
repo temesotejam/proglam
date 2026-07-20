@@ -1,5 +1,12 @@
 # 作業ログ
 
+## 2026-07-20 — 二台UART統合の実機記録確認
+
+- `D:\BOATLOG\RUN0010.BIN` を解析。289.634秒、117,550レコードで末尾まで完全に読めた。
+- 通信側 boot ID `0x09B7BD81`: 比較BNO accel/gyro/quat = 30,574/16,124/5,572件、GNSS raw/fix/status = 7,011/2,030/277件。最終GNSSは有効フラグ `0x7FF`、fix type 3、HDOP 0.79、衛星数41、GNSS checksum error 0、GNSS log drop 0。
+- 制御側 boot ID `0x740443BC`: BNO accel/gyro/quat = 27,511/16,498/5,623件、ToF/INA/VESC = 2,101/2,114/2,115件。これはUARTを通じて通信側SDへ到達した。
+- 両boot IDともログ上の連番欠落は0。今回の統合範囲では、制御側送信→UART→通信側受信/キュー→microSD保存が取りこぼしなく動いた証拠である。STOP/E-STOPの実機通過だけは未確認。
+
 ## 2026-07-20 — 通信側の全体縦切りを実装・書込み
 
 - 新規: `xiao-boat-telemetry-integration` を作成。GNSS、比較BNO08X、制御側UART、microSD、SoftAP/Web UI、JSON API、STOP/E-STOP送信を統合した。
