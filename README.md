@@ -28,6 +28,8 @@ pio run -t upload
 
 実機成功の根拠と未確認事項は、[`docs/VALIDATION_EVIDENCE.md`](docs/VALIDATION_EVIDENCE.md) に記録しています。
 
+通信側UART→SD保存の実機BIN解析結果は、[`docs/BOATLOG_ANALYSIS.md`](docs/BOATLOG_ANALYSIS.md) に記録しています。
+
 作業を終えるときは、計画の状態・次の作業・検証結果を必ず更新します。
 
 ## Git 管理方針
