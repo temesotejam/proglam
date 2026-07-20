@@ -13,6 +13,9 @@ enum class Type : uint8_t {
   LinkStatistics = 19,
   Heartbeat = 32, Arm = 33, Disarm = 34, StartTest = 35, Stop = 36,
   Estop = 37, ClearEstop = 38,
+  BenchmarkPrepare = 48, BenchmarkReady = 49, BenchmarkStart = 50,
+  BenchmarkStop = 51, BenchmarkResult = 52, BenchmarkEvent = 53,
+  SyntheticData = 54, BenchmarkAbort = 55,
 };
 struct __attribute__((packed)) Header {
   uint8_t version, type;
@@ -47,6 +50,39 @@ struct __attribute__((packed)) CommandPayload { uint32_t commandId; uint8_t comm
 struct __attribute__((packed)) CommandAckPayload { uint32_t commandId; uint8_t commandType, disposition, safetyState, dryRun; uint64_t receivedUs, appliedUs; uint16_t reason, reserved; };
 struct __attribute__((packed)) TimeSyncRequestPayload { uint32_t sequence; uint64_t t1Us; };
 struct __attribute__((packed)) TimeSyncReplyPayload { uint32_t sequence; uint64_t t1Us, t2Us, t3Us; };
+enum class BenchmarkPhase : uint8_t {
+  Baseline, InaCurrent, InaBalanced, InaFast, Tof8x8_10, Tof8x8_15,
+  Tof4x4_15, Tof4x4_30, I2c400k, I2c100k, I2cReturn400k,
+  UartBase, UartExpected, UartDouble, UartTarget70, Composite,
+};
+enum class BenchmarkAction : uint8_t { Prepare = 1, Start = 2, Stop = 3, Abort = 4 };
+enum class BenchmarkStatus : uint8_t { Pass = 0, Warn = 1, Fail = 2, NotSupported = 3, Aborted = 4 };
+enum BenchmarkFlag : uint32_t { BenchmarkDryRun = 1u << 0, BenchmarkPcaOff = 1u << 1,
+  BenchmarkVescZero = 1u << 2, BenchmarkTofReady = 1u << 3, BenchmarkInaReady = 1u << 4,
+  BenchmarkSynthetic = 1u << 5, BenchmarkEstimatedI2cBytes = 1u << 6 };
+struct __attribute__((packed)) BenchmarkCommandPayload {
+  uint32_t campaignId; uint16_t phaseId; uint8_t phase, action;
+  uint32_t durationMs, i2cClockHz; uint8_t inaProfile, tofProfile, uartProfile, reserved;
+  uint32_t canonicalCrc;
+};
+struct __attribute__((packed)) BenchmarkReadyPayload {
+  uint32_t campaignId; uint16_t phaseId; uint8_t status, safetyState;
+  uint32_t flags, runtimeI2cHz; uint16_t tofResolution, tofHz; uint32_t canonicalCrc;
+};
+struct __attribute__((packed)) BenchmarkResultPayload {
+  uint32_t campaignId; uint16_t phaseId; uint8_t phase, status; uint32_t flags;
+  uint32_t inaReads, inaFresh, inaDuplicates, tofFrames, tofIncomplete, syntheticRx;
+  uint32_t i2cTransactions, i2cErrors, maxI2cUs, maxTofReadUs, maxInaReadUs;
+  uint32_t linkDrops, freeHeap, minFreeHeap, durationMs, canonicalCrc;
+};
+struct __attribute__((packed)) BenchmarkEventPayload {
+  uint32_t campaignId; uint16_t phaseId; uint8_t code, status; uint32_t value, flags;
+  uint64_t timestampUs; uint32_t canonicalCrc;
+};
+struct __attribute__((packed)) SyntheticDataPayload {
+  uint32_t campaignId, sequence; uint16_t stream, bytes; uint64_t generatedUs;
+  uint8_t pattern[48]; uint32_t payloadCrc;
+};
 inline uint32_t canonicalCrc(const void* value, size_t bytesWithoutCrc) { return crc32(static_cast<const uint8_t*>(value), bytesWithoutCrc); }
 size_t encode(const Header&, const uint8_t*, uint8_t*, size_t);
 class Decoder {

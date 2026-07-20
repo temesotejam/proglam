@@ -1,5 +1,13 @@
 # 作業ログ
 
+## 2026-07-20 — 自動一括ベンチマークを実装（実機未検証）
+
+- 通信側にBENCH専用の1キャンペーン1組ログ、QUICK/STANDARD/ENDURANCE/CUSTOM状態機械、ケーブル条件保存、Web/API、人工UART負荷、フェーズイベントを追加した。
+- 制御側にDRY_RUN/PCA Full OFF/VESC Duty 0を確認してからI2C/INA/ToF設定を適用するPHASE_PREPARE/READY/START/STOP/RESULTを追加した。BNOの100 kHz設定は変更していない。
+- INA226はCVRF（Mask/Enable bit 3。Mask/Enable読出しでクリア）を使いfresh/duplicateを分離する。TI INA226 datasheetを参照したが、実機計測値はまだない。
+- 両PlatformIOビルド成功。制御側: Flash 16.0%、RAM 33.2%。通信側: Flash 25.6%、RAM 56.5%。Python解析ツールの構造互換ユニットテストは成功。
+- 次: 2台を書込み、サーボ/VESC主電源なしでPreflight、10 cmケーブルのQUICKを実行し、BENCH BIN/TXTを解析する。
+
 ## 2026-07-20 — RUN0018のSD書込み異常を安全停止へ変更（未実機書込み）
 
 - `RUN0018.TXT` の `sd_write_errors=991` は、確認済みの `RUN0012.TXT`、`RUN0014.TXT`、`RUN0016.TXT` がすべて0だったのに対し、新たに発生した異常である。SD空き容量は約15 GBあり、容量不足は確認されなかった。

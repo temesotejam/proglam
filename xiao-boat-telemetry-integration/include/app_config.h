@@ -4,7 +4,7 @@
 
 namespace app_config {
 constexpr char kFirmwareName[] = "xiao-boat-telemetry-integration";
-constexpr char kFirmwareVersion[] = "0.1.2-sd-fault-stop";
+constexpr char kFirmwareVersion[] = "0.2.2-benchmark-results";
 
 // SoftAP/Web UI. Connect directly and open http://192.168.4.1/.
 constexpr char kApSsid[] = "XIAO-BOAT-TELEMETRY";
@@ -30,6 +30,9 @@ constexpr uint32_t kControlUartBaud = 921600UL;
 constexpr uint16_t kControlUartRxBufferBytes = 16384;
 constexpr uint16_t kFrameQueueDepth = 160;
 constexpr size_t kSdWriteBufferBytes = 8192;
+// Keep the RAM staging buffer large, but commit to SPI microSD one sector at a
+// time.  A failed sector is never retried; the campaign is aborted safely.
+constexpr size_t kSdWriteChunkBytes = 512;
 constexpr uint32_t kSdFlushIntervalMs = 100UL;
 constexpr char kLogDirectory[] = "/BOATLOG";
 
@@ -55,4 +58,21 @@ constexpr uint32_t kControlHeartbeatIntervalMs = 100UL;
 constexpr uint32_t kTimeSyncIntervalMs = 1000UL;
 constexpr uint32_t kControlLinkTimeoutMs = 500UL;
 constexpr uint32_t kDiagnosticIntervalMs = 1000UL;
+
+// Automated benchmark. The browser only starts/stops a campaign; this state
+// machine runs on the communication XIAO and continues after a page reload.
+constexpr char kBenchDirectory[] = "/BENCH";
+constexpr uint32_t kBenchWebRefreshMs = 500UL;
+constexpr uint32_t kBenchPreflightMs = 1000UL;
+constexpr uint32_t kBenchWarmupInaMs = 10000UL;
+constexpr uint32_t kBenchWarmupTofMs = 20000UL;
+constexpr uint32_t kBenchWarmupI2cMs = 20000UL;
+constexpr uint32_t kBenchWarmupUartMs = 5000UL;
+constexpr uint32_t kBenchCommandTimeoutMs = 500UL;
+constexpr uint32_t kBenchResultTimeoutMs = 3000UL;
+constexpr uint32_t kBenchPrepareTimeoutMs = 10000UL;  // ToF/I2C reinitialization may briefly block heartbeats.
+constexpr uint32_t kBenchLinkWarnMs = 300UL;
+constexpr uint32_t kBenchLinkAbortMs = 500UL;
+constexpr uint16_t kBenchSyntheticPayloadBytes = 64;
+constexpr bool kDryRunActuators = true;  // Required for benchmark admission.
 }  // namespace app_config
