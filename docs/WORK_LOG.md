@@ -1,5 +1,11 @@
 # 作業ログ
 
+## 2026-07-20 — SDの余分なRUNファイル生成を停止
+
+- 原因: 通信側`setup()`が起動ごとに`startLog()`を呼び、USB接続・リセット・書込みごとに空に近い`RUNxxxx.BIN`を作成していた。
+- 対策: 起動時の自動`startLog()`を削除。Web UIの「記録を開始」を押した時だけBINを作成し、「記録を停止」時だけ同番号のTXT概要を作成する。
+- `0.1.1-manual-log`として通信側をビルド成功。XIAOが未接続のため実機書込みは保留。
+
 ## 2026-07-20 — UI版の実機確認とGNSS送信の排他強化
 
 - `RUN0016.BIN`: 232.897秒、102,858レコード。GNSS_NAV 2,329件、9.999 Hz、平均100.014 ms。SD queue drop=0、write error=0、TXT概要正常作成。STOP/E-STOPは2件ともACK accepted、DRY_RUN=1。
