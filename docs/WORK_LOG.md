@@ -1,5 +1,13 @@
 # 作業ログ
 
+## 2026-07-20 — 10 Hz修正版とSTOP/E-STOPの実機成功（RUN0014）
+
+- `RUN0014.BIN`: 212.169秒、93,109レコード、末尾まで完全に解析。通信側・制御側ともboot内の連番欠落0。
+- GNSS_NAVは2,122件、実測9.999 Hz、平均100.013 ms。独立`GnssNavTx`タスクによる10 Hz要求を満たした。
+- GNSS_PROCESS_RESULTは2,124件、result valid=2,121、duplicate=0、control側sequence gap=0、payload bad=0。記録境界に由来する対応外3件と、停止直前の未返信1件を除いて往復対応した。
+- command ID 1 STOP、2 E-STOP、3 STOPの3件はすべてACK disposition=accepted。STOP後はDISARMED、E-STOP後およびその後のSTOPはE_STOPを維持。ACKはすべてDRY_RUN=1。
+- `RUN0014.TXT`: normal_stop=1、queue_drops=0、sd_write_errors=0、result_bad_crc=0、last_rtt_us=18,785、command_ack_rx=3。
+
 ## 2026-07-20 — RUN0012の10 Hz未達を修正
 
 - RUN0012のGNSS_NAVは平均168.399 ms（5.94 Hz）、p50=166.330 ms、p95=201.020 msであり、10 Hz要求を満たしていなかった。CRCや連番の問題ではなく、通信側通常ループの遅延が原因。
