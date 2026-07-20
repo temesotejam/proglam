@@ -24,6 +24,10 @@ pio run -t upload
 2. [`docs/WORK_PLAN.md`](docs/WORK_PLAN.md): 段階的な実施計画と現在地
 3. [`docs/WORK_LOG.md`](docs/WORK_LOG.md): 実施内容、結果、判断の時系列
 
+統合コードの現在の実装済み範囲と未実装範囲は、[`docs/INTEGRATION_GAP_REVIEW.md`](docs/INTEGRATION_GAP_REVIEW.md) に記録しています。
+
+実機成功の根拠と未確認事項は、[`docs/VALIDATION_EVIDENCE.md`](docs/VALIDATION_EVIDENCE.md) に記録しています。
+
 作業を終えるときは、計画の状態・次の作業・検証結果を必ず更新します。
 
 ## Git 管理方針
