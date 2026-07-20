@@ -13,8 +13,8 @@ constexpr uint32_t kOscillatorHz=25000000UL; constexpr float kServoPwmHz=50.0f; 
 constexpr uint16_t kHardMinUs=500,kHardMaxUs=2500,kServoCenterUs=1500,kServoIntegrationMinUs=1400,kServoIntegrationMaxUs=1600,kServoSlewUsPerUpdate=5;
 constexpr float kVescMaxDuty=0.03f,kVescTestDuty=0.03f; constexpr uint32_t kVescUartBaud=115200UL,kVescRequestIntervalMs=20UL,kVescFrameTimeoutMs=100UL,kVescMaxPayloadBytes=512,kVescKeepaliveMs=50UL,kMaxTestMs=300000UL;
 constexpr uint32_t kLinkBaud=921600UL,kProtocolVersion=1,kLinkHeartbeatTimeoutMs=500UL; constexpr bool kRequireHostHeartbeat=false;
-// Temporary bench-only Web status; set false for the production no-radio build.
-constexpr bool kEnableTemporaryDebugWifi=true; constexpr char kDebugApSsid[]="XIAO-BOAT-DEBUG",kDebugApPass[]="12345678"; constexpr uint16_t kDebugHttpPort=80;
+// The control node has no radio role. Integration status is served by the communication node.
+constexpr bool kEnableTemporaryDebugWifi=false; constexpr char kDebugApSsid[]="XIAO-BOAT-DEBUG",kDebugApPass[]="12345678"; constexpr uint16_t kDebugHttpPort=80;
 constexpr uint16_t kInaConfig=0x08DF,kInaCalibration=0x0800; constexpr uint16_t kConfig=kInaConfig,kCalibration=kInaCalibration; constexpr float kShuntOhm=0.002f,kCurrentLsbA=0.00125f,kPowerLsbW=0.03125f;
 constexpr bool kEnableOverCurrentTrip=false,kEnableLowVoltageTrip=false; constexpr float kOverCurrentTripA=30.0f,kLowVoltageTripV=6.0f;
 constexpr uint32_t kDiagnosticIntervalMs=1000UL,kBnoNoDataTimeoutMs=3000UL,kReinitIntervalMs=2000UL;

@@ -1,5 +1,12 @@
 # 作業ログ
 
+## 2026-07-20 — 通信側の全体縦切りを実装・書込み
+
+- 新規: `xiao-boat-telemetry-integration` を作成。GNSS、比較BNO08X、制御側UART、microSD、SoftAP/Web UI、JSON API、STOP/E-STOP送信を統合した。
+- 実機: COM4の通信側 XIAO ESP32-S3 Sense へビルド済みファームウェアを書込み成功。SoftAPは `XIAO-BOAT-TELEMETRY`、URLは `http://192.168.4.1/`。
+- 証拠: 書込み後に作成された `D:\BOATLOG\RUN0008.BIN` は9,210,423 bytes、106,986レコードで末尾まで完全に解析できた。BNO加速度52,251、gyro26,912、quat9,426、GNSS生文14,378、GNSS fix3,579、GNSS状態440を含む。最終GNSS fix は有効フラグ `0x7FF`、HDOP 0.5、fix type 3。
+- 解釈: RUN0008のローカル連番の空き1,552個は、SDへ記録しない通信側→制御側Heartbeatが使った連番であり、SD書込み落ちの証拠ではない。以後は送信方向とログ方向の連番を分離するよう改修済み。
+
 このログには、実施した作業、判断、検証条件、結果、次の行動を追記する。新しい記録を先頭に追加する。未実施・未検証の内容を成功として書かない。
 
 ## 2026-07-20 — 全体縦切りを先行する方針への変更

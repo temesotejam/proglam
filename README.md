@@ -1,5 +1,7 @@
 # proglam
 
+現在の全体統合用プロジェクトは [`xiao-boat-telemetry-integration`](xiao-boat-telemetry-integration/README.md) です。通信側のGNSS・比較BNO08X・SD・SoftAP画面と、制御側UARTを一つの記録系へつなぎます。
+
 Seeed Studio XIAO ESP32S3 を中心にした船体制御・センサー計測・SD 記録の実験用 PlatformIO プロジェクト集です。
 
 ## 主なプロジェクト
