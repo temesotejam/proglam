@@ -1,3 +1,12 @@
+## &#22320;&#30913;&#27671;&#12475;&#12531;&#12469;&#20516;
+
+SoftAP `XIAO-BOAT-TELEMETRY` (password `12345678`) &#12395;&#25509;&#32154;&#12375;&#12289;`http://192.168.4.1/sensors` &#12434;&#38283;&#12367;&#12392;&#12289;BNO08X&#12398;&#21152;&#36895;&#24230;&#12289;&#12472;&#12515;&#12452;&#12525;&#12289;&#22320;&#30913;&#27671;&#12434;50 ms&#12372;&#12392;&#12395;&#34920;&#31034;&#12375;&#12414;&#12377;&#12290;
+
+`GET /api/sensors` &#12399;&#20197;&#19979;&#12434;JSON&#12391;&#36820;&#12375;&#12414;&#12377;&#12290;
+
+- `ax`, `ay`, `az`: &#21152;&#36895;&#24230; [m/s2]
+- `gx`, `gy`, `gz`: &#12472;&#12515;&#12452;&#12525; [rad/s]
+- `mx_ut`, `my_ut`, `mz_ut`: &#26657;&#27491;&#28168;&#12415;&#22320;&#30913;&#27671; [&micro;T]
 # 通信側 XIAO 統合ファームウェア
 
 制御側 XIAO のUARTテレメトリをmicroSDへ保存しながら、通信側に接続するGNSSと比較用BNO08Xも同じログへ保存する最初の全体縦切りです。外部Wi-Fiルーターは不要です。
@@ -31,4 +40,26 @@ Web UIの「記録を開始」を押し、確認ダイアログで了承した�
 
 GNSS往復・DRY_RUN・Heartbeat・STOP/E-STOP ACKの詳細は [`docs/GNSS_ROUNDTRIP_PROTOCOL.md`](../docs/GNSS_ROUNDTRIP_PROTOCOL.md) にあります。
 
+## Automated Benchmark
+
+通常ログとは別に、画面の **Start automated benchmark** を一度押すと `/BENCH/RUNxxxx.BIN` と `/BENCH/RUNxxxx.TXT` を1キャンペーンにつき1組だけ作成します。ブラウザを閉じても通信側XIAO内の状態機械が継続します。開始にはDRY_RUN、SD、通信側BNO、GNSS受信、制御側Heartbeat、PCA Full OFF、VESC Duty 0、制御側のPHASE_READYが必要です。
+
+画面でQUICK（約41分＋ウォームアップ）、STANDARD（各測定を3倍）、ENDURANCE（STANDARD＋最終複合測定3時間）、CUSTOM（全フェーズ共通秒数）を選べます。ケーブル条件として`CABLE_10CM`、`CABLE_1M_DIRECT`、`CABLE_1M_DIFFERENTIAL`、`CUSTOM`、長さ、配線、プルアップ、目標距離、メモを保存します。10 cmと約1 mの比較は、電源断後にToFケーブルだけを交換して別キャンペーンで実施します。100 kHzは共用I2Cの比較専用で、通常は400 kHzです。
+
+APIは `GET /api/benchmark`、`POST /api/benchmark/start?confirm=1&preset=QUICK`、`POST /api/benchmark/stop` です。STOPは安全な中断、E-STOPはラッチ停止です。SD最初の書込み失敗、キュードロップ、通信断はキャンペーンを中止します。解析は `python tools/analyze_benchmark.py RUN0001.BIN --output analysis_RUN0001`、比較は `python tools/compare_benchmarks.py RUN_10CM.BIN RUN_1M.BIN --output comparison_10cm_1m` を使用します。
+
+### 実機の最小手順
+
+1. 2台のXIAO、共通GND、GNSS、BNO、INA、PCA、約10 cmのToF配線、microSDを接続します。サーボ電源とVESC主電源は接続しません。
+2. 制御側、通信側の順に書き込み、`XIAO-BOAT-TELEMETRY`（パスワード`12345678`）へ接続して <http://192.168.4.1/> を開きます。
+3. `CABLE_10CM`とQUICKを選び、Start automated benchmarkを一度だけ押します。完了後にBENCHのBIN/TXTを取り出して解析します。
+4. 1 m試験では両XIAOを停止し、ToFのSDA-GND、SCL-GNDを対にした約1 mケーブルへ交換してから、`CABLE_1M_DIRECT`またはDIFFERENTIALで同じ操作を行います。
+
+実機のPASS/WARN/FAILはまだ未取得です。今回の実装は実機結果を成功として扱いません。
+
 現時点の制限は、二台接続・STOP/E-STOPの実機通過確認、全センサを同時に接続した長時間試験、航行制御はまだ未完了であることです。今回の目的はそれらを試験できる全体の形を早く揃えることです。
+
+
+## 固定条件実験（2026-07-23）
+
+I2C速度をRUN中に変更しない実験用ファームウェアを追加しました。制御側・通信側に同名のPlatformIO環境を書き込みます。環境一覧、書込み手順、SoftAP接続、API、結果の判定は [docs/FIXED_EXPERIMENT_FIRMWARE.md](../docs/FIXED_EXPERIMENT_FIRMWARE.md) を参照してください。

@@ -1,16 +1,17 @@
 #pragma once
 
 #include <Arduino.h>
+#include "experiment_config.h"
 
 namespace app_config {
 constexpr char kFirmwareName[] = "xiao-boat-telemetry-integration";
-constexpr char kFirmwareVersion[] = "0.1.2-sd-fault-stop";
+constexpr char kFirmwareVersion[] = "0.3.0-fixed-experiment";
 
 // SoftAP/Web UI. Connect directly and open http://192.168.4.1/.
 constexpr char kApSsid[] = "XIAO-BOAT-TELEMETRY";
 constexpr char kApPassword[] = "12345678";
 constexpr uint16_t kHttpPort = 80;
-constexpr uint32_t kWebRefreshMs = 250UL;  // Explicitly selected 4 Hz for this integration test.
+constexpr uint32_t kWebRefreshMs = 50UL;
 
 // Communication-side XIAO ESP32S3 Sense wiring.
 constexpr int kGnssRxPin = D0;
@@ -30,10 +31,16 @@ constexpr uint32_t kControlUartBaud = 921600UL;
 constexpr uint16_t kControlUartRxBufferBytes = 16384;
 constexpr uint16_t kFrameQueueDepth = 160;
 constexpr size_t kSdWriteBufferBytes = 8192;
+// Keep the RAM staging buffer large, but commit to SPI microSD one sector at a
+// time.  A failed sector is never retried; the campaign is aborted safely.
+constexpr size_t kSdWriteChunkBytes = 512;
 constexpr uint32_t kSdFlushIntervalMs = 100UL;
 constexpr char kLogDirectory[] = "/BOATLOG";
 
 constexpr uint8_t kBnoAddressPrimary = 0x4A;
+constexpr uint8_t kBnoPollEventBudget = 1;
+constexpr uint32_t kBnoTaskFallbackMs = 2UL;
+constexpr UBaseType_t kBnoTaskPriority = 1;
 constexpr uint8_t kBnoAddressAlternate = 0x4B;
 constexpr uint32_t kBnoI2cHz = 100000UL;
 constexpr uint32_t kAccelGyroIntervalUs = 5000UL;
@@ -55,4 +62,21 @@ constexpr uint32_t kControlHeartbeatIntervalMs = 100UL;
 constexpr uint32_t kTimeSyncIntervalMs = 1000UL;
 constexpr uint32_t kControlLinkTimeoutMs = 500UL;
 constexpr uint32_t kDiagnosticIntervalMs = 1000UL;
+
+// Automated benchmark. The browser only starts/stops a campaign; this state
+// machine runs on the communication XIAO and continues after a page reload.
+constexpr char kBenchDirectory[] = "/BENCH";
+constexpr uint32_t kBenchWebRefreshMs = 50UL;
+constexpr uint32_t kBenchPreflightMs = 1000UL;
+constexpr uint32_t kBenchWarmupInaMs = 10000UL;
+constexpr uint32_t kBenchWarmupTofMs = 20000UL;
+constexpr uint32_t kBenchWarmupI2cMs = 20000UL;
+constexpr uint32_t kBenchWarmupUartMs = 5000UL;
+constexpr uint32_t kBenchCommandTimeoutMs = 500UL;
+constexpr uint32_t kBenchResultTimeoutMs = 3000UL;
+constexpr uint32_t kBenchPrepareTimeoutMs = 10000UL;  // ToF/I2C reinitialization may briefly block heartbeats.
+constexpr uint32_t kBenchLinkWarnMs = 300UL;
+constexpr uint32_t kBenchLinkAbortMs = 500UL;
+constexpr uint16_t kBenchSyntheticPayloadBytes = 64;
+constexpr bool kDryRunActuators = true;  // Required for benchmark admission.
 }  // namespace app_config

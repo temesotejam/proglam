@@ -1,4 +1,221 @@
-# 作業ログ
+## 2026-07-25 -- BOAT23 RUN0010 analysis: logging fixed, BNO stream loss remains
+
+- `E:\BENCH\RUN0010.TXT/BIN` completed normally: `normal_stop=1`, 90,246 parsed records, queue drops 0, SD write errors 0, log fault none, benchmark status pass, I2C errors 0, ToF incomplete frames 0, and control link drops 0.
+- In the 179.994 s control-node benchmark window, BNO records were: accel 22,668 / 125.939 Hz / 92 sequence gaps / 21.150 ms maximum gap; gyro 17,357 / 96.431 Hz / 646 gaps / 25.484 ms; calibrated magnetic field 2,622 / 14.564 Hz / 1,879 gaps / 405.776 ms.
+- The communication node's local BNO stream is also severely under-serviced after the new task split (accel 27.595 Hz, gyro 13.057 Hz, magnetic 1.522 Hz over the logged interval). The current `CommBno` priority 1 task is likely starved by the priority 2 UART task while it drains continuously. Do not accept RUN0010 as a loss-free BNO result; adjust task scheduling and repeat.
+
+## 2026-07-25 -- Communication-side INT firmware uploaded
+
+- Communication XIAO ESP32-S3 Sense was detected on COM5 (MAC E0:72:A1:FC:08:D0) and updated with `bno_accel100_gyro100_mag20_int_3min` including the `CommBno` INT-driven task.
+- Esptool hash-verified every written image segment. No post-upload BOAT23 measurement has been started yet.
+
+## 2026-07-25 -- Communication-side BNO INT task (build verified; hardware pending)
+
+- Moved communication-side BNO08X acquisition off the Arduino loop into `CommBno` on core 0, priority 1. Its D3 falling-edge ISR only notifies the task; the task handles one ready event per pass and uses a 2 ms fallback for recovery/status handling.
+- `ControlRx` remains on core 0 at priority 2, so UART control-frame decoding has precedence over the local BNO task. The loop remains responsible for GNSS parsing, command/benchmark state, SD logging, and the Web UI.
+- `bno_accel100_gyro100_mag20_int_3min` compiled successfully for the communication node. This is an intake-scheduling change only; it does not yet prove that RUN0009's 1,414 SD queue drops are resolved.
+
+
+## 2026-07-25 -- Added calibrated magnetic-field acquisition (unverified on hardware)
+
+- BNO08X calibrated magnetic field (X/Y/Z in uT) was added to the control-node telemetry protocol and the communication-node log.
+- The communication node now exposes `GET /api/sensors` and `http://192.168.4.1/sensors`, including acceleration (m/s2), gyro (rad/s), magnetic field (uT), magnetic validity, accuracy, and age.
+- Both `bno_accel100_gyro100_mag20_int_3min` PlatformIO environments compiled successfully. Neither image has been uploaded or measured yet.
+﻿# 作業ログ
+## 2026-07-25 -- BOAT23 communication-node upload
+
+- Communication/recording XIAO ESP32-S3 Sense was detected as COM5 (MAC E0:72:A1:FC:08:D0) and uploaded with `bno_accel100_gyro100_mag20_int_3min`.
+- Esptool verified every written image segment by hash. The control node has not yet been updated, so no BOAT23 measurement has started.
+
+## 2026-07-25 -- BOAT23 control-node upload
+
+- Control XIAO ESP32-S3 was detected as COM4 (MAC 34:85:18:AB:FA:90) and uploaded with `bno_accel100_gyro100_mag20_int_3min`.
+- Esptool verified every written image segment by hash. Both nodes are now on BOAT23 and waiting for the 3-minute DRY_RUN to start from the communication-node Web UI.
+- No measurement has been started or evaluated yet.
+## 2026-07-25 — VL53L5CX／ストロベリー・リナックス #15315 の仕様を確認
+## 2026-07-25 -- BOAT23 RUN0009 analysis: failed because of logging drops
+
+- `E:\BENCH\RUN0009.BIN/TXT` completed normally in 180.078 s with `normal_stop=1`, SD write errors 0, log fault none, control-link drops 0, I2C errors 0, ToF incomplete frames 0, and VESC errors 0.
+- The communication-side logging queue dropped 1,414 frames. This violates the experiment's mandatory queue-drop=0 criterion, so RUN0009 is not a valid acceptance result.
+- Within the 3-minute control-node measurement window: accelerometer 22,499 samples / 124.945 Hz / 269 sequence gaps; gyro 17,218 / 95.616 Hz / 793 gaps; calibrated magnetic field 2,616 / 14.541 Hz / 1,882 gaps. The requested magnetic rate was 20 Hz.
+- Conclusion: DO NOT use this RUN as evidence that three streams were acquired without loss. Diagnose communication-node logging throughput and BNO report/queue load before rerunning BOAT23.
+
+
+- ST公式UM2884/DS13754を確認した。VL53L5CXの設定上限は8x8で15 Hz、4x4で60 Hz、I2Cは400 kHz〜1 MHzである。全出力時のドライバ転送量は4x4/60 Hzで63,000 bytes/s、8x8/15 Hzで50,909 bytes/sとされる。
+- ストロベリー・リナックス #15315「VL53L5X TOFレーザー測距センサモジュール」は、正確にはVL53L5CXV0GC/1を搭載する。同社資料にモジュール固有の低いフレームレート上限は示されず、4x4/8x8・最大4 mを案内している。モジュールのI2Cロジックは3.3 V/5 V対応で、1.8 Vロジックには対応しない。
+- 判断: P3で得た約8.3 Hzはチップまたは同モジュールの公称上限ではない。4x4化後の最大読出し時間は約13.4 msであるのに出力周期が約120 msのため、まず現行ファームウェアのToFデータready待ち・タスク周期・キュー投入のスケジューリングを診断対象とする。共有I2Cの400 kHz→1 MHz化は、同居するINA226/PCA9685と配線を含む別の検証が必要であり、この時点では実施しない。
+
+## 2026-07-24 — P3 `p3_tof_4x4_30` を解析、P3は候補なしで完了
+
+- RUN0011、RUN0012、RUN0014を有効な3反復として解析した。各BINは142,174/141,643/146,643レコードを末尾まで構造エラーなしで復号し、正常停止、SD書込みエラー0、キュードロップ0、I2Cエラー0、リンクドロップ0だった。測定区間の両boot IDシーケンス集合は欠番・重複なしで、GNSS安定区間のNAV起点の結果欠落も0だった。
+- BenchmarkReady は全RUNで共有I2C 400 kHz、ToF 16ゾーン（4x4）・30 Hz要求、flags=95を示した。ToF実測は各2,505/2,496/2,489フレーム、実効8.35/8.32/8.30 Hz、最大ToF間隔217.771/133.823/133.347 ms、最大ToF読出し13.447/13.442/13.442 msだった。最大I2C時間は937/942/938 µs、最小free heapは全RUN 267,608 bytesで低下なしだった。
+- RUN0013はSD書込み失敗（uffer_full、書込みエラー1）で開始直後に中断した。3,657レコードまでは構造復号できたが末尾に65 bytesの不完全レコードがあり、BenchmarkStop/Resultがないため比較対象外とする。
+- P3総合判定: 8x8/10は7.21〜7.23 Hz、8x8/15は7.23〜7.30 Hz、4x4/15は8.30〜8.33 Hz、4x4/30は8.30〜8.35 Hzである。全設定が各要求Hzの90%に未達で、最大間隔条件も満たさない。4x4化で読出し時間は約36.3 msから約13.4 msへ短縮した一方、出力周期は約120 msのままであり、ToF読出し時間以外のスケジューリングが制約になっている可能性が高い。P3の後段候補はなしとし、P4へ進む前に取得処理の診断・改修または要件変更の判断が必要である。
+
+## 2026-07-24 — P3通信側 `p3_tof_4x4_30` を書込み
+
+- 通信側XIAO ESP32-S3 SenseをCOM5（MAC E0:72:A1:FC:08:D0）として認識し、xiao-boat-telemetry-integration の p3_tof_4x4_30 を書き込んだ。書込みデータのハッシュ検証を含めて成功した。
+- 制御側・通信側とも同名環境となった。P3の4x4/30 Hz比較は、Web UI上のready確認後にDRY_RUNで5分を3反復する。
+
+## 2026-07-24 — P3制御側 `p3_tof_4x4_30` を書込み
+
+- 制御側XIAOをCOM4（MAC 34:85:18:AB:FA:90）として認識し、xiao-boat-control-integration の p3_tof_4x4_30 を書き込んだ。書込みデータのハッシュ検証を含めて成功した。通信側も同名設定を書き込むまで測定は開始しない。
+
+## 2026-07-24 — P3 `p3_tof_4x4_15` を解析、条件を不採用
+
+- RUN0007、RUN0009、RUN0010を有効な3反復として解析した。各BINは146,901/141,787/147,282レコードを末尾まで構造エラーなしで復号し、正常停止、SD書込みエラー0、キュードロップ0、I2Cエラー0、リンクドロップ0だった。測定区間の両boot IDシーケンス集合は欠番・重複なしで、GNSS安定区間のNAV起点の結果欠落も0だった。
+- BenchmarkReady は全RUNで共有I2C 400 kHz、ToF 16ゾーン（4x4）・15 Hz要求、flags=95を示した。ToF実測は各2,491/2,500/2,499フレーム、実効8.30/8.33/8.33 Hz、最大ToF間隔150.588/220.226/159.518 ms、最大ToF読出し13.449/13.441/13.438 msだった。最大I2C時間は941/942/944 µs、最小free heapは全RUN 267,608 bytesで低下なしだった。
+- RUN0008はSD書込み失敗（uffer_full、書込みエラー1）で約221秒に中断した。101,123レコードまでは構造復号できたが末尾に67 bytesの不完全レコードがあり、BenchmarkStop/Resultがないため比較対象外とする。後続の有効3反復ではSDエラーが再現しなかった。
+- 判定: 4x4/15 Hzは8x8条件よりToF実効Hzを約1 Hz改善したが、15 Hz要求の90%（13.5 Hz）に3反復すべて未達であり、最大間隔も15 Hz要求の2周期（133.3 ms）未満を満たさない。後段候補には採用しない。次は p3_tof_4x4_30 を400 kHz固定で5分・3反復する。
+
+## 2026-07-24 — P3通信側 `p3_tof_4x4_15` を書込み
+
+- 通信側XIAO ESP32-S3 SenseをCOM5（MAC E0:72:A1:FC:08:D0）として認識し、xiao-boat-telemetry-integration の p3_tof_4x4_15 を書き込んだ。ビルドと書込みデータのハッシュ検証を含めて成功した。
+- 制御側・通信側とも同名環境となった。P3の4x4/15 Hz比較は、Web UI上のready確認後にDRY_RUNで5分を3反復する。
+
+## 2026-07-24 — P3制御側 `p3_tof_4x4_15` を書込み
+
+- 制御側XIAOをCOM4（MAC 34:85:18:AB:FA:90）として認識し、xiao-boat-control-integration の p3_tof_4x4_15 を書き込んだ。ビルド（RAM 33.2%、Flash 16.0%）と書込みデータのハッシュ検証を含めて成功した。
+- 共有I2C 400 kHzのまま、ToF 4x4/15 Hz条件へ切り替わった。通信側も同名設定を書き込むまで測定は開始しない。
+
+## 2026-07-24 — P3 `p3_tof_8x8_15` 3反復を解析、条件を不採用
+
+- RUN0004（131,693件、10,893,667 bytes）、RUN0005（136,726件、11,246,782 bytes）、RUN0006（136,881件、11,266,388 bytes）は、いずれもBINを末尾まで構造エラーなしで復号した。正常停止、SD書込みエラー0、キュードロップ0、I2Cエラー0、リンクドロップ0で、測定区間の両boot IDシーケンス集合に欠番・重複はなかった。GNSS安定区間のNAV起点の結果欠落も全RUN 0だった。
+- BenchmarkReady は全RUNで共有I2C 400 kHz、ToF 64ゾーン（8x8）・15 Hz要求、flags=95を確認した。ToF実測は各2,191/2,169/2,181フレーム、実効7.30/7.23/7.27 Hz、最大ToF間隔239.840/179.889/235.111 ms、最大ToF読出し36.275/36.276/36.272 msだった。
+- INA freshは2,016/2,193（91.9%）、2,015/2,169（92.9%）、2,015/2,183（92.3%）。最大I2C時間は958/940/935 µs、最小free heapは全RUN 267,608 bytesで低下なしだった。
+- 判定: 8x8/15 Hzは保存・UART・I2C完全性を満たすが、15 Hz要求の90%（13.5 Hz）に3反復すべて未達であり、最大間隔も15 Hz要求の2周期（133.3 ms）未満を満たさない。8x8/10 Hzと比べても実効ToF Hzの改善はないため後段候補に採用しない。次は p3_tof_4x4_15 を400 kHz固定で5分・3反復する。
+
+## 2026-07-24 — P3通信側 `p3_tof_8x8_15` を書込み
+
+- 通信側XIAO ESP32-S3 SenseをCOM5（MAC E0:72:A1:FC:08:D0）として認識し、xiao-boat-telemetry-integration の p3_tof_8x8_15 を書き込んだ。ビルド（RAM 56.5%、Flash 25.7%）と書込みデータのハッシュ検証を含めて成功した。
+- 制御側・通信側とも同名環境となった。P3の8x8/15 Hz比較は、Web UI上のready確認後にDRY_RUNで5分を3反復する。
+
+## 2026-07-24 — P3制御側 `p3_tof_8x8_15` を書込み
+
+- 制御側XIAOをCOM4（MAC 34:85:18:AB:FA:90）として認識し、xiao-boat-control-integration の p3_tof_8x8_15 を書き込んだ。ビルド（RAM 33.2%、Flash 16.0%）と書込みデータのハッシュ検証を含めて成功した。
+- 共有I2C 400 kHzのまま、ToF 8x8/15 Hz条件へ切り替わった。通信側も同名設定を書き込むまで測定は開始しない。
+
+## 2026-07-24 — P3 `p3_tof_8x8_10` 反復2・3を解析、条件を不採用
+
+- RUN0002（130,763件、10,775,912 bytes）とRUN0003（130,819件、10,775,595 bytes）は、ともにBINを末尾まで構造エラーなしで復号した。両RUNとも正常停止、SD書込みエラー0、キュードロップ0、I2Cエラー0、リンクドロップ0で、測定区間の両boot IDシーケンス集合も欠番・重複なしだった。GNSS安定区間では、NAV起点の結果欠落は0だった。
+- ToF実測はRUN0001/0002/0003で各2,169/2,162/2,168フレーム、実効7.23/7.21/7.22 Hzだった。最大ToF間隔は190.792/174.154/235.382 ms、最大ToF読出しは36.278/36.281/36.271 ms。RUN0003は最大間隔も10 Hz要求の2周期（200 ms）を超えた。
+- INA freshは2,015/2,193（91.9%）、2,015/2,187（92.1%）、2,016/2,181（92.4%）で、最大I2C時間は949/935/947 µs、最小free heapは全RUN 267,608 bytesで低下なしだった。
+- 判定: 8x8/10 Hzは保存・UART・I2C完全性を満たすが、ToF実効Hzが要求10 Hzの90%（9 Hz）に3反復すべて未達である。P3の後段候補には採用しない。次は固定400 kHzのまま p3_tof_8x8_15 を両XIAOへ書き込み、同じ5分・3反復で比較する。
+
+## 2026-07-24 — P3 `p3_tof_8x8_10` 反復1（RUN0001）を解析
+
+- E:\BENCH\RUN0001.BIN/TXT は129,130レコード・10,713,444 bytesを末尾まで構造エラーなしで復号した。測定は300.034秒で正常停止し、SD書込みエラー0、キュードロップ0、I2Cエラー0、リンクドロップ0だった。
+- BenchmarkReady は共有I2C 400 kHz、ToF 64ゾーン（8x8）・10 Hz要求、flags=95（DRY_RUN/PCA OFF/VESC 0/ToF・INA ready）を示した。結果はToF 2,169フレーム（7.23 Hz）、不完全0、最大ToF読出し36,278 µs、INA fresh 2,015/2,193（91.9%）、最大I2C 949 µs、ヒープ267,608 bytesで低下なしだった。
+- GNSSはRUN内でNAV 3,057件・結果3,056件、安定区間ではNAV起点の対応欠落0だった。両boot IDのシーケンス値集合は測定区間で連続・重複なしで、同時送信された数フレームの受信順が微小に入れ替わったのみである。
+- 判定: 保存・UART往復・I2C完全性は合格。ただしP3候補基準のToF実効Hzは10 Hz要求の90%（9 Hz）以上に達せず、8x8/10 Hzはこの反復では後段候補にできない。P3の反復1として残り2回を同条件で実施し、再現性を確認する。
+
+## 2026-07-24 — P3制御側 `p3_tof_8x8_10` を書込み
+
+- 制御側XIAOをCOM4（MAC 34:85:18:AB:FA:90）として認識し、xiao-boat-control-integration の p3_tof_8x8_10 を書き込んだ。書込みデータのハッシュ検証を含めて成功した。
+- これにより両XIAOはP3の共有I2C 400 kHz・ToF 8x8/10 Hz設定となった。Web UI上でreadyを確認してから、DRY_RUNのまま5分測定を3反復する。
+
+## 2026-07-24 — P3通信側 `p3_tof_8x8_10` を書込み
+
+- 通信側XIAO ESP32-S3 SenseをCOM5（MAC E0:72:A1:FC:08:D0）として認識し、xiao-boat-telemetry-integration の p3_tof_8x8_10 を書き込んだ。ビルドと書込みは成功（RAM 56.5%、Flash 25.7%）。
+- P3は共有I2C 400 kHz、ToF 8x8/10 Hzの比較設定である。制御側も同名環境を書き込むまで測定は開始しない。
+## 2026-07-24 — P2 RUN0018/RUN0019/RUN0020を解析（100 kHz固定は不採用）
+
+- RUN0018は `benchmark_outcome=completed`、正常停止、SD書込みエラー0、キュードロップ0、BIN構造エラーなしだった。一方、測定区間のGNSS_NAV 6,215件に対しGNSS_PROCESS_RESULTは4,084件で、2,132件が対応しない。制御側P2結果はPASSを返したが、100 kHz・ToF 8x8/10 Hzの測定フェーズでToF 0フレーム、INA fresh 1,618、I2Cエラー0、最大I2C時間2,798 µs、リンクドロップ0だった。測定フェーズのToF停止と大きなNAV結果欠落により、比較用RUNとして不合格とする。
+- RUN0019とRUN0020はともに約10秒で `prepare_timeout` により異常停止した。両RUNの制御側から `BenchmarkReady` は届かず、開始前のBenchmarkPrepare後に通信側が10秒待って中断した。SD書込みエラー・キュードロップは0だが、測定に入っていないため比較には使えない。
+- 判断: 100 kHz固定は、P2で求める初期化・ToF取得・GNSS往復を安定して満たさない。過去のRUN0001で確認した動的速度復帰失敗とも整合するため、共有I2Cの通常構成には採用しない。400 kHz固定を維持し、P2は失敗として閉じる。
+- 次: P3は400 kHz固定で開始し、まず `p3_tof_8x8_10` を両XIAOへ書き込み、ToFの実測Hz・最大間隔・他センサ/UARTへの影響を5分×3反復で比較する。
+
+## 2026-07-24 — P2 通信側を書込み（測定開始前）
+
+- 通信側XIAO（COM5）へ `p2_i2c_100k` を書き込んだ。PlatformIOのビルド・フラッシュ書込み・ハッシュ検証は成功した（RAM 56.5%、Flash 25.7%）。
+- 制御側・通信側とも起動から100 kHz固定のP2で揃った。P2の10分測定はまだ開始していない。次: 通信側SoftAP/Web UIでSD、GNSS、比較BNO、制御リンク、DRY_RUNを確認し、P2を開始する。
+
+## 2026-07-24 — P2 制御側を書込み（通信側待ち）
+
+- 制御側XIAO（COM4）へ `p2_i2c_100k` を書き込んだ。起動から共有I2Cを100 kHz固定とするP2比較ファームウェアであり、測定途中の速度変更は行わない。PlatformIOのビルド・フラッシュ書込み・ハッシュ検証は成功した（RAM 33.2%、Flash 16.0%）。
+- 通信側はまだP1のためP2測定は未開始。次: 通信側XIAOを接続し、同名の `p2_i2c_100k` を書き込む。
+
+## 2026-07-24 — P1 RUN0016/RUN0017を解析（400 kHz基準値を確定）
+
+- `RUN0016.TXT` / `RUN0017.TXT` はともに `benchmark_outcome=completed`、`normal_stop=1`、SD書込みエラー0、キュードロップ0、ログ異常なし、`failed_phases=0` を記録した。BINはそれぞれ605.580秒・261,424レコード、605.654秒・271,920レコードで末尾まで構造エラーなく復号できた。
+- RUN0016 / RUN0017の両Boot IDは、連番欠落0・重複0。RUN0016のNAV 240〜6294と結果239〜6294は開始境界の結果239だけが対応外、RUN0017のNAV219〜6275と結果219〜6274は停止境界のNAV6275だけが対応外であり、共通する安定区間のGNSS往復は完全だった。
+- P1結果は両RUNともPASS。RUN0016 / RUN0017はToF 4,349 / 4,369フレーム（未完了0）、INA fresh 4,030 / 4,030、I2Cエラー0、最大I2C時間944 / 943 µs、最大ToF読取り36,279 / 36,283 µs、リンクドロップ0、最小free heap 267,608 bytesだった。
+- 送信時刻に基づく3反復の実測Hzは、BNO Accel=176.743/194.219/205.467、Gyro=101.064/108.956/112.887、Rotation=33.882/34.412/35.311、ToF=7.214/7.248/7.281、INA=7.300/7.320/7.392、GNSS_NAV=10.000/10.000/10.000、GNSS_RESULT=10.000/10.001/10.000。ToFは10 Hz要求に未達だが、400 kHz固定構成の再現可能な基準値として確定する。
+- 判定: P1を完了。SD・UART・安全固定条件・メモリ・GNSS往復の完全性は3反復で確認した。次は電源再投入またはリセット後、100 kHz固定のP2を3反復し、測定途中のI2C速度変更は行わない。
+
+## 2026-07-24 — P1 RUN0015を解析（第1反復は完全性確認）
+
+- `E:\BENCH\RUN0015.TXT` は `benchmark_outcome=completed`、`normal_stop=1`、`records=259831`、`queue_drops=0`、`sd_write_errors=0`、`log_fault=none`、`failed_phases=0` を記録した。
+- `RUN0015.BIN`（21,388,242 bytes）を605.546秒・259,831レコードとして末尾まで復号した。構造エラーなし。通信側Boot IDは127,366件、制御側Boot IDは132,465件で、両方ともグローバル連番の欠落0・重複0だった。RUN0014の採番重複は再現しなかった。
+- TXTの測定区間NAV件数は6057/6056だが、BINではNAV 1453〜7508、結果1452〜7507であり、最初の結果1件と最後のNAV 1件の開始・停止境界差である。共通する1453〜7507は6055件すべて対応し、安定区間の実欠落ではない。
+- 制御側P1結果はPASS。60万048 ms中にToF 4,329フレーム（未完了0）、INA 4,381読取り（fresh 4,029、duplicate 352）、I2Cエラー0、最大I2C時間942 µs、最大ToF読取り36,280 µs、リンクドロップ0、最小free heap 267,608 bytesだった。
+- 送信時刻での実測は、BNO Accel/Gyro/Rotation = 176.743/101.064/33.882 Hz、ToF=7.214 Hz（p95間隔146.569 ms、最大237.229 ms）、INA=7.300 Hz、GNSS_NAV=10.000 Hz（p95 100.464 ms、最大105.557 ms）、GNSS_RESULT=10.000 Hz（p95 144.998 ms、最大231.055 ms）。ToFは10 Hz要求に未達であり、P1の基準値として記録し、P3の設定比較で改善可否を評価する。
+- 判定: RUN0015はP1第1反復としてログ完全性・UART連番一意性・GNSS往復完全性を満たす。P1全体は同条件の残り2反復を待つ。
+
+## 2026-07-24 — 連番競合修正版を制御側P1へ書込み
+
+- 制御側XIAOをCOM4として認識し、`p1_stability_400k` の連番採番排他化修正版をビルド・書込み・ハッシュ検証した。成功（RAM 33.2%、Flash 16.0%）。
+- 通信側は既存の `p1_stability_400k` のままでプロトコル互換である。次: P1を最初から再実行し、BINで制御側Boot IDの連番重複が0であることを確認する。
+
+## 2026-07-24 — 制御側グローバル連番の競合を修正（実機書込み待ち）
+
+- RUN0014の制御側Boot IDで発生した連番重複2件に対し、`linkSend()` の `++linkSeq` を `linkMux` のクリティカルセクション内で行う `nextLinkSequence()` へ置換した。Heartbeatペイロードが参照する現在値も同じロックで読むようにした。
+- 制御側 `p1_stability_400k` をビルド成功した（RAM 33.2%、Flash 16.0%）。この修正は制御側のUARTヘッダー採番だけであり、通信側P1の再書込みは不要。
+- 制御側XIAOは現時点でCOMポートに検出されず、修正版の実機書込み・P1再試験は未実施。次: 制御側XIAOを接続し、修正版をCOM4へ書き込んでP1を再実行する。
+
+## 2026-07-24 — P1 RUN0014を解析（連番重複のため基準RUNは未合格）
+
+- `E:\BENCH\RUN0014.TXT` は `experiment=P1_stability_400k`、`benchmark_outcome=completed`、`normal_stop=1`、`records=255310`、`queue_drops=0`、`sd_write_errors=0`、`log_fault=none`、`failed_phases=0` を記録した。測定区間のGNSS_NAV／GNSS_PROCESS_RESULTはそれぞれ6057/6058件で、往復欠落はない。
+- `RUN0014.BIN`（21,069,116 bytes）を605.679秒・255,310レコードとして末尾まで復号した。構造エラーなし。通信側Boot IDは127,676件・連番欠落0・重複0、制御側Boot IDは127,634件・連番欠落0・重複2だった。重複はシーケンス137606（HeartbeatとToF）および150382（HeartbeatとBNO Accel）で、同じ送信時刻にも発生している。
+- 制御側P1結果はPASS、DRY_RUN／PCA9685全OFF／VESC Duty 0／ToF準備済み／INA準備済みを確認。60万122 ms中にToF 4,320フレーム（未完了0）、INA 4,360読取り（fresh 4,030、duplicate 330）、I2Cエラー0、最大I2C時間943 µs、最大ToF読取り36,282 µs、リンクドロップ0、最小free heap 267,608 bytesだった。
+- 送信時刻での実測は、BNO Accel/Gyro/Rotation = 149.798/84.241/28.193 Hz、ToF=7.196 Hz（p95間隔147.602 ms、最大186.409 ms）、INA=7.266 Hz、GNSS_NAV=10.000 Hz（p95 100.467 ms、最大103.708 ms）、GNSS_RESULT=10.001 Hz（p95 145.861 ms、最大222.042 ms）。ToFは10 Hz要求に未達であり、以後の設定選定の基準値として扱う。
+- 判断: SD、GNSS往復、I2Cエラー、ヒープは良好だが、グローバル連番の一意性が満たされない。`linkSend()` がメインループとHeartbeat送信タスクから並行して呼ばれ、非同期の `++linkSeq` が競合することが原因候補である。採番を排他化して再書込み・再試験するまで、このRUNをP1の基準値として合格扱いにしない。
+
+## 2026-07-24 — P1 通信側を書込み（測定開始前）
+
+- 通信側XIAO（COM5）へ `xiao-boat-telemetry-integration` の `p1_stability_400k` を書き込んだ。PlatformIOのビルド・フラッシュ書込み・ハッシュ検証は成功した（RAM 56.5%、Flash 25.7%）。
+- 制御側（COM4）・通信側（COM5）とも同名のP1固定条件ファームウェアで揃った。P1の10分測定はまだ開始していない。次: 通信側SoftAP/Web UIでSD、GNSS、比較BNO、制御リンク、DRY_RUNを確認し、P1を開始する。
+
+## 2026-07-24 — P1 制御側を書込み（通信側待ち）
+
+- E-STOPラッチをP1用ファームウェアの書込み時リセットで明示的に解除し、制御側XIAO（COM4）へ `xiao-boat-control-integration` の `p1_stability_400k` を書き込んだ。PlatformIOのビルド・フラッシュ書込み・ハッシュ検証は成功した（RAM 33.2%、Flash 16.0%）。
+- P1は制御側・通信側が同名環境であることが開始条件である。通信側はP0のままのため、P1測定は未開始。次: 通信側XIAOを接続し、`xiao-boat-telemetry-integration` の `p1_stability_400k` を書き込む。
+
+## 2026-07-24 — E-STOPラッチを制御側で直接確認（P0完了）
+
+- Web UIからE-STOPを送信した直後、制御側COM4のシリアルに `STATE E_STOP` が出力された。その後も `DIAG state=E_STOP dry=1` が継続し、BNO08X正常、ToFフレーム増加、UART NAVの受信数と処理数の一致、NAV連番欠落0を確認した。
+- 制御側のE-STOP処理は、安全出力（VESC Duty 0、PCA9685全OFF）を実行し、状態を `E_STOP` にラッチしてからACKを送信キューへ登録する。RUN0011ではログを先に閉じるためACKフレームはBINに残らないが、今回の直接状態確認により安全操作の受理・ラッチを確認した。
+- 判定: P0のWeb UI、SD、GNSS、Heartbeat、DRY_RUN、STOP、E-STOP、BIN/TXT回収の経路を確認できたため、P0を完了とする。P1開始前には、E-STOPを再起動または`clear_estop`で明示的に解除する。
+
+## 2026-07-24 — RUN0011のE-STOP操作を解析（ラッチ直接確認待ち）
+
+- `E:\BENCH\RUN0011.TXT` は `benchmark_outcome=emergency_stop`、`normal_stop=0`、`log_fault=emergency_stop` を記録した。これはE-STOPで意図的に中断したための値であり、SD書込み異常ではない。SD書込みエラー0、キュードロップ0、測定区間のGNSS_NAV／GNSS_PROCESS_RESULTは160件ずつで一致した。
+- `RUN0011.BIN`（542,428 bytes）は15.846秒・6,550レコードを末尾まで復号でき、構造エラーなし。両Boot IDのログ内シーケンスは制御側3,338件・通信側3,212件とも欠落0、重複0だった。
+- ログには開始前STOPとそのACK（制御側DISARMED、DRY_RUN=1）、およびE-STOP起因の `BenchmarkEvent`（code=9、status=Aborted）がある。E-STOPフレームとACK自体は存在しない。通信側実装ではE-STOP要求で先にログを閉じてから制御側へ送るため、このBINだけでは制御側がE_STOPへラッチした証拠にはならない。
+- COM4で制御側シリアル診断を試みた時点ではCOMポートが検出されなかった。再接続後の診断では `DIAG state=FAULT` であり、BNO08X正常、ToFフレーム増加、UART NAV連番欠落0だったが、`E_STOP` は確認できなかった。次: COM4で診断を見ながらWeb UIからE-STOPを再度送信し、`STATE E_STOP` または `DIAG state=E_STOP` を直接確認する。確認後、再起動または`clear_estop`でDISARMEDへ戻す。
+
+## 2026-07-24 — P0 自動測定 RUN0009を解析（E-STOP確認待ち）
+
+- `E:\BENCH\RUN0009.TXT` は `experiment=P0_bringup_400k`、`benchmark_outcome=completed`、`normal_stop=1`、`records=27046`、`queue_drops=0`、`sd_write_errors=0`、`log_fault=none`、`failed_phases=0` を記録した。測定区間のGNSS_NAVとGNSS_PROCESS_RESULTは658件ずつで一致した。
+- `RUN0009.BIN`（2,237,288 bytes）を末尾まで復号した。65.722秒・27,046レコードで構造エラーはなく、両Boot IDのログ内シーケンスも制御側13,856件・通信側13,190件とも欠落0、重複0だった。
+- 制御側の60秒P0結果はPASS。`DRY_RUN`、PCA9685全OFF、VESC Duty 0、ToF準備済み、INA準備済み、推定I2C量の各フラグを確認した。ToF 433フレーム、未完了0、INA 440読取り（fresh 402、duplicate 38）、I2Cエラー0、最大I2C時間930 µs、最大ToF読取り36,271 µs、リンクドロップ0、最小free heap 267,608 bytesだった。
+- 安全操作は開始前STOPと、そのACK（制御側DISARMED、DRY_RUN=1）を記録した。一方、E-STOPフレーム／ACKはRUN0009に存在しないため、`EXPERIMENT_PLAN.md` のP0安全条件にあるE-STOP受理・ラッチは未検証である。
+- 次: 記録停止中にWeb UIからE-STOPを一度送信し、制御側がE_STOPへ遷移してACKを返すことを確認する。その後、必要なら制御側を再起動または`clear_estop`でDISARMEDへ戻してP1の書込み・10分RUNへ進む。
+
+## 2026-07-24 — P0 制御側を書込み（全体確認は継続中）
+
+- 制御側XIAOを COM4（USB Serial Device、VID:303A/PID:1001）として認識し、`xiao-boat-control-integration` の `p0_bringup_400k` を書き込んだ。PlatformIOのビルド・フラッシュ書込み・ハッシュ検証は成功した。
+- 起動診断では `dry=1`、BNO08X初期化成功、ToFフレーム数増加、INAエラー0、UART NAVの受信数と処理数の一致、およびNAV連番欠落0を観測した。
+- 同じ診断では測定未開始の `bench=0` と `state=FAULT` を観測した。原因は未確認であり、P0の全体成立、SoftAP/Web UI、STOP/E-STOP、BENCHログの合格判定は未検証のままとする。
+- 次: 通信側P0と接続した状態で、`FAULT` の理由を確認し、SoftAP/Web UIからP0の開始・STOP/E-STOP・ログ回収を実施する。
+
+## 2026-07-23 — 固定構成RUNによる実機統合計測計画を決定
+
+- `D:\BENCH\RUN0001.BIN` / `RUN0001.TXT`を解析した。55,360,811 bytes・663,027レコードを末尾まで復号でき、SD書込みエラー0、キュードロップ0であった。一方、周辺I2Cを100 kHzで測定した後に400 kHzへ戻すフェーズで制御側の`BenchmarkReady`が10秒以内に届かず、`prepare_timeout`で停止した。
+- 判断: 共有I2Cの速度を通常運用中に切り替えない。周辺I2Cは400 kHz固定、BNO08X専用I2Cは100 kHz固定とし、100 kHz比較は起動時から100 kHzに固定した別RUNで行う。ToF設定、INA設定、UART負荷も同じRUN内では変更しない。
+- 計画: `EXPERIMENT_PLAN.md`を追加し、P0（診断版の成立確認）、P1（400 kHz基準）、P2（100 kHz固定比較）、P3（ToF設定）、P4（INA設定）、P5（UART負荷）、P6（選定構成統合）、P7（長時間安定性）の順序と判定条件を定義した。
+- 検証: 本項は計画と既存RUNの解析結果のみ。診断ブランチの最新コミットを両XIAOへ書込む実機検証は未実施である。
+- 次: 診断ブランチの同一コミットを両XIAOでビルド・書込みし、P0を実施する。
 
 ## 2026-07-20 — RUN0018のSD書込み異常を安全停止へ変更（未実機書込み）
 
@@ -124,3 +341,224 @@
 - 判断: `_reference_cores3_vl53l5cx_distance_map` と `_reference_vedderb_bldc` は独立した外部参照であり、このリポジトリには含めない。
 - 検証: `main` は `origin/main` を追跡し、公開設定を確認済み。既存Markdownの末尾空白を空白チェックが指摘したが、内容を改変せずコミットした。
 - 次: プロジェクトの最終目的・2台構成・統合試験順序を台帳へ反映する。
+
+## 2026-07-23 固定条件実験ファームウェアを作成
+
+- origin/agent/benchmark-stability の診断コードを基に、制御側・通信側で同名のPlatformIO環境を選ぶ16個の固定条件ファームウェアを追加した。
+- 制御側の共有I2Cは起動時から環境の指定速度に固定し、BenchmarkPrepare は受信条件の照合だけを行う。測定中には Wire.end()、I2C速度変更、INA/ToF再初期化を実行しない。
+- P0の制御側・通信側をビルドした。実機への書込み・測定は未実施。
+
+
+## 2026-07-24 P0 通信側を書込み
+
+- 通信側XIAOを COM5（USB Serial Device、VID:303A/PID:1001）として認識し、xiao-boat-telemetry-integration の p0_bringup_400k を書き込んだ。
+- シリアル出力で SD=1、GNSS=1、BNO=1、制御側UARTフレーム受信を観測した。
+- 制御側は未書込みのため、P0全体の成立、SoftAP/Web UI、STOP/E-STOP、BENCHログの合格判定は未検証。
+
+- 制御側XIAOのUSB接続では、COMポートおよびESP32/XIAO系PnPデバイスが検出されなかった。データ通信対応ケーブル・USBポートを確認し、PC再起動後に再検出する。通信側P0（COM5）の書込み・起動確認は完了済みとして保持する。
+
+## 2026-07-25 — ToF実測レート低下の診断環境を追加
+
+- P3の有効反復では、ToF 4x4/30 Hz要求に対してToF・INAとも約8.3 Hzとなった。`getRangingData()` の最大時間は約13.4 msであり、4バイトを読む `isDataReady()` 自体にはライブラリ上の待機ループがないことを確認した。
+- 制御側に、センサから読戻す解像度・周波数・I2C転送分割サイズと、ready判定およびToFサービス全体の最大時間を `BenchmarkEvent` として記録する診断を追加した。`BenchmarkReady` も期待値ではなく読戻し値を報告する。
+- 両プロジェクトに、共有I2C 400 kHz・ToF 4x4/30 Hz・DRY_RUN・2分の `p3_diag_4x4_30`（`BOAT_EXPERIMENT=16`）を追加した。制御側・通信側ともビルド成功（RAM 33.2%/56.5%、Flash 16.0%/25.7%）。実機書込み・測定は未実施。
+
+## 2026-07-25 — ToF診断用の通信側を書込み
+
+- 通信側XIAO ESP32-S3 SenseをCOM5として認識し、`xiao-boat-telemetry-integration` の `p3_diag_4x4_30` を書き込んだ。859,264 bytesの書込みデータはハッシュ検証まで成功した。
+- 通信側は共有I2C 400 kHz・ToF 4x4/30 Hz・DRY_RUN・2分の診断キャンペーン待機状態である。制御側を同名環境へ書き込むまで開始しない。
+
+## 2026-07-25 — ToF診断用の制御側を書込み
+
+- 制御側XIAO ESP32-S3をCOM4（MAC 34:85:18:AB:FA:90）として認識し、`xiao-boat-control-integration` の `p3_diag_4x4_30` を書き込んだ。535,712 bytesの書込みデータはハッシュ検証まで成功した。
+- 制御側・通信側とも共有I2C 400 kHz・ToF 4x4/30 Hz・DRY_RUN・2分の同名診断環境となった。通信側Web UIで開始後、生成されるRUNのBIN/TXTから診断値を確認する。
+
+## 2026-07-25 — RUN0015を解析、ToFを自律モードへ修正
+
+- RUN0015は64,667レコードを末尾まで構造的に復号できた。`normal_stop=1`、SD書込みエラー0、キューdrop 0、I2Cエラー0、リンクdrop 0、ToF不完全フレーム0で完走している。
+- 設定読戻しはToF 4x4・30 Hz、I2C転送分割サイズ32 bytesで一致した。しかし測定窓119.989秒のToF/INAはともに998フレーム、実測8.318 Hz、ToF最大周期133.535 msだった。
+- 追加診断はready判定最大304 us、ToFサービス全体最大13,724 us、データ読出し最大13,439 usを示した。よって約120 ms周期の主因はI2C待機・制御ループの詰まりではない。
+- 原因判断: 周波数を指定する測定でToFを`CONTINUOUS`モードにしていた。ULDの連続モードでは周期が設定周波数ではなく連続測距条件に従う。`AUTONOMOUS`モードへ修正し、4x4/30 Hzを周期制御するようにした。制御側 `p3_diag_4x4_30` のビルドは成功（RAM 33.2%、Flash 16.0%）。
+- 修正版のCOM4書込みは、書込み開始時にCOM4が存在せず失敗した。実機書込み・再診断は未実施。
+
+## 2026-07-25 — ToF自律モード修正版の制御側を書込み
+
+- 制御側XIAO ESP32-S3をCOM4として再認識し、`p3_diag_4x4_30` の自律モード修正版を書き込んだ。535,712 bytesの書込みデータはハッシュ検証まで成功した。
+- 通信側は記録ファームウェアを再書込みせず、そのまま使用する。両機をUART接続してDRY_RUNの2分診断を再実行し、4x4/30 Hzの実測周期を確認する。
+
+## 2026-07-25 — RUN0016/RUN0017を解析、積分時間20 msの診断版を準備
+
+- RUN0016はSDの`buffer_full`書込みで1回失敗し、結果フレームなし・末尾37 bytesの不完全レコードとなったため無効とした。キューdropは0である。
+- RUN0017は62,085レコードを末尾まで復号でき、`normal_stop=1`、SD/キュー/I2C/リンクエラー0、ToF不完全0で完走した。4x4/30 Hzの設定読戻しは一致したが、ToF/INAとも1,004フレーム・8.372 Hz、最大ToF周期132.098 msで、候補基準を満たさなかった。
+- 自律モードでは積分時間を精密に設定でき、ライブラリは積分時間が選択周波数の周期より短いことを要求する。従来の約120 ms周期は既定の約100 ms積分と整合するため、4x4/30 Hzでは積分時間を20 msに設定する。解像度・周波数・積分時間・モードを読戻し確認し、積分時間とモードを診断イベントcode 22に記録する。
+- 制御側 `p3_diag_4x4_30` の20 ms積分時間版をビルドした（RAM 33.2%、Flash 16.0%）。実機書込み・測定は未実施。
+
+## 2026-07-25 — ToF積分時間20 ms版の制御側を書込み
+
+- 制御側XIAO ESP32-S3をCOM4として認識し、`p3_diag_4x4_30` の自律モード・積分時間20 ms版を書き込んだ。536,224 bytesの書込みデータはハッシュ検証まで成功した。
+- 通信側の記録ファームウェアは変更不要である。両機をUART接続してDRY_RUNの2分診断を実行し、diagnostic event code 22の20 ms/自律モード読戻しと実測ToF周期を確認する。
+
+## 2026-07-25 — RUN0018を解析、メインループ時間トレースを準備
+
+- RUN0018は64,567レコードを末尾まで復号でき、`normal_stop=1`、SD/キュー/I2C/リンクエラー0、ToF不完全0で完走した。診断event code 22は積分時間20 ms、モード値1（SparkFunライブラリの自律モード）を確認した。
+- それでもToF/INAとも993フレーム・8.275 Hz、最大ToF周期134.387 msで候補基準を満たさなかった。ready判定最大311 us、ToFサービス全体最大13,714 usであり、ToF設定・読出し処理は主因ではない。
+- ToFとINAが同一周期で低下するため、共通メインループの停止を対象にした。BNO08Xは100 kHz I2Cで1周最大24イベントを処理するため有力候補であるが、変更前に実測で確認する。
+- 制御側にBNOポーリング、UART受信、BNO復旧、VESC、メインループ全体の最大時間を記録するdiagnostic event code 23〜25を追加した。`p3_diag_4x4_30` のビルド成功（RAM 33.2%、Flash 16.0%）。実機書込み・測定は未実施。
+
+## 2026-07-25 — メインループ時間トレース版を制御側へ書込み
+
+- p3_diag_4x4_30 の制御側ファームウェアをCOM4（MAC `34:85:18:AB:FA:90`）へ書き込んだ。
+- 536,416 bytes のアプリケーション書込み後、esptoolのハッシュ照合が成功した。
+- 通信側は既存の診断受信ファームウェアのままとし、次回の2分DRY_RUNでイベントcode 23〜25を回収する。
+
+## 2026-07-25 — RUN0019を解析、BNO08Xポーリングを上限化
+
+- RUN0019は65,955レコードを末尾まで構造的に復号でき、`normal_stop=1`、SD書込みエラー0、キューdrop 0、失敗フェーズ0で2分診断を完走した。
+- ToF設定は4x4・30 Hz・自律モード・積分20 msの読戻しと一致したが、ToFは994フレーム（8.289 Hz、最大周期214.414 ms）、INAは995フレーム（8.298 Hz、最大周期130.264 ms）で候補基準を満たさない。
+- 診断event code 23はUART受信最大6,069 us、BNOポーリング最大109,027 usを記録した。event code 24はBNO復旧最大13 us、VESC最大2,115 us、code 25はメインループ最大128,842 usである。従って共通の約120 ms停止はBNO08Xの一周最大24イベント一括処理が原因であり、ToF・INA・UART・VESCは主因ではない。
+- BNO報告設定は維持したまま、`kBnoPollEventBudget=2`を追加して1周の処理を最大2イベントへ制限した。ToFを飢餓状態にせず、次RUNでBNO連番欠落を確認する最小変更である。
+- 制御側 `p3_diag_4x4_30` の修正版をビルドした（RAM 33.2%、Flash 16.0%）。実機書込み・再診断は未実施。
+
+## 2026-07-25 — BNO08X上限版を制御側へ書込み
+
+- `p3_diag_4x4_30` のBNO08Xポーリング上限版をCOM4（MAC `34:85:18:AB:FA:90`）へ書き込んだ。
+- 536,448 bytes のアプリケーション書込み後、esptoolのハッシュ照合が成功した。
+- 通信側は既存の診断受信ファームウェアを継続使用し、次の2分DRY_RUNでToF/INA周期とBNO連番を再評価する。
+
+## 2026-07-25 — RUN0020を解析、ToF優先・BNO 50 Hz版を準備
+
+- RUN0020は54,455レコードを末尾まで構造的に復号でき、`normal_stop=1`、SD書込みエラー0、キューdrop 0、失敗フェーズ0で完走した。
+- BNO上限2イベント化により、BNOポーリング最大は109.027 msから23.525 ms、メインループ最大は128.842 msから43.254 msへ低下した。ToFは2,607フレーム・21.717 Hz（最大周期66.847 ms）、INAは3,380フレーム・28.156 Hz（最大周期44.390 ms）へ改善した。
+- ToFの30 Hz候補基準（27 Hz以上）には未達である。BNO処理がToFより前にあり、最大23.525 msのBNO処理がToFの33.3 ms周期を遅延させるため、ToF/INAを先行させる。
+- BNO08Xは加速度・ジャイロ200 Hz、回転50 Hzの計450 reports/sを要求していたが、100 kHz I2Cの実測処理能力に対して過大である。3種類とも50 Hzへ下げ、1周の取得は1イベントに制限する。これにより合計150 reports/sとし、ToF 30 Hzを優先する。
+- 制御側 `p3_diag_4x4_30` の修正版をビルドした（RAM 33.2%、Flash 16.0%）。実機書込み・再診断は未実施。
+
+## 2026-07-25 — ToF優先・BNO 50 Hz版を制御側へ書込み
+
+- `p3_diag_4x4_30` のToF優先・BNO08X各報告50 Hz・1周1イベント版をCOM4（MAC `34:85:18:AB:FA:90`）へ書き込んだ。
+- 536,416 bytes のアプリケーション書込み後、esptoolのハッシュ照合が成功した。
+- 通信側は既存の診断受信ファームウェアを継続使用し、次の2分DRY_RUNでToF 30 Hz候補基準を再評価する。
+
+## 2026-07-25 — RUN0021でToF 30 Hz候補基準を達成
+
+- RUN0021は60,271レコードを末尾まで構造的に復号でき、`normal_stop=1`、SD書込みエラー0、キューdrop 0、失敗フェーズ0で完走した。
+- ToFは3,602フレーム・30.008 Hz、平均周期33.324 ms、最大周期39.070 ms。INAも3,602フレーム・30.008 Hz、最大周期39.058 msだった。ToFの30 Hz候補基準（27 Hz以上、最大周期66.7 ms未満）を満たす。
+- 診断はBNOポーリング最大7.754 ms、UART受信最大4.135 ms、BNO復旧最大39 us、VESC最大2.024 ms、メインループ最大24.316 msを記録した。前RUNより全てToF周期を阻害しない範囲である。
+- BNOのログ受信率は加速度118.001 Hz、ジャイロ51.478 Hz、回転32.016 Hzだった。設定値は各50 Hz・1周1イベントであり、BNOの実際のレポート発行挙動は別途データ解析対象とするが、ToF/INA 30 Hz達成と通信・SD健全性は両立した。
+- 同一条件をさらに2回反復して、ToF/INA 30 Hz候補基準の再現性を確認する。
+
+## 2026-07-25 — RUN0022〜RUN0024の反復確認
+
+- RUN0022は55,843レコードを完全復号し、`normal_stop=1`、SD書込みエラー0、キューdrop 0で完走した。ToF/INAはともに30.016 Hz、最大周期は40.081/40.069 ms、BNOポーリング最大7.656 ms、メインループ最大23.632 msだった。
+- RUN0023はSD `buffer_full` による書込み失敗（`sd_write_errors=1`）で中断し、結果フレームを持たないため無効とした。BINは中断時点の41,388レコードまで構造的に復号できたが、試験必須条件のSDエラー0を満たさない。
+- RUN0024は55,755レコードを完全復号し、`normal_stop=1`、SD書込みエラー0、キューdrop 0で完走した。ToF/INAはともに30.007 Hz、最大周期は40.964/40.973 ms、BNOポーリング最大7.645 ms、メインループ最大22.780 msだった。
+- RUN0021・RUN0022・RUN0024の3有効RUNでToF/INA 30 Hz候補基準を再現した。一方、RUN0023のSD書込み失敗を置換するため、同一条件でもう1回2分の確認RUNを行う。
+
+## 2026-07-25 — RUN0025でSD失敗の置換確認を完了
+
+- RUN0025は58,171レコードを末尾まで構造的に復号でき、`normal_stop=1`、SD書込みエラー0、キューdrop 0、ログfaultなし、失敗フェーズ0で完走した。
+- ToF/INAはともに3,603フレーム・30.013 Hz、ToF最大周期40.132 ms、INA最大周期40.143 msだった。BNOポーリング最大7.646 ms、メインループ最大23.355 msで、30 Hz周期を阻害していない。
+- RUN0021、RUN0022、RUN0024、RUN0025の4有効なQUICK RUNすべてで4x4/30 Hz候補基準とSD/UART/キューエラー0を達成した。RUN0023はSD `buffer_full`の中断として引き続き無効記録とする。
+- よって、現在のハードウェアと約10 cm直接配線では、ToF 4x4・30 Hz、自律モード・積分20 ms、ToF優先、BNO 1周1イベントの構成をP3後段候補として採用できる。正式計画の5分反復は未実施である。
+
+## 2026-07-25 — INAは現行設定を維持し、VESCテレメトリを優先
+
+- 現行INAは約30 Hz、I2Cエラー0であり、ユーザー要求の低速で確実な電流監視には十分と判断した。P4の高更新レート比較は、必要になった時点まで後回しにする。
+- 次の優先はVESCの受動テレメトリ取得とする。DRY_RUN・Duty 0で、入力電圧、入力/モータ電流、eRPM、温度、故障コード、UART応答時間・エラーを記録する。
+- VESCの電圧・電流は消費電力・状態推定に用いる。水上速度そのものは直接は得られないため、eRPMを駆動系の既知比とGNSS速度で較正し、GNSSと融合して推定する。
+
+## 2026-07-25 — VESC受動通信の初回測定時間を3分に決定
+
+- モータ未接続の初回試験では、熱・推進負荷の長時間変動は評価対象外である。
+- VESC状態要求は50 Hz設定のため、3分で約9,000回の要求機会を得られる。通信の応答率、CRC/タイムアウト、電圧値の安定性を確認するには十分であり、初回は5分ではなく3分とする。
+- 5分以上は、モータ接続後の温度・電圧降下・負荷変動を含む試験で用いる。
+
+## 2026-07-25 — VESC受動3分測定プログラムを追加
+
+- 両プロジェクトへ `vesc_passive_3min`（BOAT_EXPERIMENT=17、3分、400 kHz、ToF 4x4/30 Hz維持）を追加した。
+- 制御側は開始時のVESC要求・応答・エラー数を保存し、終了時に診断event code 26（要求数/応答数）およびcode 27（エラー数）を記録する。VESC状態フレームには電圧、電流、eRPM、温度、Duty、故障コードが保存される。
+- DutyはDRY_RUN保護により0のまま。制御側・通信側の `vesc_passive_3min` ビルドに成功した。実機書込みは未実施。
+
+## 2026-07-25 — BNO08X専用タスクと姿勢100 Hz測定環境を実装
+
+- 制御側のBNO08X `poll()` と `recover()` をメインループから専用FreeRTOSタスクへ移した。BNO専用I2C（D4/D5、100 kHz）だけをこのタスクが所有するため、共有I2C上のToF/INA/PCA処理とは競合しない。タスクはcore 0、優先度1、1 ms周期とし、UART送信タスク（優先度2）を優先する。
+- 測定中はBNOタスク内の最大poll時間・最大recover時間を診断event code 23/24に記録する。メインループの最大時間はBNOの処理時間を含まない値となるため、二つを分けて評価できる。
+- 両プロジェクトに同名の `bno_attitude100_gyro50_3min` 環境（BOAT_EXPERIMENT=20）を追加した。Game Rotation Vectorは100 Hz、較正ジャイロは50 Hzで要求する。出力は自前姿勢推定を使わない場合の「ジャイロ＋BNO姿勢」の組合せであり、ToF 4x4/30 Hz・INA低速確実取得・VESC受動取得を維持する。
+- ビルド検証: 制御側はRAM 108,844 bytes（33.2%）、Flash 536,605 bytes（16.1%）で成功。通信・記録側はRAM 185,208 bytes（56.5%）、Flash 858,913 bytes（25.7%）で成功した。実機書込み・測定は未実施。
+## 2026-07-25 — BNO専用タスク・姿勢100 Hz版を制御側へ書込み
+
+- 制御側XIAO ESP32-S3をCOM4（MAC `34:85:18:AB:FA:90`）として確認し、`bno_attitude100_gyro50_3min` を書き込んだ。
+- 536,976 bytesのアプリケーションを含む書込みは、全領域のハッシュ照合まで成功した。
+- 通信・記録側は未書込みのため、3分DRY_RUNはまだ開始しない。通信側を同名環境へ揃えた後に開始する。
+## 2026-07-25 — BNO専用タスク・姿勢100 Hz版を通信側へ書込み
+
+- 通信・記録側XIAO ESP32-S3 SenseをCOM5（MAC `E0:72:A1:FC:08:D0`）として確認し、制御側と同じ `bno_attitude100_gyro50_3min` を書き込んだ。
+- 859,280 bytesのアプリケーションを含む書込みは、全領域のハッシュ照合まで成功した。
+- 両XIAOは同名・同条件の3分DRY_RUN測定待機状態である。UART接続を維持し、通信側Web UIで開始する。
+## 2026-07-25 — RUN0004を解析、BNO専用タスク・姿勢100 Hz条件は合格
+
+- `E:\BENCH\RUN0004.BIN/TXT` は180.072秒で正常完走した。BINは91,138レコードを末尾まで復号でき、`normal_stop=1`、SD書込みエラー0、キューdrop 0、ログfaultなし、制御側link drop 0、I2Cエラー0だった。
+- 制御側がフレーム生成時に付与した時刻で評価した。BNO較正ジャイロは9,005件・50.010 Hz（最大周期24.791 ms）、Game Rotation Vectorは18,011件・100.021 Hz（最大18.358 ms）だった。両ストリームのBNOセンサ連番は全区間で連続し、欠番は0だった。
+- ToFは5,403件・30.006 Hz（最大36.222 ms）、INAは5,403件・30.006 Hz（最大36.216 ms）、VESCは5,404件・30.007 Hz（最大37.322 ms）で、姿勢100 Hzとの同時動作でも従来の30 Hz要件を維持した。VESC要求/応答は5,403/5,404、エラー0だった。
+- BNO専用タスクの最大poll時間は6.432 ms、最大recover時間は1.750 ms。メインループ最大時間は18.152 ms、ToFサービス最大13.826 ms、VESCサービス最大2.143 msだった。SDの最大1書込みは81.123 msで、通信側の受信時刻だけでは最大約208 msの見かけの間隔が出るが、制御側生成時刻・BNO連番・リンクdrop 0によりデータ欠損ではないと確認した。
+- 判定: 姿勢100 Hz＋ジャイロ50 Hz、ToF/INA/VESC各30 Hzの構成は、この3分DRY_RUNで合格。次の比較はジャイロも100 Hzへ上げた条件とする。
+## 2026-07-25 — BNO姿勢・ジャイロ100 Hz比較版を追加
+
+- 両プロジェクトに `bno_attitude100_gyro100_3min`（BOAT_EXPERIMENT=21、3分、ToF 4x4/30 Hz、INA/VESC条件はRUN0004と同一）を追加した。
+- 制御側だけを変更し、BNO08Xの較正ジャイロとGame Rotation Vectorをともに10 ms間隔（100 Hz）で要求する。BNO専用タスク、1イベント上限、ToF/INA優先、DRY_RUN保護は維持する。
+- 制御側・通信側ともビルドを完了した。実機書込み・測定は未実施。書込み時点でCOM4/COM5がWindowsに認識されていなかったため、再接続後に両機へ同名環境を書き込む。
+## 2026-07-25 — BNO姿勢・ジャイロ100 Hz版を制御側へ書込み
+
+- 制御側XIAO ESP32-S3をCOM4（MAC `34:85:18:AB:FA:90`）として確認し、`bno_attitude100_gyro100_3min` を書き込んだ。
+- 536,976 bytesのアプリケーションを含む書込みは、全領域のハッシュ照合まで成功した。
+- 通信・記録側は未書込みのため、3分DRY_RUNはまだ開始しない。通信側を同名環境へ揃えた後に開始する。
+## 2026-07-25 — BNO姿勢・ジャイロ100 Hz版を通信側へ書込み
+
+- 通信・記録側XIAO ESP32-S3 SenseをCOM5（MAC `E0:72:A1:FC:08:D0`）として確認し、制御側と同じ `bno_attitude100_gyro100_3min` を書き込んだ。
+- 859,280 bytesのアプリケーションを含む書込みは、全領域のハッシュ照合まで成功した。
+- 両XIAOは同名・同条件の3分DRY_RUN測定待機状態である。UART接続を維持し、通信側Web UIで開始する。
+## 2026-07-25 — RUN0005/RUN0006を解析、ジャイロ100 Hz条件は保留
+
+- RUN0005はSD `buffer_full` による`SD write failed`で中断した。39,190レコードまでは構造復号できたが、末尾に68 bytesの不完全レコードがあり、BenchmarkResultがない。SD書込みエラー1のため無効とする。
+- RUN0006は104,176レコードを末尾まで完全復号し、180.059秒で正常完走した。SD書込みエラー0、キューdrop 0、制御側link drop 0、I2Cエラー0、VESCエラー0だった。
+- 制御側生成時刻で、BNOジャイロは18,007件・100.002 Hz（最大16.937 ms）、姿勢は18,009件・100.018 Hz（最大15.214 ms）だった。姿勢のBNOセンサ連番は連続した一方、ジャイロにはsequence step=2が3回あり、3サンプルの欠番を確認した。
+- 周辺系はToF 5,402件・30.004 Hz（最大36.208 ms）、INA 5,402件・30.004 Hz（最大36.242 ms）、VESC 5,403件・30.004 Hz（最大37.184 ms）で維持した。BNOタスク最大poll/recoverは6.206/2.333 ms、メインループ最大19.162 ms、ToFサービス最大13.818 ms、VESC最大2.151 msだった。
+- 判定: 100 Hz＋100 Hzは周辺センサを落とさず動作するが、初回有効RUNでジャイロ3欠番があるため「欠番0」の安定条件には未達。RUN0005のSD失敗は別途無効記録とし、次は同条件の再反復で欠番再現性を確認する。必要ならBNOタスク優先度またはINT駆動へ進む。
+## 2026-07-25 — RUN0007で100 Hzジャイロ欠番を再確認
+
+- RUN0007は106,617レコードを末尾まで完全復号し、180.070秒で正常完走した。SD書込みエラー0、キューdrop 0、制御側link drop 0、I2Cエラー0、VESCエラー0だった。
+- ジャイロは18,009件・100.007 Hz（最大17.575 ms）で、BNOセンサ連番step=2が2回、合計2サンプルの欠番を確認した。姿勢は18,010件・100.019 Hz（最大14.624 ms）で連番欠番0だった。
+- ToF/INA/VESCは各5,403件・30.006 Hz、最大38.276/38.257/38.065 msで安定した。BNO最大poll/recoverは6.714/2.335 ms、メインループ最大19.203 ms、ToFサービス最大13.839 ms、VESC最大2.162 msだった。
+- RUN0006/RUN0007の有効2反復で、100 Hzジャイロの欠番は3回/2回（計5回/36,014区間）と再現した。姿勢100 Hzおよび周辺30 Hzは欠損なし。
+- 判断: 現状の1 ms周期・優先度1のBNOタスクでは、100 Hzジャイロを「欠番0」とは保証できない。次の最小変更はBNOタスク優先度をUART送信タスクより上げること。その後も再現する場合はD3のBNO INTで起床する通知駆動へ移行する。実装は未着手。
+## 2026-07-25 — 過去BNOプログラムのINT利用を確認
+
+- `2026_05_20_xiao_esp32s3_bno08x_gpio4_gpio5_test-master` はD3へ`attachInterrupt(..., CHANGE)`を設定し、INTの立下り/立上りを記録していた。ただしISRはエッジ数を数えるだけで、`poll()`はメインループから常時呼ばれる。INTでI2C読出しまたは取得タスクの起床はしていない。
+- `xiao_esp32s3_bno08x_bringup` はINTを入力にし、ライブラリに`setInterruptPin()`が存在する場合だけ設定を渡すが、ソース自身に「events are polled in loop」と明記されている。これもINT通知駆動の取得ではない。
+- よって、このワークスペースにはINT配線の確認例はあるが、INTでBNO取得タスクを起床して欠番0を実証した過去プログラムはない。
+- 方針: 制御側BNOを最高優先度の単独所有タスクとし、D3 ISRはI2Cを実行せずタスク通知だけを発行する。タスクが通知または短いタイムアウトで起床してBNO I2Cを読出す。自前推定用は加速度＋ジャイロ100 Hz、BNO内蔵推定用はジャイロ＋姿勢100 Hzを別条件で評価し、三出力同時100 Hzは採用しない。
+## 2026-07-25 — BNO D3 INT通知駆動・加速度＋ジャイロ100 Hzを実装
+
+- BOAT_EXPERIMENT=22（`bno_accel100_gyro100_int_3min`、180秒）を両プロジェクトに追加した。制御側BNOは較正ジャイロと加速度を各100 Hzで要求し、姿勢出力は要求しない。ToF 4x4/30 Hz、INAの低速・確実な監視、VESCのDuty 0受動取得は維持する。
+- 制御側ではBNO専用タスクをcore 0・優先度3（UART送信タスクは優先度2）とした。D3のFALLING ISRはタスク通知だけを発行し、I2Cアクセスは一切しない。タスクはINT通知または2 msのフォールバック時間で起床し、INTがLowの間は継続してBNOを処理する。
+- 測定結果には診断event code 28としてINTエッジ数とフォールバック起床回数を保存する。従来のcode 23/24のBNO poll/recover最大時間も継続する。
+- ビルド検証: 制御側はRAM 109,452 bytes（33.4%）、Flash 538,513 bytes（16.1%）で成功。通信・記録側はRAM 185,208 bytes（56.5%）、Flash 858,913 bytes（25.7%）で成功。
+- 書込み: 制御側XIAOをCOM4（MAC `34:85:18:AB:FA:90`）として確認し、全領域のハッシュ照合まで成功した。通信・記録側COM5はこの時点でWindowsに認識されず、未書込み。実機の3分測定は未実施であり、欠番改善の判定はまだしない。
+## 2026-07-25 — BOAT22を通信・記録側へ書込み
+
+- 通信・記録側XIAO ESP32-S3 SenseをCOM5（MAC `E0:72:A1:FC:08:D0`）として確認し、`bno_accel100_gyro100_int_3min` を書き込んだ。
+- 859,280 bytesのアプリケーションを含む書込みは全領域のハッシュ照合まで成功した。制御側COM4も同一環境を書込み済みである。
+- 両XIAOは3分DRY_RUN測定の開始待機状態である。測定結果を回収するまで、INT駆動による100 Hzジャイロ・加速度の欠番改善は未判定とする。
+## 2026-07-25 — RUN0008でBNO INT通知駆動を確認
+
+- `E:\BENCH\RUN0008.BIN/TXT` は180.033秒で正常完走した。BINは111,243レコードを末尾まで完全復号でき、TXTのrecordsと一致する。SD書込みエラー0、キュードロップ0、ログfaultなし、制御側link drop 0、I2Cエラー0だった。
+- 制御側生成フレームを測定窓で評価した。較正ジャイロは18,008件・100.023 Hz（最大16.591 ms）でBNOセンサ連番の欠番0。以前のRUN0006/RUN0007で計5件あった100 Hzジャイロ欠番は、本RUNでは再現しなかった。
+- 加速度は22,773件・126.489 Hz（最大20.097 ms）、BNOセンサ連番の欠番0だった。要求は100 HzだがBNO実出力は約126.5 Hzである。自前推定ではこの実測周期を用いるか、消費側で明示的に100 Hzへ間引く必要がある。
+- ToF/INA/VESCの制御側出力はそれぞれ5,402/5,402/5,401件・30.007 Hz、最大35.169/35.218/36.244 ms。ToF不完全0、VESC要求/応答5,401/5,401、VESCエラー0だった。INAは5,401読出し中の新規変換が1,209、重複4,192であり、低速・確実な監視として維持する。
+- BNO最大poll/recoverは6.659/0.014 ms、メインループ最大16.950 ms、ToFサービス最大13.803 ms、VESCサービス最大2.092 ms。INTエッジ81,551回、2 msフォールバック起床9,792回を記録した。INTはBNOデータイベントより多く発生するが、欠番・周辺系エラーは発生していない。
+- 判定: D3 INT通知＋優先度3のBNO専用タスクは、3分DRY_RUNにおいてジャイロ100 Hzを欠番0で取得できた。次は同じ駆動方式でジャイロ＋姿勢各100 Hzを比較する。
+## 再起動後の再開点
+
+- 両XIAOにはBOAT22 `bno_accel100_gyro100_int_3min` が書込み済み。制御側はCOM4/MAC `34:85:18:AB:FA:90`、通信・記録側はCOM5/MAC `E0:72:A1:FC:08:D0`。
+- 最新の有効結果は `E:\BENCH\RUN0008.BIN/TXT`。INT通知駆動の加速度＋ジャイロ測定は完了・解析済みで、ジャイロ100.023 Hz・欠番0を確認した。
+- 次の実装・測定は、同じD3 INT通知駆動で「ジャイロ＋Game Rotation Vector（姿勢）を各100 Hz、3分」の比較条件を追加し、両基板へ書込み後にRUNを解析すること。加速度＋ジャイロ条件を再実行する必要はない。
