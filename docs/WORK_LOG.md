@@ -771,3 +771,8 @@
 - 新しい `P1Capture` プロトコル（Type 23）を追加した。通信側の `POST /api/p1/start?confirm=1` は `/P1/RUNxxxx.BIN` を開いた後に主BNO生ストリームを有効化し、`POST /api/p1/stop` はストリーム停止後にSDを確定する。`/p1` と `GET /api/p1` はDRY_RUN状態、RUN名、件数、キュードロップ、SDエラーを表示する。
 - 通信側の副BNOは既存どおりログ中に全生イベントを記録する。制御側はP1中だけ加速度・較正ジャイロ・較正地磁気を送信し、通常時のUART負荷とSTOP/E-STOP経路を維持する。P1開始・停止はアクチュエータ出力を変更しない。
 - 検証: 制御側ビルド成功（RAM 109,700 bytes / 33.5%、Flash 547,237 bytes / 16.4%）、通信側ビルド成功（RAM 190,164 bytes / 58.0%、Flash 872,497 bytes / 26.1%）。制御側COM5/MAC `34:85:18:AB:FA:90`へ書込み、アプリケーション547,600 bytesを含む全領域のハッシュ照合に成功した。通信側はUSB未接続のため未書込み、P1の実機開始・BIN解析は未実施である。
+## 2026-07-27 -- 別PCへの引継ぎ条件をGitHub記録へ固定
+
+- 別PCでの再現条件について、GitHub上の正本ブランチが `agent/bno-int-telemetry-handoff`、引継ぎ基準コミットが `1f55585 Add provisional calibration integration` であることを明記した。
+- 新規文書 `docs/PC_HANDOFF.md` に、取得コマンド、必要なPC環境・実機条件、SoftAP接続情報、COM番号が可変であること、現在検証済みの範囲、未検証の正式校正・ESKF・GNSS Fix・実出力を区別して記録した。
+- `.tmp_bench*` は一時解析物のため意図的にGitHubへ含めない。恒久的な判断と再現手順はこの文書、`WORK_PLAN.md`、`WORK_LOG.md`、READMEおよび既存の検証文書を正本とする。
