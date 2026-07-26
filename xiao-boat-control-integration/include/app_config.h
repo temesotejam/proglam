@@ -3,7 +3,7 @@
 #include "experiment_config.h"
 namespace app_config {
 constexpr char kFirmwareName[]="xiao-boat-control-integration";
-constexpr char kFirmwareVersion[]="0.3.4-control-bench-stream-gate";
+constexpr char kFirmwareVersion[]="0.3.5-estimated-state-dry-run";
 constexpr int kPeripheralSdaPin=D1,kPeripheralSclPin=D0;
 constexpr int kBnoRstPin=D2,kBnoIntPin=D3,kBnoSdaPin=D4,kBnoSclPin=D5;
 constexpr int kLinkRxPin=D6,kLinkTxPin=D7,kVescRxPin=D8,kVescTxPin=D9,kFuturePcaOePin=D10;
@@ -25,5 +25,12 @@ constexpr bool kEnableOverCurrentTrip=false,kEnableLowVoltageTrip=false; constex
 constexpr uint32_t kDiagnosticIntervalMs=1000UL,kBnoNoDataTimeoutMs=3000UL,kReinitIntervalMs=2000UL;
 constexpr uint16_t kLinkMaxPayload=768,kLinkTxQueueDepth=64;
 constexpr uint16_t kLinkRxByteBudget=512;
+// Mount calibration is deliberately opt-in. The identity matrix keeps the
+// estimator observable for Stage A but reports DEGRADED until the measured
+// BNO-to-body transform has been confirmed on the boat.
+constexpr bool kBnoMountValidated=false;
+constexpr float kBnoBodyXx=1,kBnoBodyXy=0,kBnoBodyXz=0,kBnoBodyYx=0,kBnoBodyYy=1,kBnoBodyYz=0,kBnoBodyZx=0,kBnoBodyZy=0,kBnoBodyZz=1;
+constexpr float kEstimatorKp=1.2f,kEstimatorKi=0.002f,kEstimatorAccelNormGain=0.35f,kEstimatorAccelJerkGain=0.015f,kEstimatorAccelWeightMin=0.05f,kEstimatorWeightRecovery=0.08f,kEstimatorMagKp=0.15f,kEstimatorMagFieldTolerance=0.35f,kEstimatorYawCorrectionDecay=0.92f;
+constexpr uint32_t kEstimatorGyroStaleUs=30000UL,kEstimatorAccelStaleUs=30000UL,kEstimatorMagStaleUs=120000UL,kEstimatorGnssStaleUs=500000UL,kEstimatorTofStaleUs=100000UL,kEstimatedStateTxIntervalMs=100UL,kPrimaryImuSnapshotTxIntervalMs=50UL;
 }
 namespace cfg=app_config;

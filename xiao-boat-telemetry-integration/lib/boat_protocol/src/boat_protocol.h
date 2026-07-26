@@ -10,7 +10,7 @@ enum class Type : uint8_t {
   InaSample = 6, VescStatus = 7, ActuatorState = 8, SystemHealth = 9,
   Event = 10, TimeSyncReply = 11, GnssRaw = 12, GnssFix = 13, GnssStatus = 14,
   GnssNav = 15, GnssProcessResult = 16, CommandAck = 17, TimeSyncRequest = 18,
-  LinkStatistics = 19, BnoMagnetic = 20, TimingDiagnostic = 21,
+  LinkStatistics = 19, BnoMagnetic = 20, TimingDiagnostic = 21, EstimatedState = 22, P1Capture = 23, PrimaryImuSnapshot = 24, ProvisionalSystem = 25, CalibrationMarker = 26,
   Heartbeat = 32, Arm = 33, Disarm = 34, StartTest = 35, Stop = 36,
   Estop = 37, ClearEstop = 38,
   BenchmarkPrepare = 48, BenchmarkReady = 49, BenchmarkStart = 50,
@@ -30,7 +30,17 @@ struct Frame {
   uint64_t uartRxUs = 0, logQueueUs = 0, sdTaskUs = 0;
 };
 struct __attribute__((packed)) BnoPayload { uint8_t kind, accuracy, sequence, reserved; uint64_t sensorUs, callbackUs, queuePushUs; float v[7]; };
+struct __attribute__((packed)) PrimaryImuSnapshotPayload { uint64_t accelSensorUs, gyroSensorUs, magneticSensorUs; uint8_t accelAccuracy, gyroAccuracy, magneticAccuracy, reserved; float accel[3], gyro[3], magnetic[3]; };
+struct __attribute__((packed)) ProvisionalSystemPayload { uint64_t estimateUs; float rollRad, pitchRad, yawRad; float rollRateRadS, pitchRateRadS, yawRateRadS; double latitudeDeg, longitudeDeg; float groundSpeedMps, courseRad, waterHeightM; float accelDeltaMps2, gyroDeltaRadS; uint32_t primaryAgeMs, secondaryAgeMs, gnssAgeMs, tofAgeMs; uint16_t tofCenterMm; uint8_t flags, virtualMode, reserved[2]; };
+enum class CalibrationKind : uint8_t { Static6Face=1, RotationX=2, RotationY=3, RotationZ=4, GyroBias=5, Magnetic=6, TimeOffset=7, Tof=8, ServoGeometry=9, VescTelemetry=10 };
+enum class CalibrationAction : uint8_t { Start=1, Stop=2 };
+struct __attribute__((packed)) CalibrationMarkerPayload { uint32_t sessionId; uint8_t kind, action, step, reserved; };
 struct __attribute__((packed)) TimingDiagnosticPayload { uint32_t originBootId, originSequence; uint8_t sourceType, bnoSequence; uint16_t reserved; uint64_t sensorTimestamp, callbackUs, queuePushUs, frameUs, uartRxUs, logQueueUs, sdTaskUs, lastSdWriteStartUs, lastSdWriteEndUs; uint32_t queueWaitUs; };
+enum class EstimateHealth : uint8_t { Invalid = 0, Degraded = 1, Valid = 2 };
+enum EstimatedStateFlag : uint8_t { EstimateAccelCorrection = 1u << 0, EstimateMagCorrection = 1u << 1, EstimateGnssYawCorrection = 1u << 2, EstimateMountValidated = 1u << 3 };
+struct __attribute__((packed)) EstimatedStatePayload { uint64_t estimateUs; float qw, qx, qy, qz; float rollRad, pitchRad, yawRad; float rollRateRadS, pitchRateRadS, yawRateRadS; float gyroBiasX, gyroBiasY, gyroBiasZ; double latitudeDeg, longitudeDeg; float groundSpeedMps, courseOverGroundRad, sideslipEstimateRad, waterDistanceM; uint32_t gyroAgeUs, accelAgeUs, magAgeUs, gnssAgeUs, tofAgeUs; uint8_t attitudeHealth, yawHealth, navigationHealth, heightHealth, flags, reserved[3]; };
+enum class P1CaptureAction : uint8_t { Start = 1, Stop = 2 };
+struct __attribute__((packed)) P1CapturePayload { uint32_t captureId; uint8_t action, reserved[3]; };
 uint32_t crc32(const uint8_t*, size_t);
 enum NavFlag : uint32_t { NavFixValid=1u<<0, NavNewFix=1u<<1, NavLatValid=1u<<2,
   NavLonValid=1u<<3, NavAltitudeValid=1u<<4, NavSpeedValid=1u<<5,

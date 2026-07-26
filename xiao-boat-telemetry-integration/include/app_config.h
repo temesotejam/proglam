@@ -5,7 +5,24 @@
 
 namespace app_config {
 constexpr char kFirmwareName[] = "xiao-boat-telemetry-integration";
-constexpr char kFirmwareVersion[] = "0.3.3-bno-timing-60ms";
+constexpr char kFirmwareVersion[] = "0.3.8-provisional-shadow-system";
+constexpr bool kDualImuTransformProvisional = true;
+constexpr float kDualImuR00=0.99876f,kDualImuR01=0.03251f,kDualImuR02=0.03770f;
+constexpr float kDualImuR10=-0.03271f,kDualImuR11=0.99945f,kDualImuR12=0.00477f;
+constexpr float kDualImuR20=-0.03753f,kDualImuR21=-0.00600f,kDualImuR22=0.99928f;
+constexpr uint32_t kDualImuStaleMs = 250UL;
+// These gates intentionally admit only a provisional shadow estimate. They
+// are replaced by the formal hull-axis calibration after mechanical fixing.
+constexpr float kProvisionalMaxAccelDeltaMps2 = 3.0f;
+constexpr float kProvisionalMaxGyroDeltaRadS = 0.25f;
+// Relative IMU orientation is not yet a hull transform. Keep its shadow
+// contribution bounded so a stationary coordinate mismatch cannot integrate
+// into an implausible attitude display.
+constexpr float kProvisionalMaxDualCorrectionRad = 5.0f * PI / 180.0f;
+constexpr uint32_t kProvisionalGnssStaleMs = 500UL;
+constexpr uint32_t kProvisionalTofStaleMs = 250UL;
+constexpr uint32_t kProvisionalSystemIntervalMs = 50UL;
+constexpr uint32_t kProvisionalLogIntervalMs = 100UL;
 
 // SoftAP/Web UI. Connect directly and open http://192.168.4.1/.
 constexpr char kApSsid[] = "XIAO-BOAT-TELEMETRY";
@@ -34,7 +51,10 @@ constexpr size_t kSdWriteBufferBytes = 8192;
 // Keep the RAM staging buffer large, but commit to SPI microSD one sector at a
 // time.  A failed sector is never retried; the campaign is aborted safely.
 constexpr size_t kSdWriteChunkBytes = 512;
-constexpr uint32_t kSdFlushIntervalMs = 100UL;
+// SD metadata is finalized when a run stops.  Calling File::flush() during a
+// measurement can block long enough to invalidate the 80 ms BNO log-gap gate.
+constexpr uint32_t kLogTaskWakeMs = 5UL;
+constexpr UBaseType_t kLogTaskPriority = 2;
 // Persist near-limit scheduling stalls; BOAT24 acceptance remains <= 80 ms.
 constexpr uint32_t kTimingDiagnosticThresholdUs = 60000UL;
 constexpr char kLogDirectory[] = "/BOATLOG";

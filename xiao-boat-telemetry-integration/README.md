@@ -1,4 +1,31 @@
+## 仮統合システム（機体固定前の影系統）
+
+通信側 SoftAP に接続後、`http://192.168.4.1/provisional-system` または `GET /api/provisional-system` を開くと、機体固定前の全ソフトウェア経路を確認できます。主IMUを基準に副IMUを品質ゲート付きで影融合し、GNSSと制御側ToF中心ゾーンも独立した鮮度・有効性ゲートを通します。
+
+副IMUは、両方の鮮度が250 ms以内、加速度差が3.0 m/s²以下、ジャイロ差が0.25 rad/s以下の場合だけ使用します。APIは各採否と理由、全入力年齢、姿勢・航法・高さの暫定値を返します。
+
+機体軸・磁気・ToF取付は正式較正前です。3翼ミキサ・VESCまでの仮想経路は接続済みですが、常に `control_output_enabled=false`、`virtual_mode="DISARMED"`、全仮想指令0です。実機へのアクチュエータ書込みは行いません。ログ中は Type 25 `ProvisionalSystem` が10 HzでSDに記録されます。
+
+## CALIBRATION（実出力なし）
+
+`http://192.168.4.1/calibration` または `GET /api/calibration` は、正式較正用のRUNを管理します。`POST /api/calibration/start?confirm=1&kind=STATIC_6FACE` で `/CAL/RUNxxxx.BIN` を開始し、`POST /api/calibration/stop` で停止します。開始・停止の Type 26 `CalibrationMarker`、主副IMU生値、センサ精度、各時刻、UART/SD時刻を同じRUNへ保存します。
+
+利用可能な `kind` は `STATIC_6FACE`、`ROTATION_X/Y/Z`、`GYRO_BIAS`、`MAG`、`TIME_OFFSET`、`TOF`、`SERVO_GEOMETRY`、`VESC_TELEMETRY` です。現段階ではどの種別でも `DISARMED` のままであり、PCA9685とVESCへの実出力は行いません。`STATIC_6FACE` は +X、-X、+Y、-Y、+Z、-Z を各々別RUNで記録します。
+
 ## BOAT24 timing diagnostics
+
+## BENCHログの取得
+
+測定が停止した後、`GET /api/download?file=/BENCH/RUN0019.BIN` または
+`GET /api/download?file=/BENCH/RUN0019.TXT` で、指定した BENCH の記録を
+SoftAP 経由で取得できます。`RUN` 番号4桁の `.BIN` / `.TXT` だけを受け付け、
+記録中は取得要求を拒否します。
+
+## BOAT24の記録時刻と既知の制限
+
+BIN各レコードの外側タイムスタンプは、フレームが通信側のログキューに入った時刻です。したがって、BNOとUARTの受信間隔をSDカードの一時的な書込み遅延から独立して再現できます。SD書込み開始時刻とキュー待ち時間は `sdTaskUs` / `TimingDiagnostic` に残るため、保存遅延も後から確認できます。
+
+microSDの単発書込みは80 msを超える場合があります。深さ160のログキューでこれを吸収しますが、`queue_drops`、`sd_write_errors`、`timing_diagnostics`、`max_log_queue_wait_us` を必ずRUNのTXTで確認してください。電源断時は停止処理前の未確定メタデータが失われる可能性があるため、RUNの完了後にファイルを取得してください。
 
 Firmware 0.3.2 adds low-overhead timing evidence for the RUN0013 record-gap investigation. Each BNO frame now retains its sensor timestamp, SH-2 callback time, and BNO event-queue push time; the frame header carries frame creation time. At the recorder, UART receipt, common log-queue insertion, and SD-task dequeue times are retained. If a BNO frame waits in the common log queue for 80 ms or more, one fixed-size TimingDiagnostic BIN record is added with all of those values and the latest SD write start/end time. The TXT summary reports timing_diagnostics and max_log_queue_wait_us. This avoids serial output and records only threshold breaches.
 
@@ -30,6 +57,18 @@ BOAT24は同一条件を60秒だけ実行する確認用ファームウェアで
 画面は50 ms（20 Hz）ごとにキャッシュ済みの状態を表示します。加速度Zの時系列、SD記録状態、制御側リンクの最終受信時刻、比較BNO08X、GNSSの有効性・単位・鮮度を確認できます。HTTP処理中にI2Cセンサは読まないため、画面更新は計測から独立しています。
 
 機械読み取り用の状態は `GET /api/latest` です。主なフィールドは `sd`、`logging`、`records`、`control_age_ms`、`bno`、`accel_age_ms`、`gnss_receiving`、`gnss_fix`、`gnss_age_ms`、`lat`、`lon`、`alt_m`、`speed_mps`、`sats` です。
+
+### 推定姿勢（初期 DRY_RUN 実装）
+
+制御側BNO08Xの加速度・ジャイロを入力にした状態推定は、通信側へ100 msごとに送信されます。SoftAP接続後、<http://192.168.4.1/state> で確認でき、機械読み取り用には `GET /api/estimated-state` を使用します。主な値は `roll_deg`、`pitch_deg`、`yaw_deg` [deg]、`roll_rate_dps`、`pitch_rate_dps`、`yaw_rate_dps` [deg/s]、`quaternion`、`water_distance_m` [m]、GNSSの `speed_mps` / `course_deg`、各入力の `*_age_ms`、および `health` です。
+
+この版はアクチュエータへ推定値を出力しない **DRY_RUN** です。BNO取付軸の実測較正が未完了のため、`mount_validated=false` および `overall=DEGRADED` を意図的に表示します。画面とAPIは受信済みキャッシュだけを読み、HTTP処理中にI2C読出しは行いません。取付変換を確定して実機検証するまで、表示されたロール・ピッチ・ヨーを制御値として使用しないでください。
+
+### P1 主副IMU生ログ
+
+軸較正用には <http://192.168.4.1/p1> を開き、**P1記録を開始**してから静止6姿勢または船体X/Y/Z軸の正逆回転を行い、**P1記録を停止**します。`POST /api/p1/start?confirm=1` と `POST /api/p1/stop` も使用できます。開始中だけ制御側は主BNOの生加速度・較正ジャイロ・較正地磁気を送信し、通信側の副BNOとともに `/P1/RUNxxxx.BIN` へ保存します。
+
+各BNOレコードには、BNO測定時刻 (`sensorUs`)、SH-2コールバック時刻 (`callbackUs`)、BNOキュー投入時刻 (`queuePushUs`) があり、BIN外側の受信時刻は通信側ログキュー投入時刻です。これらを区別して主副IMUの差と通信遅延を解析します。P1はDRY_RUN専用で、開始・停止ともサーボおよびVESCへ出力しません。取得は `GET /api/download?file=/P1/RUN0001.BIN` または対応するTXTで行えます。
 
 `POST /api/log/start?confirm=1` と `POST /api/log/stop` で記録を操作できます。開始には `confirm=1` が必須で、確認なしの開始要求は拒否します。`GET /api/manual` は、SD状態、記録状態、RUN名、SD書込みエラー、記録異常理由、GNSS往復数、制御リンク状態を返します。`POST /api/control/stop` と `POST /api/control/estop` はUARTで制御側へSTOP/E-STOPを送ります。これは初期統合用の安全停止経路であり、航行制御画面ではありません。
 
@@ -73,3 +112,7 @@ APIは `GET /api/benchmark`、`POST /api/benchmark/start?confirm=1&preset=QUICK`
 ## 固定条件実験（2026-07-23）
 
 I2C速度をRUN中に変更しない実験用ファームウェアを追加しました。制御側・通信側に同名のPlatformIO環境を書き込みます。環境一覧、書込み手順、SoftAP接続、API、結果の判定は [docs/FIXED_EXPERIMENT_FIRMWARE.md](../docs/FIXED_EXPERIMENT_FIRMWARE.md) を参照してください。
+
+## 暫定 DUAL_IMU_COMPARE
+
+`http://192.168.4.1/dual-imu` と `GET /api/dual-imu` は、制御側の主IMUと通信側の副IMUの加速度・ジャイロ・地磁気差、鮮度を表示します。RUN0005/0007/0009〜0012から得た相対変換を使う**比較専用の暫定機能**です。`provisional=true` と `comparison_only=true` の間は、機体軸変換・姿勢/YawのVALID化・制御出力には使用しません。制御側と通信側の両方をこの版へ書き込むと比較値が有効になります。

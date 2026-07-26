@@ -28,7 +28,11 @@ bool Reader::enableReports(){
 #elif BOAT_EXPERIMENT == 19
   return gyro&&sensor_.enableReport(SH2_ACCELEROMETER,kAccelGyroIntervalUs);
 #else
-  return gyro&&sensor_.enableReport(SH2_GAME_ROTATION_VECTOR,kRotationIntervalUs)&&sensor_.enableReport(SH2_ACCELEROMETER,kAccelGyroIntervalUs);
+  // The normal DRY_RUN state-estimator image uses the same raw inputs as the
+  // RUN0020-proven BNO path.  Game Rotation Vector is intentionally omitted:
+  // the estimator owns attitude propagation from calibrated gyro, accel, and
+  // calibrated magnetic field.
+  return gyro&&sensor_.enableReport(SH2_ACCELEROMETER,kAccelGyroIntervalUs)&&sensor_.enableReport(SH2_MAGNETIC_FIELD_CALIBRATED,kMagneticIntervalUs);
 #endif
 #endif
 }

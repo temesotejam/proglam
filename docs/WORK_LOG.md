@@ -1,3 +1,30 @@
+## 2026-07-27 -- provisional complete-path shadow system (not yet deployed)
+
+- Added protocol Type 25 `ProvisionalSystem` to both firmware images. The communication node now receives the control ToF-frame centre zone and combines it with the existing primary-IMU snapshot, local secondary IMU, GNSS receiver and control EstimatedState in a 20 Hz shadow path.
+- The secondary IMU is used only when both IMUs are fresh (<=250 ms), acceleration disagreement is <=3.0 m/s2 and gyro disagreement is <=0.25 rad/s. The result is explicitly provisional: a primary-estimate baseline with bounded dual-rate correction, not a validated hull-axis attitude or magnetic-yaw solution.
+- GNSS requires a fresh valid fix plus latitude/longitude. ToF requires a fresh 0..4 m centre distance and an available attitude. `/api/provisional-system` reports each accept/reject reason and all input ages. It exposes a virtual DISARMED mixer: VESC duty and all three wing commands are 0 and no command is transmitted to the control XIAO.
+- Type-25 records are emitted to the SD log at 10 Hz only while logging. Both default PlatformIO environments built successfully: communication RAM 190,376 bytes / Flash 887,509 bytes; control RAM 109,772 bytes / Flash 547,517 bytes. The control image was built only for protocol compatibility.
+- Windows currently exposes only COM5, previously verified as the control XIAO. The communication XIAO (normally COM4, MAC `E0:72:A1:FC:08:D0`) is not connected, so the new communication image has not been uploaded or live-tested. Runtime validation remains pending.
+
+## 2026-07-27 -- updated staged-estimation design accepted
+
+- The new design requires a strict staged path: keep all physical outputs disabled, acquire reproducible calibration data first, validate it offline and with replay, then enable only shadow ESKF/LOS/mixing stages. It explicitly forbids treating a provisional IMU transform, a single gyro-difference sample, an unvalidated ToF geometry, or missing GNSS fix as calibration success.
+- The existing dual-IMU/ToF/GNSS shadow system is therefore retained as Phase 0 transport and gate verification. It is not renamed or promoted to ESKF, stabilization, AUTO, servo geometry or VESC validation.
+- Next implementation target is a unified calibration-run and replay contract with mode, sequence, timestamps, sensor status/accuracy, local/remote receive times, SD timing, health flags and validation result. Formal modes are restricted to DISARMED, CALIBRATION and REPLAY until the required calibration and safety gates pass.
+
+## 2026-07-27 -- communication deployment and live verification
+
+- Communication XIAO appeared on COM4 and the uploader identified MAC `E0:72:A1:FC:08:D0`. Firmware `0.3.8-provisional-shadow-system` was written successfully; every bootloader, partition, boot-app and application image segment passed esptool SHA verification.
+- First live `/api/provisional-system` read revealed that an unconstrained long-term shadow rate correction could accumulate outside a plausible display range. This was never an actuator input, but it was corrected immediately by limiting each provisional dual-IMU correction component to +/-5 degrees. The fixed image rebuilt (RAM 190,376 bytes, Flash 887,545 bytes) and was uploaded to COM4 with all hashes verified.
+- After reconnecting the PC to `XIAO-BOAT-TELEMETRY`, live API verification reported `attitude_available=true`, `dual_imu_accepted=true`, `tof_accepted=true`, `control_output_enabled=false`, `virtual_mode=DISARMED`, VESC=0 and all three virtual-wing commands=0. Live IMU ages were 0--11 ms, ToF age 10 ms / centre distance 1788 mm; the dual comparison reported accel delta 2.9076 m/s2 and gyro delta 0.0000 rad/s. GNSS had no valid fix and was correctly rejected as `fix_stale`.
+- The control EstimatedState link was live but remains `DEGRADED` with `mount_validated=false`, and is not promoted to a control input. No physical actuator output was enabled or sent.
+
+## 2026-07-27 -- CALIBRATION run contract deployed
+
+- Added Type 26 `CalibrationMarker` and the `CALIBRATION` wrapper around the existing loss-aware P1 raw-IMU path. A selected calibration kind starts a `/CAL/RUNxxxx.BIN`, sends the existing P1 capture start to the control node, and records explicit start/stop markers with the session ID and kind. No new actuator command is sent.
+- Added `/calibration`, `GET /api/calibration`, `POST /api/calibration/start?confirm=1&kind=...`, and `POST /api/calibration/stop`. Supported kinds are static-6face, X/Y/Z rotation, gyro bias, magnetic, time offset, ToF, servo geometry and VESC telemetry. CAL log files are available through the existing download endpoint.
+- Communication and control firmware both built successfully. The communication image (RAM 190,424 bytes / Flash 891,989 bytes) was uploaded to COM4 / MAC `E0:72:A1:FC:08:D0` with all image hashes verified. Live `/api/calibration` returned inactive, SD errors 0, `control_output_enabled=false` and `virtual_mode=DISARMED`. No calibration measurement was started because the hardware is not yet fixed for a reproducible pose.
+
 ## 2026-07-26 -- BOAT24 staged timing diagnostics implemented; upload pending
 
 - To isolate RUN0013's simultaneous BNO record gaps without adding serial output, the BOAT24 protocol now carries callback and BNO-event-queue-push timestamps in every BNO frame. The recorder retains frame creation, UART receive, common log-queue insertion, and SD-task dequeue timestamps in memory.
@@ -643,3 +670,104 @@
 - Direct control observation after the failure showed DISARMED, confirming STOP reception. Root cause is reply starvation behind idle control BNO frames in the shared UART FIFO.
 - Uploaded control `0.3.4-control-bench-stream-gate` to COM4 / MAC `34:85:18:AB:FA:90`, hash verified. BNO UART emission is now benchmark-phase gated. Added `link=used/drops/high-water` to serial diagnostics.
 - Post-upload live diagnostics: BNO=1, ToF increasing, INA errors=0, NAV/response advancing at 10 Hz with gaps=0; idle FIFO `link=0/0/2`. No new benchmark was started automatically.
+## 2026-07-26 -- RUN0020を正式な安定基準に確定
+
+- ユーザー確認により、RUN0020を内部センサ・基板間通信の正式な安定動作／比較基準として確定した。現行構成では両側BNO08Xの3ストリーム欠落0、UART NAV送信802回／結果受信802回・結果CRCエラー0、GNSS測位維持、ToF 1,800フレーム・I2Cエラー0、SD書込みエラー／キュードロップ0、制御側PASS、BOAT24通過である。
+- PCからの一時的なUSB／SoftAP未接続はRUN0020の試験結果を否定しない。再接続後は構成を変えず、短時間の再現確認を行う。BOAT23は開始しない。
+
+## 2026-07-26 -- BOAT24 RUN0020: 記録間隔ゲート合格
+
+- RUN0018/0019のTimingDiagnosticから、SDの単発512-byte書込みが最大80 ms超まで伸び、SDタスクで記録時刻を採番すると実データの受信間隔まで長く見えることを確認した。通信側ログをcore 1 priority 2の専用タスクへ分離し、測定中の `File::flush()` を停止時のみに移した。
+- さらにBINの外側タイムスタンプを、フレームが共通ログキューへ入った受信時刻 (`logQueueUs`) に変更した。SDタスク開始時刻 (`sdTaskUs`) とキュー待ちはフレーム／TimingDiagnosticに保持するため、SD待ちを隠さずに受信記録の時刻を正しく保存する。
+- 通信側 `0.3.5-ingress-timestamp` をCOM4（MAC `E0:72:A1:FC:08:D0`）へハッシュ検証付きで書込み、SoftAP経由で `RUN0020.BIN/TXT` を取得した。測定フェーズは60.038519 s、`normal_stop=1`、`benchmark_outcome=completed`、制御側BenchmarkResultはPASSである。
+- 48,727レコードを完全に解析した。通信側／制御側の加速度、ジャイロ、地磁気の全ストリームでsequence欠落0。地磁気の最大記録間隔は通信側46.989 ms、制御側UART由来53.575 msであり、80 ms以下を通過した。SD書込みエラー、ログキュードロップ、結果CRCエラー、BNOデコードエラー、BNOイベントキュードロップはすべて0である。
+- SD書込み最大79.726 ms、最大ログキュー待ち123.600 ms、ログキュー高水位80/160、TimingDiagnostic 197件は残るが、キューで吸収されデータ欠落はない。BOAT24ゲートを合格とし、BOAT23は明示指示があるまで開始しない。
+
+## 2026-07-26 -- BOAT24 RUN0018: 記録間隔ゲート不合格
+
+- 通信側SoftAP APIで標準条件（`CABLE_10CM`、direct、DRY_RUN）を開始し、`/BENCH/RUN0018.BIN/TXT` を取得した。測定フェーズは60.055909 s、`normal_stop=1`、`benchmark_outcome=completed`、制御側BenchmarkResultはPASSである。
+- TXT: records=48,631、SD書込みエラー=0、ログキュードロップ=0、結果CRCエラー=0、BNOデコードエラー=0、BNOイベントキュードロップ=0。BINは4,731,020 bytesを完全に48,631レコードとして解析できた。
+- 測定フェーズのBNO sequence欠落は通信側／制御側とも加速度・ジャイロ・地磁気の全ストリームで0。地磁気は通信側1,500件/24.969 Hz、制御側1,501件/24.996 Hzである。一方、最大記録間隔は通信側158.076 ms、制御側164.476 ms、最大ログキュー待ちは124.516 ms、TimingDiagnosticは96件であり、BOAT24の80 ms上限を満たさない。
+- 最大SD書込み時間は16.849 msで、124.516 msのログキュー待ちを単独では説明しない。記録側のログキュー／SDタスク遅延を次に計測・低減する。BOAT23へは進まない。
+
+## 2026-07-26 -- 水上ボート姿勢状態推定の初期DRY_RUN実装
+
+- ユーザー提供の設計書 `2026_07_26_水上ボート姿勢状態推定設計.md` に基づき、RUN0020を通信・センサ取得の安定基準として、制御側BNO08Xを主入力にする初期状態推定を実装した。BNOのコールバックから加速度・ジャイロ・地磁気を既存取得経路のまま推定器へ渡し、ジャイロ時刻を基準に四元数を更新する。加速度は重力方向補正に用い、地磁気は取付変換が未較正の間はヨー補正に用いない。GNSSとToFは推定状態へ鮮度付きで保持するが、この段階では姿勢を強制補正しない。
+- プロトコルに `EstimatedState`（Type 22）を追加し、制御側は100 ms周期で姿勢・角速度・バイアス・GNSS/ToF補助値・各入力年齢・健全性を通信側へ送る。通信側の `/state` と `/api/estimated-state` はキャッシュ値のみを表示し、HTTPハンドラ内でI2C読出しを行わない。
+- BNOの機体軸変換は物理取付をまだ実測していないため、恒等変換を仮置きにしたうえで `kBnoMountValidated=false` を固定した。従って初期状態の総合健全性は `DEGRADED` であり、姿勢値をアクチュエータ制御に使用しない。サーボ、VESC、その他の出力経路は変更していない。
+- 検証: 制御側・通信側のPlatformIOビルドはともに成功した。今回の最終変更は実機へ未書込みであり、USB COMポートとSoftAPが未接続のため、ライブ値・UART・SD・取付軸較正の実機検証は未実施である。
+- 次: 再接続後は構成を変えずに両方を書込み、短時間DRY_RUNで推定フレーム受信、`/state`、SD記録、既存RUN0020相当の健全性を確認する。その後、静止6姿勢と既知ヨー回転で取付変換を決めてから、`kBnoMountValidated` を有効化する。
+
+## 2026-07-26 -- 制御側状態推定DRY_RUN版を書込み
+
+- Windowsで唯一検出されたCOM5のESP32 MACを `esptool read_mac` で読み、`34:85:18:AB:FA:90`（制御側）と照合した。通信側と誤認して書込まないため、通信側がUSBで接続されるまではその書込みを保留する。
+- 制御側へ `seeed_xiao_esp32s3` 環境を明示した `0.3.5-estimated-state-dry-run` を書込んだ。ブートローダ、パーティション、アプリケーションの各領域でesptoolハッシュ照合が成功した。書込み中にPlatformIOの環境指定なし実行が次のP0環境へ進み始めたため直ちに停止し、目的環境を明示した書込みで制御側を再度復旧した。他の試験環境への継続書込みは停止済みである。最終確認としてアプリケーション領域547,504 bytesを目的バイナリと `verify_flash` で読み取り照合し、digest一致を確認した。
+- 起動後4秒の制御側診断は `dry=1`、BNO=1、ToF=39→58、INAエラー0、NAV/結果=80/80→121/121、NAV CRC/連番ギャップ=0/0、送信キューdrop=0であった。待機中の `FAULT` は通信側Heartbeat未受信時の既存安全フェイルセーフで、アクチュエータ出力はDRY_RUNのままである。
+- 新しい通信側状態ページは未書込みの通信側ファームウェアを必要とするため、`/state` と `EstimatedState` のエンドツーエンド確認、SD記録、取付軸較正はまだ未実施である。
+
+## 2026-07-26 -- 通信側書込みとEstimatedStateライブ確認
+
+- 通信側をCOM4、MAC `E0:72:A1:FC:08:D0` と照合し、`seeed_xiao_esp32s3` 環境の状態受信・Web UI・SD記録版を書込んだ。ブートローダ、パーティション、870,384-byteアプリケーションの各ハッシュ照合に成功した。
+- 起動診断はSD=1、GNSS=1、通信側BNO=1、ログキューdrop=0で、制御側UART受信カウンタは1,437→1,922と継続増加した。PCのWi-Fi 2は `XIAO-BOAT-TELEMETRY`（192.168.4.2）へ接続済みで、通信側（192.168.4.1）へのpingは1〜5 msだった。
+- `/api/estimated-state` をSoftAPへ直接要求し、制御側→UART→通信側→Web APIの全経路を確認した。応答時のフレーム年齢は3 ms、ジャイロ8.382 ms、加速度1.673 ms、GNSS7.123 ms、ToF79.809 msで、ToF/GNSSの健全性はVALIDであった。取付未較正のため姿勢・ヨーは意図どおりDEGRADED、アクチュエータ出力は未使用である。
+- 同じ応答で `mag_age_us=4294967295` を確認した。これは取付未較正による意図的なヨー補正停止ではなく、通常環境（BOAT_EXPERIMENT=0）がGame Rotation Vectorを有効化して地磁気レポートを有効化していなかった実装不足である。通常DRY_RUNを加速度・較正ジャイロ・較正地磁気に修正した。制御側を再接続して修正版を書込むまで、ヨーは有効化しない。
+- 修正版の制御側 `seeed_xiao_esp32s3` ビルドは成功した（RAM 109,700 bytes / 33.5%、Flash 547,149 bytes / 16.4%）。この時点でUSB COMポートとして接続されているのは通信側COM4だけであるため、制御側の修正版書込みと `mag_age_us < 120000` のライブ確認は保留した。
+
+## 2026-07-26 -- 推定・航法実装順の補強
+
+- ユーザー提供の計画レビューを反映した。最優先ゴールを単なる地磁気鮮度確認から、「主副IMUの生データを機体座標・測定時刻・受信時刻・通信側ログ投入時刻とともに再生可能に保存する」ことへ明確化した。
+- 軸較正の前にP1生ログを整備し、静止6姿勢に加えて機体X/Y/Z軸の正逆回転を記録する。取付変換はログで求め、再生で検証する。主副IMU比較は警告のみとし、自動切替や制御入力には用いない。
+- ESKFはIMU予測（ESKF-0）、GNSS更新/NIS（ESKF-1）、遅延補償（ESKF-2）の順に分割する。各段階で再生可能な既知運動・GNSS欠落・外れ値試験を通過するまで、閉ループ制御・航法・実出力へ進まない。
+
+## 2026-07-26 -- 制御側地磁気修正版を書込み、ライブ鮮度を確認
+
+- 制御側をCOM5、MAC `34:85:18:AB:FA:90` と照合し、加速度・較正ジャイロ・較正地磁気を有効化した `seeed_xiao_esp32s3` 環境を書込んだ。ブートローダ、パーティション、アプリケーション547,520 bytesの各領域でesptoolハッシュ照合が成功した。
+- 通信側SoftAPの `/api/estimated-state` は制御側の新しい推定フレームを返した。単発確認では地磁気年齢5,490 us、10回の連続確認では50〜33,447 usであり、以前の未受信値（4,294,967,295 us）は解消した。ジャイロ50〜17,681 us、加速度65〜12,983 us、GNSS21,237〜40,807 usも鮮度基準内だった。
+- 取付変換は未較正のままなので、attitude/yaw healthは意図どおりDEGRADED、地磁気補正はfalse、アクチュエータ出力はDRY_RUNである。ToF年齢は79,630〜220,253 usと変動し、100 ms超ではheight healthがINVALIDになった。ToF単独の不良で姿勢・航法を停止しない縮退設計が動作している。
+- 通信側の以前のUSB COM4診断ではSD=1、GNSS=1、BNO=1、ログdrop=0、制御UARTカウンタ増加を確認済みである。今回の最終確認時にはCOM4 USBがWindowsから消えていたため、そのシリアル再確認はできなかったが、SoftAP APIは連続して応答し、UART由来の推定フレームを受信していた。次は通信側USB再接続後にP1三時刻生ログを実装し、磁気3軸・accuracy・更新最大間隔・dropを含む完全な品質確認を行う。
+
+## 2026-07-26 -- P1主副IMU三時刻生ログを実装
+
+## 2026-07-26 -- 通信側P1対応版の書込みとP1スモーク試験
+
+- 静止姿勢採取用に`/api/p1/start?confirm=1`でRUN0002を開始した。10秒時点ではrecords=5,757、drop=0、SD error=0、後続確認ではrecords=115,414、drop=0、SD error=0でP1は稼働していた。しかし次の確認ではcapture=false、logging=false、run=none、records=0となっていた。
+- `POST /api/p1/stop` は実行しておらず、コードにもP1の時間自動停止条件はない。`/P1/RUN0002.TXT`およびBINのダウンロードはともにfile not foundで、`/api/manual`はSD ready、logging=false、run=none、fault=noneを返した。よってRUN0002は通信側の再起動または同等の状態初期化によりSD確定前に失われたと判断する。SD書込みエラーやキュードロップの正常終了ではない。
+- RUN0002を較正ログとして採用しない。次の採取前に再起動理由とP1異常終了を保存する診断を追加し、継続記録の正常停止を再検証する。
+- 診断版`0.3.6-p1-recovery`を通信側COM4/MAC `E0:72:A1:FC:08:D0`へ書込み、全領域ハッシュ照合に成功した。P1 APIにboot ID、リセット理由、前回P1セッションの回復状態を追加し、P1開始時の`/P1/ACTIVE.TXT`ジャーナルと、異常起動時の`/P1/RECOVERY.TXT`を実装した。ビルドはRAM 190,188 bytes（58.0%）、Flash 873,745 bytes（26.1%）で成功した。
+- 更新後のP1開始は2秒後もcapture=false、logging=false、run=noneだった。通常ログの開始・停止でも`/api/manual`は`sd="error"`、logging=false、run=noneを返した。現在の直接原因はP1制御ではなく、通信側がSDカードを利用可能と判定していないことである。SDを挿し直して通信側を再起動し、SD readyを確認するまで新しいP1採取を行わない。
+- SDの挿し直しと通信側再起動後、`/api/manual`はsd=ready、link_healthy=true、dry_run=trueへ復帰した。再起動理由は`reset_reason=1`（電源投入）で、P1異常回復マーカーはfalseだった。
+- 復旧後の10秒P1確認は`/P1/RUN0003.BIN/TXT`でnormal_stop=1、records=5,368、queue_drops=0、queue_high_water=16、SD write error=0、BNO decode error=0、BNOイベントキュードロップ=0として確定した。SD最大書込み時間16.000 ms、最大ログキュー待ち23.013 msで、今回の短時間確認中に記録経路の異常はない。RUN0003は復旧確認用であり、取付変換の較正値には使用しない。
+- 第1静止姿勢の本番P1としてRUN0004を開始し、12秒時点でcapture=true、records=6,453、queue_drops=0、SD error=0を確認した。その後、通信側のboot IDが`2859305578`から`3406201269`へ変化し、reset_reason=1（電源投入リセット）、capture=false、run=noneとなった。`/api/manual`はSD error、RUN0004.TXTはfile not foundであり、正常停止・SD確定に到達していない。
+- この事象はP1停止APIやSD書込みエラーの処理ではなく、通信側の電源断またはUSB/SD物理接触喪失と一致する。RUN0004を較正データとして採用しない。以後のP1再開条件は、通信側のUSB給電・ケーブル固定・SDの確実な装着後に再起動し、SD readyが継続することとする。
+- ユーザーの実機条件として、姿勢変更時に通信側USBを完全固定することはできない。このため、以後の静止6姿勢は各姿勢を独立した短時間P1 RUNとして採取し、停止・TXT確定後にだけ姿勢を変更する手順へ変更した。姿勢変更中の再起動は未確定RUNだけを無効とし、確定済みの姿勢ログを保全する。
+- 通信側を再接続・再起動後、SD ready、control link healthy、DRY_RUN=trueを確認した。P1診断は`recovery_detected=true`、`recovered_run="RUN0004.BIN"`を返し、前回の電源投入リセットで未確定になったP1セッションを検出できた。P1ジャーナル／回復診断は実機で機能している。
+- 静止姿勢1を独立P1として6秒間採取し、`/P1/RUN0005.BIN/TXT`をnormal_stop=1で確定した。records=3,212、queue_drops=0、queue_high_water=15、SD write errors=0、BNO decode error=0、BNO event-queue drops=0、SD最大書込み18.090 ms、最大ログキュー待ち27.430 msだった。通信側boot IDは採取中に不変であり、RUN0005を静止姿勢1候補として保全する。
+- 静止姿勢2の初回`RUN0006.BIN/TXT`はnormal_stop=1、records=3,248、drop=0、SD error=0、BNO decode/event-queue drop=0であった。ただしSD最大書込み76.908 ms、最大ログキュー待ち121.089 ms、TimingDiagnostic=26であり、較正候補としては採用せず参考扱いとする。
+- 同じ静止姿勢2を3秒間再採取した`RUN0007.BIN/TXT`はnormal_stop=1、records=1,613、queue_drops=0、queue_high_water=13、SD error=0、BNO decode/event-queue drop=0、TimingDiagnostic=0、SD最大書込み11.750 ms、最大ログキュー待ち21.421 msだった。RUN0007を静止姿勢2候補として保全する。
+- 静止姿勢3としてRUN0008のP1開始を要求したが、HTTPはタイムアウトし、`/api/p1`と停止要求に応答しなかった。COM4診断では`LOG started: /P1/RUN0008.BIN`の後に`I2C address not found`、BNO=0を観測した。RUN0008の正常停止・TXT確定を確認できないため無効とする。通信側を再起動して未確定RUNを破棄し、Web応答停止と通信側BNO I2C検出失敗を解消してから再試験する。
+- 通信側を再起動後、SD ready、logging=false、control link healthy、DRY_RUN=true、Web API応答を確認した。`/api/sensors`は通信側BNO ready、fault=none、reinit=0、加速度・ジャイロ・地磁気が更新中、decode error=0、event queue drop=0を返した。RUN0008開始時のI2C検出失敗は継続していないが、姿勢3は未採取のままとする。
+- 姿勢3の再採取要求時、SoftAPへの4回のHTTP要求はすべて接続前に失敗し、Wi-Fi 2はdisconnectedだった。P1開始要求は通信側へ届いておらず、RUN0009は作成していない。USBを完全固定せず姿勢変更する条件を反映し、以後は姿勢変更中は通信側USBを外し、姿勢決定後に再接続・起動確認してから短時間の独立P1を採取する手順へ変更した。
+- 姿勢3を決めた後に通信側を再接続し、SD ready、control link healthy、DRY_RUN=true、通信側BNO ready（fault=none、decode/event-queue drop=0）を確認した。独立P1の`RUN0009.BIN/TXT`を2秒でnormal_stop=1として確定し、records=1,058、queue_drops=0、queue_high_water=14、SD error=0、BNO decode/event-queue drop=0、TimingDiagnostic=0、SD最大書込み11.925 ms、最大ログキュー待ち22.874 msだった。RUN0009を静止姿勢3候補として保全する。
+- 姿勢4ではSoftAPへの再接続要求は成功したが、14秒以上待機しても`192.168.4.1`のHTTP APIへ接続できなかった。P1開始要求は送らず、RUNは作成していない。通信側USBを抜き差しして通常起動・API応答を回復させてから姿勢4を再試行する。
+- 姿勢4では通信側再起動後にSD ready、control link healthy、DRY_RUN=true、通信側BNO ready（fault=none、decode/event-queue drop=0）を確認した。独立P1の`RUN0010.BIN/TXT`を2秒でnormal_stop=1として確定し、records=1,056、queue_drops=0、queue_high_water=14、SD error=0、BNO decode/event-queue drop=0、TimingDiagnostic=0、SD最大書込み12.184 ms、最大ログキュー待ち20.543 msだった。RUN0010を静止姿勢4候補として保全する。
+- 姿勢5では通信側再接続後にSD ready、control link healthy、DRY_RUN=true、通信側BNO ready（fault=none、decode/event-queue drop=0）を確認した。独立P1の`RUN0011.BIN/TXT`を2秒でnormal_stop=1として確定し、records=1,055、queue_drops=0、queue_high_water=12、SD error=0、BNO decode/event-queue drop=0、TimingDiagnostic=0、SD最大書込み11.925 ms、最大ログキュー待ち22.677 msだった。RUN0011を静止姿勢5候補として保全する。
+- 姿勢6では通信側再接続後にSD ready、control link healthy、DRY_RUN=true、通信側BNO ready（fault=none、decode/event-queue drop=0）を確認した。独立P1の`RUN0012.BIN/TXT`を2秒でnormal_stop=1として確定し、records=1,045、queue_drops=0、queue_high_water=14、SD error=0、BNO decode/event-queue drop=0、TimingDiagnostic=0、SD最大書込み11.948 ms、最大ログキュー待ち21.996 msだった。RUN0012を静止姿勢6候補として保全する。
+- RUN0005/0007/0009/0010/0011/0012のBINを完全解析した。制御側／通信側とも静止加速度の標準偏差は各軸0.01〜0.08 m/s²で、静止区間として十分だった。通信側平均加速度[m/s²]は順に(-3.080,0.807,-9.401)、(-1.562,-0.059,-9.822)、(7.195,1.500,-6.646)、(2.546,-7.683,-5.876)、(1.666,0.849,-9.803)、(0.291,-1.228,-9.893)。正X寄り・負Y寄りの2姿勢は得られたが、残り4本は負Z寄りに集中している。よって6本を取付変換算出にはまだ使用せず、反対方向を含む大きく異なる傾きの独立RUNを追加採取する。
+- ユーザーの実機制約により追加姿勢は要求しない。6本の主副IMU加速度方向ペアでWahba回転推定を行い、通信側→制御側の暫定相対回転quaternion `(0.99969,-0.00269,0.01881,-0.01631)` を得た。方向のGram固有値は4.6795/0.7415/0.5790（条件数8.08）であり、完全な一方向集中ではない。加速度方向残差は平均4.683°、最大6.528°だった。
+- この推定値は主副IMUの比較整列用の暫定値に限定する。地磁気干渉・機体軸の既知基準・ヨー軸の独立検証がないため、機体座標への取付変換、`kBnoMountValidated`、姿勢／ヨーのVALID化、アクチュエータ制御には用いない。
+- 暫定相対回転を用いる`DUAL_IMU_COMPARE`を実装した。共通プロトコルにType 24 `PrimaryImuSnapshot`を追加し、制御側は主IMUの加速度・ジャイロ・地磁気と各センサ時刻を20 Hzで送る。通信側は副IMUを暫定行列で制御側座標へ変換し、`/api/dual-imu`および`/dual-imu`で差分ノルムと鮮度を表示する。APIは`provisional=true`と`comparison_only=true`を返し、正式な機体軸変換や制御へ使わない。
+- ビルド: 制御側RAM 109,772 bytes（33.5%）/ Flash 547,517 bytes（16.4%）、通信側RAM 190,264 bytes（58.1%）/ Flash 876,957 bytes（26.2%）で成功した。通信側COM4/MAC `E0:72:A1:FC:08:D0`へ書込み、全領域ハッシュ照合が成功した。`/api/dual-imu`は応答し、制御側が旧ファームウェアのため`available=false`、通信側IMU鮮度は5/10/16 msを返した。制御側USB接続後にType 24の実機受信と比較値を確認する。
+- 制御側COM5/MAC `34:85:18:AB:FA:90`へType 24対応版を書込み、ブートローダ、パーティション、アプリケーション547,888 bytesの全領域ハッシュ照合に成功した。起動後の`/api/dual-imu`はavailable=true、provisional=true、comparison_only=true、主IMU age=11 ms、副IMU accel/gyro/mag age=4/10/26 ms、差分ノルム accel=1.8876 m/s²、gyro=0.0034 rad/s、magnetic=12.2390 µTを返した。同時にSD ready、control link healthy、DRY_RUN=trueを確認した。
+- この確認は制御側→UART→通信側→Web APIの主副IMU比較経路が成立したことを示す。暫定変換の残差（平均4.683°／最大6.528°）はAPIに明示し、機体軸変換、姿勢/YawのVALID化、アクチュエータ出力へ使用していない。
+- SoftAPへ再接続後にRUN0001.BIN（153,444 bytes）を完全解析した。1,671レコードが先頭から末尾まで整合し、主BNOである制御側起動ID `41526774` は加速度185・ジャイロ146・地磁気73、通信側起動ID `1686839828` は加速度365・ジャイロ293・地磁気74を記録した。主副のBNOストリームが同一BIN内で識別できることを確認した。
+- 全1,136件のBNOレコードはpayload長56 bytesであり、各payloadの`sensorUs`、`callbackUs`、`queuePushUs`と、BIN外側の`logQueueUs`はすべて非ゼロだった。P1で必要な三時刻と通信側ログ投入時刻は欠落なく保存されている。
+
+- 通信側をCOM4、MAC `E0:72:A1:FC:08:D0` と照合し、P1 API・Web UI・SD記録を含む `seeed_xiao_esp32s3` イメージを書込んだ。ブートローダ、パーティション、アプリケーション872,864 bytesの全領域でesptoolハッシュ照合に成功した。
+- SoftAP経由で `POST /api/p1/start?confirm=1`、約3秒後に `POST /api/p1/stop` を実行した。`/P1/RUN0001.BIN` は正常停止として確定し、records=1,671、queue_drops=0、sd_write_errors=0であった。SD書込み高水位は29、最大書込み時間は10.890 msだった。
+- 同RUNのTXTで、通信側BNOは加速度405、ジャイロ324、地磁気81イベント、BNO decode error=0、BNOイベントキュードロップ=0を確認した。P1の開始・停止・SD確定および副BNO生ログの経路は成立している。
+- 書込み直後の再起動でPCのSoftAP接続が切れたため、BINを再ダウンロードして主BNO・副BNOのレコードを個別集計する確認は保留した。これは主BNOの記録成立を未検証のまま残すものであり、静止6姿勢や軸回転の較正ログとしてRUN0001を使用しない。再接続後にまずBINの型別・送信元別集計を行う。
+
+- 既存のBNO payloadはセンサ測定時刻、SH-2コールバック時刻、BNOイベントキュー投入時刻を保持し、通信側BINの外側時刻はログキュー投入時刻であることを確認した。これをP1の三時刻ログとして採用し、通信遅延とセンサ差を混同しない。
+- 新しい `P1Capture` プロトコル（Type 23）を追加した。通信側の `POST /api/p1/start?confirm=1` は `/P1/RUNxxxx.BIN` を開いた後に主BNO生ストリームを有効化し、`POST /api/p1/stop` はストリーム停止後にSDを確定する。`/p1` と `GET /api/p1` はDRY_RUN状態、RUN名、件数、キュードロップ、SDエラーを表示する。
+- 通信側の副BNOは既存どおりログ中に全生イベントを記録する。制御側はP1中だけ加速度・較正ジャイロ・較正地磁気を送信し、通常時のUART負荷とSTOP/E-STOP経路を維持する。P1開始・停止はアクチュエータ出力を変更しない。
+- 検証: 制御側ビルド成功（RAM 109,700 bytes / 33.5%、Flash 547,237 bytes / 16.4%）、通信側ビルド成功（RAM 190,164 bytes / 58.0%、Flash 872,497 bytes / 26.1%）。制御側COM5/MAC `34:85:18:AB:FA:90`へ書込み、アプリケーション547,600 bytesを含む全領域のハッシュ照合に成功した。通信側はUSB未接続のため未書込み、P1の実機開始・BIN解析は未実施である。
