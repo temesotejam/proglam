@@ -1,3 +1,9 @@
+## 2026-07-26 -- BNO callback queues on both nodes (60-second screening pending)
+
+- The control-side `bno::Reader` now replaces `getSensorEvent()` with the same direct SH-2 callback and 96-event FreeRTOS queue that passed on the communication node. D3 remains notification-only; BNO I2C and queue draining remain in the dedicated core-0 priority-3 task.
+- Control BENCH events 29--32 now record callback count / BNO queue drops, queue high-water / decode errors, SH-2 service calls / maximum service time, and BNO UART enqueue successes / failures. This permits direct count matching across SH-2 callback → BNO queue → UART frame → communication receiver → log queue → SD.
+- Added matching BOAT24 `bno_accel100_gyro100_mag20_int_60sec` environments (same 100 Hz accel, 100 Hz gyro, 20 Hz magnetic request; 60 s). Both images build successfully. The control image was uploaded to COM4 (MAC `34:85:18:AB:FA:90`) and boot diagnostics show `bno=1`, ToF updating, INA errors 0, UART NAV gaps 0.
+- RUN0012 completed BOAT24 but is not an acceptance pass. The communication node has zero BNO sequence loss and zero queue/decode/SD/UART errors, but logged magnetic maximum gap is 200.252 ms (criterion <= 80 ms). On the control node, BNO pipeline diagnostics are loss-free but no magnetic frames were emitted. Root cause is a BOAT24 report-selection bug: `bno::Reader::enableReports()` enables the magnetic report only for BOAT23 and BOAT24 falls through to the legacy accel/gyro/game-rotation configuration. The control report condition is corrected and BOAT24 was uploaded to COM4 / MAC 34:85:18:AB:FA:90 with hash verification. Post-reset diagnostics show bno=1, ToF updating, INA errors 0, and NAV errors/gaps 0. Both nodes ran corrected BOAT24 in RUN0013. All BNO sequence, callback, queue, UART, logger, SD, ToF, INA, and I2C loss/error counters are zero and both magnetic streams are about 25 Hz, but logged magnetic maximum gaps are 111.384 ms (communication local) and 115.311 ms (control over UART), exceeding the <=80 ms gate. Timing instrumentation is now implemented and both BOAT24 images build successfully. Each BNO frame carries sensor/callback/queue-push time; recorder frames retain UART receive/log-queue/SD-task time; a fixed-size TimingDiagnostic BIN frame is emitted only when BNO log-queue wait is >=80 ms and includes all stages plus the last SD write start/end. Control diagnostic BOAT24 is uploaded to COM4 / MAC 34:85:18:AB:FA:90 with hash verification; boot diagnostics show bno=1, ToF updating, INA errors 0, and NAV errors/gaps 0. Communication diagnostic BOAT24 is uploaded to COM5 / MAC E0:72:A1:FC:08:D0 with hash verification; boot diagnostics show SD=1, GNSS=1, BNO=1, no idle logger drops, and increasing control-UART input. Both diagnostic images are ready. Next: repeat the 60-second BOAT24 and analyze TimingDiagnostic records; do not start BOAT23 yet.
 ## 2026-07-25 -- BNO08X magnetic-field acquisition (IN PROGRESS)
 
 - Added BOAT_EXPERIMENT=23: accelerometer and calibrated gyroscope at 100 Hz, calibrated magnetic field at 20 Hz, D3 INT driven, 3 minutes.
@@ -66,3 +72,62 @@
 - 制御側: `bno_attitude100_gyro50_3min` をCOM4へ書込み済み（ハッシュ照合成功）。`IN PROGRESS`。
 - RUN0004で姿勢100 Hz・ジャイロ50 Hz・ToF/INA/VESC各30 Hzの3分DRY_RUNを合格確認した。次はジャイロも100 Hzとする比較条件を準備・測定する。`IN PROGRESS`。
 - BNOは制御・推定の中心として最高優先度の単独所有タスクにする。D3 INT通知駆動の自前推定用「加速度＋ジャイロ100 Hz」（BOAT22）はRUN0008でジャイロ欠番0・周辺系健全を確認した。加速度は実測126.489 Hzであり、以後の推定器入力は実測周期を用いるか100 Hzへ明示的に間引く。次はBNO内蔵推定用「ジャイロ＋姿勢100 Hz」を同じINT駆動で比較し、その後に共有I2C・VESC UARTの所有タスク分離を進める。
+## 2026-07-26 -- RUN0014 BOAT24 timing diagnostic: failed (control-to-communication link timeout)
+
+- RUN0014 is not an acceptance measurement: `normal_stop=0`, `benchmark_outcome=link_timeout`, and its complete recorder span is only 20.237 s rather than the required 60 s. Do not advance to BOAT23 from this run.
+- The recorder, local communication BNO, and SD path remain healthy in the observed interval: BIN is fully parseable (8,403 frames, no tail), SD errors and logger drops are zero, BNO decode errors and BNO event-queue drops are zero, and the local stream is 124.5 Hz accel / 100.0 Hz gyro / 25.0 Hz magnetic with no observed sequence gap.
+- The failure is specifically the control-to-communication transmit path. The control-origin BNO frames carry only 6.13 s of control-side creation timestamps but were received over 20.18 s; only 62 control heartbeats arrived while 147 communication heartbeats were sent. This is a control-link transmit backlog, not a BNO acquisition or UART receiver corruption problem.
+- Root cause to address first: control `bnoTask` runs at priority 3 on core 0 and directly calls `linkSend()` through its BNO callback, while `linkTxTask` that drains the same FIFO is priority 2 on core 0. When the BNO INT line remains asserted, the BNO task has no blocking delay and can starve the FIFO-drain task. The saturated FIFO also delays/drops heartbeat frames, causing the communication node's measurement-time link watchdog to abort.
+- TimingDiagnostic frames were correctly absent because `max_log_queue_wait_us=76,313`, below the current 80,000-us emission threshold. This does not satisfy the 80-ms inter-record criterion: local magnetic has a 103.418-ms recorded gap and a 70.510-ms frame-to-record delay. Lower the diagnostic emission threshold (recommended 60 ms) so near-limit waits are persisted with stage timestamps on the next run.
+
+### Next actions (before repeating BOAT24)
+
+1. Make control UART transmission schedulable while BNO is active: raise the FIFO-drain task above the BNO task and/or explicitly yield the BNO task for one tick after servicing. Preserve callback queue acquisition and verify its loss counters remain zero.
+2. Preserve and report control-link FIFO high-water and drops even on an abort, so a subsequent `link_timeout` has a definitive counter record.
+3. Reduce the TimingDiagnostic trigger from 80 ms to 60 ms; this is diagnostic-only and retains the 80-ms acceptance gate.
+4. Rebuild, upload both BOAT24 images, then repeat a full 60-s run. Analyze all Type-21 timing records and require normal stop before judging the magnetic continuity gate.
+## 2026-07-26 -- RUN0014 link-timeout mitigation implemented; control uploaded
+
+- Control firmware `0.3.3-control-link-fairness`: the core-0 UART FIFO-drain task now has priority 4, above the priority-3 BNO task, and active BNO servicing explicitly delays for one tick after service. This keeps the callback queue design but prevents an asserted BNO INT from starving UART transmission and heartbeats.
+- Communication firmware `0.3.3-bno-timing-60ms`: Type-21 diagnostic emission threshold is now 60 ms. The BOAT24 acceptance limit remains <=80 ms; the lower value only ensures near-limit waits are retained in BIN for analysis.
+- Both BOAT24 builds succeeded: control RAM/flash 109,532 bytes (33.4%) / 539,749 bytes (16.1%); communication RAM/flash 190,028 bytes (58.0%) / 863,557 bytes (25.8%).
+- Control image uploaded to COM4 / MAC `34:85:18:AB:FA:90`; esptool hash verification passed. Post-upload diagnostics show BNO=1, ToF incrementing, INA errors=0, and UART NAV TX/RX gap=0. Communication image is built but awaits COM5 upload.
+
+### Next actions
+
+1. Connect the communication node and upload `0.3.3-bno-timing-60ms`.
+2. Run one complete 60-second BOAT24 measurement and require `normal_stop=1` before acceptance analysis.
+3. Use the Type-21 records (now >=60 ms) and BNO continuity metrics to determine whether the remaining <=80-ms magnetic criterion is met.
+## 2026-07-26 -- Communication diagnostic image uploaded; BOAT24 retry ready
+
+- Uploaded communication firmware `0.3.3-bno-timing-60ms` to COM5 / MAC `E0:72:A1:FC:08:D0`; all esptool hash checks passed.
+- Post-upload serial diagnostics: `SD=1`, `GNSS=1`, `BNO=1`, logger `drop=0`, and the control-UART receive counter increased. Both control and communication images are now deployed for the RUN0014 mitigation test.
+- Next operation is exactly one complete 60-second BOAT24 DRY_RUN from the communication Web UI. Preserve the resulting BIN/TXT and do not advance to BOAT23 until it has `normal_stop=1`, no transport errors/drops, and the <=80-ms magnetic continuity gate is evaluated from the complete file.
+## 2026-07-26 -- RUN0015/RUN0016 preflight failures: control STOP acknowledgement unavailable
+
+- RUN0015 and RUN0016 are not BOAT24 measurement attempts. Both abort in preflight with `normal_stop=0`, `benchmark_outcome=stop_ack_timeout`, `command_ack_rx=0`, and no measurement phase. Their complete recorder spans are only 494.587 ms and 509.802 ms respectively.
+- Both BIN files parse fully (172 / 150 frames) and the local recorder/BNO queues have zero errors, but this does not constitute a sensor or timing pass. No Type-21 records occur because neither run reaches load conditions.
+- Each BIN contains the communication-origin Stop request and outgoing communication heartbeats, but no control-origin heartbeat or CommandAck. Only 3 / 6 control-origin ordinary data frames arrive. The immediate blocker is therefore the control-node response path or its power/UART connection at preflight, not an SD or BNO timing result.
+- After analysis, Windows exposed no serial ports and COM4 could not be opened, so live control diagnostics cannot presently distinguish an unpowered/disconnected control board from a UART-link problem. Do not make another run until both nodes are powered and the control board is reachable again.
+
+### Required connection check before retry
+
+1. Power both XIAOs simultaneously and keep the control-to-communication UART connected (crossed TX/RX and common GND).
+2. Confirm the control board re-enumerates in Windows, then verify its serial diagnostic shows BNO=1, ToF increasing, INA errors=0, and NAV TX/RX advancing.
+3. Confirm the communication serial diagnostic has SD=1, GNSS=1, BNO=1, and a continuously increasing `control=` count before pressing the benchmark start button.
+4. If STOP acknowledgement still times out with both boards confirmed, capture the two serial diagnostics before any further firmware change.
+## 2026-07-26 -- Control connection restored after RUN0015/RUN0016
+
+- Control COM4 re-enumerated and firmware `0.3.3-control-link-fairness` was observed after reset. Direct serial diagnostics show BNO=1, ToF increasing, INA errors=0.
+- After reset, control `nav` and `gnss_result_tx` both advanced at 10 Hz with NAV error/gap=0. This confirms the communication-to-control UART direction is live again.
+- The control remains `FAULT` while idle because of the normal no-host-heartbeat failsafe; benchmark preflight sends STOP and transitions it to DISARMED. The remaining check is the control-to-communication STOP acknowledgement during the next benchmark start.
+## 2026-07-26 -- RUN0017 confirms preflight ACK starvation; control stream gate uploaded
+
+- RUN0017 fully parses to 175 frames over 495.733 ms and again fails only as `stop_ack_timeout` with `command_ack_rx=0`. It contains the communication STOP request and four local heartbeats, but no control ACK or heartbeat; only three control BNO frames arrive.
+- The control was observed to transition to DISARMED during the failed start, proving it received STOP. The missing item is its queued reply, not command reception. This confirms that start-before-measurement control BNO traffic was starving the reply in the shared control UART FIFO.
+- Implemented and uploaded control firmware `0.3.4-control-bench-stream-gate` to COM4 / MAC `34:85:18:AB:FA:90`, hash verified. Control BNO acquisition continues continuously, but BNO UART frames are now emitted only while `bnoBenchmarkActive` is true (the actual measurement phase). STOP/ACK, Prepare/Ready, heartbeat, ToF, INA, and benchmark-result traffic are no longer preceded by idle BNO frames.
+- Added control serial `link=used/drops/high-water` diagnostic. After upload and reset: BNO=1, ToF updating, INA errors=0, NAV TX/RX advancing at 10 Hz with no gaps, and idle link values settled at `0/0/2`. Thus the start-path FIFO is empty with zero drops before a benchmark.
+
+### Next action
+
+- Keep both nodes powered and run one BOAT24 retry. The primary first check is that STOP ACK now passes; retain the resulting BIN/TXT whether it completes or stops.

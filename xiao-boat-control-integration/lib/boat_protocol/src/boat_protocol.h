@@ -2,9 +2,11 @@
 #include <Arduino.h>
 namespace boat {
 constexpr uint8_t kVersion=1; constexpr size_t kMaxPayload=768,kMaxRaw=800,kMaxEncoded=820;
-enum class Type:uint8_t{Hello=1,BnoAccel=2,BnoGyro=3,BnoQuaternion=4,TofFrame=5,InaSample=6,VescStatus=7,ActuatorState=8,SystemHealth=9,Event=10,TimeSyncReply=11,GnssRaw=12,GnssFix=13,GnssStatus=14,GnssNav=15,GnssProcessResult=16,CommandAck=17,TimeSyncRequest=18,LinkStatistics=19,BnoMagnetic=20,Heartbeat=32,Arm=33,Disarm=34,StartTest=35,Stop=36,Estop=37,ClearEstop=38,BenchmarkPrepare=48,BenchmarkReady=49,BenchmarkStart=50,BenchmarkStop=51,BenchmarkResult=52,BenchmarkEvent=53,SyntheticData=54,BenchmarkAbort=55};
+enum class Type:uint8_t{Hello=1,BnoAccel=2,BnoGyro=3,BnoQuaternion=4,TofFrame=5,InaSample=6,VescStatus=7,ActuatorState=8,SystemHealth=9,Event=10,TimeSyncReply=11,GnssRaw=12,GnssFix=13,GnssStatus=14,GnssNav=15,GnssProcessResult=16,CommandAck=17,TimeSyncRequest=18,LinkStatistics=19,BnoMagnetic=20,TimingDiagnostic=21,Heartbeat=32,Arm=33,Disarm=34,StartTest=35,Stop=36,Estop=37,ClearEstop=38,BenchmarkPrepare=48,BenchmarkReady=49,BenchmarkStart=50,BenchmarkStop=51,BenchmarkResult=52,BenchmarkEvent=53,SyntheticData=54,BenchmarkAbort=55};
 struct __attribute__((packed)) Header{uint8_t version,type;uint16_t length;uint32_t sequence,bootId;uint64_t sourceUs;uint16_t flags;};
-struct Frame{Header header{};uint8_t payload[kMaxPayload]{};};
+struct Frame{Header header{};uint8_t payload[kMaxPayload]{};uint64_t uartRxUs=0,logQueueUs=0,sdTaskUs=0;};
+struct __attribute__((packed)) BnoPayload{uint8_t kind,accuracy,sequence,reserved;uint64_t sensorUs,callbackUs,queuePushUs;float v[7];};
+struct __attribute__((packed)) TimingDiagnosticPayload{uint32_t originBootId,originSequence;uint8_t sourceType,bnoSequence;uint16_t reserved;uint64_t sensorTimestamp,callbackUs,queuePushUs,frameUs,uartRxUs,logQueueUs,sdTaskUs,lastSdWriteStartUs,lastSdWriteEndUs;uint32_t queueWaitUs;};
 uint32_t crc32(const uint8_t*,size_t);
 enum NavFlag:uint32_t{NavFixValid=1u<<0,NavNewFix=1u<<1,NavLatValid=1u<<2,NavLonValid=1u<<3,NavAltitudeValid=1u<<4,NavSpeedValid=1u<<5,NavCourseValid=1u<<6,NavHdopValid=1u<<7};
 struct __attribute__((packed)) HeartbeatPayload{uint32_t uptimeMs,sequence;uint8_t safetyState,dryRun;uint16_t reserved;};

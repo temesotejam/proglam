@@ -1,3 +1,50 @@
+## 2026-07-26 -- BOAT24 staged timing diagnostics implemented; upload pending
+
+- To isolate RUN0013's simultaneous BNO record gaps without adding serial output, the BOAT24 protocol now carries callback and BNO-event-queue-push timestamps in every BNO frame. The recorder retains frame creation, UART receive, common log-queue insertion, and SD-task dequeue timestamps in memory.
+- New fixed-size TimingDiagnostic BIN records are emitted only for BNO frames whose recorder log-queue wait is at least 80,000 us. They contain the sensor timestamp; callback, BNO queue-push, frame, UART receive, log-queue, and SD-task times; and the start/end of the most recently completed SD write. TXT additionally reports timing_diagnostics and max_log_queue_wait_us.
+- Both BOAT24 diagnostic images build successfully. Control: RAM 109,532 bytes / 33.4%, Flash 539,725 bytes / 16.1%. Communication: RAM 190,028 bytes / 58.0%, Flash 863,569 bytes / 25.8%. Control diagnostic BOAT24 was uploaded to COM4 / MAC 34:85:18:AB:FA:90 with every esptool segment hash-verified. Post-reset diagnostics show bno=1, increasing ToF frames, INA errors 0, and NAV errors/gaps 0. Communication diagnostic BOAT24 was then uploaded to COM5 / MAC E0:72:A1:FC:08:D0 with every esptool image segment hash-verified. Post-reset diagnostics repeatedly show SD=1, GNSS=1, BNO=1, logger drops 0 while idle, and increasing control-UART frames. Both diagnostic images are ready; the next RUN is pending.
+
+## 2026-07-26 -- BOAT24 RUN0013: complete BNO acquisition, record-gap gate still fails
+
+- RUN0013 completed normally: 4,533,378 bytes, 53,560 records, a structurally complete 59.999962 s phase, normal stop, logger queue drops 0, SD write errors 0, result CRC errors 0, and control-link drops 0. The control benchmark result is PASS with 1,800 ToF frames, zero incomplete ToF frames, 1,800 INA reads, I2C errors 0, and 60,007 ms duration.
+- Communication-local BNO within the phase: accel 7,460 / 124.333 Hz / missing 0; gyro 5,992 / 99.867 Hz / missing 0; magnetic 1,498 / 24.967 Hz / missing 0. TXT counters show callback decode errors 0, BNO queue drops 0, and high-water 9 of 96.
+- Control-over-UART BNO within the phase: accel 7,593 / 126.550 Hz / missing 0; gyro 6,001 / 100.017 Hz / missing 0; magnetic 1,500 / 25.000 Hz / missing 0. Control BENCH code 29 records 15,093 callbacks and 0 BNO queue drops; code 30 high-water 3 of 96 and decode errors 0; code 31 21,429 SH-2 service calls and 7,847 us maximum service; code 32 15,093 UART enqueue successes and 0 failures. This confirms the BOAT24 report-selection correction and the entire callback-to-UART path.
+- RUN0013 nevertheless fails the explicit <=80 ms magnetic record-gap gate. The local/control magnetic maximum recorded gaps are 111.384/115.311 ms. Both magnetic streams have their largest gaps across the same 9.55--9.66 s interval, while their sequences remain continuous. This rules out BNO acquisition and control-UART loss; it is consistent with recorder-path scheduling/SD write latency (TXT maximum SD write 81.099 ms). Add/compare BNO callback, queue enqueue, BIN frame creation, and SD-write timing before another BOAT24.
+- Decision: do not start BOAT23. RUN0013 establishes loss-free three-stream acquisition on both nodes, but not the requested logged-time continuity.
+
+## 2026-07-26 -- BOAT24 control magnetic selection corrected; upload pending
+
+- Corrected the control Reader report condition so BOAT24, as well as BOAT23, enables calibrated gyro, accelerometer, and calibrated magnetic field. BOAT24 now cannot fall through to the legacy gyro/game-rotation/accel branch.
+- The corrected control BOAT24 build succeeded: RAM 109,532 bytes (33.4%), Flash 539,777 bytes (16.1%). Control USB then appeared as COM4. The corrected BOAT24 image was uploaded to MAC 34:85:18:AB:FA:90 with every esptool image segment hash-verified. Post-reset diagnostics repeatedly show bno=1, increasing ToF frames, INA errors 0, and NAV errors/gaps 0. Both nodes now run BOAT24; the repeat RUN has not started.
+
+## 2026-07-26 -- BOAT24 RUN0012: control report selection defect found
+
+- E:\BENCH\RUN0012.BIN/TXT completed normally: 4,043,121 bytes, 46,772 records, 60.050 s phase, normal stop, zero SD write errors, zero logger queue drops, zero result CRC errors, and zero control-link drops. The control benchmark result is PASS with 1,801 ToF frames, zero incomplete ToF frames, 1,801 INA reads, zero I2C errors, and 60,057 ms duration.
+- Communication-node local BNO intake is loss-free in the phase: accel 7,470 / 124.396 Hz / missing 0; gyro 5,997 / 99.866 Hz / missing 0; magnetic 1,499 / 24.962 Hz / missing 0. TXT diagnostics also show callback decode errors 0, BNO queue drops 0, and high-water 9 of 96. However, logged maximum gaps are about 200 ms (magnetic 200.252 ms), exceeding the <=80 ms magnetic record-gap criterion despite no sequence loss.
+- Control BNO callback path itself is healthy: BENCH code 29 reports 9,806 callbacks and 0 BNO queue drops; code 30 reports high-water 3 of 96 and 0 decode errors; code 31 reports 13,727 SH-2 service calls and 7,460 us maximum service; code 32 reports 9,806 UART enqueue successes and 0 failures. But the phase has accel 3,800 / 63.280 Hz, gyro 3,002 / 49.991 Hz, game rotation 3,003, and magnetic 0. bno::Reader::enableReports() tests only BOAT_EXPERIMENT == 23 for the magnetic config, so BOAT24 falls through to the legacy accel/gyro/game-rotation configuration. This is a firmware selection defect, not an acquisition queue loss.
+- Decision: RUN0012 is a useful partial confirmation but fails the BOAT24 gate. Correct the report condition to include BOAT24, rebuild/upload the control node, then repeat BOAT24 before considering BOAT23.
+
+## 2026-07-26 -- Control BNO callback queue implemented; BOAT24 screening awaits COM5
+
+- Replaced the control node `bno::Reader::poll()` use of Adafruit `getSensorEvent()` with a direct SH-2 callback registered after each initialization/reset. The callback decodes every sensor event and copies it to a 96-slot FreeRTOS queue; the dedicated BNO task drains that queue and only then creates UART telemetry frames. The D3 ISR still performs no I2C.
+- The BNO task remains core 0 priority 3. It services SH-2 while D3 remains low, bounded by eight service calls per pass. The reader records callback count by type, decode errors, BNO queue drops/high-water, service calls, and maximum service time. Control main records BNO-to-UART enqueue successes/failures; BENCH event codes 29--32 preserve these values in the shared BIN log.
+- Added BOAT24 `bno_accel100_gyro100_mag20_int_60sec` to both projects. BOAT24 retains BOAT23 sensor/ToF/INA/UART settings but uses a 60 s phase solely as a screening gate.
+- Build verification: control BOAT23 and BOAT24 both succeeded (BOAT24 RAM 109,532 bytes / 33.4%; Flash 539,781 bytes / 16.1%). Communication BOAT24 succeeded (RAM 185,836 bytes / 56.7%; Flash 862,809 bytes / 25.8%).
+- Upload: control COM4 / MAC `34:85:18:AB:FA:90` received BOAT24, with esptool hash verification. Post-reset serial showed `bno=1`, ToF frames increasing, INA errors 0, and NAV CRC/gaps 0. Communication COM5 / MAC `E0:72:A1:FC:08:D0` then reappeared and received the BOAT24 image with hash verification. Its post-reset diagnostics repeatedly show `SD=1`, `GNSS=1`, `BNO=1`, logger queue drops 0 while idle, and increasing received control-UART frames. No screening RUN has started yet.
+## 2026-07-26 -- BOAT23 RUN0011: communication BNO fixed; control BNO remains incomplete
+
+- `E:\BENCH\RUN0011.BIN/TXT` was fully parsed: 130,637 records, `normal_stop=1`, completed benchmark, SD write errors 0, logger queue drops 0, log fault none, result CRC errors 0, I2C errors 0, ToF incomplete frames 0, and control-link drops 0. The control-side benchmark result reports 180.042 s, ToF 5,401 frames, INA 5,401 reads, and status PASS.
+- Communication-node local BNO was evaluated within the 180.026 s BenchmarkStart-to-BenchmarkStop window. Accel: 22,388 / 124.376 Hz / sequence missing 0 / max gap 43.823 ms. Calibrated gyro: 17,982 / 99.901 Hz / missing 0 / max gap 48.858 ms. Calibrated magnetic field: 4,496 / 24.979 Hz / missing 0 / max gap 73.186 ms.
+- The communication BNO intake diagnostics validate the new path: 49,938 callback events, decode errors 0, BNO event-queue drops 0, high-water 10 of 96, and ignored events 0. The small difference between callback totals and BIN totals is pre/post measurement boundary traffic; there are no sequence gaps inside the evaluated phase.
+- Control-node telemetry was evaluated in its matching 180.035 s phase. Accel: 22,717 / 126.187 Hz logged, 69 missing (126.571 Hz source), max gap 20.581 ms. Gyro: 17,399 / 96.653 Hz logged, 606 missing (100.019 Hz source), max gap 22.799 ms. Calibrated magnetic field: 2,641 / 14.684 Hz logged, 1,857 missing (25.009 Hz source), max gap 404.473 ms.
+- Decision: RUN0011 proves the communication-side SH-2 callback queue solves its local acceleration/gyro/magnetic acquisition loss and does not harm SD/UART/I2C health. It does not make BOAT23 a loss-free two-node result, because the control-side wrapper path remains the loss source. Copy the callback-queue design to the control BNO task before the next acceptance RUN.
+## 2026-07-26 -- Communication BNO callback queue: build, upload, boot verified; measurement pending
+
+- Root cause addressed on the communication node: Adafruit BNO08X `getSensorEvent()` stores decoded reports in one caller-provided object, so several callbacks handled by one `sh2_service()` can overwrite earlier reports before the task consumes them.
+- Firmware `0.3.1-bno-callback-queue` installs its own SH-2 sensor callback after BNO initialization. Each successfully decoded report is copied into a 96-slot FreeRTOS queue; the `CommBno` task drains it into the existing BIN log. The D3 FALLING ISR remains notification-only and never accesses I2C.
+- Local report configuration is now accelerometer 100 Hz, calibrated gyro 100 Hz, calibrated magnetic field 20 Hz. Game Rotation Vector is not enabled. `CommBno` priority changed from 1 to 3, above `ControlRx` priority 2. The TXT summary and `GET /api/sensors` now expose INT edges, callback event counts by type, decode errors, BNO event-queue drops/usage/high-water, service calls, and maximum service time.
+- `bno_accel100_gyro100_mag20_int_3min` built successfully (RAM 185,836 bytes / 56.7%; Flash 862,809 bytes / 25.8%). COM5 (MAC `E0:72:A1:FC:08:D0`) upload succeeded with esptool hash verification. After reset, serial diagnostics repeatedly reported `SD=1`, `GNSS=1`, `BNO=1`.
+- No post-change 3-minute RUN has been started. Do not infer loss-free magnetic acquisition from the build or boot result. The next RUN must evaluate the new BNO counters and all prior BOAT23 pass criteria. The control-side callback conversion remains deliberately unperformed in this change.
 ## 2026-07-25 -- BOAT23 RUN0010 analysis: logging fixed, BNO stream loss remains
 
 - `E:\BENCH\RUN0010.TXT/BIN` completed normally: `normal_stop=1`, 90,246 parsed records, queue drops 0, SD write errors 0, log fault none, benchmark status pass, I2C errors 0, ToF incomplete frames 0, and control link drops 0.
@@ -562,3 +609,37 @@
 - 両XIAOにはBOAT22 `bno_accel100_gyro100_int_3min` が書込み済み。制御側はCOM4/MAC `34:85:18:AB:FA:90`、通信・記録側はCOM5/MAC `E0:72:A1:FC:08:D0`。
 - 最新の有効結果は `E:\BENCH\RUN0008.BIN/TXT`。INT通知駆動の加速度＋ジャイロ測定は完了・解析済みで、ジャイロ100.023 Hz・欠番0を確認した。
 - 次の実装・測定は、同じD3 INT通知駆動で「ジャイロ＋Game Rotation Vector（姿勢）を各100 Hz、3分」の比較条件を追加し、両基板へ書込み後にRUNを解析すること。加速度＋ジャイロ条件を再実行する必要はない。
+## 2026-07-26 -- RUN0014 BOAT24 timing diagnostic (FAILED: control link timeout)
+
+- Analysed user-provided `E:\BENCH\RUN0014.BIN/TXT` end to end. The 805,910-byte BIN parses exactly to 8,403 frames with no trailing or malformed record; therefore the conclusions below are based on the complete captured log.
+- This was an aborted measurement, not a 60-s BOAT24 pass: `normal_stop=0`, `benchmark_outcome=link_timeout`, one phase, recorder-time span 20.236614 s. SD errors=0, logger queue drops=0, BNO decode errors=0, and BNO event queue drops=0.
+- Communication-local BNO remained healthy during the observed interval: accel 2,517 (124.501 Hz), gyro 2,022 (99.991 Hz), magnetic 506 (24.994 Hz), all with observed sequence loss 0. It nevertheless has a 103.418-ms magnetic logged-time gap, so the 80-ms continuity gate is not passed.
+- Control-origin data prove a transmit scheduling backlog: only accel/gyro/magnetic 776/614/154 frames arrive. Their control-side frame creation times span 6.13 s, while their recorder arrival times span 20.18 s. Only 62 control heartbeats arrive, versus 147 communication heartbeats. The bidirectional physical receiver is not generally failing because control frames continue to decode; instead, the control transmit FIFO is not drained in real time and its heartbeat is delayed until the communication-side link watchdog aborts.
+- Code inspection identifies the scheduling inversion: control `bnoTask` priority 3/core 0 calls `linkSend()` directly; the sole FIFO drain `linkTxTask` is priority 2/core 0 and BNO's active-INT path has no delay. This can starve FIFO draining. No firmware change has been applied yet.
+- New Type-21 timing diagnostics are zero because the largest queue wait was 76.313 ms, below their 80-ms emission threshold. The local magnetic gap still includes 70.510 ms from BNO frame generation to recording. Next diagnostic revision must use a 60-ms trigger while retaining the acceptance requirement of <=80 ms.
+## 2026-07-26 -- RUN0014 mitigation build and control-node upload
+
+- Implemented control UART scheduling fairness. `linkTxTask` is priority 4/core 0; BNO remains priority 3/core 0; BNO now yields one FreeRTOS tick after an active service. This directly addresses the RUN0014 condition where the lower-priority FIFO drain could not run while INT-driven BNO work was active.
+- Changed communication `TimingDiagnostic` threshold from 80,000 us to 60,000 us, without changing BOAT24's <=80-ms pass criterion.
+- BOAT24 builds succeeded: control 109,532 RAM / 539,749 flash bytes; communication 190,028 RAM / 863,557 flash bytes.
+- Uploaded control firmware `0.3.3-control-link-fairness` to COM4, MAC `34:85:18:AB:FA:90`; all esptool hash checks passed. Serial diagnostics after reset: BNO=1, ToF frames increasing, INA errors=0, NAV TX/RX gap=0. `FAULT` while bench=0 is the expected failsafe state after an idle heartbeat timeout; the benchmark STOP/preflight sequence returns the control state to DISARMED.
+- Communication firmware is built and awaits a connected COM5 for upload; no new measurement has been run yet.
+## 2026-07-26 -- Communication upload for RUN0014 mitigation retry
+
+- Uploaded communication firmware `0.3.3-bno-timing-60ms` to COM5, MAC `E0:72:A1:FC:08:D0`; image hash verification passed.
+- Boot diagnostics showed `SD=1`, `GNSS=1`, `BNO=1`, log drop=0, and increasing control-UART receive count. Both boards are connected and ready; no benchmark was started automatically.
+## 2026-07-26 -- RUN0015/RUN0016 analysis (FAILED before BOAT24 measurement)
+
+- RUN0015: 17,061-byte BIN, 172 complete frames, recorder span 494.587 ms; `stop_ack_timeout`, `command_ack_rx=0`, normal_stop=0. RUN0016: 13,108-byte BIN, 150 complete frames, recorder span 509.802 ms; same failure.
+- Both files contain the local Stop request (Type 36) plus local heartbeats; neither contains control CommandAck (Type 17) or control heartbeat. Only 3 / 6 ordinary control-origin frames arrive. Therefore neither run exercises the 60-s BNO, UART, SD, or Type-21 diagnostic acceptance path.
+- Attempted live control COM4 diagnostic after analysis; COM4 no longer exists and Windows listed no serial ports. The next action is connection/power verification, not a firmware conclusion from these two aborted files.
+## 2026-07-26 -- Control UART live verification after reconnect
+
+- COM4 reappeared. Post-reset diagnostics for control firmware `0.3.3-control-link-fairness`: BNO=1, ToF incrementing, INA errors=0.
+- Observed `nav` and `gnss_result_tx` increasing together at 10 Hz with nav error/gap=0, proving the communication-to-control UART direction is currently operating. No new benchmark was started automatically.
+## 2026-07-26 -- RUN0017 analysis and control start-path FIFO fix
+
+- RUN0017: 17,373 bytes, 175 complete BIN frames, 495.733-ms span, normal_stop=0, stop_ack_timeout, command_ack_rx=0. Local Stop and heartbeats are logged; no control ACK/heartbeat, only three control BNO frames.
+- Direct control observation after the failure showed DISARMED, confirming STOP reception. Root cause is reply starvation behind idle control BNO frames in the shared UART FIFO.
+- Uploaded control `0.3.4-control-bench-stream-gate` to COM4 / MAC `34:85:18:AB:FA:90`, hash verified. BNO UART emission is now benchmark-phase gated. Added `link=used/drops/high-water` to serial diagnostics.
+- Post-upload live diagnostics: BNO=1, ToF increasing, INA errors=0, NAV/response advancing at 10 Hz with gaps=0; idle FIFO `link=0/0/2`. No new benchmark was started automatically.

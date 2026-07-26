@@ -55,7 +55,9 @@ constexpr char kName[] = "BNO_attitude100_gyro100_3min"; constexpr uint8_t kPhas
 constexpr char kName[] = "BNO_accel100_gyro100_INT_3min"; constexpr uint8_t kPhase = 15; constexpr uint32_t kDurationMs = 180000UL; constexpr uint8_t kInaProfile = 0, kTofProfile = 3, kUartProfile = 0; constexpr uint32_t kPeripheralI2cHz = 400000UL;
 #elif BOAT_EXPERIMENT == 23
 constexpr char kName[] = "BNO_accel100_gyro100_mag20_INT_3min"; constexpr uint8_t kPhase = 15; constexpr uint32_t kDurationMs = 180000UL; constexpr uint8_t kInaProfile = 0, kTofProfile = 3, kUartProfile = 0; constexpr uint32_t kPeripheralI2cHz = 400000UL;
+#elif BOAT_EXPERIMENT == 24
+constexpr char kName[] = "BNO_accel100_gyro100_mag20_INT_60sec"; constexpr uint8_t kPhase = 15; constexpr uint32_t kDurationMs = 60000UL; constexpr uint8_t kInaProfile = 0, kTofProfile = 3, kUartProfile = 0; constexpr uint32_t kPeripheralI2cHz = 400000UL;
 #else
-#error "BOAT_EXPERIMENT must be 0 through 23"
+#error "BOAT_EXPERIMENT must be 0 through 24"
 #endif
 }

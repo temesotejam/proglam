@@ -9,6 +9,7 @@
 #include <stddef.h>
 #include <math.h>
 #include <freertos/semphr.h>
+#include <freertos/queue.h>
 
 #include "app_config.h"
 #include "gnss_receiver.h"
@@ -23,7 +24,7 @@ TwoWire bnoWire(1);
 Adafruit_BNO08x bno08x(-1);
 WebServer web(kHttpPort);
 gnss::Receiver gnssRx;
-sh2_SensorValue_t bnoValue{};
+
 boat::Decoder controlDecoder;
 
 struct BnoLatest {
@@ -39,7 +40,7 @@ struct BnoLatest {
 struct LogStats {
   bool sdReady = false, logging = false;
   bool normalStop = true, faultSummaryWritten = false;
-  uint32_t records = 0, writeErrors = 0, queueDrops = 0, controlFrames = 0;
+  uint32_t records = 0, writeErrors = 0, queueDrops = 0, controlFrames = 0, timingDiagnostics = 0, maxLogQueueWaitUs = 0;
   uint32_t sdWriteCalls = 0, sdLastRequest = 0, sdLastWritten = 0, sdLastWriteUs = 0, sdMaxWriteUs = 0;
   uint32_t localFrames = 0, controlCrc = 0, controlCobs = 0, controlLength = 0;
   uint16_t queueHighWater = 0;
@@ -57,7 +58,7 @@ uint8_t sdBuffer[kSdWriteBufferBytes];
 size_t sdUsed = 0;
 uint32_t commBootId = 0, localSequence = 0, controlTxSequence = 0;
 uint32_t navSequence = 0, gnssFixSequence = 0, commandSequence = 0, timeSyncSequence = 0;
-uint64_t lastControlFrameUs = 0;
+uint64_t lastControlFrameUs = 0, lastSdWriteStartUs = 0, lastSdWriteEndUs = 0;
 uint32_t lastFlushMs = 0, lastHeartbeatMs = 0, lastBnoRetryMs = 0, lastGnssStatusMs = 0, lastDiagMs = 0, lastNavMs = 0, lastTimeSyncMs = 0;
 bool pendingNewFix = false;
 struct LinkLatest {
@@ -69,7 +70,17 @@ struct LinkLatest {
 volatile uint8_t pendingCommand = 0;
 SemaphoreHandle_t controlTxMutex = nullptr;
 TaskHandle_t bnoTaskHandle = nullptr;
-volatile uint32_t bnoIntEdges = 0, bnoTaskFallbacks = 0;
+struct BnoQueuedEvent {
+  sh2_SensorValue_t value{};
+  uint64_t receivedUs = 0, queuePushUs = 0;
+};
+struct BnoMetrics {
+  uint32_t intEdges = 0, taskFallbacks = 0, serviceCalls = 0, callbackEvents = 0;
+  uint32_t decodeErrors = 0, eventQueueDrops = 0, accelEvents = 0, gyroEvents = 0;
+  uint32_t magneticEvents = 0, ignoredEvents = 0, maxServiceUs = 0;
+  uint16_t eventQueueHighWater = 0;
+} bnoMetrics;
+QueueHandle_t bnoEventQueue = nullptr;
 portMUX_TYPE bnoTaskMux = portMUX_INITIALIZER_UNLOCKED;
 enum PendingCommand : uint8_t { CommandNone, CommandStartLog, CommandStopLog, CommandStop, CommandEstop };
 enum class BenchState : uint8_t { Idle, Preflight, PreparePhase, WaitControlReady, Warmup, Measuring, FinalizingPhase, NextPhase, FinalizingCampaign, Completed, Aborted, Estop };
@@ -89,7 +100,7 @@ uint32_t ageMs(uint64_t then, uint64_t now) {
   return then ? static_cast<uint32_t>((now - then) / 1000ULL) : UINT32_MAX;
 }
 
-bool enqueueFrame(const boat::Frame& frame) {
+bool enqueueFrame(boat::Frame frame) { frame.logQueueUs = nowUs();
   portENTER_CRITICAL(&queueMux);
   if (queueUsed >= kFrameQueueDepth) {
     ++logStats.queueDrops;
@@ -127,6 +138,24 @@ void emitLocal(boat::Type type, const void* payload, uint16_t length, uint16_t f
   if (enqueueFrame(frame)) ++logStats.localFrames;
 }
 
+bool isBnoFrame(const boat::Frame& frame) {
+  const uint8_t type = frame.header.type;
+  return frame.header.length == sizeof(boat::BnoPayload) &&
+         (type == static_cast<uint8_t>(boat::Type::BnoAccel) || type == static_cast<uint8_t>(boat::Type::BnoGyro) || type == static_cast<uint8_t>(boat::Type::BnoMagnetic));
+}
+
+void emitTimingDiagnostic(const boat::Frame& frame, uint32_t queueWaitUs) {
+  if (!isBnoFrame(frame) || queueWaitUs < kTimingDiagnosticThresholdUs) return;
+  boat::BnoPayload source{}; memcpy(&source, frame.payload, sizeof(source));
+  boat::TimingDiagnosticPayload diagnostic{};
+  diagnostic.originBootId = frame.header.bootId; diagnostic.originSequence = frame.header.sequence;
+  diagnostic.sourceType = frame.header.type; diagnostic.bnoSequence = source.sequence;
+  diagnostic.sensorTimestamp = source.sensorUs; diagnostic.callbackUs = source.callbackUs; diagnostic.queuePushUs = source.queuePushUs;
+  diagnostic.frameUs = frame.header.sourceUs; diagnostic.uartRxUs = frame.uartRxUs; diagnostic.logQueueUs = frame.logQueueUs; diagnostic.sdTaskUs = frame.sdTaskUs;
+  diagnostic.lastSdWriteStartUs = lastSdWriteStartUs; diagnostic.lastSdWriteEndUs = lastSdWriteEndUs; diagnostic.queueWaitUs = queueWaitUs;
+  emitLocal(boat::Type::TimingDiagnostic, &diagnostic, sizeof(diagnostic), 1); ++logStats.timingDiagnostics;
+}
+
 bool commitSdBuffer(const char* operation) {
   if (!logFile || !sdUsed) return true;
   const size_t total = sdUsed;
@@ -135,7 +164,9 @@ bool commitSdBuffer(const char* operation) {
     const size_t requested = min(kSdWriteChunkBytes, total - offset);
     const uint64_t startedUs = nowUs();
     const size_t written = logFile.write(sdBuffer + offset, requested);
-    const uint32_t elapsedUs = (uint32_t)(nowUs() - startedUs);
+    const uint64_t finishedUs = nowUs();
+    const uint32_t elapsedUs = (uint32_t)(finishedUs - startedUs);
+    lastSdWriteStartUs = startedUs; lastSdWriteEndUs = finishedUs;
     ++logStats.sdWriteCalls;
     logStats.sdLastRequest = requested;
     logStats.sdLastWritten = written;
@@ -175,7 +206,8 @@ bool flushLog() {
 
 bool startLog(const char* directory = kLogDirectory) {
   if (!logStats.sdReady || logStats.logging) return logStats.logging;
-  logStats.records=0; logStats.writeErrors=0; logStats.queueDrops=0; logStats.localFrames=0; logStats.queueHighWater=0; logStats.sdWriteCalls=0; logStats.sdLastRequest=0; logStats.sdLastWritten=0; logStats.sdLastWriteUs=0; logStats.sdMaxWriteUs=0; logStats.normalStop=true; logStats.faultSummaryWritten=false; snprintf(logStats.fault,sizeof(logStats.fault),"none"); snprintf(logStats.sdOperation,sizeof(logStats.sdOperation),"none"); snprintf(logStats.directory,sizeof(logStats.directory),"%s",directory); clearLogQueue();
+  portENTER_CRITICAL(&bnoTaskMux); bnoMetrics = {}; portEXIT_CRITICAL(&bnoTaskMux);
+  logStats.records=0; logStats.writeErrors=0; logStats.queueDrops=0; logStats.localFrames=0; logStats.queueHighWater=0; logStats.timingDiagnostics=0; logStats.maxLogQueueWaitUs=0; logStats.sdWriteCalls=0; logStats.sdLastRequest=0; logStats.sdLastWritten=0; logStats.sdLastWriteUs=0; logStats.sdMaxWriteUs=0; logStats.normalStop=true; logStats.faultSummaryWritten=false; snprintf(logStats.fault,sizeof(logStats.fault),"none"); snprintf(logStats.sdOperation,sizeof(logStats.sdOperation),"none"); snprintf(logStats.directory,sizeof(logStats.directory),"%s",directory); clearLogQueue();
   SD.mkdir(logStats.directory);
   char path[32];
   for (uint16_t index = 1; index < 10000; ++index) {
@@ -194,10 +226,10 @@ void writeRunSummary() {
   char path[32]{}; snprintf(path,sizeof(path),"%s/%s",logStats.directory,logStats.runName);
   char* extension=strstr(path,".BIN"); if (!extension) return; memcpy(extension,".TXT",5);
   File summary=SD.open(path,FILE_WRITE); if (!summary) { ++logStats.writeErrors; return; }
-  summary.printf("firmware=%s\nversion=%s\nprotocol=%u\nnormal_stop=%u\nrecords=%lu\nqueue_drops=%lu\nsd_write_errors=%lu\nlog_fault=%s\nsd_write_chunk_bytes=%u\nsd_write_calls=%lu\nsd_max_write_us=%lu\ngnss_nav_tx=%lu\ngnss_result_rx=%lu\nresult_bad_crc=%lu\nlast_rtt_us=%llu\ncommand_ack_rx=%lu\n",kFirmwareName,kFirmwareVersion,boat::kVersion,logStats.normalStop?1:0,(unsigned long)logStats.records,(unsigned long)logStats.queueDrops,(unsigned long)logStats.writeErrors,logStats.fault,(unsigned)kSdWriteChunkBytes,(unsigned long)logStats.sdWriteCalls,(unsigned long)logStats.sdMaxWriteUs,(unsigned long)linkLatest.navTx,(unsigned long)linkLatest.resultRx,(unsigned long)linkLatest.resultBadCrc,(unsigned long long)linkLatest.lastRttUs,(unsigned long)linkLatest.commandAckRx);
-  summary.close();
+  BnoMetrics metrics{}; portENTER_CRITICAL(&bnoTaskMux); metrics=bnoMetrics; portEXIT_CRITICAL(&bnoTaskMux);
+  summary.printf("firmware=%s\nversion=%s\nprotocol=%u\nnormal_stop=%u\nrecords=%lu\nqueue_drops=%lu\nsd_write_errors=%lu\nlog_fault=%s\nsd_write_chunk_bytes=%u\nsd_write_calls=%lu\nsd_max_write_us=%lu\ngnss_nav_tx=%lu\ngnss_result_rx=%lu\nresult_bad_crc=%lu\nlast_rtt_us=%llu\ncommand_ack_rx=%lu\nbno_int_edges=%lu\nbno_task_fallbacks=%lu\nbno_service_calls=%lu\nbno_callback_events=%lu\nbno_decode_errors=%lu\nbno_event_queue_drops=%lu\nbno_event_queue_high_water=%u\nbno_accel_events=%lu\nbno_gyro_events=%lu\nbno_magnetic_events=%lu\nbno_ignored_events=%lu\nbno_max_service_us=%lu\n",kFirmwareName,kFirmwareVersion,boat::kVersion,logStats.normalStop?1:0,(unsigned long)logStats.records,(unsigned long)logStats.queueDrops,(unsigned long)logStats.writeErrors,logStats.fault,(unsigned)kSdWriteChunkBytes,(unsigned long)logStats.sdWriteCalls,(unsigned long)logStats.sdMaxWriteUs,(unsigned long)linkLatest.navTx,(unsigned long)linkLatest.resultRx,(unsigned long)linkLatest.resultBadCrc,(unsigned long long)linkLatest.lastRttUs,(unsigned long)linkLatest.commandAckRx,(unsigned long)metrics.intEdges,(unsigned long)metrics.taskFallbacks,(unsigned long)metrics.serviceCalls,(unsigned long)metrics.callbackEvents,(unsigned long)metrics.decodeErrors,(unsigned long)metrics.eventQueueDrops,(unsigned)metrics.eventQueueHighWater,(unsigned long)metrics.accelEvents,(unsigned long)metrics.gyroEvents,(unsigned long)metrics.magneticEvents,(unsigned long)metrics.ignoredEvents,(unsigned long)metrics.maxServiceUs);
+  summary.printf("timing_diagnostics=%lu\nmax_log_queue_wait_us=%lu\n",(unsigned long)logStats.timingDiagnostics,(unsigned long)logStats.maxLogQueueWaitUs); summary.close();
 }
-
 void stopLog() {
   if (!logStats.logging) return;
   boat::Frame frame{};
@@ -216,12 +248,14 @@ void serviceLog() {
   if (!logStats.logging) return;
   boat::Frame frame{};
   for (uint8_t i = 0; i < 32 && dequeueFrame(frame); ++i) {
-    const uint64_t receivedUs = nowUs();
+    const uint64_t receivedUs = nowUs(); frame.sdTaskUs = receivedUs;
+    const uint32_t queueWaitUs = frame.logQueueUs ? static_cast<uint32_t>(frame.sdTaskUs - frame.logQueueUs) : 0;
+    if (queueWaitUs > logStats.maxLogQueueWaitUs) logStats.maxLogQueueWaitUs = queueWaitUs;
     if (!appendBytes(&kLogMagic, sizeof(kLogMagic)) || !appendBytes(&receivedUs, sizeof(receivedUs)) ||
         !appendBytes(&frame.header, sizeof(frame.header)) || !appendBytes(frame.payload, frame.header.length)) {
       abortLog("SD write failed"); return;
     }
-    ++logStats.records;
+    ++logStats.records; emitTimingDiagnostic(frame, queueWaitUs);
   }
   if (millis() - lastFlushMs >= kSdFlushIntervalMs && !flushLog()) abortLog("SD flush failed");
 }
@@ -232,7 +266,7 @@ void controlRxTask(void*) {
       boat::Frame frame{};
       if (controlDecoder.feed(static_cast<uint8_t>(controlUart.read()), frame)) {
         ++logStats.controlFrames;
-        lastControlFrameUs = nowUs();
+        frame.uartRxUs = nowUs(); lastControlFrameUs = frame.uartRxUs;
         const boat::Type type = static_cast<boat::Type>(frame.header.type);
         if (type == boat::Type::Heartbeat) linkLatest.lastHeartbeatUs = lastControlFrameUs;
         if (type == boat::Type::GnssProcessResult && frame.header.length == sizeof(boat::GnssProcessResultPayload)) {
@@ -258,13 +292,42 @@ void setBnoFault(const char* text) { snprintf(bno.fault, sizeof(bno.fault), "%s"
 bool bnoReports() {
   return bno08x.enableReport(SH2_ACCELEROMETER, kAccelGyroIntervalUs) &&
          bno08x.enableReport(SH2_GYROSCOPE_CALIBRATED, kAccelGyroIntervalUs) &&
-         bno08x.enableReport(SH2_GAME_ROTATION_VECTOR, kRotationIntervalUs) &&
-         bno08x.enableReport(SH2_MAGNETIC_FIELD_CALIBRATED, 50000UL);
+         bno08x.enableReport(SH2_MAGNETIC_FIELD_CALIBRATED, kMagneticIntervalUs);
 }
+
+void bnoSensorCallback(void*, sh2_SensorEvent_t* event) {
+  BnoQueuedEvent queued{};
+  if (sh2_decodeSensorEvent(&queued.value, event) != SH2_OK) {
+    portENTER_CRITICAL(&bnoTaskMux); ++bnoMetrics.decodeErrors; portEXIT_CRITICAL(&bnoTaskMux);
+    return;
+  }
+  queued.receivedUs = nowUs();
+  portENTER_CRITICAL(&bnoTaskMux);
+  ++bnoMetrics.callbackEvents;
+  if (queued.value.sensorId == SH2_ACCELEROMETER) ++bnoMetrics.accelEvents;
+  else if (queued.value.sensorId == SH2_GYROSCOPE_CALIBRATED) ++bnoMetrics.gyroEvents;
+  else if (queued.value.sensorId == SH2_MAGNETIC_FIELD_CALIBRATED) ++bnoMetrics.magneticEvents;
+  else ++bnoMetrics.ignoredEvents;
+  portEXIT_CRITICAL(&bnoTaskMux);
+  queued.queuePushUs = nowUs();
+  if (!bnoEventQueue || xQueueSend(bnoEventQueue, &queued, 0) != pdPASS) {
+    portENTER_CRITICAL(&bnoTaskMux); ++bnoMetrics.eventQueueDrops; portEXIT_CRITICAL(&bnoTaskMux);
+    return;
+  }
+  const UBaseType_t used = uxQueueMessagesWaiting(bnoEventQueue);
+  portENTER_CRITICAL(&bnoTaskMux);
+  if (used > bnoMetrics.eventQueueHighWater) bnoMetrics.eventQueueHighWater = used;
+  portEXIT_CRITICAL(&bnoTaskMux);
+}
+
 bool startBno() {
-  bno.ready = false; bnoWire.begin(kBnoSdaPin, kBnoSclPin, kBnoI2cHz);
+  bno.ready = false;
+  if (!bnoEventQueue) { setBnoFault("BNO event queue unavailable"); return false; }
+  xQueueReset(bnoEventQueue);
+  bnoWire.begin(kBnoSdaPin, kBnoSclPin, kBnoI2cHz);
   for (uint8_t address : {kBnoAddressPrimary, kBnoAddressAlternate}) {
-    if (bno08x.begin_I2C(address, &bnoWire) && bnoReports()) {
+    if (bno08x.begin_I2C(address, &bnoWire) &&
+        sh2_setSensorCallback(bnoSensorCallback, nullptr) == SH2_OK && bnoReports()) {
       bno.ready = true; bno.address = address; bno.lastUs = nowUs(); setBnoFault("none");
       return true;
     }
@@ -279,13 +342,29 @@ struct __attribute__((packed)) BnoPayload {
   float v[7];
 };
 
-void updateEuler() {
-  const float norm = sqrtf(bno.qi*bno.qi + bno.qj*bno.qj + bno.qk*bno.qk + bno.qw*bno.qw);
-  if (norm < 0.00001f) return;
-  const float x=bno.qi/norm, y=bno.qj/norm, z=bno.qk/norm, w=bno.qw/norm;
-  bno.roll = atan2f(2*(w*x+y*z), 1-2*(x*x+y*y))*180.0f/PI;
-  bno.pitch = asinf(constrain(2*(w*y-z*x), -1.0f, 1.0f))*180.0f/PI;
-  bno.yaw = atan2f(2*(w*z+x*y), 1-2*(y*y+z*z))*180.0f/PI;
+void emitBnoEvent(const BnoQueuedEvent& queued) {
+  const sh2_SensorValue_t& value = queued.value;
+  boat::BnoPayload payload{};
+  payload.accuracy = value.status & 3; payload.sequence = value.sequence; payload.sensorUs = value.timestamp; payload.callbackUs = queued.receivedUs; payload.queuePushUs = queued.queuePushUs;
+  if (value.sensorId == SH2_ACCELEROMETER) {
+    payload.kind=1; payload.v[0]=value.un.accelerometer.x; payload.v[1]=value.un.accelerometer.y; payload.v[2]=value.un.accelerometer.z;
+    bno.ax=payload.v[0]; bno.ay=payload.v[1]; bno.az=payload.v[2]; bno.accelAccuracy=payload.accuracy; bno.accelUs=queued.receivedUs; bno.accelValid=true;
+    emitLocal(boat::Type::BnoAccel, &payload, sizeof(payload));
+  } else if (value.sensorId == SH2_GYROSCOPE_CALIBRATED) {
+    payload.kind=2; payload.v[0]=value.un.gyroscope.x; payload.v[1]=value.un.gyroscope.y; payload.v[2]=value.un.gyroscope.z;
+    bno.gx=payload.v[0]; bno.gy=payload.v[1]; bno.gz=payload.v[2]; bno.gyroAccuracy=payload.accuracy; bno.gyroUs=queued.receivedUs; bno.gyroValid=true;
+    emitLocal(boat::Type::BnoGyro, &payload, sizeof(payload));
+  } else if (value.sensorId == SH2_MAGNETIC_FIELD_CALIBRATED) {
+    payload.kind=4; payload.v[0]=value.un.magneticField.x; payload.v[1]=value.un.magneticField.y; payload.v[2]=value.un.magneticField.z;
+    bno.mx=payload.v[0]; bno.my=payload.v[1]; bno.mz=payload.v[2]; bno.magneticAccuracy=payload.accuracy; bno.magneticUs=queued.receivedUs; bno.magneticValid=true;
+    emitLocal(boat::Type::BnoMagnetic, &payload, sizeof(payload));
+  } else return;
+  bno.lastUs = queued.receivedUs;
+}
+
+void drainBnoEvents() {
+  BnoQueuedEvent queued{};
+  while (xQueueReceive(bnoEventQueue, &queued, 0) == pdTRUE) emitBnoEvent(queued);
 }
 
 void serviceBno(bool processEvents) {
@@ -293,37 +372,27 @@ void serviceBno(bool processEvents) {
     if (millis() - lastBnoRetryMs >= kBnoReinitIntervalMs) { lastBnoRetryMs = millis(); ++bno.reinits; startBno(); }
     return;
   }
-  if (bno08x.wasReset() && !bnoReports()) { bno.ready = false; setBnoFault("BNO08X reset"); return; }
-  if (processEvents) for (uint8_t i=0; i<kBnoPollEventBudget && bno08x.getSensorEvent(&bnoValue); ++i) {
-    BnoPayload payload{};
-    payload.accuracy = bnoValue.status & 3; payload.sequence = bnoValue.sequence; payload.sensorUs = bnoValue.timestamp;
-    const uint64_t receivedUs = nowUs();
-    if (bnoValue.sensorId == SH2_ACCELEROMETER) {
-      payload.kind=1; payload.v[0]=bnoValue.un.accelerometer.x; payload.v[1]=bnoValue.un.accelerometer.y; payload.v[2]=bnoValue.un.accelerometer.z;
-      bno.ax=payload.v[0]; bno.ay=payload.v[1]; bno.az=payload.v[2]; bno.accelAccuracy=payload.accuracy; bno.accelUs=receivedUs; bno.accelValid=true;
-      emitLocal(boat::Type::BnoAccel, &payload, sizeof(payload));
-    } else if (bnoValue.sensorId == SH2_GYROSCOPE_CALIBRATED) {
-      payload.kind=2; payload.v[0]=bnoValue.un.gyroscope.x; payload.v[1]=bnoValue.un.gyroscope.y; payload.v[2]=bnoValue.un.gyroscope.z;
-      bno.gx=payload.v[0]; bno.gy=payload.v[1]; bno.gz=payload.v[2]; bno.gyroAccuracy=payload.accuracy; bno.gyroUs=receivedUs; bno.gyroValid=true;
-      emitLocal(boat::Type::BnoGyro, &payload, sizeof(payload));
-    } else if (bnoValue.sensorId == SH2_GAME_ROTATION_VECTOR) {
-      payload.kind=3; payload.v[0]=bnoValue.un.gameRotationVector.i; payload.v[1]=bnoValue.un.gameRotationVector.j; payload.v[2]=bnoValue.un.gameRotationVector.k; payload.v[3]=bnoValue.un.gameRotationVector.real;
-      bno.qi=payload.v[0]; bno.qj=payload.v[1]; bno.qk=payload.v[2]; bno.qw=payload.v[3]; updateEuler(); payload.v[4]=bno.roll; payload.v[5]=bno.pitch; payload.v[6]=bno.yaw;
-      bno.quatAccuracy=payload.accuracy; bno.quatUs=receivedUs; bno.quatValid=true;
-      emitLocal(boat::Type::BnoQuaternion, &payload, sizeof(payload));
-    } else if (bnoValue.sensorId == SH2_MAGNETIC_FIELD_CALIBRATED) {
-      payload.kind=4; payload.v[0]=bnoValue.un.magneticField.x; payload.v[1]=bnoValue.un.magneticField.y; payload.v[2]=bnoValue.un.magneticField.z;
-      bno.mx=payload.v[0]; bno.my=payload.v[1]; bno.mz=payload.v[2]; bno.magneticAccuracy=payload.accuracy; bno.magneticUs=receivedUs; bno.magneticValid=true;
-      emitLocal(boat::Type::BnoMagnetic, &payload, sizeof(payload));
-    } else continue;
-    bno.lastUs = receivedUs;
+  if (bno08x.wasReset()) {
+    xQueueReset(bnoEventQueue);
+    if (sh2_setSensorCallback(bnoSensorCallback, nullptr) != SH2_OK || !bnoReports()) { bno.ready = false; setBnoFault("BNO08X reset"); return; }
   }
+  if (processEvents) {
+    const uint64_t startedUs = nowUs();
+    uint8_t calls = 0;
+    do { sh2_service(); ++calls; } while (digitalRead(kBnoIntPin) == LOW && calls < kBnoServiceCallBudget);
+    const uint32_t elapsedUs = static_cast<uint32_t>(nowUs() - startedUs);
+    portENTER_CRITICAL(&bnoTaskMux);
+    bnoMetrics.serviceCalls += calls;
+    if (elapsedUs > bnoMetrics.maxServiceUs) bnoMetrics.maxServiceUs = elapsedUs;
+    portEXIT_CRITICAL(&bnoTaskMux);
+  }
+  drainBnoEvents();
   if (ageMs(bno.lastUs, nowUs()) > kBnoNoDataTimeoutMs) { bno.ready=false; setBnoFault("BNO08X no data"); }
 }
 
 void IRAM_ATTR bnoIntIsr() {
   BaseType_t woke = pdFALSE;
-  portENTER_CRITICAL_ISR(&bnoTaskMux); ++bnoIntEdges; portEXIT_CRITICAL_ISR(&bnoTaskMux);
+  portENTER_CRITICAL_ISR(&bnoTaskMux); ++bnoMetrics.intEdges; portEXIT_CRITICAL_ISR(&bnoTaskMux);
   if (bnoTaskHandle) vTaskNotifyGiveFromISR(bnoTaskHandle, &woke);
   if (woke) portYIELD_FROM_ISR();
 }
@@ -333,11 +402,10 @@ void bnoTask(void*) {
     const bool intLow = digitalRead(kBnoIntPin) == LOW;
     const uint32_t notified = intLow ? 0 : ulTaskNotifyTake(pdTRUE, pdMS_TO_TICKS(kBnoTaskFallbackMs));
     const bool processEvents = intLow || notified;
-    if (!processEvents) { portENTER_CRITICAL(&bnoTaskMux); ++bnoTaskFallbacks; portEXIT_CRITICAL(&bnoTaskMux); }
+    if (!processEvents) { portENTER_CRITICAL(&bnoTaskMux); ++bnoMetrics.taskFallbacks; portEXIT_CRITICAL(&bnoTaskMux); }
     serviceBno(processEvents);
   }
 }
-
 struct __attribute__((packed)) GnssRawPayload { uint8_t rawLength, checksumValid, parsed, reserved; char type[6]; char raw[kGnssMaxSentenceChars]; };
 struct __attribute__((packed)) GnssFixPayload { uint32_t flags; double latitude, longitude; float altitudeM, speedMps, courseDeg, hdop; uint8_t satellites, fixType; char utcTime[12], utcDate[8], lastType[7]; uint64_t endUs, parseUs; };
 struct __attribute__((packed)) GnssStatusPayload { uint32_t bytes, sentences, valid, checksumErrors, parseErrors, logDrops, sentenceAgeMs, fixAgeMs; };
@@ -509,9 +577,16 @@ void requestControlEstop() { pendingCommand=CommandEstop; web.send(202,"applicat
 // Sensor API and page declarations.
 const char sensorPage[] PROGMEM=R"HTML(<!doctype html><html lang=ja><meta name=viewport content="width=device-width,initial-scale=1"><style>body{font:16px system-ui;margin:12px;background:#101720;color:#edf3fa}.c{background:#1d2a38;border-radius:10px;padding:12px;white-space:pre-wrap}</style><h2>BNO08X ????</h2><div class=c id=v>?????</div><script>async function u(){try{let j=await(await fetch('/api/latest',{cache:'no-store'})).json();v.textContent=`??? [m/s?]  X ${j.ax.toFixed(3)}  Y ${j.ay.toFixed(3)}  Z ${j.az.toFixed(3)}\n???? [rad/s]  X ${j.gx?.toFixed(3)??'n/a'}  Y ${j.gy?.toFixed(3)??'n/a'}  Z ${j.gz?.toFixed(3)??'n/a'}\n??? [?T]  X ${j.mx_ut.toFixed(2)}  Y ${j.my_ut.toFixed(2)}  Z ${j.mz_ut.toFixed(2)}\n???: ${j.magnetic_valid?'??':'??'} / ?? ${j.magnetic_accuracy}/3 / ?? ${j.magnetic_age_ms} ms\nBNO: ${j.bno?'??':'??'} ${j.bno_fault}`;}catch(e){v.textContent='?????'}}setInterval(u,50);u()</script></html>)HTML";
 
-void apiSensors(){const uint64_t now=nowUs();char json[640];snprintf(json,sizeof(json),"{\"bno\":%s,\"fault\":\"%s\",\"ax\":%.5f,\"ay\":%.5f,\"az\":%.5f,\"gx\":%.5f,\"gy\":%.5f,\"gz\":%.5f,\"mx_ut\":%.3f,\"my_ut\":%.3f,\"mz_ut\":%.3f,\"magnetic_valid\":%s,\"magnetic_accuracy\":%u,\"magnetic_age_ms\":%lu}",bno.ready?"true":"false",bno.fault,bno.ax,bno.ay,bno.az,bno.gx,bno.gy,bno.gz,bno.mx,bno.my,bno.mz,bno.magneticValid?"true":"false",bno.magneticAccuracy,(unsigned long)ageMs(bno.magneticUs,now));web.send(200,"application/json",json);}
-const char sensorPage2[] PROGMEM=R"HTML(<!doctype html><html lang=ja><meta name=viewport content="width=device-width,initial-scale=1"><style>body{font:16px system-ui;margin:12px;background:#101720;color:#edf3fa}.c{background:#1d2a38;border-radius:10px;padding:12px;white-space:pre-wrap}</style><h2>BNO08X sensor values</h2><div class=c id=v>Loading...</div><script>async function u(){try{let j=await(await fetch('/api/sensors',{cache:'no-store'})).json();v.textContent=`Acceleration [m/s2]  X ${j.ax.toFixed(3)}  Y ${j.ay.toFixed(3)}  Z ${j.az.toFixed(3)}\nGyroscope [rad/s]  X ${j.gx.toFixed(3)}  Y ${j.gy.toFixed(3)}  Z ${j.gz.toFixed(3)}\nMagnetic field [uT]  X ${j.mx_ut.toFixed(2)}  Y ${j.my_ut.toFixed(2)}  Z ${j.mz_ut.toFixed(2)}\nMagnetic: ${j.magnetic_valid?'valid':'invalid'} / accuracy ${j.magnetic_accuracy}/3 / age ${j.magnetic_age_ms} ms\nBNO: ${j.bno?'ready':'fault'} ${j.fault}`;}catch(e){v.textContent='Update error'}}setInterval(u,50);u()</script></html>)HTML";
+void apiSensors() {
+  const uint64_t now=nowUs();
+  BnoMetrics metrics{}; portENTER_CRITICAL(&bnoTaskMux); metrics=bnoMetrics; portEXIT_CRITICAL(&bnoTaskMux);
+  const UBaseType_t eventQueueUsed=bnoEventQueue ? uxQueueMessagesWaiting(bnoEventQueue) : 0;
+  char json[1200];
+  snprintf(json,sizeof(json),"{\"bno\":%s,\"fault\":\"%s\",\"reinits\":%lu,\"ax\":%.5f,\"ay\":%.5f,\"az\":%.5f,\"gx\":%.5f,\"gy\":%.5f,\"gz\":%.5f,\"mx_ut\":%.3f,\"my_ut\":%.3f,\"mz_ut\":%.3f,\"magnetic_valid\":%s,\"magnetic_accuracy\":%u,\"magnetic_age_ms\":%lu,\"int_edges\":%lu,\"task_fallbacks\":%lu,\"service_calls\":%lu,\"callback_events\":%lu,\"decode_errors\":%lu,\"event_queue_drops\":%lu,\"event_queue_used\":%u,\"event_queue_high_water\":%u,\"accel_events\":%lu,\"gyro_events\":%lu,\"magnetic_events\":%lu,\"ignored_events\":%lu,\"max_service_us\":%lu}",bno.ready?"true":"false",bno.fault,(unsigned long)bno.reinits,bno.ax,bno.ay,bno.az,bno.gx,bno.gy,bno.gz,bno.mx,bno.my,bno.mz,bno.magneticValid?"true":"false",bno.magneticAccuracy,(unsigned long)ageMs(bno.magneticUs,now),(unsigned long)metrics.intEdges,(unsigned long)metrics.taskFallbacks,(unsigned long)metrics.serviceCalls,(unsigned long)metrics.callbackEvents,(unsigned long)metrics.decodeErrors,(unsigned long)metrics.eventQueueDrops,(unsigned)eventQueueUsed,(unsigned)metrics.eventQueueHighWater,(unsigned long)metrics.accelEvents,(unsigned long)metrics.gyroEvents,(unsigned long)metrics.magneticEvents,(unsigned long)metrics.ignoredEvents,(unsigned long)metrics.maxServiceUs);
+  web.send(200,"application/json",json);
+}
 
+const char sensorPage2[] PROGMEM=R"HTML(<!doctype html><html lang=ja><meta name=viewport content="width=device-width,initial-scale=1"><style>body{font:16px system-ui;margin:12px;background:#101720;color:#edf3fa}.c{background:#1d2a38;border-radius:10px;padding:12px;white-space:pre-wrap}</style><h2>BNO08X sensor values</h2><div class=c id=v>Loading...</div><script>async function u(){try{let j=await(await fetch('/api/sensors',{cache:'no-store'})).json();v.textContent=`Acceleration [m/s2]  X ${j.ax.toFixed(3)}  Y ${j.ay.toFixed(3)}  Z ${j.az.toFixed(3)}\nGyroscope [rad/s]  X ${j.gx.toFixed(3)}  Y ${j.gy.toFixed(3)}  Z ${j.gz.toFixed(3)}\nMagnetic field [uT]  X ${j.mx_ut.toFixed(2)}  Y ${j.my_ut.toFixed(2)}  Z ${j.mz_ut.toFixed(2)}\nMagnetic: ${j.magnetic_valid?'valid':'invalid'} / accuracy ${j.magnetic_accuracy}/3 / age ${j.magnetic_age_ms} ms\nBNO: ${j.bno?'ready':'fault'} ${j.fault} / reinitializations ${j.reinits}\n\nINT edges ${j.int_edges} / fallback wakeups ${j.task_fallbacks} / SH-2 services ${j.service_calls}\nCallback events ${j.callback_events} (accel ${j.accel_events}, gyro ${j.gyro_events}, magnetic ${j.magnetic_events})\nDecode errors ${j.decode_errors} / event-queue drops ${j.event_queue_drops}\nEvent queue used/high-water ${j.event_queue_used}/${j.event_queue_high_water} of 96 / max service ${j.max_service_us} us`;}catch(e){v.textContent='Update error'}}setInterval(u,50);u()</script></html>)HTML";
 void beginWeb() {
   WiFi.persistent(false); WiFi.mode(WIFI_AP); WiFi.softAP(kApSsid,kApPassword);
   web.on("/",HTTP_GET,[]{ web.send_P(200,"text/html; charset=utf-8",simpleBenchmarkPage); }); web.on("/sensors",HTTP_GET,[]{ web.send_P(200,"text/html; charset=utf-8",sensorPage2); }); web.on("/api/latest",HTTP_GET,apiLatest); web.on("/api/sensors",HTTP_GET,apiSensors); web.on("/api/link",HTTP_GET,apiLink); web.on("/api/ui",HTTP_GET,apiUi); web.on("/api/manual",HTTP_GET,apiManual); web.on("/api/benchmark",HTTP_GET,apiBenchmark);
@@ -525,6 +600,8 @@ void setup() {
   controlUart.setRxBufferSize(kControlUartRxBufferBytes); controlUart.begin(kControlUartBaud,SERIAL_8N1,kControlUartRxPin,kControlUartTxPin); controlTxMutex=xSemaphoreCreateMutex();
   gnssUart.setRxBufferSize(kGnssUartRxBufferBytes); gnssRx.begin(gnssUart);
   SPI.begin(kSdSckPin,kSdMisoPin,kSdMosiPin,kSdCsPin); logStats.sdReady=SD.begin(kSdCsPin,SPI);
+  bnoEventQueue=xQueueCreate(kBnoEventQueueDepth,sizeof(BnoQueuedEvent));
+  if (!bnoEventQueue) setBnoFault("BNO event queue allocation failed");
   startBno(); xTaskCreatePinnedToCore(controlRxTask,"ControlRx",4096,nullptr,2,nullptr,0); xTaskCreatePinnedToCore(gnssNavTask,"GnssNavTx",4096,nullptr,2,nullptr,1); xTaskCreatePinnedToCore(bnoTask,"CommBno",4096,nullptr,kBnoTaskPriority,&bnoTaskHandle,0); attachInterrupt(digitalPinToInterrupt(kBnoIntPin),bnoIntIsr,FALLING); beginWeb();
   Serial.printf("%s %s boot=%lu SD=%d AP=%s URL=http://%s/\n",kFirmwareName,kFirmwareVersion,(unsigned long)commBootId,logStats.sdReady,kApSsid,WiFi.softAPIP().toString().c_str());
 }

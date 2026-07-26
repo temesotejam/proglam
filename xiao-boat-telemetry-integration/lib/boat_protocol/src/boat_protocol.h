@@ -10,7 +10,7 @@ enum class Type : uint8_t {
   InaSample = 6, VescStatus = 7, ActuatorState = 8, SystemHealth = 9,
   Event = 10, TimeSyncReply = 11, GnssRaw = 12, GnssFix = 13, GnssStatus = 14,
   GnssNav = 15, GnssProcessResult = 16, CommandAck = 17, TimeSyncRequest = 18,
-  LinkStatistics = 19, BnoMagnetic = 20,
+  LinkStatistics = 19, BnoMagnetic = 20, TimingDiagnostic = 21,
   Heartbeat = 32, Arm = 33, Disarm = 34, StartTest = 35, Stop = 36,
   Estop = 37, ClearEstop = 38,
   BenchmarkPrepare = 48, BenchmarkReady = 49, BenchmarkStart = 50,
@@ -27,7 +27,10 @@ struct __attribute__((packed)) Header {
 struct Frame {
   Header header{};
   uint8_t payload[kMaxPayload]{};
+  uint64_t uartRxUs = 0, logQueueUs = 0, sdTaskUs = 0;
 };
+struct __attribute__((packed)) BnoPayload { uint8_t kind, accuracy, sequence, reserved; uint64_t sensorUs, callbackUs, queuePushUs; float v[7]; };
+struct __attribute__((packed)) TimingDiagnosticPayload { uint32_t originBootId, originSequence; uint8_t sourceType, bnoSequence; uint16_t reserved; uint64_t sensorTimestamp, callbackUs, queuePushUs, frameUs, uartRxUs, logQueueUs, sdTaskUs, lastSdWriteStartUs, lastSdWriteEndUs; uint32_t queueWaitUs; };
 uint32_t crc32(const uint8_t*, size_t);
 enum NavFlag : uint32_t { NavFixValid=1u<<0, NavNewFix=1u<<1, NavLatValid=1u<<2,
   NavLonValid=1u<<3, NavAltitudeValid=1u<<4, NavSpeedValid=1u<<5,

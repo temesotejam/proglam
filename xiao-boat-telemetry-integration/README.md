@@ -1,3 +1,7 @@
+## BOAT24 timing diagnostics
+
+Firmware 0.3.2 adds low-overhead timing evidence for the RUN0013 record-gap investigation. Each BNO frame now retains its sensor timestamp, SH-2 callback time, and BNO event-queue push time; the frame header carries frame creation time. At the recorder, UART receipt, common log-queue insertion, and SD-task dequeue times are retained. If a BNO frame waits in the common log queue for 80 ms or more, one fixed-size TimingDiagnostic BIN record is added with all of those values and the latest SD write start/end time. The TXT summary reports timing_diagnostics and max_log_queue_wait_us. This avoids serial output and records only threshold breaches.
+
 ## &#22320;&#30913;&#27671;&#12475;&#12531;&#12469;&#20516;
 
 SoftAP `XIAO-BOAT-TELEMETRY` (password `12345678`) &#12395;&#25509;&#32154;&#12375;&#12289;`http://192.168.4.1/sensors` &#12434;&#38283;&#12367;&#12392;&#12289;BNO08X&#12398;&#21152;&#36895;&#24230;&#12289;&#12472;&#12515;&#12452;&#12525;&#12289;&#22320;&#30913;&#27671;&#12434;50 ms&#12372;&#12392;&#12395;&#34920;&#31034;&#12375;&#12414;&#12377;&#12290;
@@ -7,6 +11,12 @@ SoftAP `XIAO-BOAT-TELEMETRY` (password `12345678`) &#12395;&#25509;&#32154;&#123
 - `ax`, `ay`, `az`: &#21152;&#36895;&#24230; [m/s2]
 - `gx`, `gy`, `gz`: &#12472;&#12515;&#12452;&#12525; [rad/s]
 - `mx_ut`, `my_ut`, `mz_ut`: &#26657;&#27491;&#28168;&#12415;&#22320;&#30913;&#27671; [&micro;T]
+- `magnetic_valid`, `magnetic_accuracy`, `magnetic_age_ms`: 地磁気の有効性、較正精度（0〜3）、最新値の経過時間 [ms]
+- `int_edges`, `task_fallbacks`, `service_calls`: D3 INT通知数、2 msフォールバック起床数、SH-2サービス回数
+- `callback_events`, `accel_events`, `gyro_events`, `magnetic_events`: コールバックで復号した全イベント数と種別別件数
+- `decode_errors`, `event_queue_drops`, `event_queue_used`, `event_queue_high_water`, `max_service_us`: 復号失敗、BNOイベントキューの損失・現在量・最大量、最大サービス時間 [us]
+
+BOAT24は同一条件を60秒だけ実行する確認用ファームウェアで、BOAT23（180秒）の前に両ノードのcallback→BNOキュー→UART→ログ→SD経路を検証します。BOAT23では加速度・較正ジャイロを各100 Hz、較正地磁気を20 Hzで要求します。`event_queue_drops=0`、`decode_errors=0`、キュー最大量が96未満であることを、SD書込みエラー0・ログキュードロップ0と合わせて確認してください。画面表示とAPIはキャッシュ済み値だけを参照し、HTTP処理中にI2C読出しは行いません。 RUN0011では通信側ローカルBNOの3ストリームが連番欠落0となった一方、制御側からUART受信するBNOには欠落が残るため、2台全体の合格結果ではありません。
 # 通信側 XIAO 統合ファームウェア
 
 制御側 XIAO のUARTテレメトリをmicroSDへ保存しながら、通信側に接続するGNSSと比較用BNO08Xも同じログへ保存する最初の全体縦切りです。外部Wi-Fiルーターは不要です。

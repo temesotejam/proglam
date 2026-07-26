@@ -5,7 +5,7 @@
 
 namespace app_config {
 constexpr char kFirmwareName[] = "xiao-boat-telemetry-integration";
-constexpr char kFirmwareVersion[] = "0.3.0-fixed-experiment";
+constexpr char kFirmwareVersion[] = "0.3.3-bno-timing-60ms";
 
 // SoftAP/Web UI. Connect directly and open http://192.168.4.1/.
 constexpr char kApSsid[] = "XIAO-BOAT-TELEMETRY";
@@ -35,16 +35,21 @@ constexpr size_t kSdWriteBufferBytes = 8192;
 // time.  A failed sector is never retried; the campaign is aborted safely.
 constexpr size_t kSdWriteChunkBytes = 512;
 constexpr uint32_t kSdFlushIntervalMs = 100UL;
+// Persist near-limit scheduling stalls; BOAT24 acceptance remains <= 80 ms.
+constexpr uint32_t kTimingDiagnosticThresholdUs = 60000UL;
 constexpr char kLogDirectory[] = "/BOATLOG";
 
 constexpr uint8_t kBnoAddressPrimary = 0x4A;
-constexpr uint8_t kBnoPollEventBudget = 1;
 constexpr uint32_t kBnoTaskFallbackMs = 2UL;
-constexpr UBaseType_t kBnoTaskPriority = 1;
+// BNO callbacks are queued before logging. At the BOAT23 local request rate
+// (100 + 100 + 20 Hz), 96 slots give over 0.4 s of scheduling headroom.
+constexpr uint16_t kBnoEventQueueDepth = 96;
+constexpr uint8_t kBnoServiceCallBudget = 8;
+constexpr UBaseType_t kBnoTaskPriority = 3;
 constexpr uint8_t kBnoAddressAlternate = 0x4B;
 constexpr uint32_t kBnoI2cHz = 100000UL;
-constexpr uint32_t kAccelGyroIntervalUs = 5000UL;
-constexpr uint32_t kRotationIntervalUs = 20000UL;
+constexpr uint32_t kAccelGyroIntervalUs = 10000UL;
+constexpr uint32_t kMagneticIntervalUs = 50000UL;
 constexpr uint32_t kBnoNoDataTimeoutMs = 3000UL;
 constexpr uint32_t kBnoReinitIntervalMs = 2000UL;
 
