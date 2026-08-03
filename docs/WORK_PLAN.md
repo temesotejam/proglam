@@ -219,3 +219,11 @@ Next: inspect, without changing BNO report configuration, why BNO08X kind1 and k
 - RUN0055（duration=1、bno_log_enqueue=0）でSTART/STOP ACK、ESKF reset_count=1、seq_gap=0、CRC/COBS/length=0、queue=0、flush/close/TXT、FINALIZED、stack overflow=0を確認。
 - 次は同条件で要求10秒raw BNO試験。partial/zero writeを合格条件として再確認し、10秒合格前に通常運用へ切り替えない。
 
+
+## 2026-08-03 追記：RUN0056/RUN0057 raw BNO 10秒
+
+- RUN0056は段階件数・BIN復号・finalizeは成立したが、partial_writes=2が正常な最終短チャンクの誤カウントだったため判定保留。Core commit() のpartial判定を実actual<nだけに修正。
+- 両プロジェクト再ビルド、Core COM6再書込み後、RUN0057を同一APIで再試験。
+- RUN0057はkind1..5のevent/TX enqueue/TX complete/Core受信/BIN保存が各段階一致、UART/report sequence欠落・重複・逆順0、drop/error0、partial/zero0、queue=0、flush/close/TXT、FINALIZED、BIN trailing=0で合格。
+- 通常運用周期への切替は未実施。SH-2 raw sensor timestamp重複/逆行とresetなしESKF累積状態は次の評価課題。
+

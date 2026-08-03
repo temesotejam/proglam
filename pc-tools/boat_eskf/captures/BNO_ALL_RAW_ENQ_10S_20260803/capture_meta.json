@@ -1,0 +1,20 @@
+{
+  "ports": {
+    "COM4": "34:85:18:AB:FA:90",
+    "COM6": "30:ED:A0:D4:BF:40"
+  },
+  "core_lines": 3863,
+  "xiao_lines": 1449,
+  "core_diag_lines": 32,
+  "xiao_diag_lines": 64,
+  "stack_overflow_core": 0,
+  "stack_overflow_xiao": 0,
+  "guru_core": 0,
+  "guru_xiao": 0,
+  "core_start_ack": 1,
+  "core_stop_ack": 1,
+  "xiao_start_ack": 1,
+  "xiao_stop_ack": 1,
+  "logger_finalized": 1,
+  "cmd_errors": 0
+}
