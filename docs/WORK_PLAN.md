@@ -252,3 +252,10 @@ Next: inspect, without changing BNO report configuration, why BNO08X kind1 and k
 - [•Û—¯] ‹@‘Ì‚ğ‰ñ“]‚³‚¹‚éRoll/Pitch/Yaw²E•„†Šm”F‚Í–¢À{BŸ‚Íˆê²‚¸‚Âp¨‚ğŒÅ’è‚µ‚Äæ“¾‚µAI—¹ŒãBOAT_EXPERIMENT=23‚Ö•œ‹AB
 - ØÕ: docs/BNO_ATTITUDE_GVR_10S_20260803.mdApc-tools/boat_eskf/captures/BNO_ATTITUDE_GVR_10S_20260803/
 
+
+## 2026-08-03 ç¾åœ¨çŠ¶æ…‹ç¢ºèª
+
+- RUN0058å¾Œã®Core APIã‚’ç¢ºèªã€‚linkã¯æ¥ç¶šä¸­ã§sequence gap/CRC/COBS/length=0ã€‚
+- /api/eskf ã¯rawè©¦é¨“çµ‚äº†å¾Œã®ãŸã‚ imu_stale / run_state=0ã€‚shadow_only=trueã€actuator_output_enabled=falseã€‚
+- ç‰©ç†çš„ãªRoll/Pitch/Yawå›è»¢ã¯æœªå®Ÿæ–½ã€‚ãƒ¦ãƒ¼ã‚¶ãƒ¼ã®æº–å‚™å®Œäº†å¾Œã«è»¸ã”ã¨ã®å›è»¢ãƒ»ä¿æŒè©¦é¨“ã‚’è¡Œã†ã€‚
+- è¨¼è·¡: docs/BNO_AXIS_TEST_STATUS_20260803.md

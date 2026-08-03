@@ -342,3 +342,10 @@ ec=411 で sdCommand(): Card Failed! cmd: 0x18 が発生。その後CMD0D/CMD00�
 - raw sensor timestamp�t�s��kind2=354�Akind3=371�Breport sequence�͐���B
 - ����]����͂܂��s���Ă��Ȃ����߁A���m�F�͖������B
 
+
+## 2026-08-03 現在状態確認
+
+- COM3には触れず、Core COM6を開かずに /api/link と /api/eskf を確認。
+- link: connected、sequence gap/CRC/COBS/length=0。raw kind2/3はRUN0058終了後のためstale。
+- ESKF: imu_stale、run_state=0、shadow_only=true、actuator_output_enabled=false。
+- 軸回転試験は未実施であり、未完了として記録。次回はユーザーの静止準備完了後に一軸ずつ実施する。
