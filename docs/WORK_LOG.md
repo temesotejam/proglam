@@ -333,3 +333,12 @@ ec=411 ã§ sdCommand(): Card Failed! cmd: 0x18 ãŒç™ºç”Ÿã€‚ãã®å¾ŒCMD0D/CMD00ã
 - quaternion/RPY‚Í‘S“_‚Åidentity/0 radB’Êíİ’è‚Å‚ÍGame Rotation Vector–³ŒøAmount–¢Šm’è‚Ì‚½‚ß²Šm”FŒ±‚Í–¢À{B
 - ØÕ: pc-tools/boat_eskf/captures/NORMAL_OPERATION_STATIC_BASELINE_20260803/
 
+
+## 2026-08-03 RUN0058 GVR€”õŒ±
+
+- COM4‚ÖBOAT_EXPERIMENT=21‚ğ‘‚İBCore COM6‚ÍAPI‚Ì‚İg—pACOM3–¢‘€ìB
+- RUN0058: kind2 Gyro=999Akind3 Game Rotation Vector=999ABIN/TXT•œ†³íAtrailing=0Aqueue/SD/UARTƒGƒ‰[0B
+- GVRÃ~•½‹ÏRoll/Pitch/Yaw=-174.851632/1.461164/-178.638889 degAquaternion norm•½‹Ï0.999994B
+- raw sensor timestamp‹ts‚Íkind2=354Akind3=371Breport sequence‚Í³íB
+- ²‰ñ“]‘€ì‚Í‚Ü‚¾s‚Á‚Ä‚¢‚È‚¢‚½‚ßA²Šm”F‚Í–¢Š®—¹B
+

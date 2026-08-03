@@ -244,3 +244,11 @@ Next: inspect, without changing BNO report configuration, why BNO08X kind1 and k
 - [保留] 通常運用ではGame Rotation Vector無効・mount未確定のため、Roll/Pitch/Yaw軸確認は未実施。軸試験条件または一時診断設定を確定する。
 - 証跡: docs/NORMAL_OPERATION_STATIC_BASELINE_20260803.md
 
+
+## 2026-08-03 RUN0058 Game Rotation Vector軸確認準備
+
+- [完了] 軸確認用BOAT_EXPERIMENT=21をCOM4へ書込み。Gyro/GVR 100 Hz。
+- [完了] RUN0058 API自動10秒。kind2/3=999/999、BIN 2,976 records、trailing=0、P1 ACK=2、UART/SD/queueエラー0。
+- [保留] 機体を回転させるRoll/Pitch/Yaw軸・符号確認は未実施。次は一軸ずつ姿勢を固定して取得し、終了後BOAT_EXPERIMENT=23へ復帰。
+- 証跡: docs/BNO_ATTITUDE_GVR_10S_20260803.md、pc-tools/boat_eskf/captures/BNO_ATTITUDE_GVR_10S_20260803/
+
