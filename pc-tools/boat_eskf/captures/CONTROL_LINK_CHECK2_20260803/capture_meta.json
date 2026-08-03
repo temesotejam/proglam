@@ -1,0 +1,16 @@
+{
+  "ports": {
+    "COM4": "34:85:18:AB:FA:90",
+    "COM6": "30:ED:A0:D4:BF:40"
+  },
+  "core_lines": 602,
+  "xiao_lines": 774,
+  "core_diag_before": 0,
+  "xiao_diag_before": 25,
+  "stack_overflow_core": 0,
+  "stack_overflow_xiao": 0,
+  "p1_start_ack_xiao": 1,
+  "p1_stop_ack_xiao": 1,
+  "p1_start_ack_core": 1,
+  "p1_stop_ack_core": 1
+}

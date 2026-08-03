@@ -1,0 +1,50 @@
+{
+  "label": "CONTROL_LINK_CHECK_20260803",
+  "ports": {
+    "core": "COM6",
+    "xiao": "COM4"
+  },
+  "baud": 115200,
+  "opened_utc": "2026-08-03T10:24:09.865677+00:00",
+  "ready_before_start": {
+    "core": 8,
+    "xiao": 2
+  },
+  "line_counts_before_start": {
+    "core": 40,
+    "xiao": 140
+  },
+  "start": {
+    "status": 202,
+    "body": "{\"logging\":true,\"duration_s\":1,\"bno_capture\":true,\"bno_log_enqueue\":false,\"uart_rx_diag\":\"dispatch\",\"eskf_reset_at_start\":true,\"eskf_reset_queued\":true}",
+    "url": "http://192.168.4.1/api/log/start?duration_s=1&bno_capture=1&bno_log_enqueue=0&uart_rx_diag=dispatch&eskf_reset_at_start=1"
+  },
+  "eskf_after": {
+    "status": 200,
+    "body": "{\"state_received\":true,\"health_received\":true,\"baseline_received\":true,\"shadow_only\":true,\"actuator_output_enabled\":false,\"health_reason\":\"alignment_incomplete\",\"health_diagnostic_mask\":449,\"run_state\":1,\"health\":0,\"eskf_initialized\":true,\"ned_m\":[0.00000,0.00000,0.00000],\"velocity_mps\":[0.00000,0.00000,0.00000],\"q_nb\":[1.000000,0.000000,0.000000,0.000000],\"rpy_rad\":[0.000000,0.000000,0.000000],\"accel_bias\":[0.00000,0.00000,0.00000],\"gyro_bias\":[0.00000,0.00000,0.00000],\"ages_us\":{\"imu\":453,\"gnss\":4294967295,\"tof\":4294967295},\"observations\":0,\"mount_valid\":0,\"reset_count\":0,\"stddev\":[0.000100,0.000100,0.000100,0.000100,0.000100,0.000100,0.000100,0.000100,0.000100,0.000100,0.000100,0.000100,0.000100,0.000100,0.000100],\"eskf_health\":{\"run_state\":1,\"health\":0,\"primary_bno_state\":1,\"secondary_bno_state\":0,\"ina_state\":0,\"covariance_valid\":1,\"finite\":1,\"last_reset_reason\":0,\"imu_gaps\":0,\"time_reversals\":0},\"baseline\":{\"rpy_rad\":[-0.000239,-0.001142,-0.000027],\"eskf_delta_rpy_rad\":[0.000239,0.001142,0.000027]},\"time_sync\":{\"valid\":true,\"offset_us\":-7655810266,\"rtt_us\":4299,\"uncertainty_us\":2149,\"requests\":7617,\"xiao_received_inferred\":824,\"reply_received\":824,\"timeouts\":0},\"xiao_link\":{\"connected\":true,\"rx_bytes\":12342837,\"frames\":170,\"sequence_gaps\":0,\"crc_errors\":0,\"cobs_errors\":10,\"length_errors\":1,\"last_type\":5,\"last_age_ms\":2861}}",
+    "url": "http://192.168.4.1/api/eskf"
+  },
+  "link_after": {
+    "status": 200,
+    "body": "{\"uart\":{\"baud\":921600,\"rx_pin\":8,\"tx_pin\":9,\"rx_bytes\":12342837,\"frames\":170,\"sequence_gaps\":0,\"crc_errors\":0,\"cobs_errors\":10,\"length_errors\":1},\"types\":[{\"type\":2,\"name\":\"BnoAccel\",\"count\":4,\"last_sequence\":57,\"last_age_ms\":11958,\"payload_length\":56,\"expected_length\":56,\"length_match\":true},{\"type\":3,\"name\":\"BnoGyro\",\"count\":3,\"last_sequence\":54,\"last_age_ms\":11962,\"payload_length\":56,\"expected_length\":56,\"length_match\":true},{\"type\":4,\"name\":\"BnoQuaternion\",\"count\":3,\"last_sequence\":55,\"last_age_ms\":11961,\"payload_length\":56,\"expected_length\":56,\"length_match\":true},{\"type\":5,\"name\":\"TofFrame\",\"count\":27626,\"last_sequence\":135,\"last_age_ms\":2875,\"payload_length\":196,\"expected_length\":196,\"length_match\":true},{\"type\":11,\"name\":\"TimeSyncReply\",\"count\":824,\"last_sequence\":121,\"last_age_ms\":3028,\"payload_length\":28,\"expected_length\":28,\"length_match\":true},{\"type\":16,\"name\":\"GnssProcessResult\",\"count\":8583,\"last_sequence\":126,\"last_age_ms\":2972,\"payload_length\":68,\"expected_length\":68,\"length_match\":true},{\"type\":20,\"name\":\"BnoMagnetic\",\"count\":1,\"last_sequence\":41,\"last_age_ms\":12038,\"payload_length\":56,\"expected_length\":56,\"length_match\":true},{\"type\":22,\"name\":\"EstimatedState\",\"count\":7062,\"last_sequence\":131,\"last_age_ms\":2929,\"payload_length\":120,\"expected_length\":120,\"length_match\":true},{\"type\":23,\"name\":\"P1Capture\",\"count\":1,\"last_sequence\":40,\"last_age_ms\":12045,\"payload_length\":16,\"expected_length\":16,\"length_match\":true},{\"type\":24,\"name\":\"PrimaryImuSnapshot\",\"count\":12818,\"last_sequence\":134,\"last_age_ms\":2893,\"payload_length\":64,\"expected_length\":64,\"length_match\":true},{\"type\":32,\"name\":\"Heartbeat\",\"count\":9848,\"last_sequence\":130,\"last_age_ms\":2934,\"payload_length\":12,\"expected_length\":12,\"length_match\":true},{\"type\":56,\"name\":\"EskfState\",\"count\":12905,\"last_sequence\":133,\"last_age_ms\":2894,\"payload_length\":156,\"expected_length\":156,\"length_match\":true},{\"type\":58,\"name\":\"EskfHealth\",\"count\":4001,\"last_sequence\":117,\"last_age_ms\":3053,\"payload_length\":44,\"expected_length\":44,\"length_match\":true}],\"time_sync\":{\"requests\":7617,\"xiao_received_inferred\":824,\"reply_received\":824,\"timeouts\":0,\"unexpected_replies\":0,\"pending\":true},\"eskf_reset\":{\"requests\":1,\"rejected_duplicate\":0,\"before_reset_count\":0}}",
+    "url": "http://192.168.4.1/api/link"
+  },
+  "files_after": {
+    "status": 200,
+    "body": "{\"sd_ready\":true,\"logging\":false,\"files\":[{\"name\":\"RUN0001.BIN\",\"size\":239264},{\"name\":\"RUN0001.TXT\",\"size\":255},{\"name\":\"RUN0002.BIN\",\"size\":0},{\"name\":\"RUN0003.BIN\",\"size\":0},{\"name\":\"RUN0004.BIN\",\"size\":0},{\"name\":\"RUN0004.TXT\",\"size\":257},{\"name\":\"RUN0005.BIN\",\"size\":1566502},{\"name\":\"RUN0005.TXT\",\"size\":257},{\"name\":\"RUN0006.BIN\",\"size\":0},{\"name\":\"RUN0007.BIN\",\"size\":259122},{\"name\":\"RUN0007.TXT\",\"size\":257},{\"name\":\"RUN0008.BIN\",\"size\":0},{\"name\":\"RUN0009.BIN\",\"size\":62046},{\"name\":\"RUN0009.TXT\",\"size\":254},{\"name\":\"RUN0010.BIN\",\"size\":62494},{\"name\":\"RUN0010.TXT\",\"size\":254},{\"name\":\"RUN0011.BIN\",\"size\":64539},{\"name\":\"RUN0011.TXT\",\"size\":253},{\"name\":\"RUN0012.BIN\",\"size\":61344},{\"name\":\"RUN0012.TXT\",\"size\":252},{\"name\":\"RUN0013.BIN\",\"size\":59086},{\"name\":\"RUN0013.TXT\",\"size\":255},{\"name\":\"RUN0014.BIN\",\"size\":205726},{\"name\":\"RUN0014.TXT\",\"size\":256},{\"name\":\"RUN0015.BIN\",\"size\":205472},{\"name\":\"RUN0015.TXT\",\"size\":257},{\"name\":\"RUN0016.BIN\",\"size\":62589},{\"name\":\"RUN0016.TXT\",\"size\":255},{\"name\":\"RUN0017.BIN\",\"size\":208584},{\"name\":\"RUN0017.TXT\",\"size\":256},{\"name\":\"RUN0018.BIN\",\"size\":63552},{\"name\":\"RUN0018.TXT\",\"size\":254},{\"name\":\"RUN0019.BIN\",\"size\":62782},{\"name\":\"RUN0019.TXT\",\"size\":255},{\"name\":\"RUN0020.BIN\",\"size\":64202},{\"name\":\"RUN0020.TXT\",\"size\":254},{\"name\":\"RUN0021.BIN\",\"size\":61662},{\"name\":\"RUN0021.TXT\",\"size\":254},{\"name\":\"RUN0022.BIN\",\"size\":63398},{\"name\":\"RUN0022.TXT\",\"size\":255},{\"name\":\"RUN0023.BIN\",\"size\":63398},{\"name\":\"RUN0023.TXT\",\"size\":256},{\"name\":\"RUN0024.BIN\",\"size\":68823},{\"name\":\"RUN0024.TXT\",\"size\":255},{\"name\":\"RUN0025.BIN\",\"size\":63706},{\"name\":\"RUN0025.TXT\",\"size\":255},{\"name\":\"RUN0026.BIN\",\"size\":63398},{\"name\":\"RUN0026.TXT\",\"size\":255},{\"name\":\"RUN0027.BIN\",\"size\":70415},{\"name\":\"RUN0027.TXT\",\"size\":255},{\"name\":\"RUN0028.BIN\",\"size\":65298},{\"name\":\"RUN0028.TXT\",\"size\":255},{\"name\":\"RUN0029.BIN\",\"size\":64528},{\"name\":\"RUN0029.TXT\",\"size\":255},{\"name\":\"RUN0030.BIN\",\"size\":68400},{\"name\":\"RUN0030.TXT\",\"size\":255},{\"name\":\"RUN0031.BIN\",\"size\":80608},{\"name\":\"RUN0031.TXT\",\"size\":255},{\"name\":\"RUN0032.BIN\",\"size\":81827},{\"name\":\"RUN0032.TXT\",\"size\":256},{\"name\":\"RUN0033.BIN\",\"size\":77723},{\"name\":\"RUN0033.TXT\",\"size\":256},{\"name\":\"RUN0034.BIN\",\"size\":77480},{\"name\":\"RUN0034.TXT\",\"size\":255},{\"name\":\"RUN0035.BIN\",\"size\":78350},{\"name\":\"RUN0035.TXT\",\"size\":255},{\"name\":\"RUN0036.BIN\",\"size\":75916},{\"name\":\"RUN0036.TXT\",\"size\":255},{\"name\":\"RUN0037.BIN\",\"size\":75868},{\"name\":\"RUN0037.TXT\",\"size\":256},{\"name\":\"RUN0038.BIN\",\"size\":81332},{\"name\":\"RUN0038.TXT\",\"size\":255},{\"name\":\"RUN0039.BIN\",\"size\":76805},{\"name\":\"RUN0039.TXT\",\"size\":255},{\"name\":\"RUN0040.BIN\",\"size\":75653},{\"name\":\"RUN0040.TXT\",\"size\":255},{\"name\":\"RUN0041.BIN\",\"size\":77610},{\"name\":\"RUN0041.TXT\",\"size\":256},{\"name\":\"RUN0042.BIN\",\"size\":75955},{\"name\":\"RUN0042.TXT\",\"size\":255},{\"name\":\"RUN0043.BIN\",\"size\":78868},{\"name\":\"RUN0043.TXT\",\"size\":256},{\"name\":\"RUN0044.BIN\",\"size\":81486},{\"name\":\"RUN0044.TXT\",\"size\":255},{\"name\":\"RUN0045.BIN\",\"size\":78792},{\"name\":\"RUN0045.TXT\",\"size\":255},{\"name\":\"RUN0046.BIN\",\"size\":82004},{\"name\":\"RUN0046.TXT\",\"size\":255},{\"name\":\"RUN0047.BIN\",\"size\":571236},{\"name\":\"RUN0047.TXT\",\"size\":256},{\"name\":\"RUN0048.BIN\",\"size\":565803},{\"name\":\"RUN0048.TXT\",\"size\":256},{\"name\":\"RUN0049.BIN\",\"size\":571415},{\"name\":\"RUN0049.TXT\",\"size\":256},{\"name\":\"RUN0050.BIN\",\"size\":567365},{\"name\":\"RUN0050.TXT\",\"size\":256},{\"name\":\"RUN0051.BIN\",\"size\":569660},{\"name\":\"RUN0051.TXT\",\"size\":256},{\"name\":\"RUN0052.BIN\",\"size\":2876796},{\"name\":\"RUN0052.TXT\",\"size\":259},{\"name\":\"RUN0053.BIN\",\"size\":26992},{\"name\":\"RUN0053.TXT\",\"size\":253},{\"name\":\"RUN0054.BIN\",\"size\":2470},{\"name\":\"RUN0054.TXT\",\"size\":254}]}",
+    "url": "http://192.168.4.1/api/log/files"
+  },
+  "closed_utc": "2026-08-03T10:24:34.608685+00:00",
+  "line_counts_final": {
+    "core": 246,
+    "xiao": 472
+  },
+  "ready_final": {
+    "core": 32,
+    "xiao": 10
+  },
+  "reader_errors": {
+    "core": [],
+    "xiao": []
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "status": 202,
+  "body": "{\"logging\":true,\"duration_s\":1,\"bno_capture\":true,\"bno_log_enqueue\":false,\"uart_rx_diag\":\"dispatch\",\"eskf_reset_at_start\":true,\"eskf_reset_queued\":true}",
+  "url": "http://192.168.4.1/api/log/start?duration_s=1&bno_capture=1&bno_log_enqueue=0&uart_rx_diag=dispatch&eskf_reset_at_start=1"
+}
