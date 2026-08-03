@@ -308,3 +308,11 @@ ec=411 で sdCommand(): Card Failed! cmd: 0x18 が発生。その後CMD0D/CMD00�
 - 注意：logger診断にpartial_writes=1が残るため、次の10秒試験で全512 B writeとpartial/zeroを再判定する。
 - 証跡：pc-tools/boat_eskf/captures/CONTROL_LINK_CHECK2_20260803/。
 
+
+## 2026-08-03 RUN0056/RUN0057 raw BNO 10秒
+
+- RUN0056：kind段階一致、BIN 4623件/trailing0、finalize成功。ただしLOGGER_TIMING partial_writes=2。SDTRACE実体は全write actual=512で、commit()がn<512の最終チャンクをpartialと誤カウントしていた。
+- 修正：Core commit() のpartialカウンタをctual>0 && actual<nに限定。両ビルド成功、Core COM6へhash verified書込み。
+- RUN0057：HTTP202、自動停止、P1/STOP ACK、kind1..5=1263/999/499/250/500がXIAO event/TX/Core/BINで一致。UART/report sequence欠落/重複/逆順0、CRC/COBS/length/unknown/RX full/drop/SD error/partial/zero=0、queue=0、flush/close/TXT/FINALIZED、BIN 4620件/trailing0。
+- 証跡：pc-tools/boat_eskf/captures/BNO_ALL_RAW_ENQ_10S_RETRY_20260803/。
+

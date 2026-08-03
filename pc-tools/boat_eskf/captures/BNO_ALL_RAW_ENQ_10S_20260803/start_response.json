@@ -1,0 +1,4 @@
+{
+  "status": 202,
+  "body": "{\"logging\":true,\"duration_s\":10,\"bno_capture\":true,\"bno_log_enqueue\":true,\"uart_rx_diag\":\"dispatch\",\"eskf_reset_at_start\":false,\"eskf_reset_queued\":false}"
+}
