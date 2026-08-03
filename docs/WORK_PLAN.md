@@ -282,3 +282,12 @@ Next: inspect, without changing BNO report configuration, why BNO08X kind1 and k
 - [確認] 物理Pitch操作はEuler Roll成分が約-176→+99度変化し、Euler Pitchは約0–2度。取付姿勢・軸変換による入替えを強く示唆。
 - 次はYaw軸を同条件で試験し、3軸完了後BOAT_EXPERIMENT=23へ復帰。
 - 証跡: docs/BNO_AXIS_PITCH_RUN0061_20260803.md、pc-tools/boat_eskf/captures/BNO_AXIS_PITCH_20S_20260803/
+
+## 2026-08-03 RUN0062 Yaw軸切り分け・通常周期復帰
+
+- [合格] Yaw単独20秒raw取得。Gyro/GVR各2002件、BIN trailing=0、normal_stop=1、queue/SD/UARTエラー0。
+- [確認] report sequence不連続0、callback timestamp単調、約10 ms周期。BNO report reset再発なし。
+- [確認] 物理Yaw操作はEuler Yawが主に変化。RUN0060–0062で物理Roll→Euler Pitch、物理Pitch→Euler Roll、物理Yaw→Euler Yawの対応を記録。
+- [完了] 3軸確認後、BOAT_EXPERIMENT=23をCOM4へビルド・書込み。復帰後Core APIの新周期IMU/ESKF受信、link error=0を確認。ESKFはmount_unvalidated保留。
+- 次は取付姿勢のX/Y軸変換を確定し、必要なら通常周期で静止性能を再確認する。
+- 証跡: docs/BNO_AXIS_YAW_RUN0062_20260803.md、pc-tools/boat_eskf/captures/BNO_AXIS_YAW_20S_20260803/

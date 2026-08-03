@@ -376,3 +376,13 @@ ec=411 で sdCommand(): Card Failed! cmd: 0x18 が発生。その後CMD0D/CMD00�
 - report sequence不連続0、callback timestamp単調増加。RUN0059の欠測・report resetは再発なし。
 - 物理Pitch操作時にEuler Rollが約-176→+99度変化、Euler Pitchは約0–2度。取付姿勢・軸変換による軸入替え候補を記録。
 - 次はYaw単独試験。
+
+## 2026-08-03 RUN0062 Yaw軸切り分け・通常周期復帰
+
+- 20秒自動取得を実施。COM3未操作、Core COM6はAPIのみ。
+- RUN0062: records=6147、Gyro/GVR各2002、normal_stop=1、BIN trailing=0。
+- queue_drops=0、sd_write_errors=0、UART sequence gap/CRC/COBS/length=0、queue high-water=34。
+- report sequence不連続0、callback timestamp単調増加。RUN0059の欠測・report resetは再発なし。
+- 物理Yaw操作でEuler Yawが主に変化。3軸の暫定対応（Roll→Euler Pitch、Pitch→Euler Roll、Yaw→Euler Yaw）を記録。
+- BOAT_EXPERIMENT=23をCOM4へビルド・書込み。復帰後Core APIでimu age=636 us、link error=0、ESKF run_state=2/health=1/mount_unvalidatedを確認。
+- COM3は引き続き未操作。
