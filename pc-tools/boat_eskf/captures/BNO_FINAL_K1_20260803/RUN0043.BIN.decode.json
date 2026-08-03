@@ -1,0 +1,17 @@
+{
+  "file": "RUN0043.BIN",
+  "bytes": 78868,
+  "records": 574,
+  "consumed_bytes": 78868,
+  "trailing_bytes": 0,
+  "exact_full_decode": true,
+  "type_counts": {
+    "23": 2,
+    "12": 378,
+    "13": 88,
+    "14": 10,
+    "59": 96
+  },
+  "first_sequence": 1,
+  "last_sequence": 574
+}

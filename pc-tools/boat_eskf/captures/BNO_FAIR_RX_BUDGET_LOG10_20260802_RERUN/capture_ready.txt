@@ -1,0 +1,4 @@
+core_port=COM6
+xiao_port=COM4
+opened_monotonic=189091.375000
+dtr_rts=false

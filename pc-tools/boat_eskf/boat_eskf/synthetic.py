@@ -1,0 +1,1 @@
+def stationary(seconds=60,hz=100):return [(i*1000000//hz,(0,0,0),(0,0,-9.80665)) for i in range(seconds*hz)]

@@ -1,0 +1,18 @@
+{
+  "run_label": "UART_RX_DECODE_COUNT_LOG10_20260802",
+  "ports": {
+    "core": "COM6",
+    "xiao": "COM4"
+  },
+  "baud": 115200,
+  "opened_utc": "2026-08-03T04:46:28.880888+00:00",
+  "start_api": null,
+  "end_utc": null,
+  "core_diag_lines_before_start": 25,
+  "xiao_diag_lines_before_start": 74,
+  "app_ready_before_start": {
+    "core": true,
+    "xiao": true
+  },
+  "prestart_wait_s": 5.0
+}

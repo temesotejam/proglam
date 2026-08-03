@@ -1,0 +1,12 @@
+firmware=cores3-telemetry-bridge
+version=0.1.0-temporary-comm-replacement
+normal_stop=1
+records=2880
+queue_drops=0
+queue_high_water=15
+sd_write_errors=1
+control_frames=2177
+control_crc_errors=0
+control_cobs_errors=0
+control_length_errors=1
+gnss_nav_tx=3722

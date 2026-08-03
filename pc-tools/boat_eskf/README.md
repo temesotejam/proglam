@@ -1,0 +1,1 @@
+# boat_eskf\n\n標準ライブラリだけで動く、CoreS3 BINログ復号・合成入力・SHADOW ESKF比較用リファレンスです。`python -m unittest discover -s tests` でテストできます。\n

@@ -1,0 +1,14 @@
+﻿{
+  "run_label":"BNO_ESKF_STATIC60_20260803",
+  "run_file":"RUN0052.BIN",
+  "actual_control_interval_us":60021867,
+  "requested_hz":{"kind1":100,"kind2":100,"kind3":50,"kind4":20,"kind5":50},
+  "feature_accepted_hz":{"kind1":125,"kind2":100,"kind3":50,"kind4":25,"kind5":50},
+  "xiao_effective_hz":{"kind1":126.326,"kind2":100.028,"kind3":50.022,"kind4":25.009,"kind5":50.018},
+  "counts":{"kind1":7581,"kind2":6002,"kind3":3001,"kind4":1501,"kind5":3001},
+  "core_arrival_us_min_mean_max":{"kind1":[1041,7917.21,66899],"kind2":[3183,9989.33,32276],"kind3":[6835,19979.45,38968],"kind4":[16129,39958.92,58785],"kind5":[6830,19980.33,41616]},
+  "logger":{"enqueue_accepted":27724,"queue_dequeued":27724,"written_to_bin":27724,"pending_queue":0,"enqueue_after_writer_exit":0,"enqueue_after_file_close":0,"queue_high_water":71,"sd_write_errors":0,"zero_writes":0,"internal_sub512_flushes":1},
+  "uart":{"sequence_gap":0,"sequence_duplicates":0,"sequence_out_of_order":0,"crc":0,"cobs":0,"length":0,"unknown":0,"rx_buffer_full":0},
+  "bin":{"bytes":2876796,"records":27724,"trailing_bytes":0,"exact_full_decode":true},
+  "eskf":{"predict_calls_delta":9323,"predict_accept_delta":8995,"predict_reject_delta":328,"predict_reject_bad_dt_delta":328,"reset_count":0,"finite":true,"covariance_valid":true,"innovation_series_available":false}
+}

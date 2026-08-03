@@ -1,0 +1,8 @@
+core_diag_before_start=3
+start_monotonic=189093.796000
+start_wall_epoch=1785654909.985484
+core_diag_at_end=23
+end_monotonic=189119.156
+post_start_elapsed_s=25.35999999998603
+end_wall_epoch=1785654933.802078
+start_sent=True

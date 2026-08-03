@@ -1,0 +1,37 @@
+BNO timestamp diagnostic
+event_total=3518
+kind=1 count=1264 report_seq={'first': 87, 'last': 70, 'missing_events': 0, 'duplicates': 0, 'reversals': 0, 'wraps': 5, 'delta_hist': {1: 1263}}
+  sensor_raw count=1264 mean=0.554 stddev=6057.828 min=-28100 max=8600 dup=12 rev=556 first=4294964596 last=4294965296
+  sensor_converted count=1264 mean=0.554 stddev=6057.828 min=-28100 max=8600 dup=12 rev=556 first=4294964596 last=4294965296
+  xiao_rx count=1264 mean=7918.357 stddev=7017.794 min=8 max=37412 dup=0 rev=0 first=20578962 last=30579847
+  queue_push count=1264 mean=7918.357 stddev=7018.422 min=8 max=37419 dup=0 rev=0 first=20578964 last=30579849
+  core_rx count=1264 mean=7915.174 stddev=6854.967 min=1005 max=69184 dup=0 rev=0 first=66142522 last=76139387
+  xiao_to_core_us={'mean': 45561358.64556962, 'min': 45549762, 'max': 45619440}
+kind=2 count=1001 report_seq={'first': 139, 'last': 115, 'missing_events': 0, 'duplicates': 0, 'reversals': 0, 'wraps': 4, 'delta_hist': {1: 1000}}
+  sensor_raw count=1001 mean=3.100 stddev=5760.842 min=-31200 max=10500 dup=7 rev=440 first=4294961696 last=4294964796
+  sensor_converted count=1001 mean=3.100 stddev=5760.842 min=-31200 max=10500 dup=7 rev=440 first=4294961696 last=4294964796
+  xiao_rx count=1001 mean=9994.561 stddev=6886.874 min=16 max=52114 dup=0 rev=0 first=20578906 last=30573467
+  queue_push count=1001 mean=9994.567 stddev=6889.733 min=16 max=52117 dup=0 rev=0 first=20578911 last=30573478
+  core_rx count=1001 mean=9994.009 stddev=6316.390 min=2061 max=72239 dup=0 rev=0 first=66136508 last=76130517
+  xiao_to_core_us={'mean': 45560072.06993007, 'min': 45550245, 'max': 45614203}
+kind=3 count=501 report_seq={'first': 69, 'last': 57, 'missing_events': 0, 'duplicates': 0, 'reversals': 0, 'wraps': 2, 'delta_hist': {1: 500}}
+  sensor_raw count=501 mean=-9.400 stddev=6650.923 min=-29200 max=20400 dup=5 rev=274 first=4294961696 last=4294956996
+  sensor_converted count=501 mean=-9.400 stddev=6650.923 min=-29200 max=20400 dup=5 rev=274 first=4294961696 last=4294956996
+  xiao_rx count=501 mean=20001.754 stddev=7234.420 min=54 max=56822 dup=0 rev=0 first=20578931 last=30579808
+  queue_push count=501 mean=20001.754 stddev=7235.277 min=54 max=56823 dup=0 rev=0 first=20578933 last=30579810
+  core_rx count=501 mean=19990.400 stddev=6842.763 min=6771 max=82099 dup=0 rev=0 first=66138006 last=76133206
+  xiao_to_core_us={'mean': 45560146.95409182, 'min': 45550504, 'max': 45611083}
+kind=4 count=251 report_seq={'first': 163, 'last': 157, 'missing_events': 0, 'duplicates': 0, 'reversals': 0, 'wraps': 1, 'delta_hist': {1: 250}}
+  sensor_raw count=251 mean=-18.800 stddev=5508.648 min=-13600 max=12600 dup=0 rev=126 first=4294961696 last=4294956996
+  sensor_converted count=251 mean=-18.800 stddev=5508.648 min=-13600 max=12600 dup=0 rev=126 first=4294961696 last=4294956996
+  xiao_rx count=251 mean=40003.508 stddev=6259.807 min=25968 max=56875 dup=0 rev=0 first=20578954 last=30579831
+  queue_push count=251 mean=40003.508 stddev=6260.233 min=25969 max=56874 dup=0 rev=0 first=20578956 last=30579833
+  core_rx count=251 mean=39975.828 stddev=6656.870 min=22401 max=85464 dup=0 rev=0 first=66141486 last=76135443
+  xiao_to_core_us={'mean': 45561454.11553785, 'min': 45550366, 'max': 45604307}
+kind=5 count=501 report_seq={'first': 69, 'last': 57, 'missing_events': 0, 'duplicates': 0, 'reversals': 0, 'wraps': 2, 'delta_hist': {1: 500}}
+  sensor_raw count=501 mean=-9.400 stddev=6776.516 min=-29200 max=20400 dup=2 rev=271 first=4294961696 last=4294956996
+  sensor_converted count=501 mean=-9.400 stddev=6776.516 min=-29200 max=20400 dup=2 rev=271 first=4294961696 last=4294956996
+  xiao_rx count=501 mean=20001.756 stddev=7003.226 min=55 max=56821 dup=0 rev=0 first=20578943 last=30579821
+  queue_push count=501 mean=20001.754 stddev=7004.018 min=54 max=56821 dup=0 rev=0 first=20578946 last=30579823
+  core_rx count=501 mean=19988.246 stddev=6835.622 min=7055 max=80874 dup=0 rev=0 first=66140281 last=76134404
+  xiao_to_core_us={'mean': 45560713.55489022, 'min': 45550387, 'max': 45612114}

@@ -1,0 +1,8 @@
+start_utc=2026-08-02T04:44:41.0433518Z
+status=202
+body={"logging":true,"duration_s":60,"bno_capture":false}
+end_requests_utc=2026-08-02T04:46:57.8629830Z
+stop status=200 body={"logging":false}
+status_files status=200 body={"sd_ready":true,"logging":false,"files":[{"name":"RUN0001.BIN","size":239264},{"name":"RUN0001.TXT","size":255},{"name":"RUN0002.BIN","size":0},{"name":"RUN0003.BIN","size":0}]}
+download_RUN0003.BIN status=200 bytes=0 file=C:\Users\arika\Documents\PlatformIO\proglam\pc-tools\boat_eskf\captures\SDTRACE_STATIC60_20260802_RUN0003.BIN
+download_RUN0003.TXT error=リモート サーバーがエラーを返しました: (404) 見つかりません

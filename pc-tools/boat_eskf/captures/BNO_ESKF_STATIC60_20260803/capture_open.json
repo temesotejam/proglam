@@ -1,0 +1,11 @@
+{
+  "run_label": "BNO_ESKF_STATIC60_20260803",
+  "ports": {
+    "core": "COM6",
+    "xiao": "COM4"
+  },
+  "baud": 115200,
+  "opened_utc": "2026-08-03T07:12:12.577693+00:00",
+  "start_api": null,
+  "end_utc": null
+}

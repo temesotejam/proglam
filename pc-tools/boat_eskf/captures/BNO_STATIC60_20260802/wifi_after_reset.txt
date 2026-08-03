@@ -1,0 +1,51 @@
+﻿
+There are 2 interfaces on the system: 
+
+    Name                   : Wi-Fi
+    Description            : Intel(R) Wi-Fi 6E AX210 160MHz
+    GUID                   : 4a85b518-1739-4faa-af4b-d6ce119c2ec7
+    Physical address       : a0:e7:0b:2a:71:05
+    Interface type         : Primary
+    State                  : connected
+    SSID                   : itolabwifi-deco
+    AP BSSID               : 56:d4:f7:f5:5a:61
+    Band                   : 5 GHz
+    Channel                : 36
+    Connected Akm-cipher   : [ akm = 00-0f-ac:02, cipher =  00-0f-ac:04 ]
+    Network type           : Infrastructure
+    Radio type             : 802.11ac
+    Authentication         : WPA2-Personal
+    Cipher                 : CCMP
+    Connection mode        : Profile
+    Receive rate (Mbps)    : 866.7
+    Transmit rate (Mbps)   : 780
+    Signal                 : 96% 
+    Rssi                   : -36
+    Profile                : itolabwifi-deco 
+    QoS MSCS Configured         : 0
+    QoS Map Configured          : 0
+    QoS Map Allowed by Policy   : 0
+
+    Name                   : Wi-Fi 2
+    Description            : TP-Link Wireless USB Adapter
+    GUID                   : 08e6cd93-17e3-490a-a65a-01b1018e76da
+    Physical address       : bc:07:1d:7d:89:95
+    Interface type         : Primary
+    State                  : connected
+    SSID                   : BOAT-ESKF-CORE
+    AP BSSID               : 32:ed:a0:d4:bf:40
+    Band                   : 2.4 GHz
+    Channel                : 1
+    Network type           : Infrastructure
+    Radio type             : 802.11n
+    Authentication         : WPA2-Personal
+    Cipher                 : CCMP
+    Connection mode        : Auto Connect
+    Receive rate (Mbps)    : 135
+    Transmit rate (Mbps)   : 72
+    Signal                 : 100% 
+    Profile                : BOAT-ESKF-CORE 
+    QoS MSCS Configured         : 0
+    QoS Map Configured          : 0
+    QoS Map Allowed by Policy   : 0
+

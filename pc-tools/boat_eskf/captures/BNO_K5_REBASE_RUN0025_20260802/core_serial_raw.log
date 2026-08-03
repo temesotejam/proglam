@@ -1,0 +1,238 @@
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1333480 frames=9558 bytes_s=16320 frames_s=118 crc/cobs/len=0/0/0 seqgap=18 age_ms=13 type=7 log=0 q=0 rec=0 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=116862 loop_exec_max_us=22170 free_heap=148000 min_free_heap=147052 reset_reason=0 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=0 drops=0
+RXDETAIL service_calls=96718 service_bytes_avg=13 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=98 service_frames_max=4 service_bytes_s=16320 service_frames_s=118 rxbuf_full_obs=0 bno_valid=0 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=1333480 trial_frames=9558 trial_bno=0 trial_crc/cobs/len=0/0/0
+RXTASK mode=dispatch read_calls=96719 zero_reads=84129 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=9558 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=0
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1350208 frames=9678 bytes_s=16728 frames_s=120 crc/cobs/len=0/0/0 seqgap=18 age_ms=0 type=7 log=0 q=0 rec=0 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=116862 loop_exec_max_us=22170 free_heap=148000 min_free_heap=147052 reset_reason=0 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=0 drops=0
+RXDETAIL service_calls=97649 service_bytes_avg=13 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=99 service_frames_max=4 service_bytes_s=16728 service_frames_s=120 rxbuf_full_obs=0 bno_valid=0 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=1350208 trial_frames=9678 trial_bno=0 trial_crc/cobs/len=0/0/0
+RXTASK mode=dispatch read_calls=97650 zero_reads=84909 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=9678 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=0
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1366944 frames=9798 bytes_s=16736 frames_s=120 crc/cobs/len=0/0/0 seqgap=18 age_ms=0 type=5 log=0 q=0 rec=0 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=116862 loop_exec_max_us=22170 free_heap=148000 min_free_heap=147052 reset_reason=0 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=0 drops=0
+RXDETAIL service_calls=98604 service_bytes_avg=13 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=99 service_frames_max=4 service_bytes_s=16736 service_frames_s=120 rxbuf_full_obs=0 bno_valid=0 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=1366944 trial_frames=9798 trial_bno=0 trial_crc/cobs/len=0/0/0
+RXTASK mode=dispatch read_calls=98605 zero_reads=85699 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=9798 rx_current=56 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=0
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1383376 frames=9916 bytes_s=16432 frames_s=118 crc/cobs/len=0/0/0 seqgap=18 age_ms=12 type=7 log=0 q=0 rec=0 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=116862 loop_exec_max_us=22170 free_heap=148000 min_free_heap=147052 reset_reason=0 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=0 drops=0
+RXDETAIL service_calls=99550 service_bytes_avg=13 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=99 service_frames_max=4 service_bytes_s=16432 service_frames_s=118 rxbuf_full_obs=0 bno_valid=0 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=1383376 trial_frames=9916 trial_bno=0 trial_crc/cobs/len=0/0/0
+RXTASK mode=dispatch read_calls=99551 zero_reads=86482 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=9916 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=0
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1399944 frames=10034 bytes_s=16568 frames_s=118 crc/cobs/len=0/0/0 seqgap=18 age_ms=6 type=5 log=0 q=0 rec=0 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=116862 loop_exec_max_us=22170 free_heap=148000 min_free_heap=147052 reset_reason=0 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=0 drops=0
+RXDETAIL service_calls=100495 service_bytes_avg=13 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=99 service_frames_max=4 service_bytes_s=16568 service_frames_s=118 rxbuf_full_obs=0 bno_valid=0 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=1399944 trial_frames=10034 trial_bno=0 trial_crc/cobs/len=0/0/0
+RXTASK mode=dispatch read_calls=100497 zero_reads=87263 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=10034 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=0
+TRIAL_START mode=decode_count rx_bytes=0 service_bytes=0 frames=0 bno_valid=0 seq_gap=0 crc/cobs/len=0/0/0 unknown=0 bno_invalid=0 rxbuf_full=0 service_calls=0 read_calls=0 zero_reads=0 delimiters=0 bno_kind=0/0/0/0/0 bno_log_enqueue=0
+TRIAL_SEQUENCE first=0 last=0 valid=0
+TRIAL_CAPTURE_REBASELINE
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1420512 frames=4 bytes_s=20568 frames_s=4 crc/cobs/len=0/0/0 seqgap=18 age_ms=0 type=7 log=1 q=0 rec=3 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=116862 loop_exec_max_us=253322 free_heap=142800 min_free_heap=142800 reset_reason=0 bno_kind_1to5_s=0/0/0/0/1 queue=0 high=2 drops=0
+RXDETAIL service_calls=101663 service_bytes_avg=13 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=100 service_frames_max=4 service_bytes_s=20568 service_frames_s=147 rxbuf_full_obs=0 bno_valid=1 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=488 trial_frames=4 trial_bno=1 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=101664 zero_reads=88234 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=10181 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=49
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1440968 frames=171 bytes_s=20456 frames_s=167 crc/cobs/len=0/0/0 seqgap=18 age_ms=3 type=22 log=1 q=1 rec=49 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=142800 min_free_heap=142800 reset_reason=0 bno_kind_1to5_s=0/0/0/0/50 queue=1 high=4 drops=0
+RXDETAIL service_calls=102612 service_bytes_avg=14 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=100 service_frames_max=4 service_bytes_s=20456 service_frames_s=167 rxbuf_full_obs=0 bno_valid=51 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=20944 trial_frames=171 trial_bno=51 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=102613 zero_reads=88978 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=10348 rx_current=64 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=49
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1461756 frames=340 bytes_s=20788 frames_s=169 crc/cobs/len=0/0/0 seqgap=18 age_ms=2 type=5 log=1 q=1 rec=97 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=142800 min_free_heap=142800 reset_reason=0 bno_kind_1to5_s=0/0/0/0/50 queue=1 high=5 drops=0
+RXDETAIL service_calls=103538 service_bytes_avg=14 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=101 service_frames_max=4 service_bytes_s=20788 service_frames_s=169 rxbuf_full_obs=0 bno_valid=101 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=41732 trial_frames=340 trial_bno=101 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=103539 zero_reads=89712 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=10517 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=36881
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1482556 frames=510 bytes_s=20800 frames_s=170 crc/cobs/len=0/0/0 seqgap=18 age_ms=4 type=56 log=1 q=1 rec=143 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=142968 min_free_heap=142592 reset_reason=0 bno_kind_1to5_s=0/0/0/0/50 queue=1 high=5 drops=0
+RXDETAIL service_calls=104468 service_bytes_avg=14 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=102 service_frames_max=4 service_bytes_s=20800 service_frames_s=170 rxbuf_full_obs=0 bno_valid=151 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=62532 trial_frames=510 trial_bno=151 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=104469 zero_reads=90449 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=10687 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=40290
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1503012 frames=677 bytes_s=20456 frames_s=167 crc/cobs/len=0/0/0 seqgap=18 age_ms=7 type=4 log=1 q=1 rec=190 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=142672 min_free_heap=142324 reset_reason=0 bno_kind_1to5_s=0/0/0/0/50 queue=1 high=5 drops=0
+RXDETAIL service_calls=105395 service_bytes_avg=14 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=102 service_frames_max=4 service_bytes_s=20576 service_frames_s=167 rxbuf_full_obs=0 bno_valid=201 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=83108 trial_frames=677 trial_bno=201 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=105397 zero_reads=91185 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=10856 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=40290
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1523964 frames=847 bytes_s=20952 frames_s=170 crc/cobs/len=0/0/0 seqgap=18 age_ms=1 type=7 log=1 q=1 rec=237 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=142672 min_free_heap=142324 reset_reason=0 bno_kind_1to5_s=0/0/0/0/50 queue=1 high=5 drops=0
+RXDETAIL service_calls=106323 service_bytes_avg=14 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=103 service_frames_max=4 service_bytes_s=20832 service_frames_s=170 rxbuf_full_obs=0 bno_valid=251 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=103940 trial_frames=847 trial_bno=251 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=106325 zero_reads=91924 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=11025 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=40290
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1544604 frames=1015 bytes_s=20640 frames_s=168 crc/cobs/len=0/0/0 seqgap=18 age_ms=4 type=16 log=1 q=1 rec=284 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=142672 min_free_heap=142320 reset_reason=0 bno_kind_1to5_s=0/0/0/0/50 queue=1 high=9 drops=0
+RXDETAIL service_calls=107252 service_bytes_avg=14 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=104 service_frames_max=4 service_bytes_s=20640 service_frames_s=168 rxbuf_full_obs=0 bno_valid=301 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=124580 trial_frames=1015 trial_bno=301 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=107253 zero_reads=92661 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=11192 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=40474
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1565188 frames=1182 bytes_s=20584 frames_s=167 crc/cobs/len=0/0/0 seqgap=18 age_ms=4 type=5 log=1 q=1 rec=330 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=142672 min_free_heap=142320 reset_reason=0 bno_kind_1to5_s=0/0/0/0/50 queue=1 high=9 drops=0
+RXDETAIL service_calls=108186 service_bytes_avg=14 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=104 service_frames_max=4 service_bytes_s=20584 service_frames_s=167 rxbuf_full_obs=0 bno_valid=351 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=145164 trial_frames=1182 trial_bno=351 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=108188 zero_reads=93400 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=11359 rx_current=88 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=40474
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1585988 frames=1352 bytes_s=20800 frames_s=170 crc/cobs/len=0/0/0 seqgap=18 age_ms=8 type=7 log=1 q=1 rec=377 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=142448 min_free_heap=139112 reset_reason=0 bno_kind_1to5_s=0/0/0/0/50 queue=1 high=9 drops=0
+RXDETAIL service_calls=109115 service_bytes_avg=14 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=105 service_frames_max=4 service_bytes_s=20800 service_frames_s=170 rxbuf_full_obs=0 bno_valid=401 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=165964 trial_frames=1352 trial_bno=401 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=109117 zero_reads=94135 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=11529 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=40474
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1606628 frames=1520 bytes_s=20640 frames_s=168 crc/cobs/len=0/0/0 seqgap=18 age_ms=9 type=56 log=1 q=1 rec=424 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=142448 min_free_heap=139112 reset_reason=0 bno_kind_1to5_s=0/0/0/0/50 queue=1 high=9 drops=0
+RXDETAIL service_calls=110044 service_bytes_avg=14 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=106 service_frames_max=4 service_bytes_s=20761 service_frames_s=168 rxbuf_full_obs=0 bno_valid=451 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=186725 trial_frames=1520 trial_bno=451 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=110045 zero_reads=94863 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=11698 rx_current=56 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=40474
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1627308 frames=1688 bytes_s=20680 frames_s=168 crc/cobs/len=0/0/0 seqgap=18 age_ms=14 type=5 log=0 q=0 rec=472 final=1
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=142448 min_free_heap=139112 reset_reason=0 bno_kind_1to5_s=0/0/0/0/50 queue=0 high=9 drops=0
+RXDETAIL service_calls=110986 service_bytes_avg=14 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=106 service_frames_max=4 service_bytes_s=20559 service_frames_s=168 rxbuf_full_obs=0 bno_valid=501 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=207284 trial_frames=1688 trial_bno=501 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=110989 zero_reads=95610 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=11867 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=46460
+SDTRACE count=42 write_calls=125
+SDTRACE us=109339837 src=log_start op=mkdir ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=109343865 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=109349127 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=109353867 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=109358929 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=109363870 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=109368556 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=109373542 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=109379481 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=109385435 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=109393848 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=109401966 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=109410007 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=109418917 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=109427806 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=109436450 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=109444736 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=109453436 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=109465528 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=109478529 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=109491157 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=109503741 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=109515768 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=109527823 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=109539872 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=109551559 src=log_start op=exists ok=0 rec=0 q=0 req=0 actual=0
+SDTRACE us=109579004 src=log_start op=open ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=110725765 src=writer op=write ok=1 rec=61 q=1 req=512 actual=512
+SDTRACE us=110725806 src=writer op=write ok=1 rec=61 q=1 req=512 actual=512
+SDTRACE us=110725841 src=writer op=write ok=1 rec=61 q=1 req=512 actual=512
+SDTRACE us=110762499 src=writer op=write ok=1 rec=61 q=5 req=512 actual=512
+SDTRACE us=111826641 src=writer op=write ok=1 rec=121 q=5 req=512 actual=512
+SDTRACE us=112880113 src=writer op=write ok=1 rec=180 q=2 req=512 actual=512
+SDTRACE us=114757491 src=writer op=write ok=1 rec=243 q=9 req=512 actual=512
+SDTRACE us=115804675 src=writer op=write ok=1 rec=303 q=7 req=512 actual=512
+SDTRACE us=116866026 src=writer op=write ok=1 rec=362 q=7 req=512 actual=512
+SDTRACE us=118641554 src=writer op=write ok=1 rec=424 q=0 req=512 actual=512
+SDTRACE us=119617912 src=writer op=flush ok=1 rec=472 q=0 req=0 actual=0
+SDTRACE us=119618664 src=writer op=close ok=1 rec=472 q=0 req=0 actual=0
+SDTRACE us=119649717 src=summary op=open ok=1 rec=472 q=0 req=0 actual=0
+SDTRACE us=119653024 src=summary op=write ok=1 rec=472 q=0 req=0 actual=0
+SDTRACE us=119663836 src=summary op=close ok=1 rec=472 q=0 req=0 actual=0
+TRIAL_END mode=decode_count rx_bytes=210232 service_bytes=210232 frames=1713 bno_valid=506 seq_gap=0 crc/cobs/len=0/0/0 unknown=0 bno_invalid=0 rxbuf_full=0 service_calls=9490 read_calls=9490 zero_reads=7512 delimiters=1713 bno_kind=0/0/0/0/506 bno_log_enqueue=0
+TRIALTYPE type=4 name=BnoQuaternion frames=506 encoded_bytes=42504
+TRIALTYPE type=5 name=TofFrame frames=308 encoded_bytes=68992
+TRIALTYPE type=7 name=VescStatus frames=308 encoded_bytes=27104
+TRIALTYPE type=11 name=TimeSyncReply frames=11 encoded_bytes=616
+TRIALTYPE type=16 name=GnssProcessResult frames=101 encoded_bytes=9696
+TRIALTYPE type=22 name=EstimatedState frames=101 encoded_bytes=14948
+TRIALTYPE type=32 name=Heartbeat frames=102 encoded_bytes=4080
+TRIALTYPE type=56 name=EskfState frames=201 encoded_bytes=36984
+TRIALTYPE type=57 name=EskfInnovation frames=24 encoded_bytes=1728
+TRIALTYPE type=58 name=EskfHealth frames=51 encoded_bytes=3672
+TRIAL_SEQUENCE first=5054 last=6766 valid=1
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1643632 frames=1808 bytes_s=16324 frames_s=120 crc/cobs/len=0/0/0 seqgap=20 age_ms=18 type=7 log=0 q=0 rec=472 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=146816 min_free_heap=139112 reset_reason=0 bno_kind_1to5_s=0/0/0/0/5 queue=0 high=9 drops=0
+RXDETAIL service_calls=111928 service_bytes_avg=14 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=107 service_frames_max=4 service_bytes_s=16324 service_frames_s=120 rxbuf_full_obs=0 bno_valid=506 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=223608 trial_frames=1808 trial_bno=506 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=111929 zero_reads=96397 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=11985 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=195370
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1660288 frames=1927 bytes_s=16656 frames_s=119 crc/cobs/len=0/0/0 seqgap=20 age_ms=0 type=7 log=0 q=0 rec=472 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=146444 min_free_heap=139112 reset_reason=0 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=9 drops=0
+RXDETAIL service_calls=112870 service_bytes_avg=14 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=107 service_frames_max=4 service_bytes_s=16656 service_frames_s=119 rxbuf_full_obs=0 bno_valid=506 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=240264 trial_frames=1927 trial_bno=506 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=112872 zero_reads=97179 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=12104 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=195370
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1676632 frames=2044 bytes_s=16344 frames_s=117 crc/cobs/len=0/0/0 seqgap=20 age_ms=3 type=56 log=0 q=0 rec=472 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=146444 min_free_heap=139112 reset_reason=0 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=9 drops=0
+RXDETAIL service_calls=113824 service_bytes_avg=14 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=107 service_frames_max=4 service_bytes_s=16344 service_frames_s=117 rxbuf_full_obs=0 bno_valid=506 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=256608 trial_frames=2044 trial_bno=506 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=113825 zero_reads=97974 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=12221 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=195370
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1693016 frames=2161 bytes_s=16384 frames_s=117 crc/cobs/len=0/0/0 seqgap=20 age_ms=0 type=16 log=0 q=0 rec=472 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=146592 min_free_heap=139112 reset_reason=0 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=9 drops=0
+RXDETAIL service_calls=114776 service_bytes_avg=14 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=107 service_frames_max=4 service_bytes_s=16384 service_frames_s=117 rxbuf_full_obs=0 bno_valid=506 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=272992 trial_frames=2161 trial_bno=506 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=114778 zero_reads=98766 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=12338 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=195370
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1709448 frames=2279 bytes_s=16432 frames_s=118 crc/cobs/len=0/0/0 seqgap=20 age_ms=0 type=16 log=0 q=0 rec=472 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=146592 min_free_heap=139112 reset_reason=0 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=9 drops=0
+RXDETAIL service_calls=115722 service_bytes_avg=14 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=107 service_frames_max=4 service_bytes_s=16432 service_frames_s=118 rxbuf_full_obs=0 bno_valid=506 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=289424 trial_frames=2279 trial_bno=506 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=115724 zero_reads=99553 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=12456 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=195370
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1725696 frames=2395 bytes_s=16248 frames_s=116 crc/cobs/len=0/0/0 seqgap=20 age_ms=11 type=56 log=0 q=0 rec=472 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=146368 min_free_heap=139112 reset_reason=0 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=9 drops=0
+RXDETAIL service_calls=116669 service_bytes_avg=14 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=107 service_frames_max=4 service_bytes_s=16248 service_frames_s=116 rxbuf_full_obs=0 bno_valid=506 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=305672 trial_frames=2395 trial_bno=506 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=116671 zero_reads=100339 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=12573 rx_current=40 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=195370
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1742240 frames=2514 bytes_s=16544 frames_s=119 crc/cobs/len=0/0/0 seqgap=20 age_ms=3 type=7 log=0 q=0 rec=472 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=146368 min_free_heap=139112 reset_reason=0 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=9 drops=0
+RXDETAIL service_calls=117626 service_bytes_avg=14 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=107 service_frames_max=4 service_bytes_s=16664 service_frames_s=119 rxbuf_full_obs=0 bno_valid=506 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=322336 trial_frames=2514 trial_bno=506 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=117627 zero_reads=101132 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=12693 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=195370
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1758656 frames=2632 bytes_s=16416 frames_s=118 crc/cobs/len=0/0/0 seqgap=20 age_ms=19 type=22 log=0 q=0 rec=472 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=146368 min_free_heap=139112 reset_reason=0 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=9 drops=0
+RXDETAIL service_calls=118565 service_bytes_avg=14 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=108 service_frames_max=4 service_bytes_s=16296 service_frames_s=118 rxbuf_full_obs=0 bno_valid=506 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=338632 trial_frames=2632 trial_bno=506 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=118567 zero_reads=101917 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=12810 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=195370
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1775384 frames=2752 bytes_s=16728 frames_s=120 crc/cobs/len=0/0/0 seqgap=20 age_ms=8 type=7 log=0 q=0 rec=472 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=146368 min_free_heap=139112 reset_reason=0 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=9 drops=0
+RXDETAIL service_calls=119504 service_bytes_avg=14 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=108 service_frames_max=4 service_bytes_s=16728 service_frames_s=120 rxbuf_full_obs=0 bno_valid=506 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=355360 trial_frames=2752 trial_bno=506 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=119505 zero_reads=102693 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=12929 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=195370
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1791952 frames=2870 bytes_s=16568 frames_s=118 crc/cobs/len=0/0/0 seqgap=20 age_ms=7 type=5 log=0 q=0 rec=472 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=146144 min_free_heap=139112 reset_reason=0 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=9 drops=0
+RXDETAIL service_calls=120444 service_bytes_avg=14 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=108 service_frames_max=4 service_bytes_s=16656 service_frames_s=119 rxbuf_full_obs=0 bno_valid=506 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=372016 trial_frames=2871 trial_bno=506 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=120445 zero_reads=103477 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=13048 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=195370
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1808384 frames=2988 bytes_s=16432 frames_s=118 crc/cobs/len=0/0/0 seqgap=20 age_ms=15 type=7 log=0 q=0 rec=472 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=146144 min_free_heap=139112 reset_reason=0 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=9 drops=0
+RXDETAIL service_calls=121363 service_bytes_avg=14 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=108 service_frames_max=4 service_bytes_s=16344 service_frames_s=117 rxbuf_full_obs=0 bno_valid=506 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=388360 trial_frames=2988 trial_bno=506 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=121364 zero_reads=104247 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=13165 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=195370
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1825040 frames=3107 bytes_s=16656 frames_s=119 crc/cobs/len=0/0/0 seqgap=20 age_ms=0 type=7 log=0 q=0 rec=472 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=146144 min_free_heap=139112 reset_reason=0 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=9 drops=0
+RXDETAIL service_calls=122292 service_bytes_avg=14 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=108 service_frames_max=4 service_bytes_s=16656 service_frames_s=119 rxbuf_full_obs=0 bno_valid=506 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=405016 trial_frames=3107 trial_bno=506 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=122294 zero_reads=105026 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=13285 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=195370
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1841200 frames=3223 bytes_s=16160 frames_s=116 crc/cobs/len=0/0/0 seqgap=20 age_ms=17 type=7 log=0 q=0 rec=472 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=146144 min_free_heap=139112 reset_reason=0 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=9 drops=0
+RXDETAIL service_calls=123215 service_bytes_avg=14 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=108 service_frames_max=4 service_bytes_s=16344 service_frames_s=117 rxbuf_full_obs=0 bno_valid=506 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=421360 trial_frames=3224 trial_bno=506 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=123216 zero_reads=105800 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=13401 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=195370
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1857856 frames=3342 bytes_s=16656 frames_s=119 crc/cobs/len=0/0/0 seqgap=20 age_ms=5 type=7 log=0 q=0 rec=472 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=145920 min_free_heap=139112 reset_reason=0 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=9 drops=0
+RXDETAIL service_calls=124142 service_bytes_avg=14 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=108 service_frames_max=4 service_bytes_s=16472 service_frames_s=118 rxbuf_full_obs=0 bno_valid=506 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=437832 trial_frames=3342 trial_bno=506 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=124143 zero_reads=106578 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=13519 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=195370
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1874424 frames=3460 bytes_s=16568 frames_s=118 crc/cobs/len=0/0/0 seqgap=20 age_ms=0 type=5 log=0 q=0 rec=472 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=145920 min_free_heap=139112 reset_reason=0 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=9 drops=0
+RXDETAIL service_calls=125074 service_bytes_avg=14 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=109 service_frames_max=4 service_bytes_s=16568 service_frames_s=118 rxbuf_full_obs=0 bno_valid=506 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=454400 trial_frames=3460 trial_bno=506 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=125076 zero_reads=107367 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=13638 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=195370
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1890856 frames=3578 bytes_s=16432 frames_s=118 crc/cobs/len=0/0/0 seqgap=20 age_ms=10 type=7 log=0 q=0 rec=472 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=145920 min_free_heap=139112 reset_reason=0 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=9 drops=0
+RXDETAIL service_calls=126009 service_bytes_avg=15 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=109 service_frames_max=4 service_bytes_s=16432 service_frames_s=118 rxbuf_full_obs=0 bno_valid=506 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=470832 trial_frames=3578 trial_bno=506 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=126011 zero_reads=108156 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=13756 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=195370
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1907464 frames=3697 bytes_s=16608 frames_s=119 crc/cobs/len=0/0/0 seqgap=20 age_ms=3 type=32 log=0 q=0 rec=472 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=145920 min_free_heap=139112 reset_reason=0 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=9 drops=0
+RXDETAIL service_calls=126934 service_bytes_avg=15 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=109 service_frames_max=4 service_bytes_s=16696 service_frames_s=120 rxbuf_full_obs=0 bno_valid=506 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=487528 trial_frames=3698 trial_bno=506 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=126935 zero_reads=108930 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=13875 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=195370
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1923896 frames=3815 bytes_s=16432 frames_s=118 crc/cobs/len=0/0/0 seqgap=20 age_ms=10 type=32 log=0 q=0 rec=472 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=145920 min_free_heap=139112 reset_reason=0 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=9 drops=0
+RXDETAIL service_calls=127859 service_bytes_avg=15 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=109 service_frames_max=4 service_bytes_s=16344 service_frames_s=117 rxbuf_full_obs=0 bno_valid=506 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=503872 trial_frames=3815 trial_bno=506 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=127860 zero_reads=109713 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=13992 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=195370
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1940552 frames=3934 bytes_s=16656 frames_s=119 crc/cobs/len=0/0/0 seqgap=20 age_ms=0 type=7 log=0 q=0 rec=472 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=145920 min_free_heap=139112 reset_reason=0 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=9 drops=0
+RXDETAIL service_calls=128780 service_bytes_avg=15 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=109 service_frames_max=4 service_bytes_s=16656 service_frames_s=119 rxbuf_full_obs=0 bno_valid=506 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=520528 trial_frames=3934 trial_bno=506 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=128782 zero_reads=110487 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=14111 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=195370
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=1956896 frames=4051 bytes_s=16344 frames_s=117 crc/cobs/len=0/0/0 seqgap=20 age_ms=6 type=56 log=0 q=0 rec=472 final=0
+RXDIAG max_us=1975 budget_hits=0 byte/frame/time=0/0/0 rx_buf_max=288 loop_period_max_us=257000 loop_exec_max_us=253322 free_heap=145920 min_free_heap=139112 reset_reason=0 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=9 drops=0
+RXDETAIL service_calls=129713 service_bytes_avg=15 service_bytes_max=288 service_frames_avg=0 service_frames_avg_x1000=109 service_frames_max=4 service_bytes_s=16464 service_frames_s=117 rxbuf_full_obs=0 bno_valid=506 bno_invalid=0 unknown=0 uart_overflow=framework_unavailable trial_rx_bytes=536992 trial_frames=4051 trial_bno=506 trial_crc/cobs/len=0/0/0
+RXTASK mode=decode_count read_calls=129714 zero_reads=111273 read_bytes_max=288 rx_task_max_us=1975 rx_task_continuous_max_us=1975 stack_hwm_min_bytes=4920 cobs_delimiters=14230 rx_current=0 rx_max=288 rx_full=0 overflow=framework_unavailable
+SDTASK max_process_us=195370

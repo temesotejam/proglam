@@ -1,0 +1,25 @@
+{
+  "run_label": "UART_RX_DISPATCH_NO_BNO_ENQ_LOG10_20260802",
+  "ports": {
+    "core": "COM6",
+    "xiao": "COM4"
+  },
+  "baud": 115200,
+  "opened_utc": "2026-08-02T09:18:37.224711+00:00",
+  "start_api": {
+    "utc": "2026-08-02T09:18:42.726032+00:00",
+    "epoch": 1785662322.250424,
+    "url": "http://192.168.4.1/api/log/start?duration_s=10&bno_capture=1&bno_log_enqueue=0&uart_rx_diag=dispatch_no_bno_enqueue",
+    "status": 202,
+    "curl_returncode": 0,
+    "body": "{\"logging\":true,\"duration_s\":10,\"bno_capture\":true,\"bno_log_enqueue\":false,\"uart_rx_diag\":\"dispatch_no_bno_enqueue\"}"
+  },
+  "end_utc": null,
+  "core_diag_lines_before_start": 20,
+  "xiao_diag_lines_before_start": 80,
+  "app_ready_before_start": {
+    "core": true,
+    "xiao": true
+  },
+  "prestart_wait_s": 5.0
+}

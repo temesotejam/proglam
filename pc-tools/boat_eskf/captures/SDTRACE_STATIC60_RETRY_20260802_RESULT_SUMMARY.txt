@@ -1,0 +1,22 @@
+run=RUN0004
+core_reset_before_test=no
+sd_clock_hz=10000000
+manual_stop_api_sent=no
+start_request_utc=2026-08-02T04:58:35.0058927Z
+start_response=not_captured_client_proxy_exception
+first_write=us=694047929 requested=512 actual=512 ok=1
+failed_write=us=710406124 requested=512 actual=0 ok=0
+writer_write_calls=770
+writer_successful_writes=769
+records=2880
+queue_after_finalize=5
+flush=us=710412406 ok=1
+close=us=710418606 ok=1
+txt_open=us=710449770 ok=1
+txt_write=us=710486602 ok=1
+txt_close=us=710500201 ok=1
+failure_class=B_write_succeeds_then_midrun_failure
+automatic_stop_reached=no
+post_failure_diagnostics_seconds=>10
+bin_bytes=0
+txt_bytes=257

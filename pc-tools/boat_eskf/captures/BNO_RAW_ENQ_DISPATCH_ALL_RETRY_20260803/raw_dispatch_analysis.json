@@ -1,0 +1,79 @@
+﻿{
+    "run":  "BNO_RAW_ENQ_DISPATCH_ALL_RETRY_20260803",
+    "bin":  "RUN0047.BIN",
+    "requested_hz":  {
+                         "1":  100,
+                         "2":  100,
+                         "3":  50,
+                         "4":  20,
+                         "5":  50
+                     },
+    "accepted_hz":  {
+                        "1":  125,
+                        "2":  100,
+                        "3":  50,
+                        "4":  25,
+                        "5":  50
+                    },
+    "measured_hz":  {
+                        "1":  126.31,
+                        "2":  100.03,
+                        "3":  50.016,
+                        "4":  25.008,
+                        "5":  50.017
+                    },
+    "counts":  {
+                   "1":  {
+                             "xiao_event":  1261,
+                             "xiao_tx_enqueue":  1261,
+                             "xiao_tx_complete":  1261,
+                             "core_receive":  1261,
+                             "bin_save":  1258
+                         },
+                   "2":  {
+                             "xiao_event":  1000,
+                             "xiao_tx_enqueue":  1000,
+                             "xiao_tx_complete":  1000,
+                             "core_receive":  1000,
+                             "bin_save":  997
+                         },
+                   "3":  {
+                             "xiao_event":  500,
+                             "xiao_tx_enqueue":  500,
+                             "xiao_tx_complete":  500,
+                             "core_receive":  500,
+                             "bin_save":  499
+                         },
+                   "4":  {
+                             "xiao_event":  250,
+                             "xiao_tx_enqueue":  250,
+                             "xiao_tx_complete":  250,
+                             "core_receive":  250,
+                             "bin_save":  250
+                         },
+                   "5":  {
+                             "xiao_event":  499,
+                             "xiao_tx_enqueue":  499,
+                             "xiao_tx_complete":  499,
+                             "core_receive":  499,
+                             "bin_save":  498
+                         }
+               },
+    "bin_records":  5356,
+    "bin_consumed_bytes":  571236,
+    "bin_bytes":  571236,
+    "bin_trailing_bytes":  0,
+    "queue_max":  81,
+    "queue_final_after_finalize":  16,
+    "sd_task_max_process_us":  255027,
+    "type23_identified":  2,
+    "transport":  {
+                      "seq_gap":  0,
+                      "crc_cobs_len":  "0/0/0",
+                      "unknown":  0,
+                      "rxbuf_full":  0
+                  },
+    "pass":  false,
+    "queue_after_finalize_stable":  27,
+    "queue_finalization_snapshot":  16
+}

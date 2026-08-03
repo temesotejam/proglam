@@ -1,0 +1,796 @@
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=1/0/1420 event A/G/M=442/348/174 age_rx_us=1813/14219/8059
+IMU cand/pair/call/ok=348/348/348/348 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=14219 dt_us=19841 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=14219 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=442 unique=71 exact=1 overflow=0 dup=36 reverse=236 rollover=0 sensor_dt_us=-8800/39.00/15500 rx_dt_us=22/15792.31/26269 pair_first=4294949596/3696226 pair_last=4294966796/10660635
+BNO_TS GYRO events=348 unique=21 exact=1 overflow=0 dup=67 reverse=146 rollover=0 sensor_dt_us=-4000/0.00/4400 rx_dt_us=10260/19994.32/29014 pair_first=4294964796/3710199 pair_last=4294964796/10648229
+BNO_TS MAG events=174 unique=29 exact=1 overflow=0 dup=6 reverse=85 rollover=0 sensor_dt_us=-7000/-2.89/7100 rx_dt_us=29632/39994.61/54085 pair_first=4294962196/3735322 pair_last=4294961696/10654389
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=442 nonfinite=0 xyz_mean_sd=[-0.082933,0.006798][-0.847418,0.007112][-9.773729,0.011394] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.734375] norm_mean_sd_minmax=9.810753/0.011317/9.774669/9.849386
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=348 nonfinite=0 xyz_mean_sd=[-0.000034,0.001108][-0.000022,0.000755][0.000095,0.000612] xyz_minmax=[-0.007812,0.005859][-0.005859,0.003906][-0.003906,0.001953] norm_mean_sd_minmax=0.000517/0.001383/0.000000/0.008286
+BNO_VEC MAG_SENSOR events=174 nonfinite=0 xyz_mean_sd=[-3.719109,0.548302][-36.527299,0.795281][4.785560,1.081958] xyz_minmax=[-5.437500,-1.937500][-38.437500,-34.875000][2.125000,7.062500] norm_mean_sd_minmax=37.046392/0.803438/35.264679/39.023781
+LINK queue/drop/high=1/0/3 tof=212
+TXDIAG frames_s=133 bytes_s=17857 total_frames=953 total_bytes=126468 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=21277 max_write_us=128 free_heap=250036 min_free_heap=250036 usage_pct=19.38
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=442 switch=442 kind_convert=442 events=442 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.322
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=349 switch=348 kind_convert=348 events=348 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014
+BNO_TX kind=3 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=348 switch=348 kind_convert=348 events=348 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.036
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=174 switch=174 kind_convert=174 events=174 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.003
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=349 switch=349 kind_convert=349 events=349 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.049
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=1/0/1631 event A/G/M=505/398/199 age_rx_us=3152/11538/16268
+IMU cand/pair/call/ok=398/398/398/398 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=11538 dt_us=23752 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=11538 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=505 unique=75 exact=1 overflow=0 dup=42 reverse=270 rollover=0 sensor_dt_us=-8800/31.15/15500 rx_dt_us=22/15799.95/26269 pair_first=4294949596/3696226 pair_last=4294965296/11659403
+BNO_TS GYRO events=398 unique=21 exact=1 overflow=0 dup=77 reverse=168 rollover=0 sensor_dt_us=-4000/-5.04/4400 rx_dt_us=10260/20002.06/29014 pair_first=4294964796/3710199 pair_last=4294962796/11651017
+BNO_TS MAG events=199 unique=31 exact=1 overflow=0 dup=9 reverse=96 rollover=0 sensor_dt_us=-7000/15.15/7100 rx_dt_us=29632/39954.37/54085 pair_first=4294962196/3735322 pair_last=4294965196/11646287
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=505 nonfinite=0 xyz_mean_sd=[-0.082975,0.006805][-0.847293,0.007088][-9.773933,0.011070] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.734375] norm_mean_sd_minmax=9.810945/0.010998/9.774669/9.849386
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=398 nonfinite=0 xyz_mean_sd=[-0.000029,0.001036][-0.000020,0.000706][0.000083,0.000573] xyz_minmax=[-0.007812,0.005859][-0.005859,0.003906][-0.003906,0.001953] norm_mean_sd_minmax=0.000452/0.001305/0.000000/0.008286
+BNO_VEC MAG_SENSOR events=199 nonfinite=0 xyz_mean_sd=[-3.770415,0.561186][-36.504397,0.774047][4.771043,1.072333] xyz_minmax=[-5.437500,-1.937500][-38.437500,-34.875000][2.125000,7.062500] norm_mean_sd_minmax=37.027060/0.781478/35.264679/39.023781
+LINK queue/drop/high=0/0/3 tof=242
+TXDIAG frames_s=135 bytes_s=17942 total_frames=1089 total_bytes=144464 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=24139 max_write_us=128 free_heap=250036 min_free_heap=250036 usage_pct=19.47
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=505 switch=505 kind_convert=505 events=505 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.291
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=399 switch=399 kind_convert=399 events=399 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.020
+BNO_TX kind=3 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=399 switch=399 kind_convert=399 events=399 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.046
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=199 switch=199 kind_convert=199 events=199 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.029
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=399 switch=399 kind_convert=399 events=399 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.046
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=1/0/1841 event A/G/M=568/449/224 age_rx_us=13008/3941/25568
+IMU cand/pair/call/ok=449/449/449/449 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=3941 dt_us=15154 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=3941 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=568 unique=78 exact=1 overflow=0 dup=45 reverse=303 rollover=0 sensor_dt_us=-8800/25.22/15500 rx_dt_us=22/15806.35/26269 pair_first=4294949596/3696226 pair_last=4294963896/12658427
+BNO_TS GYRO events=449 unique=21 exact=1 overflow=0 dup=82 reverse=191 rollover=0 sensor_dt_us=-4000/-1.56/4400 rx_dt_us=10260/19993.96/29014 pair_first=4294964796/3710199 pair_last=4294964096/12667494
+BNO_TS MAG events=224 unique=31 exact=1 overflow=0 dup=10 reverse=108 rollover=0 sensor_dt_us=-7000/13.90/7100 rx_dt_us=29632/39957.60/54085 pair_first=4294962196/3735322 pair_last=4294965296/12645867
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=568 nonfinite=0 xyz_mean_sd=[-0.083145,0.007174][-0.847333,0.006684][-9.774036,0.010914] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.734375] norm_mean_sd_minmax=9.811053/0.010846/9.774669/9.849386
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=449 nonfinite=0 xyz_mean_sd=[-0.000026,0.000975][-0.000017,0.000664][0.000074,0.000540] xyz_minmax=[-0.007812,0.005859][-0.005859,0.003906][-0.003906,0.001953] norm_mean_sd_minmax=0.000401/0.001237/0.000000/0.008286
+BNO_VEC MAG_SENSOR events=224 nonfinite=0 xyz_mean_sd=[-3.808315,0.564388][-36.479074,0.761307][4.769252,1.092791] xyz_minmax=[-5.437500,-1.937500][-38.437500,-34.875000][2.125000,7.062500] norm_mean_sd_minmax=37.006433/0.766876/35.264679/39.023781
+LINK queue/drop/high=1/0/4 tof=273
+TXDIAG frames_s=137 bytes_s=18280 total_frames=1227 total_bytes=162872 queue=0 high=4 drops=0 bno_drop=0 partial=0 zero=0 write_calls=27555 max_write_us=128 free_heap=250036 min_free_heap=250036 usage_pct=19.84
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=569 switch=569 kind_convert=569 events=569 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.235
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=449 switch=449 kind_convert=449 events=449 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.015
+BNO_TX kind=3 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=449 switch=449 kind_convert=449 events=449 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.023
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=224 switch=224 kind_convert=224 events=224 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.027
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=449 switch=449 kind_convert=449 events=449 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.023
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=1/0/2048 event A/G/M=631/499/249 age_rx_us=15871/5414/18286
+IMU cand/pair/call/ok=499/499/499/499 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=5414 dt_us=20039 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=5414 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=631 unique=80 exact=1 overflow=0 dup=49 reverse=338 rollover=0 sensor_dt_us=-8800/22.06/15500 rx_dt_us=22/15808.85/26269 pair_first=4294949596/3696226 pair_last=4294963496/13655803
+BNO_TS GYRO events=499 unique=21 exact=1 overflow=0 dup=93 reverse=209 rollover=0 sensor_dt_us=-4000/0.80/4400 rx_dt_us=10260/19992.09/29014 pair_first=4294964796/3710199 pair_last=4294965196/13666260
+BNO_TS MAG events=249 unique=32 exact=1 overflow=0 dup=14 reverse=118 rollover=0 sensor_dt_us=-7000/1.61/7100 rx_dt_us=29632/39992.20/54085 pair_first=4294962196/3735322 pair_last=4294962596/13653388
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=631 nonfinite=0 xyz_mean_sd=[-0.083040,0.007128][-0.847365,0.006342][-9.774050,0.010878] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.734375] norm_mean_sd_minmax=9.811069/0.010813/9.774669/9.849386
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=499 nonfinite=0 xyz_mean_sd=[-0.000023,0.000925][-0.000016,0.000630][0.000067,0.000513] xyz_minmax=[-0.007812,0.005859][-0.005859,0.003906][-0.003906,0.001953] norm_mean_sd_minmax=0.000361/0.001180/0.000000/0.008286
+BNO_VEC MAG_SENSOR events=249 nonfinite=0 xyz_mean_sd=[-3.813504,0.557611][-36.475402,0.758584][4.769578,1.098868] xyz_minmax=[-5.437500,-1.937500][-38.437500,-34.875000][2.125000,7.062500] norm_mean_sd_minmax=37.003514/0.761902/35.264679/39.023781
+LINK queue/drop/high=0/0/4 tof=303
+TXDIAG frames_s=135 bytes_s=17960 total_frames=1363 total_bytes=180868 queue=0 high=4 drops=0 bno_drop=0 partial=0 zero=0 write_calls=29979 max_write_us=128 free_heap=250036 min_free_heap=250036 usage_pct=19.49
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=632 switch=632 kind_convert=632 events=632 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.235
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=499 switch=499 kind_convert=499 events=499 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.020
+BNO_TX kind=3 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=499 switch=499 kind_convert=499 events=499 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.044
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=249 switch=249 kind_convert=249 events=249 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.005
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=499 switch=499 kind_convert=499 events=499 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.044
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=1/0/2259 event A/G/M=695/549/274 age_rx_us=5200/11634/25459
+IMU cand/pair/call/ok=549/549/549/549 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=11634 dt_us=20861 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=11634 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=695 unique=80 exact=1 overflow=0 dup=54 reverse=369 rollover=0 sensor_dt_us=-8800/19.45/15500 rx_dt_us=22/15817.18/26269 pair_first=4294949596/3696226 pair_last=4294963096/14673347
+BNO_TS GYRO events=549 unique=21 exact=1 overflow=0 dup=104 reverse=229 rollover=0 sensor_dt_us=-4000/-0.36/4400 rx_dt_us=10260/19994.00/29014 pair_first=4294964796/3710199 pair_last=4294964596/14666913
+BNO_TS MAG events=274 unique=34 exact=1 overflow=0 dup=17 reverse=127 rollover=0 sensor_dt_us=-7000/1.47/7100 rx_dt_us=29632/39991.82/54085 pair_first=4294962196/3735322 pair_last=4294962596/14653088
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=695 nonfinite=0 xyz_mean_sd=[-0.083172,0.007384][-0.847443,0.006191][-9.774067,0.010842] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.734375] norm_mean_sd_minmax=9.811093/0.010780/9.774669/9.849386
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=549 nonfinite=0 xyz_mean_sd=[-0.000021,0.000882][-0.000014,0.000601][0.000060,0.000489] xyz_minmax=[-0.007812,0.005859][-0.005859,0.003906][-0.003906,0.001953] norm_mean_sd_minmax=0.000328/0.001129/0.000000/0.008286
+BNO_VEC MAG_SENSOR events=274 nonfinite=0 xyz_mean_sd=[-3.812044,0.547056][-36.459626,0.752814][4.732436,1.098581] xyz_minmax=[-5.437500,-1.937500][-38.437500,-34.875000][2.125000,7.062500] norm_mean_sd_minmax=36.982823/0.758704/35.188332/39.023781
+LINK queue/drop/high=1/0/4 tof=334
+TXDIAG frames_s=135 bytes_s=18077 total_frames=1499 total_bytes=199036 queue=0 high=4 drops=0 bno_drop=0 partial=0 zero=0 write_calls=32517 max_write_us=128 free_heap=250036 min_free_heap=250036 usage_pct=19.61
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=696 switch=696 kind_convert=696 events=696 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.258
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=549 switch=549 kind_convert=549 events=549 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.015
+BNO_TX kind=3 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=549 switch=549 kind_convert=549 events=549 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.028
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=275 switch=274 kind_convert=274 events=274 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.005
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=549 switch=549 kind_convert=549 events=549 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.028
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=1/0/2464 event A/G/M=758/599/299 age_rx_us=14184/10199/27569
+IMU cand/pair/call/ok=599/599/599/599 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=10199 dt_us=22556 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=10199 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=758 unique=84 exact=1 overflow=0 dup=59 reverse=403 rollover=0 sensor_dt_us=-8800/22.19/15500 rx_dt_us=22/15809.96/26269 pair_first=4294949596/3696226 pair_last=4294966396/15664369
+BNO_TS GYRO events=599 unique=22 exact=1 overflow=0 dup=110 reverse=252 rollover=0 sensor_dt_us=-4000/-1.51/4400 rx_dt_us=10260/19996.91/29014 pair_first=4294964796/3710199 pair_last=4294963896/15668354
+BNO_TS MAG events=299 unique=34 exact=1 overflow=0 dup=17 reverse=139 rollover=0 sensor_dt_us=-7000/1.34/7100 rx_dt_us=29632/39985.44/54085 pair_first=4294962196/3735322 pair_last=4294962596/15650984
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=758 nonfinite=0 xyz_mean_sd=[-0.083284,0.007594][-0.847507,0.006066][-9.774077,0.010818] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.734375] norm_mean_sd_minmax=9.811109/0.010759/9.774669/9.849386
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=599 nonfinite=0 xyz_mean_sd=[-0.000020,0.000844][-0.000013,0.000575][0.000055,0.000469] xyz_minmax=[-0.007812,0.005859][-0.005859,0.003906][-0.003906,0.001953] norm_mean_sd_minmax=0.000300/0.001085/0.000000/0.008286
+BNO_VEC MAG_SENSOR events=299 nonfinite=0 xyz_mean_sd=[-3.817517,0.542412][-36.457985,0.744825][4.720527,1.089356] xyz_minmax=[-5.437500,-1.937500][-38.437500,-34.875000][2.125000,7.062500] norm_mean_sd_minmax=36.979988/0.746755/35.188332/39.023781
+LINK queue/drop/high=0/0/4 tof=364
+TXDIAG frames_s=135 bytes_s=17942 total_frames=1635 total_bytes=217032 queue=0 high=4 drops=0 bno_drop=0 partial=0 zero=0 write_calls=34779 max_write_us=168 free_heap=250036 min_free_heap=250036 usage_pct=19.47
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=759 switch=759 kind_convert=759 events=759 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.249
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=600 switch=599 kind_convert=599 events=599 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.008
+BNO_TX kind=3 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=600 switch=600 kind_convert=600 events=600 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.034
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=300 switch=300 kind_convert=300 events=300 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.021
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=600 switch=600 kind_convert=600 events=600 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.034
+P1_CAPTURE_STATS_RESET
+TX_DIAG_RESET
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/131 event A/G/M=42/34/17 age_rx_us=7094/1274/33040
+IMU cand/pair/call/ok=650/650/650/650 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=1274 dt_us=18802 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=1274 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=42 unique=23 exact=1 overflow=0 dup=2 reverse=22 rollover=0 sensor_dt_us=-4600/80.49/8100 rx_dt_us=5600/16194.66/33906 pair_first=4294963496/16015352 pair_last=4294966796/16679333
+BNO_TS GYRO events=34 unique=11 exact=1 overflow=0 dup=6 reverse=14 rollover=0 sensor_dt_us=-3500/0.00/2600 rx_dt_us=12582/19992.00/28118 pair_first=4294964996/16025417 pair_last=4294964996/16685153
+BNO_TS MAG events=17 unique=11 exact=1 overflow=0 dup=1 reverse=7 rollover=0 sensor_dt_us=-10900/-25.00/8200 rx_dt_us=30838/40029.62/52147 pair_first=4294962596/16012913 pair_last=4294962196/16653387
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=42 nonfinite=0 xyz_mean_sd=[-0.082961,0.005955][-0.848493,0.005360][-9.771670,0.013644] xyz_minmax=[-0.121094,-0.082031][-0.882812,-0.847656][-9.777344,-9.738281] norm_mean_sd_minmax=9.808793/0.013586/9.775448/9.814362
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=34 nonfinite=0 xyz_mean_sd=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] xyz_minmax=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] norm_mean_sd_minmax=0.000000/0.000000/0.000000/0.000000
+BNO_VEC MAG_SENSOR events=17 nonfinite=0 xyz_mean_sd=[-3.742647,0.570765][-36.595588,0.371996][4.911765,0.862585] xyz_minmax=[-4.812500,-2.812500][-37.250000,-35.812500][3.375000,6.187500] norm_mean_sd_minmax=37.127152/0.390827/36.511826/37.652245
+LINK queue/drop/high=1/0/5 tof=395
+TXDIAG frames_s=255000 bytes_s=25904000 total_frames=255 total_bytes=25904 queue=0 high=5 drops=0 bno_drop=0 partial=0 zero=0 write_calls=4734 max_write_us=157 free_heap=249992 min_free_heap=250036 usage_pct=28107.64
+BNO_TX kind=1 event=42 req=42 enq=42 drop=0 done=42 bytes=3528
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=42 switch=42 kind_convert=42 events=42 tx_req=42 tx_enq=42 tx_done=42 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=61.749
+BNO_TX kind=2 event=34 req=34 enq=34 drop=0 done=34 bytes=2856
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=34 switch=34 kind_convert=34 events=34 tx_req=34 tx_enq=34 tx_done=34 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.020
+BNO_TX kind=3 event=34 req=34 enq=34 drop=0 done=34 bytes=2856
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=34 switch=34 kind_convert=34 events=34 tx_req=34 tx_enq=34 tx_done=34 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.027
+BNO_TX kind=4 event=17 req=17 enq=17 drop=0 done=17 bytes=1428
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=18 switch=17 kind_convert=17 events=17 tx_req=17 tx_enq=17 tx_done=17 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=24.981
+BNO_TX kind=5 event=34 req=34 enq=34 drop=0 done=34 bytes=2856
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=35 switch=34 kind_convert=34 events=34 tx_req=34 tx_enq=34 tx_done=34 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.028
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/316 event A/G/M=105/84/42 age_rx_us=8111/1472/34221
+IMU cand/pair/call/ok=700/700/700/700 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=1472 dt_us=19759 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=1472 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=105 unique=45 exact=1 overflow=0 dup=4 reverse=59 rollover=0 sensor_dt_us=-4700/16.35/9300 rx_dt_us=5600/15991.86/33906 pair_first=4294963496/16015352 pair_last=4294965196/17678505
+BNO_TS GYRO events=84 unique=14 exact=1 overflow=0 dup=13 reverse=31 rollover=0 sensor_dt_us=-3500/2.41/2600 rx_dt_us=12582/19996.71/28118 pair_first=4294964996/16025417 pair_last=4294965196/17685144
+BNO_TS MAG events=42 unique=15 exact=1 overflow=0 dup=3 reverse=17 rollover=0 sensor_dt_us=-10900/-4.88/8200 rx_dt_us=30279/39987.37/52478 pair_first=4294962596/16012913 pair_last=4294962396/17652395
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=105 nonfinite=0 xyz_mean_sd=[-0.082775,0.005340][-0.848326,0.004806][-9.772805,0.012413] xyz_minmax=[-0.121094,-0.082031][-0.882812,-0.847656][-9.777344,-9.738281] norm_mean_sd_minmax=9.809907/0.012367/9.775448/9.814766
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=84 nonfinite=0 xyz_mean_sd=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] xyz_minmax=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] norm_mean_sd_minmax=0.000000/0.000000/0.000000/0.000000
+BNO_VEC MAG_SENSOR events=42 nonfinite=0 xyz_mean_sd=[-3.818452,0.567735][-36.632440,0.689823][4.916667,1.040178] xyz_minmax=[-5.187500,-2.812500][-38.125000,-35.375000][2.937500,6.625000] norm_mean_sd_minmax=37.176581/0.686915/36.015945/38.760078
+LINK queue/drop/high=2/0/5 tof=425
+TXDIAG frames_s=375 bytes_s=38084 total_frames=630 total_bytes=63988 queue=0 high=5 drops=0 bno_drop=0 partial=0 zero=0 write_calls=11838 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=41.32
+BNO_TX kind=1 event=105 req=105 enq=105 drop=0 done=105 bytes=8820
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=105 switch=105 kind_convert=105 events=105 tx_req=105 tx_enq=105 tx_done=105 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=62.532
+BNO_TX kind=2 event=84 req=84 enq=84 drop=0 done=84 bytes=7056
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=84 switch=84 kind_convert=84 events=84 tx_req=84 tx_enq=84 tx_done=84 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.008
+BNO_TX kind=3 event=84 req=84 enq=84 drop=0 done=84 bytes=7056
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=85 switch=85 kind_convert=85 events=85 tx_req=84 tx_enq=84 tx_done=84 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014
+BNO_TX kind=4 event=42 req=42 enq=42 drop=0 done=42 bytes=3528
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=43 switch=43 kind_convert=43 events=43 tx_req=42 tx_enq=42 tx_done=42 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.007
+BNO_TX kind=5 event=84 req=84 enq=84 drop=0 done=84 bytes=7056
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=85 switch=85 kind_convert=85 events=85 tx_req=84 tx_enq=84 tx_done=84 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/497 event A/G/M=168/134/68 age_rx_us=20443/9570/4113
+IMU cand/pair/call/ok=750/750/750/750 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=9570 dt_us=18863 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=9570 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=168 unique=50 exact=1 overflow=0 dup=9 reverse=92 rollover=0 sensor_dt_us=-5500/10.18/9300 rx_dt_us=5600/15920.08/33906 pair_first=4294963496/16015352 pair_last=4294965196/18674005
+BNO_TS GYRO events=134 unique=20 exact=1 overflow=0 dup=20 reverse=54 rollover=0 sensor_dt_us=-6400/0.00/5800 rx_dt_us=11241/19995.95/28517 pair_first=4294964996/16025417 pair_last=4294964996/18684878
+BNO_TS MAG events=68 unique=21 exact=1 overflow=0 dup=5 reverse=28 rollover=0 sensor_dt_us=-10900/0.00/8200 rx_dt_us=26710/39961.52/52478 pair_first=4294962596/16012913 pair_last=4294962596/18690335
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=168 nonfinite=0 xyz_mean_sd=[-0.083194,0.006638][-0.848284,0.004656][-9.774251,0.010430] xyz_minmax=[-0.121094,-0.082031][-0.882812,-0.847656][-9.777344,-9.738281] norm_mean_sd_minmax=9.811348/0.010389/9.775448/9.814766
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=134 nonfinite=0 xyz_mean_sd=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] xyz_minmax=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] norm_mean_sd_minmax=0.000000/0.000000/0.000000/0.000000
+BNO_VEC MAG_SENSOR events=68 nonfinite=0 xyz_mean_sd=[-3.791360,0.535462][-36.732537,0.724588][4.806066,1.068169] xyz_minmax=[-5.187500,-2.562500][-38.125000,-34.875000][2.437500,6.625000] norm_mean_sd_minmax=37.258202/0.728743/35.225060/38.760078
+LINK queue/drop/high=1/0/6 tof=456
+TXDIAG frames_s=374 bytes_s=38190 total_frames=1008 total_bytes=102560 queue=0 high=6 drops=0 bno_drop=0 partial=0 zero=0 write_calls=19091 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=41.44
+BNO_TX kind=1 event=169 req=169 enq=169 drop=0 done=169 bytes=14196
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=169 switch=169 kind_convert=169 events=169 tx_req=169 tx_enq=169 tx_done=169 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=62.651
+BNO_TX kind=2 event=134 req=134 enq=134 drop=0 done=134 bytes=11256
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=134 switch=134 kind_convert=134 events=134 tx_req=134 tx_enq=134 tx_done=134 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.010
+BNO_TX kind=3 event=135 req=135 enq=135 drop=0 done=135 bytes=11340
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=135 switch=135 kind_convert=135 events=135 tx_req=135 tx_enq=135 tx_done=135 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.048
+BNO_TX kind=4 event=68 req=68 enq=68 drop=0 done=68 bytes=5712
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=68 switch=68 kind_convert=68 events=68 tx_req=68 tx_enq=68 tx_done=68 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.024
+BNO_TX kind=5 event=135 req=135 enq=135 drop=0 done=135 bytes=11340
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=135 switch=135 kind_convert=135 events=135 tx_req=135 tx_enq=135 tx_done=135 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.048
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/683 event A/G/M=232/184/93 age_rx_us=1339/9392/1347
+IMU cand/pair/call/ok=800/800/800/800 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=9392 dt_us=20831 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=9392 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=232 unique=57 exact=1 overflow=0 dup=16 reverse=123 rollover=0 sensor_dt_us=-5900/5.63/11000 rx_dt_us=5486/15922.26/33906 pair_first=4294963496/16015352 pair_last=4294964796/19693393
+BNO_TS GYRO events=184 unique=23 exact=1 overflow=0 dup=28 reverse=77 rollover=0 sensor_dt_us=-6400/1.09/5800 rx_dt_us=11241/19999.58/28517 pair_first=4294964996/16025417 pair_last=4294965196/19685340
+BNO_TS MAG events=93 unique=28 exact=1 overflow=0 dup=6 reverse=40 rollover=0 sensor_dt_us=-10900/-7.61/8200 rx_dt_us=26710/40005.13/52478 pair_first=4294962596/16012913 pair_last=4294961896/19693385
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=232 nonfinite=0 xyz_mean_sd=[-0.083058,0.007093][-0.848094,0.005263][-9.774717,0.009600] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.777344,-9.738281] norm_mean_sd_minmax=9.811795/0.009565/9.775448/9.814766
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=184 nonfinite=0 xyz_mean_sd=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] xyz_minmax=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] norm_mean_sd_minmax=0.000000/0.000000/0.000000/0.000000
+BNO_VEC MAG_SENSOR events=93 nonfinite=0 xyz_mean_sd=[-3.789651,0.540123][-36.686828,0.706245][4.803091,1.048029] xyz_minmax=[-5.187500,-2.562500][-38.125000,-34.875000][2.437500,6.687500] norm_mean_sd_minmax=37.212103/0.709070/35.225060/38.760078
+LINK queue/drop/high=1/0/6 tof=486
+TXDIAG frames_s=375 bytes_s=38160 total_frames=1383 total_bytes=140644 queue=0 high=6 drops=0 bno_drop=0 partial=0 zero=0 write_calls=26308 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=41.41
+BNO_TX kind=1 event=232 req=232 enq=232 drop=0 done=232 bytes=19488
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=232 switch=232 kind_convert=232 events=232 tx_req=232 tx_enq=232 tx_done=232 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=62.805
+BNO_TX kind=2 event=184 req=184 enq=184 drop=0 done=184 bytes=15456
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=184 switch=184 kind_convert=184 events=184 tx_req=184 tx_enq=184 tx_done=184 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.001
+BNO_TX kind=3 event=185 req=185 enq=185 drop=0 done=185 bytes=15540
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=185 switch=185 kind_convert=185 events=185 tx_req=185 tx_enq=185 tx_done=185 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=49.994
+BNO_TX kind=4 event=93 req=93 enq=93 drop=0 done=93 bytes=7812
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=93 switch=93 kind_convert=93 events=93 tx_req=93 tx_enq=93 tx_done=93 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=24.997
+BNO_TX kind=5 event=185 req=185 enq=185 drop=0 done=185 bytes=15540
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=185 switch=185 kind_convert=185 events=185 tx_req=185 tx_enq=185 tx_done=185 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=49.994
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/862 event A/G/M=296/234/118 age_rx_us=248/17304/7099
+IMU cand/pair/call/ok=850/850/850/850 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=17304 dt_us=20388 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=17304 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=296 unique=65 exact=1 overflow=0 dup=20 reverse=157 rollover=0 sensor_dt_us=-5900/11.19/11000 rx_dt_us=3171/15885.84/33906 pair_first=4294963496/16015352 pair_last=4294966796/20701675
+BNO_TS GYRO events=234 unique=24 exact=1 overflow=0 dup=36 reverse=99 rollover=0 sensor_dt_us=-6400/-0.86/5800 rx_dt_us=11241/19996.58/28517 pair_first=4294964996/16025417 pair_last=4294964796/20684619
+BNO_TS MAG events=118 unique=32 exact=1 overflow=0 dup=7 reverse=53 rollover=0 sensor_dt_us=-10900/-3.42/8200 rx_dt_us=26710/40016.33/52478 pair_first=4294962596/16012913 pair_last=4294962196/20694824
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=296 nonfinite=0 xyz_mean_sd=[-0.083245,0.007974][-0.847999,0.004663][-9.774084,0.010652] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.777344,-9.738281] norm_mean_sd_minmax=9.811159/0.010617/9.775448/9.814766
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=234 nonfinite=0 xyz_mean_sd=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] xyz_minmax=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] norm_mean_sd_minmax=0.000000/0.000000/0.000000/0.000000
+BNO_VEC MAG_SENSOR events=118 nonfinite=0 xyz_mean_sd=[-3.807733,0.537409][-36.679025,0.675596][4.867585,1.008937] xyz_minmax=[-5.187500,-2.562500][-38.125000,-34.875000][2.437500,7.062500] norm_mean_sd_minmax=37.213618/0.673048/35.225060/38.760078
+LINK queue/drop/high=1/0/6 tof=517
+TXDIAG frames_s=374 bytes_s=38071 total_frames=1760 total_bytes=179020 queue=0 high=6 drops=0 bno_drop=0 partial=0 zero=0 write_calls=33574 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=41.31
+BNO_TX kind=1 event=296 req=296 enq=296 drop=0 done=296 bytes=24864
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=296 switch=296 kind_convert=296 events=296 tx_req=296 tx_enq=296 tx_done=296 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=62.949
+BNO_TX kind=2 event=234 req=234 enq=234 drop=0 done=234 bytes=19656
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=235 switch=235 kind_convert=235 events=235 tx_req=234 tx_enq=234 tx_done=234 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=49.981
+BNO_TX kind=3 event=235 req=235 enq=235 drop=0 done=235 bytes=19740
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=236 switch=235 kind_convert=235 events=235 tx_req=235 tx_enq=235 tx_done=235 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=49.980
+BNO_TX kind=4 event=118 req=118 enq=118 drop=0 done=118 bytes=9912
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=118 switch=118 kind_convert=118 events=118 tx_req=118 tx_enq=118 tx_done=118 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=24.990
+BNO_TX kind=5 event=235 req=235 enq=235 drop=0 done=235 bytes=19740
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=236 switch=236 kind_convert=236 events=236 tx_req=235 tx_enq=235 tx_done=235 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.008
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/1044 event A/G/M=359/284/143 age_rx_us=661/13188/8916
+IMU cand/pair/call/ok=900/900/900/900 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=13188 dt_us=23957 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=13188 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=359 unique=67 exact=1 overflow=0 dup=24 reverse=184 rollover=0 sensor_dt_us=-5900/9.22/11000 rx_dt_us=3171/15881.70/33906 pair_first=4294963496/16015352 pair_last=4294966796/21701002
+BNO_TS GYRO events=284 unique=24 exact=1 overflow=0 dup=44 reverse=123 rollover=0 sensor_dt_us=-6400/-6.01/5800 rx_dt_us=11241/20010.81/28517 pair_first=4294964996/16025417 pair_last=4294963296/21688475
+BNO_TS MAG events=143 unique=36 exact=1 overflow=0 dup=7 reverse=67 rollover=0 sensor_dt_us=-10900/-33.80/8200 rx_dt_us=26710/39998.83/52478 pair_first=4294962596/16012913 pair_last=4294957796/21692747
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=359 nonfinite=0 xyz_mean_sd=[-0.083250,0.007788][-0.847830,0.004716][-9.774101,0.010634] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.777344,-9.738281] norm_mean_sd_minmax=9.811161/0.010601/9.775448/9.814766
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=284 nonfinite=0 xyz_mean_sd=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] xyz_minmax=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] norm_mean_sd_minmax=0.000000/0.000000/0.000000/0.000000
+BNO_VEC MAG_SENSOR events=143 nonfinite=0 xyz_mean_sd=[-3.819493,0.553572][-36.682692,0.678565][4.870192,1.007947] xyz_minmax=[-5.250000,-2.562500][-38.437500,-34.875000][2.437500,7.062500] norm_mean_sd_minmax=37.218916/0.680007/35.225060/38.962624
+LINK queue/drop/high=1/0/6 tof=547
+TXDIAG frames_s=374 bytes_s=37970 total_frames=2135 total_bytes=217028 queue=0 high=6 drops=0 bno_drop=0 partial=0 zero=0 write_calls=40732 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=41.20
+BNO_TX kind=1 event=359 req=359 enq=359 drop=0 done=359 bytes=30156
+ested_hz=50.000 enable_ok=2 enable_fail=0 callback=286 switch=286 kind_convert=286 events=286 tx_req=285 tx_enq=285 tx_done=285 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.030
+BNO_TX kind=4 event=143 req=143 enq=143 drop=0 done=143 bytes=12012
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=143 switch=143 kind_convert=143 events=143 tx_req=143 tx_enq=143 tx_done=143 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.001
+BNO_TX kind=5 event=285 req=285 enq=285 drop=0 done=285 bytes=23940
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=286 switch=286 kind_convert=286 events=286 tx_req=285 tx_enq=285 tx_done=285 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.030
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/1230 event A/G/M=422/335/168 age_rx_us=12738/5431/26074
+IMU cand/pair/call/ok=951/951/951/951 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=5431 dt_us=14044 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=5431 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=422 unique=71 exact=1 overflow=0 dup=29 reverse=217 rollover=0 sensor_dt_us=-5900/7.36/11000 rx_dt_us=3171/15870.02/33906 pair_first=4294963496/16015352 pair_last=4294966596/22696629
+BNO_TS GYRO events=335 unique=25 exact=1 overflow=0 dup=47 reverse=147 rollover=0 sensor_dt_us=-6400/-1.20/5800 rx_dt_us=11241/19995.57/28846 pair_first=4294964996/16025417 pair_last=4294964596/22703936
+BNO_TS MAG events=168 unique=37 exact=1 overflow=0 dup=7 reverse=79 rollover=0 sensor_dt_us=-10900/14.37/8200 rx_dt_us=26710/39942.40/52478 pair_first=4294962596/16012913 pair_last=4294964996/22683293
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=422 nonfinite=0 xyz_mean_sd=[-0.083447,0.008477][-0.847712,0.004750][-9.774085,0.011215] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.738281] norm_mean_sd_minmax=9.811137/0.011181/9.775448/9.849386
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=335 nonfinite=0 xyz_mean_sd=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] xyz_minmax=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] norm_mean_sd_minmax=0.000000/0.000000/0.000000/0.000000
+BNO_VEC MAG_SENSOR events=168 nonfinite=0 xyz_mean_sd=[-3.843750,0.544478][-36.672991,0.683565][4.873512,1.009740] xyz_minmax=[-5.250000,-2.562500][-38.437500,-34.875000][2.437500,7.062500] norm_mean_sd_minmax=37.212094/0.690806/35.225060/38.962624
+LINK queue/drop/high=1/0/6 tof=578
+TXDIAG frames_s=375 bytes_s=38204 total_frames=2513 total_bytes=255500 queue=0 high=6 drops=0 bno_drop=0 partial=0 zero=0 write_calls=48031 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=41.45
+BNO_TX kind=1 event=422 req=422 enq=422 drop=0 done=422 bytes=35448
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=423 switch=423 kind_convert=423 events=423 tx_req=422 tx_enq=422 tx_done=422 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=62.974
+BNO_TX kind=2 event=335 req=335 enq=335 drop=0 done=335 bytes=28140
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=335 switch=335 kind_convert=335 events=335 tx_req=335 tx_enq=335 tx_done=335 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.011
+BNO_TX kind=3 event=336 req=336 enq=336 drop=0 done=336 bytes=28224
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=336 switch=336 kind_convert=336 events=336 tx_req=336 tx_enq=336 tx_done=336 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.025
+BNO_TX kind=4 event=168 req=168 enq=168 drop=0 done=168 bytes=14112
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=168 switch=168 kind_convert=168 events=168 tx_req=168 tx_enq=168 tx_done=168 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.036
+BNO_TX kind=5 event=336 req=336 enq=336 drop=0 done=336 bytes=28224
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=336 switch=336 kind_convert=336 events=336 tx_req=336 tx_enq=336 tx_done=336 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.025
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/1407 event A/G/M=485/385/193 age_rx_us=11655/6204/17686
+IMU cand/pair/call/ok=1001/1001/1001/1001 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=6204 dt_us=18550 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=6204 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=485 unique=75 exact=1 overflow=0 dup=31 reverse=252 rollover=0 sensor_dt_us=-6500/1.86/11000 rx_dt_us=3171/15873.22/33906 pair_first=4294963496/16015352 pair_last=4294964396/23697992
+BNO_TS GYRO events=385 unique=26 exact=1 overflow=0 dup=54 reverse=169 rollover=0 sensor_dt_us=-6400/0.00/6200 rx_dt_us=9295/19994.86/30913 pair_first=4294964996/16025417 pair_last=4294964996/23703443
+BNO_TS MAG events=193 unique=38 exact=1 overflow=0 dup=10 reverse=90 rollover=0 sensor_dt_us=-11400/-6.77/11500 rx_dt_us=25719/39995.04/53973 pair_first=4294962596/16012913 pair_last=4294961296/23691961
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=485 nonfinite=0 xyz_mean_sd=[-0.083505,0.008458][-0.847624,0.004773][-9.774340,0.010769] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.738281] norm_mean_sd_minmax=9.811383/0.010738/9.775448/9.849386
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=385 nonfinite=0 xyz_mean_sd=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] xyz_minmax=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] norm_mean_sd_minmax=0.000000/0.000000/0.000000/0.000000
+BNO_VEC MAG_SENSOR events=193 nonfinite=0 xyz_mean_sd=[-3.853627,0.555046][-36.653821,0.695883][4.867876,1.016974] xyz_minmax=[-5.250000,-2.562500][-38.437500,-34.875000][2.437500,7.062500] norm_mean_sd_minmax=37.193873/0.701198/35.225060/38.962624
+LINK queue/drop/high=2/0/6 tof=608
+TXDIAG frames_s=376 bytes_s=38206 total_frames=2889 total_bytes=293668 queue=0 high=6 drops=0 bno_drop=0 partial=0 zero=0 write_calls=55522 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=41.46
+BNO_TX kind=1 event=486 req=486 enq=486 drop=0 done=486 bytes=40824
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=486 switch=486 kind_convert=486 events=486 tx_req=486 tx_enq=486 tx_done=486 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.007
+BNO_TX kind=2 event=385 req=385 enq=385 drop=0 done=385 bytes=32340
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=385 switch=385 kind_convert=385 events=385 tx_req=385 tx_enq=385 tx_done=385 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.013
+BNO_TX kind=3 event=386 req=386 enq=386 drop=0 done=386 bytes=32424
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=386 switch=386 kind_convert=386 events=386 tx_req=386 tx_enq=386 tx_done=386 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.026
+BNO_TX kind=4 event=193 req=193 enq=193 drop=0 done=193 bytes=16212
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=193 switch=193 kind_convert=193 events=193 tx_req=193 tx_enq=193 tx_done=193 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.003
+BNO_TX kind=5 event=386 req=386 enq=386 drop=0 done=386 bytes=32424
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=386 switch=386 kind_convert=386 events=386 tx_req=386 tx_enq=386 tx_done=386 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.026
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/1594 event A/G/M=549/435/218 age_rx_us=3753/13157/27130
+IMU cand/pair/call/ok=1051/1051/1051/1051 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=13157 dt_us=20016 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=13157 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=549 unique=79 exact=1 overflow=0 dup=34 reverse=286 rollover=0 sensor_dt_us=-6500/-5.29/11000 rx_dt_us=3171/15871.12/33906 pair_first=4294963496/16015352 pair_last=4294960596/24712725
+BNO_TS GYRO events=435 unique=27 exact=1 overflow=0 dup=64 reverse=190 rollover=0 sensor_dt_us=-6400/-0.46/6200 rx_dt_us=9295/19995.17/30913 pair_first=4294964996/16025417 pair_last=4294964796/24703321
+BNO_TS MAG events=218 unique=39 exact=1 overflow=0 dup=11 reverse=101 rollover=0 sensor_dt_us=-11400/0.00/11500 rx_dt_us=25719/39983.57/53973 pair_first=4294962596/16012913 pair_last=4294962596/24689348
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=549 nonfinite=0 xyz_mean_sd=[-0.083404,0.008125][-0.847692,0.004730][-9.774462,0.010748] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.738281] norm_mean_sd_minmax=9.811510/0.010716/9.775448/9.849386
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=435 nonfinite=0 xyz_mean_sd=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] xyz_minmax=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] norm_mean_sd_minmax=0.000000/0.000000/0.000000/0.000000
+BNO_VEC MAG_SENSOR events=218 nonfinite=0 xyz_mean_sd=[-3.871846,0.548443][-36.660264,0.724129][4.859805,0.999051] xyz_minmax=[-5.500000,-2.562500][-38.437500,-34.875000][2.437500,7.062500] norm_mean_sd_minmax=37.200462/0.729901/35.225060/38.962624
+LINK queue/drop/high=1/0/6 tof=639
+TXDIAG frames_s=373 bytes_s=38099 total_frames=3265 total_bytes=332072 queue=0 high=6 drops=0 bno_drop=0 partial=0 zero=0 write_calls=62645 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=41.34
+BNO_TX kind=1 event=549 req=549 enq=549 drop=0 done=549 bytes=46116
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=549 switch=549 kind_convert=549 events=549 tx_req=549 tx_enq=549 tx_done=549 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.008
+BNO_TX kind=2 event=435 req=435 enq=435 drop=0 done=435 bytes=36540
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=436 switch=435 kind_convert=435 events=435 tx_req=435 tx_enq=435 tx_done=435 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.012
+BNO_TX kind=3 event=436 req=436 enq=436 drop=0 done=436 bytes=36624
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=436 switch=436 kind_convert=436 events=436 tx_req=436 tx_enq=436 tx_done=436 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.020
+BNO_TX kind=4 event=218 req=218 enq=218 drop=0 done=218 bytes=18312
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=218 switch=218 kind_convert=218 events=218 tx_req=218 tx_enq=218 tx_done=218 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.010
+BNO_TX kind=5 event=436 req=436 enq=436 drop=0 done=436 bytes=36624
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=436 switch=436 kind_convert=436 events=436 tx_req=436 tx_enq=436 tx_done=436 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.020
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/1776 event A/G/M=612/485/243 age_rx_us=4298/13717/26860
+IMU cand/pair/call/ok=1101/1101/1101/1101 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=13717 dt_us=19087 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=13717 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=612 unique=82 exact=1 overflow=0 dup=36 reverse=322 rollover=0 sensor_dt_us=-6500/-6.71/11000 rx_dt_us=3171/15870.62/33906 pair_first=4294963496/16015352 pair_last=4294959396/25712298
+BNO_TS GYRO events=485 unique=27 exact=1 overflow=0 dup=75 reverse=210 rollover=0 sensor_dt_us=-6400/0.00/6200 rx_dt_us=9295/19994.76/30913 pair_first=4294964996/16025417 pair_last=4294964996/25702879
+BNO_TS MAG events=243 unique=40 exact=1 overflow=0 dup=13 reverse=112 rollover=0 sensor_dt_us=-11400/-4.55/11500 rx_dt_us=25719/39986.87/53973 pair_first=4294962596/16012913 pair_last=4294961496/25689736
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=612 nonfinite=0 xyz_mean_sd=[-0.083391,0.008003][-0.847688,0.004480][-9.774306,0.011127] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.738281] norm_mean_sd_minmax=9.811353/0.011091/9.775448/9.849386
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=485 nonfinite=0 xyz_mean_sd=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] xyz_minmax=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] norm_mean_sd_minmax=0.000000/0.000000/0.000000/0.000000
+BNO_VEC MAG_SENSOR events=243 nonfinite=0 xyz_mean_sd=[-3.864969,0.537088][-36.648663,0.722413][4.845422,0.981344] xyz_minmax=[-5.500000,-2.562500][-38.437500,-34.875000][2.437500,7.062500] norm_mean_sd_minmax=37.185783/0.729072/35.225060/38.962624
+LINK queue/drop/high=0/0/6 tof=669
+TXDIAG frames_s=375 bytes_s=38178 total_frames=3640 total_bytes=370212 queue=1 high=6 drops=0 bno_drop=0 partial=0 zero=0 write_calls=70061 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=41.43
+BNO_TX kind=1 event=613 req=613 enq=613 drop=0 done=613 bytes=51492
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=613 switch=613 kind_convert=613 events=613 tx_req=613 tx_enq=613 tx_done=613 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.057
+BNO_TX kind=2 event=485 req=485 enq=485 drop=0 done=485 bytes=40740
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=485 switch=485 kind_convert=485 events=485 tx_req=485 tx_enq=485 tx_done=485 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.013
+BNO_TX kind=3 event=486 req=486 enq=486 drop=0 done=486 bytes=40824
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=486 switch=486 kind_convert=486 events=486 tx_req=486 tx_enq=486 tx_done=486 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.022
+BNO_TX kind=4 event=243 req=243 enq=243 drop=0 done=243 bytes=20412
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=243 switch=243 kind_convert=243 events=243 tx_req=243 tx_enq=243 tx_done=243 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.008
+BNO_TX kind=5 event=486 req=486 enq=486 drop=0 done=486 bytes=40824
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=486 switch=486 kind_convert=486 events=486 tx_req=486 tx_enq=486 tx_done=486 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.022
+P1_CAPTURE_SEQUENCE first=1678 last=5459 valid=1
+P1_CAPTURE_STATS_STOP
+BNO_CAPTURE_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=638 switch=638 kind_convert=638 events=638 tx_event=638 tx_req=638 tx_enq=638 tx_done=638 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.062
+BNO_CAPTURE_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=505 switch=505 kind_convert=505 events=505 tx_event=505 tx_req=505 tx_enq=505 tx_done=505 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.011
+BNO_CAPTURE_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=506 switch=506 kind_convert=506 events=506 tx_event=506 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.022
+BNO_CAPTURE_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=253 switch=253 kind_convert=253 events=253 tx_event=253 tx_req=253 tx_enq=253 tx_done=253 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.006
+BNO_CAPTURE_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=506 switch=506 kind_convert=506 events=506 tx_event=506 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.022
+TXTYPE type=2 name=BnoAccel req=638 enq=638 done=638 bytes=53592
+TXTYPE type=3 name=BnoGyro req=506 enq=506 done=505 bytes=42420
+TXTYPE type=4 name=BnoQuaternion req=1012 enq=1012 done=1012 bytes=85008
+TXTYPE type=5 name=TofFrame req=304 enq=304 done=304 bytes=68096
+TXTYPE type=7 name=VescStatus req=304 enq=304 done=304 bytes=26752
+TXTYPE type=11 name=TimeSyncReply req=10 enq=10 done=10 bytes=560
+TXTYPE type=16 name=GnssProcessResult req=99 enq=99 done=99 bytes=9504
+TXTYPE type=20 name=BnoMagnetic req=253 enq=253 done=253 bytes=21252
+TXTYPE type=22 name=EstimatedState req=98 enq=98 done=98 bytes=14504
+TXTYPE type=24 name=PrimaryImuSnapshot req=192 enq=192 done=192 bytes=17664
+TXTYPE type=32 name=Heartbeat req=101 enq=101 done=101 bytes=4040
+TXTYPE type=56 name=EskfState req=194 enq=194 done=194 bytes=35696
+TXTYPE type=57 name=EskfInnovation req=22 enq=22 done=22 bytes=1584
+TXTYPE type=58 name=EskfHealth req=50 enq=50 done=50 bytes=3600
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/1981 event A/G/M=676/535/269 age_rx_us=6185/21481/2219
+IMU cand/pair/call/ok=1151/1151/1151/1151 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=21481 dt_us=20357 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=21481 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=676 unique=82 exact=1 overflow=0 dup=41 reverse=355 rollover=0 sensor_dt_us=-6500/4.89/11000 rx_dt_us=3171/15856.13/33906 pair_first=4294963496/16015352 pair_last=4294966796/26718238
+BNO_TS GYRO events=535 unique=27 exact=1 overflow=0 dup=82 reverse=234 rollover=0 sensor_dt_us=-6400/-0.37/6200 rx_dt_us=9295/19995.37/30913 pair_first=4294964996/16025417 pair_last=4294964796/26702942
+BNO_TS MAG events=269 unique=41 exact=1 overflow=0 dup=14 reverse=123 rollover=0 sensor_dt_us=-11400/9.70/11500 rx_dt_us=25719/39960.04/53973 pair_first=4294962596/16012913 pair_last=4294965196/26722204
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=676 nonfinite=0 xyz_mean_sd=[-0.083435,0.008029][-0.847685,0.004263][-9.774073,0.011405] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.738281] norm_mean_sd_minmax=9.811122/0.011367/9.775448/9.849386
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=535 nonfinite=0 xyz_mean_sd=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] xyz_minmax=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] norm_mean_sd_minmax=0.000000/0.000000/0.000000/0.000000
+BNO_VEC MAG_SENSOR events=269 nonfinite=0 xyz_mean_sd=[-3.876162,0.539249][-36.601301,0.735131][4.808086,0.979427] xyz_minmax=[-5.500000,-2.562500][-38.437500,-34.875000][2.437500,7.062500] norm_mean_sd_minmax=37.135271/0.748161/35.225060/38.962624
+LINK queue/drop/high=1/0/6 tof=697
+TXDIAG frames_s=223 bytes_s=24891 total_frames=3866 total_bytes=395352 queue=0 high=6 drops=0 bno_drop=0 partial=0 zero=0 write_calls=74200 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=27.01
+BNO_TX kind=1 event=638 req=638 enq=638 drop=0 done=638 bytes=53592
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=676 switch=676 kind_convert=676 events=676 tx_req=638 tx_enq=638 tx_done=638 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.067
+BNO_TX kind=2 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=536 switch=536 kind_convert=536 events=536 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=49.992
+BNO_TX kind=3 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=537 switch=537 kind_convert=537 events=537 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.027
+BNO_TX kind=4 event=253 req=253 enq=253 drop=0 done=253 bytes=21252
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=269 switch=269 kind_convert=269 events=269 tx_req=253 tx_enq=253 tx_done=253 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.025
+BNO_TX kind=5 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=537 switch=537 kind_convert=537 events=537 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.012
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/2189 event A/G/M=739/585/294 age_rx_us=7154/21360/2856
+IMU cand/pair/call/ok=1201/1201/1201/1201 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=21360 dt_us=19841 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=21360 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=739 unique=85 exact=1 overflow=0 dup=46 reverse=387 rollover=0 sensor_dt_us=-6500/4.47/11000 rx_dt_us=3171/15856.44/33906 pair_first=4294963496/16015352 pair_last=4294966796/27717402
+BNO_TS GYRO events=585 unique=28 exact=1 overflow=0 dup=87 reverse=259 rollover=0 sensor_dt_us=-6700/-1.37/6900 rx_dt_us=9295/19996.20/30913 pair_first=4294964996/16025417 pair_last=4294964196/27703196
+BNO_TS MAG events=294 unique=41 exact=1 overflow=0 dup=16 reverse=136 rollover=0 sensor_dt_us=-11400/9.22/11500 rx_dt_us=25719/39961.73/53973 pair_first=4294962596/16012913 pair_last=4294965296/27721700
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=739 nonfinite=0 xyz_mean_sd=[-0.083686,0.008514][-0.847677,0.004512][-9.774077,0.011334] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.738281] norm_mean_sd_minmax=9.811128/0.011297/9.775448/9.849386
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=585 nonfinite=0 xyz_mean_sd=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] xyz_minmax=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] norm_mean_sd_minmax=0.000000/0.000000/0.000000/0.000000
+BNO_VEC MAG_SENSOR events=294 nonfinite=0 xyz_mean_sd=[-3.880952,0.543682][-36.594600,0.721830][4.823129,0.990411] xyz_minmax=[-5.500000,-2.562500][-38.437500,-34.875000][2.437500,7.062500] norm_mean_sd_minmax=37.131531/0.732183/35.225060/38.962624
+LINK queue/drop/high=0/0/6 tof=727
+TXDIAG frames_s=138 bytes_s=18160 total_frames=4004 total_bytes=413512 queue=0 high=6 drops=0 bno_drop=0 partial=0 zero=0 write_calls=76572 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=19.70
+BNO_TX kind=1 event=638 req=638 enq=638 drop=0 done=638 bytes=53592
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=739 switch=739 kind_convert=739 events=739 tx_req=638 tx_enq=638 tx_done=638 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.066
+BNO_TX kind=2 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=586 switch=586 kind_convert=586 events=586 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=49.987
+BNO_TX kind=3 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=587 switch=587 kind_convert=587 events=587 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.018
+BNO_TX kind=4 event=253 req=253 enq=253 drop=0 done=253 bytes=21252
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=294 switch=294 kind_convert=294 events=294 tx_req=253 tx_enq=253 tx_done=253 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.024
+BNO_TX kind=5 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=587 switch=587 kind_convert=587 events=587 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.018
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/2398 event A/G/M=803/636/319 age_rx_us=504/10436/4100
+IMU cand/pair/call/ok=1252/1252/1252/1252 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=10436 dt_us=17971 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=10436 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=803 unique=87 exact=1 overflow=0 dup=51 reverse=422 rollover=0 sensor_dt_us=-6500/0.75/11000 rx_dt_us=3171/15856.08/33906 pair_first=4294963496/16015352 pair_last=4294964096/28731928
+BNO_TS GYRO events=636 unique=28 exact=1 overflow=0 dup=97 reverse=280 rollover=0 sensor_dt_us=-6700/0.31/6900 rx_dt_us=9295/19994.61/30913 pair_first=4294964996/16025417 pair_last=4294965196/28721996
+BNO_TS MAG events=319 unique=41 exact=1 overflow=0 dup=17 reverse=148 rollover=0 sensor_dt_us=-11400/0.00/11500 rx_dt_us=25719/39985.59/53973 pair_first=4294962596/16012913 pair_last=4294962596/28728332
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=803 nonfinite=0 xyz_mean_sd=[-0.083846,0.008794][-0.847719,0.004502][-9.774089,0.011268] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.738281] norm_mean_sd_minmax=9.811145/0.011232/9.775448/9.849386
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=636 nonfinite=0 xyz_mean_sd=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] xyz_minmax=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] norm_mean_sd_minmax=0.000000/0.000000/0.000000/0.000000
+BNO_VEC MAG_SENSOR events=319 nonfinite=0 xyz_mean_sd=[-3.886364,0.543776][-36.578566,0.718607][4.826411,0.995306] xyz_minmax=[-5.500000,-2.562500][-38.437500,-34.875000][2.437500,7.062500] norm_mean_sd_minmax=37.116839/0.729774/35.225060/38.962624
+LINK queue/drop/high=1/0/6 tof=758
+TXDIAG frames_s=136 bytes_s=18206 total_frames=4141 total_bytes=431828 queue=0 high=6 drops=0 bno_drop=0 partial=0 zero=0 write_calls=79007 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=19.75
+BNO_TX kind=1 event=638 req=638 enq=638 drop=0 done=638 bytes=53592
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=803 switch=803 kind_convert=803 events=803 tx_req=638 tx_enq=638 tx_done=638 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.067
+BNO_TX kind=2 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=636 switch=636 kind_convert=636 events=636 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.013
+BNO_TX kind=3 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=637 switch=637 kind_convert=637 events=637 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.018
+BNO_TX kind=4 event=253 req=253 enq=253 drop=0 done=253 bytes=21252
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=319 switch=319 kind_convert=319 events=319 tx_req=253 tx_enq=253 tx_done=253 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.009
+BNO_TX kind=5 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=637 switch=637 kind_convert=637 events=637 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.018
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/2599 event A/G/M=865/686/344 age_rx_us=825/9867/3287
+IMU cand/pair/call/ok=1302/1302/1302/1302 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=9867 dt_us=20886 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=9867 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=865 unique=88 exact=1 overflow=0 dup=55 reverse=455 rollover=0 sensor_dt_us=-7800/-3.12/11000 rx_dt_us=3171/15875.59/33906 pair_first=4294963496/16015352 pair_last=4294960796/29731864
+BNO_TS GYRO events=686 unique=28 exact=1 overflow=0 dup=106 reverse=302 rollover=0 sensor_dt_us=-6700/0.29/6900 rx_dt_us=9295/19996.21/30913 pair_first=4294964996/16025417 pair_last=4294965196/29722822
+BNO_TS MAG events=344 unique=43 exact=1 overflow=0 dup=17 reverse=162 rollover=0 sensor_dt_us=-11400/-2.62/11500 rx_dt_us=25719/39989.76/53973 pair_first=4294962596/16012913 pair_last=4294961696/29729402
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=865 nonfinite=0 xyz_mean_sd=[-0.083987,0.009034][-0.847670,0.004537][-9.774137,0.011158] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.738281] norm_mean_sd_minmax=9.811190/0.011123/9.775448/9.849386
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=686 nonfinite=0 xyz_mean_sd=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] xyz_minmax=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] norm_mean_sd_minmax=0.000000/0.000000/0.000000/0.000000
+BNO_VEC MAG_SENSOR events=344 nonfinite=0 xyz_mean_sd=[-3.898256,0.547133][-36.558503,0.716650][4.814499,1.020016] xyz_minmax=[-5.500000,-2.562500][-38.437500,-34.875000][2.437500,7.062500] norm_mean_sd_minmax=37.097589/0.722637/35.225060/38.962624
+LINK queue/drop/high=0/0/6 tof=788
+TXDIAG frames_s=135 bytes_s=17978 total_frames=4277 total_bytes=449824 queue=1 high=6 drops=0 bno_drop=0 partial=0 zero=0 write_calls=81441 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=19.51
+BNO_TX kind=1 event=638 req=638 enq=638 drop=0 done=638 bytes=53592
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=865 switch=865 kind_convert=865 events=865 tx_req=638 tx_enq=638 tx_done=638 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=62.990
+BNO_TX kind=2 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=686 switch=686 kind_convert=686 events=686 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.009
+BNO_TX kind=3 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=687 switch=687 kind_convert=687 events=687 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.013
+BNO_TX kind=4 event=253 req=253 enq=253 drop=0 done=253 bytes=21252
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=344 switch=344 kind_convert=344 events=344 tx_req=253 tx_enq=253 tx_done=253 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.006
+BNO_TX kind=5 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=687 switch=687 kind_convert=687 events=687 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.013
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/2801 event A/G/M=929/736/369 age_rx_us=230/18981/12065
+IMU cand/pair/call/ok=1352/1352/1352/1352 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=18981 dt_us=20046 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=18981 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=929 unique=88 exact=1 overflow=0 dup=58 reverse=492 rollover=0 sensor_dt_us=-7800/3.12/11000 rx_dt_us=3171/15867.31/33906 pair_first=4294963496/16015352 pair_last=4294966396/30740214
+BNO_TS GYRO events=736 unique=28 exact=1 overflow=0 dup=116 reverse=323 rollover=0 sensor_dt_us=-6700/0.00/6900 rx_dt_us=9295/19994.62/30913 pair_first=4294964996/16025417 pair_last=4294964996/30721463
+BNO_TS MAG events=369 unique=43 exact=1 overflow=0 dup=18 reverse=173 rollover=0 sensor_dt_us=-11400/-0.54/11500 rx_dt_us=25719/39987.68/53973 pair_first=4294962596/16012913 pair_last=4294962396/30728379
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=929 nonfinite=0 xyz_mean_sd=[-0.084020,0.009064][-0.847669,0.004378][-9.774190,0.011050] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.738281] norm_mean_sd_minmax=9.811243/0.011015/9.775448/9.849386
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=736 nonfinite=0 xyz_mean_sd=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] xyz_minmax=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] norm_mean_sd_minmax=0.000000/0.000000/0.000000/0.000000
+BNO_VEC MAG_SENSOR events=369 nonfinite=0 xyz_mean_sd=[-3.920901,0.551236][-36.572324,0.719903][4.800644,1.035115] xyz_minmax=[-5.500000,-2.562500][-38.500000,-34.875000][2.437500,7.375000] norm_mean_sd_minmax=37.112280/0.725814/35.225060/39.016224
+LINK queue/drop/high=1/0/6 tof=819
+TXDIAG frames_s=136 bytes_s=18119 total_frames=4415 total_bytes=468088 queue=0 high=6 drops=0 bno_drop=0 partial=0 zero=0 write_calls=83817 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=19.66
+BNO_TX kind=1 event=638 req=638 enq=638 drop=0 done=638 bytes=53592
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=929 switch=929 kind_convert=929 events=929 tx_req=638 tx_enq=638 tx_done=638 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.023
+BNO_TX kind=2 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=737 switch=737 kind_convert=737 events=737 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=49.996
+BNO_TX kind=3 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=738 switch=738 kind_convert=738 events=738 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.021
+BNO_TX kind=4 event=253 req=253 enq=253 drop=0 done=253 bytes=21252
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=369 switch=369 kind_convert=369 events=369 tx_req=253 tx_enq=253 tx_done=253 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.008
+BNO_TX kind=5 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=738 switch=738 kind_convert=738 events=738 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.011
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/3012 event A/G/M=992/786/394 age_rx_us=2176/18844/11230
+IMU cand/pair/call/ok=1402/1402/1402/1402 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=18844 dt_us=20415 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=18844 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=992 unique=89 exact=1 overflow=0 dup=65 reverse=525 rollover=0 sensor_dt_us=-7800/3.33/11000 rx_dt_us=3171/15865.82/33906 pair_first=4294963496/16015352 pair_last=4294966796/31738381
+BNO_TS GYRO events=786 unique=28 exact=1 overflow=0 dup=126 reverse=345 rollover=0 sensor_dt_us=-6700/-0.25/6900 rx_dt_us=9295/19995.28/30913 pair_first=4294964996/16025417 pair_last=4294964796/31721713
+BNO_TS MAG events=394 unique=43 exact=1 overflow=0 dup=19 reverse=185 rollover=0 sensor_dt_us=-11400/-1.02/11500 rx_dt_us=25719/39990.88/53973 pair_first=4294962596/16012913 pair_last=4294962196/31729327
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=992 nonfinite=0 xyz_mean_sd=[-0.084288,0.009536][-0.847664,0.004554][-9.774186,0.011019] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.738281] norm_mean_sd_minmax=9.811241/0.010984/9.775448/9.849386
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=786 nonfinite=0 xyz_mean_sd=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] xyz_minmax=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] norm_mean_sd_minmax=0.000000/0.000000/0.000000/0.000000
+BNO_VEC MAG_SENSOR events=394 nonfinite=0 xyz_mean_sd=[-3.929727,0.563441][-36.577411,0.708463][4.794258,1.066539] xyz_minmax=[-5.500000,-2.562500][-38.500000,-34.875000][1.687500,7.375000] norm_mean_sd_minmax=37.118472/0.714572/35.225060/39.016224
+LINK queue/drop/high=0/0/6 tof=849
+TXDIAG frames_s=136 bytes_s=18161 total_frames=4552 total_bytes=486268 queue=1 high=6 drops=0 bno_drop=0 partial=0 zero=0 write_calls=86167 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=19.71
+BNO_TX kind=1 event=638 req=638 enq=638 drop=0 done=638 bytes=53592
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=992 switch=992 kind_convert=992 events=992 tx_req=638 tx_enq=638 tx_done=638 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.029
+BNO_TX kind=2 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=787 switch=787 kind_convert=787 events=787 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.011
+BNO_TX kind=3 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=788 switch=788 kind_convert=788 events=788 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.017
+BNO_TX kind=4 event=253 req=253 enq=253 drop=0 done=253 bytes=21252
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=394 switch=394 kind_convert=394 events=394 tx_req=253 tx_enq=253 tx_done=253 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.006
+BNO_TX kind=5 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=788 switch=788 kind_convert=788 events=788 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.017
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/3224 event A/G/M=1055/837/419 age_rx_us=11903/6259/19038
+IMU cand/pair/call/ok=1453/1453/1453/1453 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=6259 dt_us=18071 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=6259 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=1055 unique=89 exact=1 overflow=0 dup=70 reverse=560 rollover=0 sensor_dt_us=-7800/3.13/11000 rx_dt_us=3171/15863.49/33906 pair_first=4294963496/16015352 pair_last=4294966796/32735473
+BNO_TS GYRO events=837 unique=28 exact=1 overflow=0 dup=135 reverse=366 rollover=0 sensor_dt_us=-6700/0.00/6900 rx_dt_us=9295/19994.86/30913 pair_first=4294964996/16025417 pair_last=4294964996/32741117
+BNO_TS MAG events=419 unique=44 exact=1 overflow=0 dup=22 reverse=195 rollover=0 sensor_dt_us=-11400/-5.74/11500 rx_dt_us=25719/39989.06/53973 pair_first=4294962596/16012913 pair_last=4294960196/32728338
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=1055 nonfinite=0 xyz_mean_sd=[-0.084227,0.009400][-0.847627,0.004576][-9.774330,0.010888] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.738281] norm_mean_sd_minmax=9.811381/0.010852/9.775448/9.849386
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=837 nonfinite=0 xyz_mean_sd=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] xyz_minmax=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] norm_mean_sd_minmax=0.000000/0.000000/0.000000/0.000000
+BNO_VEC MAG_SENSOR events=419 nonfinite=0 xyz_mean_sd=[-3.941527,0.558093][-36.579654,0.708868][4.786993,1.057770] xyz_minmax=[-5.500000,-2.562500][-38.500000,-34.875000][1.687500,7.375000] norm_mean_sd_minmax=37.120730/0.711520/35.225060/39.016224
+LINK queue/drop/high=1/0/6 tof=880
+TXDIAG frames_s=135 bytes_s=18023 total_frames=4688 total_bytes=504400 queue=1 high=6 drops=0 bno_drop=0 partial=0 zero=0 write_calls=88659 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=19.56
+BNO_TX kind=1 event=638 req=638 enq=638 drop=0 done=638 bytes=53592
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1056 switch=1056 kind_convert=1056 events=1056 tx_req=638 tx_enq=638 tx_done=638 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.029
+BNO_TX kind=2 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=837 switch=837 kind_convert=837 events=837 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.013
+BNO_TX kind=3 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=838 switch=838 kind_convert=838 events=838 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.019
+BNO_TX kind=4 event=253 req=253 enq=253 drop=0 done=253 bytes=21252
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=419 switch=419 kind_convert=419 events=419 tx_req=253 tx_enq=253 tx_done=253 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.007
+BNO_TX kind=5 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=838 switch=838 kind_convert=838 events=838 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.019
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/3433 event A/G/M=1118/887/444 age_rx_us=14829/6912/27305
+IMU cand/pair/call/ok=1503/1503/1503/1503 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=6912 dt_us=14326 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=6912 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=1118 unique=91 exact=1 overflow=0 dup=76 reverse=592 rollover=0 sensor_dt_us=-7800/2.95/11000 rx_dt_us=3171/15861.57/33906 pair_first=4294963496/16015352 pair_last=4294966796/33732725
+BNO_TS GYRO events=887 unique=28 exact=1 overflow=0 dup=140 reverse=393 rollover=0 sensor_dt_us=-6700/0.23/6900 rx_dt_us=9295/19994.61/30913 pair_first=4294964996/16025417 pair_last=4294965196/33740642
+BNO_TS MAG events=444 unique=44 exact=1 overflow=0 dup=23 reverse=208 rollover=0 sensor_dt_us=-11400/5.87/11500 rx_dt_us=25719/39971.41/53973 pair_first=4294962596/16012913 pair_last=4294965196/33720249
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=1118 nonfinite=0 xyz_mean_sd=[-0.084173,0.009278][-0.847660,0.004568][-9.774287,0.010922] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.738281] norm_mean_sd_minmax=9.811340/0.010886/9.775448/9.849386
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=887 nonfinite=0 xyz_mean_sd=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] xyz_minmax=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] norm_mean_sd_minmax=0.000000/0.000000/0.000000/0.000000
+BNO_VEC MAG_SENSOR events=444 nonfinite=0 xyz_mean_sd=[-3.955518,0.557749][-36.574043,0.710129][4.779983,1.057573] xyz_minmax=[-5.500000,-2.562500][-38.500000,-34.875000][1.687500,7.375000] norm_mean_sd_minmax=37.115796/0.711706/35.225060/39.016224
+LINK queue/drop/high=0/0/6 tof=910
+TXDIAG frames_s=137 bytes_s=18253 total_frames=4826 total_bytes=522672 queue=0 high=6 drops=0 bno_drop=0 partial=0 zero=0 write_calls=91176 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=19.81
+BNO_TX kind=1 event=638 req=638 enq=638 drop=0 done=638 bytes=53592
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1119 switch=1119 kind_convert=1119 events=1119 tx_req=638 tx_enq=638 tx_done=638 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.038
+BNO_TX kind=2 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=887 switch=887 kind_convert=887 events=887 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.013
+BNO_TX kind=3 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=888 switch=888 kind_convert=888 events=888 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.013
+BNO_TX kind=4 event=253 req=253 enq=253 drop=0 done=253 bytes=21252
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=444 switch=444 kind_convert=444 events=444 tx_req=253 tx_enq=253 tx_done=253 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.018
+BNO_TX kind=5 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=888 switch=888 kind_convert=888 events=888 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.013
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/3643 event A/G/M=1182/937/469 age_rx_us=6749/15214/27094
+IMU cand/pair/call/ok=1553/1553/1553/1553 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=15214 dt_us=19610 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=15214 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=1182 unique=91 exact=1 overflow=0 dup=80 reverse=626 rollover=0 sensor_dt_us=-7800/0.76/11000 rx_dt_us=3171/15862.18/33906 pair_first=4294963496/16015352 pair_last=4294964396/34748587
+BNO_TS GYRO events=937 unique=28 exact=1 overflow=0 dup=145 reverse=417 rollover=0 sensor_dt_us=-6700/0.00/6900 rx_dt_us=9295/19994.34/30913 pair_first=4294964996/16025417 pair_last=4294964996/34740122
+BNO_TS MAG events=469 unique=44 exact=1 overflow=0 dup=23 reverse=220 rollover=0 sensor_dt_us=-11400/-0.43/11500 rx_dt_us=25719/39990.02/53973 pair_first=4294962596/16012913 pair_last=4294962396/34728242
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=1182 nonfinite=0 xyz_mean_sd=[-0.084156,0.009226][-0.847689,0.004559][-9.774442,0.010860] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.738281] norm_mean_sd_minmax=9.811497/0.010824/9.775448/9.849386
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=937 nonfinite=0 xyz_mean_sd=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] xyz_minmax=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] norm_mean_sd_minmax=0.000000/0.000000/0.000000/0.000000
+BNO_VEC MAG_SENSOR events=469 nonfinite=0 xyz_mean_sd=[-3.962420,0.561310][-36.572228,0.716896][4.773054,1.066351] xyz_minmax=[-5.500000,-2.562500][-38.500000,-34.875000][1.687500,7.375000] norm_mean_sd_minmax=37.114207/0.715888/35.225060/39.016224
+LINK queue/drop/high=1/0/6 tof=941
+TXDIAG frames_s=134 bytes_s=17876 total_frames=4961 total_bytes=540656 queue=0 high=6 drops=0 bno_drop=0 partial=0 zero=0 write_calls=94153 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=19.40
+BNO_TX kind=1 event=638 req=638 enq=638 drop=0 done=638 bytes=53592
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1182 switch=1182 kind_convert=1182 events=1182 tx_req=638 tx_enq=638 tx_done=638 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.043
+BNO_TX kind=2 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=938 switch=937 kind_convert=937 events=937 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014
+BNO_TX kind=3 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=938 switch=938 kind_convert=938 events=938 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.020
+BNO_TX kind=4 event=253 req=253 enq=253 drop=0 done=253 bytes=21252
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=469 switch=469 kind_convert=469 events=469 tx_req=253 tx_enq=253 tx_done=253 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.006
+BNO_TX kind=5 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=939 switch=939 kind_convert=939 events=939 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.015
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/3850 event A/G/M=1245/987/494 age_rx_us=6309/15562/29021
+IMU cand/pair/call/ok=1603/1603/1603/1603 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=15562 dt_us=19909 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=15562 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=1245 unique=93 exact=1 overflow=0 dup=87 reverse=656 rollover=0 sensor_dt_us=-7800/-1.45/11000 rx_dt_us=3171/15863.26/33906 pair_first=4294963496/16015352 pair_last=4294961696/35749245
+BNO_TS GYRO events=987 unique=29 exact=1 overflow=0 dup=153 reverse=438 rollover=0 sensor_dt_us=-6700/0.20/6900 rx_dt_us=9295/19994.50/30913 pair_first=4294964996/16025417 pair_last=4294965196/35739992
+BNO_TS MAG events=494 unique=46 exact=1 overflow=0 dup=24 reverse=232 rollover=0 sensor_dt_us=-11400/0.00/11500 rx_dt_us=25719/39987.06/53973 pair_first=4294962596/16012913 pair_last=4294962596/35726533
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=1245 nonfinite=0 xyz_mean_sd=[-0.084174,0.009241][-0.847688,0.004442][-9.774401,0.010893] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.738281] norm_mean_sd_minmax=9.811456/0.010857/9.775448/9.849386
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=987 nonfinite=0 xyz_mean_sd=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] xyz_minmax=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] norm_mean_sd_minmax=0.000000/0.000000/0.000000/0.000000
+BNO_VEC MAG_SENSOR events=494 nonfinite=0 xyz_mean_sd=[-3.961412,0.558385][-36.561488,0.723074][4.764170,1.061207] xyz_minmax=[-5.500000,-2.562500][-38.500000,-34.500000][1.687500,7.375000] norm_mean_sd_minmax=37.102126/0.724927/35.037312/39.016224
+LINK queue/drop/high=0/0/6 tof=971
+TXDIAG frames_s=136 bytes_s=18014 total_frames=5097 total_bytes=558652 queue=0 high=6 drops=0 bno_drop=0 partial=0 zero=0 write_calls=97207 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=19.55
+BNO_TX kind=1 event=638 req=638 enq=638 drop=0 done=638 bytes=53592
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1245 switch=1245 kind_convert=1245 events=1245 tx_req=638 tx_enq=638 tx_done=638 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.039
+BNO_TX kind=2 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=988 switch=987 kind_convert=987 events=987 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014
+BNO_TX kind=3 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=988 switch=988 kind_convert=988 events=988 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.018
+BNO_TX kind=4 event=253 req=253 enq=253 drop=0 done=253 bytes=21252
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=494 switch=494 kind_convert=494 events=494 tx_req=253 tx_enq=253 tx_done=253 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.008
+BNO_TX kind=5 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=988 switch=988 kind_convert=988 events=988 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.018
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/4051 event A/G/M=1309/1037/520 age_rx_us=6437/23631/428
+IMU cand/pair/call/ok=1653/1653/1653/1653 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=23631 dt_us=19999 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=23631 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=1309 unique=93 exact=1 overflow=0 dup=89 reverse=690 rollover=0 sensor_dt_us=-8000/2.52/11000 rx_dt_us=3171/15857.49/33906 pair_first=4294963496/16015352 pair_last=4294966796/36756953
+BNO_TS GYRO events=1037 unique=30 exact=1 overflow=0 dup=156 reverse=461 rollover=0 sensor_dt_us=-7200/0.19/7600 rx_dt_us=9295/19994.54/30913 pair_first=4294964996/16025417 pair_last=4294965196/36739759
+BNO_TS MAG events=520 unique=47 exact=1 overflow=0 dup=26 reverse=243 rollover=0 sensor_dt_us=-11400/4.62/11500 rx_dt_us=25719/39980.83/53973 pair_first=4294962596/16012913 pair_last=4294964996/36762962
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=1309 nonfinite=0 xyz_mean_sd=[-0.084159,0.009196][-0.847713,0.004439][-9.774363,0.010929] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.734375] norm_mean_sd_minmax=9.811420/0.010885/9.774669/9.849386
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=1037 nonfinite=0 xyz_mean_sd=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] xyz_minmax=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] norm_mean_sd_minmax=0.000000/0.000000/0.000000/0.000000
+BNO_VEC MAG_SENSOR events=520 nonfinite=0 xyz_mean_sd=[-3.966707,0.563150][-36.542668,0.723015][4.759615,1.067324] xyz_minmax=[-5.500000,-2.562500][-38.500000,-34.500000][1.687500,7.375000] norm_mean_sd_minmax=37.083761/0.727347/35.037312/39.016224
+LINK queue/drop/high=1/0/6 tof=1002
+TXDIAG frames_s=136 bytes_s=18207 total_frames=5235 total_bytes=577060 queue=0 high=6 drops=0 bno_drop=0 partial=0 zero=0 write_calls=100418 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=19.76
+BNO_TX kind=1 event=638 req=638 enq=638 drop=0 done=638 bytes=53592
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1309 switch=1309 kind_convert=1309 events=1309 tx_req=638 tx_enq=638 tx_done=638 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.062
+BNO_TX kind=2 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1038 switch=1038 kind_convert=1038 events=1038 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=49.990
+BNO_TX kind=3 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1039 switch=1039 kind_convert=1039 events=1039 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.008
+BNO_TX kind=4 event=253 req=253 enq=253 drop=0 done=253 bytes=21252
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=520 switch=520 kind_convert=520 events=520 tx_req=253 tx_enq=253 tx_done=253 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.012
+BNO_TX kind=5 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1039 switch=1039 kind_convert=1039 events=1039 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.008
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/4246 event A/G/M=1372/1087/545 age_rx_us=7599/23719/4317
+IMU cand/pair/call/ok=1703/1703/1703/1703 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=23719 dt_us=20321 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=23719 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=1372 unique=94 exact=1 overflow=0 dup=92 reverse=723 rollover=0 sensor_dt_us=-8200/2.41/11000 rx_dt_us=3171/15857.48/33906 pair_first=4294963496/16015352 pair_last=4294966796/37755954
+BNO_TS GYRO events=1087 unique=31 exact=1 overflow=0 dup=164 reverse=483 rollover=0 sensor_dt_us=-7200/-0.18/7600 rx_dt_us=9295/19994.86/30913 pair_first=4294964996/16025417 pair_last=4294964796/37739834
+BNO_TS MAG events=545 unique=47 exact=1 overflow=0 dup=27 reverse=255 rollover=0 sensor_dt_us=-11400/4.78/11500 rx_dt_us=25719/39974.86/53973 pair_first=4294962596/16012913 pair_last=4294965196/37759236
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=1372 nonfinite=0 xyz_mean_sd=[-0.084235,0.009425][-0.847736,0.004439][-9.774465,0.010737] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.734375] norm_mean_sd_minmax=9.811525/0.010694/9.774669/9.849386
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=1087 nonfinite=0 xyz_mean_sd=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] xyz_minmax=[0.000000,0.000000][0.000000,0.000000][0.000000,0.000000] norm_mean_sd_minmax=0.000000/0.000000/0.000000/0.000000
+BNO_VEC MAG_SENSOR events=545 nonfinite=0 xyz_mean_sd=[-3.975573,0.569457][-36.526950,0.721931][4.754587,1.062595] xyz_minmax=[-5.812500,-2.562500][-38.500000,-34.500000][1.687500,7.375000] norm_mean_sd_minmax=37.068539/0.726198/35.037312/39.016224
+LINK queue/drop/high=0/0/6 tof=1032
+TXDIAG frames_s=136 bytes_s=18049 total_frames=5372 total_bytes=595128 queue=0 high=6 drops=0 bno_drop=0 partial=0 zero=0 write_calls=103574 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=19.58
+BNO_TX kind=1 event=638 req=638 enq=638 drop=0 done=638 bytes=53592
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1373 switch=1373 kind_convert=1373 events=1373 tx_req=638 tx_enq=638 tx_done=638 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.062
+BNO_TX kind=2 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1088 switch=1088 kind_convert=1088 events=1088 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.000
+BNO_TX kind=3 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1089 switch=1089 kind_convert=1089 events=1089 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.017
+BNO_TX kind=4 event=253 req=253 enq=253 drop=0 done=253 bytes=21252
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=545 switch=545 kind_convert=545 events=545 tx_req=253 tx_enq=253 tx_done=253 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.016
+BNO_TX kind=5 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1089 switch=1089 kind_convert=1089 events=1089 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.017
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/4457 event A/G/M=1436/1138/570 age_rx_us=457/12479/6218
+IMU cand/pair/call/ok=1754/1754/1754/1754 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=12479 dt_us=17729 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=12479 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=1436 unique=95 exact=1 overflow=0 dup=96 reverse=758 rollover=0 sensor_dt_us=-8200/0.42/11000 rx_dt_us=3171/15857.67/33906 pair_first=4294963496/16015352 pair_last=4294964096/38771110
+BNO_TS GYRO events=1138 unique=31 exact=1 overflow=0 dup=170 reverse=506 rollover=0 sensor_dt_us=-7200/0.18/7600 rx_dt_us=9295/19994.43/30913 pair_first=4294964996/16025417 pair_last=4294965196/38759088
+BNO_TS MAG events=570 unique=48 exact=1 overflow=0 dup=30 reverse=266 rollover=0 sensor_dt_us=-11400/0.00/11500 rx_dt_us=25719/39986.71/53973 pair_first=4294962596/16012913 pair_last=4294962596/38765349
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=1436 nonfinite=0 xyz_mean_sd=[-0.084246,0.009427][-0.847732,0.004339][-9.774564,0.010645] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.734375] norm_mean_sd_minmax=9.811623/0.010603/9.774669/9.849386
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=1138 nonfinite=0 xyz_mean_sd=[0.000007,0.000284][-0.000009,0.000301][-0.000010,0.000245] xyz_minmax=[-0.003906,0.005859][-0.003906,0.003906][-0.003906,0.001953] norm_mean_sd_minmax=0.000052/0.000478/0.000000/0.006766
+BNO_VEC MAG_SENSOR events=570 nonfinite=0 xyz_mean_sd=[-3.975768,0.570216][-36.516228,0.725588][4.752412,1.067176] xyz_minmax=[-5.812500,-2.562500][-38.500000,-34.500000][1.687500,7.375000] norm_mean_sd_minmax=37.057872/0.729145/35.037312/39.016224
+LINK queue/drop/high=3/0/6 tof=1063
+TXDIAG frames_s=137 bytes_s=18280 total_frames=5510 total_bytes=613536 queue=0 high=6 drops=0 bno_drop=0 partial=0 zero=0 write_calls=106973 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=19.84
+BNO_TX kind=1 event=638 req=638 enq=638 drop=0 done=638 bytes=53592
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1436 switch=1436 kind_convert=1436 events=1436 tx_req=638 tx_enq=638 tx_done=638 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.061
+BNO_TX kind=2 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1139 switch=1138 kind_convert=1138 events=1138 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014
+BNO_TX kind=3 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1139 switch=1139 kind_convert=1139 events=1139 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.017
+BNO_TX kind=4 event=253 req=253 enq=253 drop=0 done=253 bytes=21252
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=570 switch=570 kind_convert=570 events=570 tx_req=253 tx_enq=253 tx_done=253 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.008
+BNO_TX kind=5 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1140 switch=1139 kind_convert=1139 events=1139 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.017
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/4664 event A/G/M=1499/1188/595 age_rx_us=1592/11629/6056
+IMU cand/pair/call/ok=1804/1804/1804/1804 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=11629 dt_us=20696 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=11629 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=1499 unique=95 exact=1 overflow=0 dup=102 reverse=792 rollover=0 sensor_dt_us=-8200/0.40/11000 rx_dt_us=3171/15857.55/33906 pair_first=4294963496/16015352 pair_last=4294964096/39769963
+BNO_TS GYRO events=1188 unique=31 exact=1 overflow=0 dup=180 reverse=530 rollover=0 sensor_dt_us=-7200/0.17/7600 rx_dt_us=9295/19995.37/30913 pair_first=4294964996/16025417 pair_last=4294965196/39759926
+BNO_TS MAG events=595 unique=48 exact=1 overflow=0 dup=33 reverse=277 rollover=0 sensor_dt_us=-11400/0.00/11500 rx_dt_us=25719/39987.52/53973 pair_first=4294962596/16012913 pair_last=4294962596/39765499
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=1499 nonfinite=0 xyz_mean_sd=[-0.084205,0.009335][-0.847729,0.004246][-9.774550,0.010642] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.734375] norm_mean_sd_minmax=9.811609/0.010600/9.774669/9.849386
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=1188 nonfinite=0 xyz_mean_sd=[0.000002,0.000575][-0.000005,0.000450][-0.000007,0.000300] xyz_minmax=[-0.005859,0.005859][-0.003906,0.003906][-0.003906,0.001953] norm_mean_sd_minmax=0.000153/0.000774/0.000000/0.006766
+BNO_VEC MAG_SENSOR events=595 nonfinite=0 xyz_mean_sd=[-3.974055,0.565929][-36.524160,0.732620][4.745588,1.068268] xyz_minmax=[-5.812500,-2.562500][-38.500000,-34.500000][1.687500,7.375000] norm_mean_sd_minmax=37.064585/0.736681/34.897396/39.016224
+LINK queue/drop/high=0/0/6 tof=1093
+TXDIAG frames_s=135 bytes_s=17958 total_frames=5646 total_bytes=631512 queue=0 high=6 drops=0 bno_drop=0 partial=0 zero=0 write_calls=109558 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=19.49
+BNO_TX kind=1 event=638 req=638 enq=638 drop=0 done=638 bytes=53592
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1499 switch=1499 kind_convert=1499 events=1499 tx_req=638 tx_enq=638 tx_done=638 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.061
+BNO_TX kind=2 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1189 switch=1188 kind_convert=1188 events=1188 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.012
+BNO_TX kind=3 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1189 switch=1189 kind_convert=1189 events=1189 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.016
+BNO_TX kind=4 event=253 req=253 enq=253 drop=0 done=253 bytes=21252
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=595 switch=595 kind_convert=595 events=595 tx_req=253 tx_enq=253 tx_done=253 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.008
+BNO_TX kind=5 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1190 switch=1190 kind_convert=1190 events=1190 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.020
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/4865 event A/G/M=1562/1239/620 age_rx_us=12343/645/15727
+IMU cand/pair/call/ok=1855/1855/1855/1855 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=645 dt_us=20181 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=645 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=1562 unique=96 exact=1 overflow=0 dup=106 reverse=827 rollover=0 sensor_dt_us=-8200/-0.26/11000 rx_dt_us=3171/15856.46/33906 pair_first=4294963496/16015352 pair_last=4294963096/40767284
+BNO_TS GYRO events=1239 unique=32 exact=1 overflow=0 dup=186 reverse=550 rollover=0 sensor_dt_us=-7200/-0.32/7600 rx_dt_us=9295/19994.80/30913 pair_first=4294964996/16025417 pair_last=4294964596/40778982
+BNO_TS MAG events=620 unique=48 exact=1 overflow=0 dup=34 reverse=289 rollover=0 sensor_dt_us=-11400/-0.32/11500 rx_dt_us=25719/39985.44/53973 pair_first=4294962596/16012913 pair_last=4294962396/40763900
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=1562 nonfinite=0 xyz_mean_sd=[-0.084217,0.009343][-0.847771,0.004345][-9.774533,0.010638] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.734375] norm_mean_sd_minmax=9.811595/0.010597/9.774669/9.849386
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=1239 nonfinite=0 xyz_mean_sd=[0.000002,0.000563][-0.000005,0.000440][-0.000006,0.000294] xyz_minmax=[-0.005859,0.005859][-0.003906,0.003906][-0.003906,0.001953] norm_mean_sd_minmax=0.000147/0.000759/0.000000/0.006766
+BNO_VEC MAG_SENSOR events=620 nonfinite=0 xyz_mean_sd=[-3.969355,0.570568][-36.522177,0.727528][4.739415,1.069419] xyz_minmax=[-5.812500,-2.562500][-38.500000,-34.500000][1.687500,7.375000] norm_mean_sd_minmax=37.061443/0.731607/34.897396/39.016224
+LINK queue/drop/high=2/0/6 tof=1124
+TXDIAG frames_s=136 bytes_s=18174 total_frames=5784 total_bytes=649832 queue=0 high=6 drops=0 bno_drop=0 partial=0 zero=0 write_calls=112083 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=19.72
+BNO_TX kind=1 event=638 req=638 enq=638 drop=0 done=638 bytes=53592
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1563 switch=1563 kind_convert=1563 events=1563 tx_req=638 tx_enq=638 tx_done=638 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.054
+BNO_TX kind=2 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1239 switch=1239 kind_convert=1239 events=1239 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.013
+BNO_TX kind=3 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1240 switch=1240 kind_convert=1240 events=1240 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.011
+BNO_TX kind=4 event=253 req=253 enq=253 drop=0 done=253 bytes=21252
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=620 switch=620 kind_convert=620 events=620 tx_req=253 tx_enq=253 tx_done=253 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.009
+BNO_TX kind=5 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1240 switch=1240 kind_convert=1240 events=1240 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.011
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/5071 event A/G/M=1626/1288/645 age_rx_us=2497/21216/14196
+IMU cand/pair/call/ok=1904/1904/1904/1904 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=21216 dt_us=16618 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=21216 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=1626 unique=96 exact=1 overflow=0 dup=112 reverse=858 rollover=0 sensor_dt_us=-8200/1.78/11000 rx_dt_us=3171/15853.36/33906 pair_first=4294963496/16015352 pair_last=4294966396/41777056
+BNO_TS GYRO events=1288 unique=32 exact=1 overflow=0 dup=192 reverse=573 rollover=0 sensor_dt_us=-7200/0.00/7600 rx_dt_us=9295/19994.50/30913 pair_first=4294964996/16025417 pair_last=4294964996/41758337
+BNO_TS MAG events=645 unique=48 exact=1 overflow=0 dup=34 reverse=301 rollover=0 sensor_dt_us=-11400/0.00/11500 rx_dt_us=25719/39988.27/53973 pair_first=4294962596/16012913 pair_last=4294962596/41765357
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=1626 nonfinite=0 xyz_mean_sd=[-0.084227,0.009347][-0.847786,0.004538][-9.774468,0.010707] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.734375] norm_mean_sd_minmax=9.811532/0.010666/9.774669/9.849386
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=1288 nonfinite=0 xyz_mean_sd=[0.000002,0.000552][-0.000005,0.000432][-0.000006,0.000288] xyz_minmax=[-0.005859,0.005859][-0.003906,0.003906][-0.003906,0.001953] norm_mean_sd_minmax=0.000142/0.000745/0.000000/0.006766
+BNO_VEC MAG_SENSOR events=645 nonfinite=0 xyz_mean_sd=[-3.971512,0.567447][-36.516182,0.726896][4.735465,1.070841] xyz_minmax=[-5.812500,-2.562500][-38.500000,-34.500000][1.687500,7.375000] norm_mean_sd_minmax=37.055231/0.732163/34.897396/39.016224
+LINK queue/drop/high=0/0/6 tof=1154
+TXDIAG frames_s=136 bytes_s=18143 total_frames=5921 total_bytes=668012 queue=0 high=6 drops=0 bno_drop=0 partial=0 zero=0 write_calls=114255 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=19.69
+BNO_TX kind=1 event=638 req=638 enq=638 drop=0 done=638 bytes=53592
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1626 switch=1626 kind_convert=1626 events=1626 tx_req=638 tx_enq=638 tx_done=638 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.078
+BNO_TX kind=2 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1289 switch=1289 kind_convert=1289 events=1289 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.008
+BNO_TX kind=3 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1290 switch=1290 kind_convert=1290 events=1290 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.022
+BNO_TX kind=4 event=253 req=253 enq=253 drop=0 done=253 bytes=21252
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=645 switch=645 kind_convert=645 events=645 tx_req=253 tx_enq=253 tx_done=253 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.007
+BNO_TX kind=5 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1290 switch=1290 kind_convert=1290 events=1290 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.015
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/5276 event A/G/M=1688/1339/670 age_rx_us=11496/7544/20082
+IMU cand/pair/call/ok=1955/1955/1955/1955 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=7544 dt_us=20241 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=7544 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=1688 unique=97 exact=1 overflow=0 dup=117 reverse=891 rollover=0 sensor_dt_us=-8200/1.96/11000 rx_dt_us=3171/15862.23/33906 pair_first=4294963496/16015352 pair_last=4294966796/42774942
+BNO_TS GYRO events=1339 unique=32 exact=1 overflow=0 dup=199 reverse=595 rollover=0 sensor_dt_us=-7200/-0.15/7600 rx_dt_us=9295/19995.12/30913 pair_first=4294964996/16025417 pair_last=4294964796/42778894
+BNO_TS MAG events=670 unique=48 exact=1 overflow=0 dup=35 reverse=313 rollover=0 sensor_dt_us=-11400/-0.90/11500 rx_dt_us=25719/39990.20/53973 pair_first=4294962596/16012913 pair_last=4294961996/42766356
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=1688 nonfinite=0 xyz_mean_sd=[-0.084195,0.009358][-0.847781,0.004454][-9.774477,0.010744] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.734375] norm_mean_sd_minmax=9.811540/0.010703/9.774669/9.849386
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=1339 nonfinite=0 xyz_mean_sd=[0.000001,0.000542][-0.000004,0.000424][-0.000006,0.000282] xyz_minmax=[-0.005859,0.005859][-0.003906,0.003906][-0.003906,0.001953] norm_mean_sd_minmax=0.000136/0.000731/0.000000/0.006766
+BNO_VEC MAG_SENSOR events=670 nonfinite=0 xyz_mean_sd=[-3.966231,0.565789][-36.525653,0.722337][4.740392,1.068386] xyz_minmax=[-5.812500,-2.562500][-38.500000,-34.500000][1.687500,7.375000] norm_mean_sd_minmax=37.064524/0.728031/34.897396/39.016224
+LINK queue/drop/high=1/0/6 tof=1185
+TXDIAG frames_s=136 bytes_s=18151 total_frames=6058 total_bytes=686236 queue=0 high=6 drops=0 bno_drop=0 partial=0 zero=0 write_calls=116779 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=19.70
+BNO_TX kind=1 event=638 req=638 enq=638 drop=0 done=638 bytes=53592
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1689 switch=1689 kind_convert=1689 events=1689 tx_req=638 tx_enq=638 tx_done=638 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.040
+BNO_TX kind=2 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1339 switch=1339 kind_convert=1339 events=1339 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.012
+BNO_TX kind=3 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1340 switch=1340 kind_convert=1340 events=1340 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.015
+BNO_TX kind=4 event=253 req=253 enq=253 drop=0 done=253 bytes=21252
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=670 switch=670 kind_convert=670 events=670 tx_req=253 tx_enq=253 tx_done=253 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.006
+BNO_TX kind=5 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1340 switch=1340 kind_convert=1340 events=1340 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.015
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/5478 event A/G/M=1751/1389/695 age_rx_us=14067/8201/20179
+IMU cand/pair/call/ok=2005/2005/2005/2005 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=8201 dt_us=16357 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=8201 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=1751 unique=97 exact=1 overflow=0 dup=124 reverse=924 rollover=0 sensor_dt_us=-8200/1.89/11000 rx_dt_us=3171/15861.22/33906 pair_first=4294963496/16015352 pair_last=4294966796/43772492
+BNO_TS GYRO events=1389 unique=32 exact=1 overflow=0 dup=209 reverse=619 rollover=0 sensor_dt_us=-7200/0.00/7600 rx_dt_us=9295/19994.91/30913 pair_first=4294964996/16025417 pair_last=4294964996/43778358
+BNO_TS MAG events=695 unique=48 exact=1 overflow=0 dup=36 reverse=327 rollover=0 sensor_dt_us=-11400/-6.05/11500 rx_dt_us=25719/39990.59/53973 pair_first=4294962596/16012913 pair_last=4294958396/43766380
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=1751 nonfinite=0 xyz_mean_sd=[-0.084186,0.009406][-0.847777,0.004373][-9.774486,0.010775] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.734375] norm_mean_sd_minmax=9.811549/0.010735/9.774669/9.849789
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=1389 nonfinite=0 xyz_mean_sd=[0.000003,0.000534][-0.000004,0.000416][-0.000006,0.000277] xyz_minmax=[-0.005859,0.005859][-0.003906,0.003906][-0.003906,0.001953] norm_mean_sd_minmax=0.000133/0.000720/0.000000/0.006766
+BNO_VEC MAG_SENSOR events=695 nonfinite=0 xyz_mean_sd=[-3.966457,0.562119][-36.527338,0.716288][4.750000,1.074820] xyz_minmax=[-5.812500,-2.562500][-38.500000,-34.500000][1.687500,7.812500] norm_mean_sd_minmax=37.067548/0.723117/34.897396/39.016224
+LINK queue/drop/high=0/0/6 tof=1215
+TXDIAG frames_s=134 bytes_s=17794 total_frames=6193 total_bytes=704084 queue=0 high=6 drops=0 bno_drop=0 partial=0 zero=0 write_calls=119174 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=19.31
+BNO_TX kind=1 event=638 req=638 enq=638 drop=0 done=638 bytes=53592
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1752 switch=1752 kind_convert=1752 events=1752 tx_req=638 tx_enq=638 tx_done=638 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.042
+BNO_TX kind=2 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1389 switch=1389 kind_convert=1389 events=1389 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.013
+BNO_TX kind=3 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1390 switch=1390 kind_convert=1390 events=1390 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.015
+BNO_TX kind=4 event=253 req=253 enq=253 drop=0 done=253 bytes=21252
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=696 switch=695 kind_convert=695 events=695 tx_req=253 tx_enq=253 tx_done=253 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.006
+BNO_TX kind=5 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1390 switch=1390 kind_convert=1390 events=1390 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.015
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/5686 event A/G/M=1815/1439/720 age_rx_us=9073/17644/30822
+IMU cand/pair/call/ok=2055/2055/2055/2055 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=17644 dt_us=19957 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=17644 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=1815 unique=97 exact=1 overflow=0 dup=128 reverse=957 rollover=0 sensor_dt_us=-8200/0.94/11000 rx_dt_us=3171/15860.49/33906 pair_first=4294963496/16015352 pair_last=4294965196/44786274
+BNO_TS GYRO events=1439 unique=32 exact=1 overflow=0 dup=211 reverse=645 rollover=0 sensor_dt_us=-7200/-0.28/7600 rx_dt_us=9295/19994.64/30913 pair_first=4294964996/16025417 pair_last=4294964596/44777703
+BNO_TS MAG events=720 unique=48 exact=1 overflow=0 dup=36 reverse=339 rollover=0 sensor_dt_us=-11400/-0.83/11500 rx_dt_us=25719/39988.33/53973 pair_first=4294962596/16012913 pair_last=4294961996/44764525
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=1815 nonfinite=0 xyz_mean_sd=[-0.084153,0.009328][-0.847772,0.004295][-9.774455,0.010868] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.734375] norm_mean_sd_minmax=9.811518/0.010827/9.774669/9.849789
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=1439 nonfinite=0 xyz_mean_sd=[0.000019,0.000784][0.000012,0.000537][0.000005,0.000399] xyz_minmax=[-0.005859,0.007812][-0.003906,0.003906][-0.003906,0.003906] norm_mean_sd_minmax=0.000253/0.001000/0.000000/0.008286
+BNO_VEC MAG_SENSOR events=720 nonfinite=0 xyz_mean_sd=[-3.963368,0.559457][-36.524392,0.721144][4.751042,1.075931] xyz_minmax=[-5.812500,-2.562500][-38.500000,-34.062500][1.687500,7.812500] norm_mean_sd_minmax=37.064416/0.729135/34.371193/39.016224
+LINK queue/drop/high=1/0/6 tof=1246
+TXDIAG frames_s=136 bytes_s=18188 total_frames=6330 total_bytes=722400 queue=0 high=6 drops=0 bno_drop=0 partial=0 zero=0 write_calls=121430 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=19.74
+BNO_TX kind=1 event=638 req=638 enq=638 drop=0 done=638 bytes=53592
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1815 switch=1815 kind_convert=1815 events=1815 tx_req=638 tx_enq=638 tx_done=638 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.050
+BNO_TX kind=2 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1440 switch=1440 kind_convert=1440 events=1440 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.013
+BNO_TX kind=3 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1441 switch=1441 kind_convert=1441 events=1441 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.017
+BNO_TX kind=4 event=253 req=253 enq=253 drop=0 done=253 bytes=21252
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=721 switch=721 kind_convert=721 events=721 tx_req=253 tx_enq=253 tx_done=253 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.009
+BNO_TX kind=5 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1441 switch=1441 kind_convert=1441 events=1441 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.017
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/5893 event A/G/M=1878/1489/745 age_rx_us=9197/18273/30967
+IMU cand/pair/call/ok=2105/2105/2105/2105 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=18273 dt_us=19368 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=18273 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=1878 unique=97 exact=1 overflow=0 dup=131 reverse=992 rollover=0 sensor_dt_us=-8200/0.37/11000 rx_dt_us=3171/15860.95/33906 pair_first=4294963496/16015352 pair_last=4294964196/45786358
+BNO_TS GYRO events=1489 unique=32 exact=1 overflow=0 dup=216 reverse=668 rollover=0 sensor_dt_us=-7200/0.00/7600 rx_dt_us=9295/19994.53/30913 pair_first=4294964996/16025417 pair_last=4294964996/45777282
+BNO_TS MAG events=745 unique=49 exact=1 overflow=0 dup=36 reverse=350 rollover=0 sensor_dt_us=-11400/-0.81/11500 rx_dt_us=25719/39988.81/53973 pair_first=4294962596/16012913 pair_last=4294961996/45764588
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=1878 nonfinite=0 xyz_mean_sd=[-0.084186,0.009374][-0.847806,0.004375][-9.774423,0.010889] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.734375] norm_mean_sd_minmax=9.811489/0.010849/9.774669/9.849789
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=1489 nonfinite=0 xyz_mean_sd=[0.000018,0.000771][0.000012,0.000528][0.000005,0.000392] xyz_minmax=[-0.005859,0.007812][-0.003906,0.003906][-0.003906,0.003906] norm_mean_sd_minmax=0.000244/0.000984/0.000000/0.008286
+BNO_VEC MAG_SENSOR events=745 nonfinite=0 xyz_mean_sd=[-3.966862,0.561271][-36.538339,0.725548][4.752601,1.077326] xyz_minmax=[-5.875000,-2.562500][-38.500000,-34.062500][1.687500,7.812500] norm_mean_sd_minmax=37.078811/0.732999/34.371193/39.195473
+LINK queue/drop/high=0/0/6 tof=1276
+TXDIAG frames_s=136 bytes_s=18032 total_frames=6466 total_bytes=740396 queue=0 high=6 drops=0 bno_drop=0 partial=0 zero=0 write_calls=123542 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=19.57
+BNO_TX kind=1 event=638 req=638 enq=638 drop=0 done=638 bytes=53592
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1878 switch=1878 kind_convert=1878 events=1878 tx_req=638 tx_enq=638 tx_done=638 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.048
+BNO_TX kind=2 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1490 switch=1489 kind_convert=1489 events=1489 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014
+BNO_TX kind=3 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1491 switch=1490 kind_convert=1490 events=1490 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.017
+BNO_TX kind=4 event=253 req=253 enq=253 drop=0 done=253 bytes=21252
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=746 switch=746 kind_convert=746 events=746 tx_req=253 tx_enq=253 tx_done=253 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.006
+BNO_TX kind=5 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1491 switch=1491 kind_convert=1491 events=1491 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.012
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/6103 event A/G/M=1941/1540/770 age_rx_us=17074/5112/38886
+IMU cand/pair/call/ok=2156/2156/2156/2156 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=5112 dt_us=20318 align_samples=100 align_elapsed_us=2000119
+HEALTH state=2 health=1 reason=mount_unvalidated mount=0 imu_age_us=5112 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=1941 unique=97 exact=1 overflow=0 dup=137 reverse=1026 rollover=0 sensor_dt_us=-8200/-1.03/11000 rx_dt_us=3171/15860.78/33906 pair_first=4294963496/16015352 pair_last=4294961496/46785262
+BNO_TS GYRO events=1540 unique=32 exact=1 overflow=0 dup=227 reverse=689 rollover=0 sensor_dt_us=-7200/-0.13/7600 rx_dt_us=9295/19994.68/30913 pair_first=4294964996/16025417 pair_last=4294964796/46797224
+BNO_TS MAG events=770 unique=49 exact=1 overflow=0 dup=37 reverse=362 rollover=0 sensor_dt_us=-11400/0.00/11500 rx_dt_us=25719/39987.69/53973 pair_first=4294962596/16012913 pair_last=4294962596/46763450
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=1941 nonfinite=0 xyz_mean_sd=[-0.084158,0.009380][-0.847892,0.004655][-9.774385,0.010916] xyz_minmax=[-0.121094,-0.046875][-0.882812,-0.808594][-9.812500,-9.734375] norm_mean_sd_minmax=9.811458/0.010870/9.774669/9.849789
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=1540 nonfinite=0 xyz_mean_sd=[0.000020,0.000777][0.000013,0.000545][0.000000,0.000422] xyz_minmax=[-0.005859,0.007812][-0.003906,0.003906][-0.003906,0.003906] norm_mean_sd_minmax=0.000258/0.001007/0.000000/0.008286
+BNO_VEC MAG_SENSOR events=770 nonfinite=0 xyz_mean_sd=[-3.962419,0.559310][-36.543831,0.723789][4.748295,1.082879] xyz_minmax=[-5.875000,-2.562500][-38.500000,-34.062500][1.687500,7.812500] norm_mean_sd_minmax=37.083316/0.731916/34.371193/39.195473
+LINK queue/drop/high=1/0/6 tof=1307
+TXDIAG frames_s=128 bytes_s=17480 total_frames=6596 total_bytes=758016 queue=0 high=6 drops=0 bno_drop=0 partial=0 zero=0 write_calls=125866 max_write_us=157 free_heap=249992 min_free_heap=249992 usage_pct=18.97
+BNO_TX kind=1 event=638 req=638 enq=638 drop=0 done=638 bytes=53592
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1942 switch=1942 kind_convert=1942 events=1942 tx_req=638 tx_enq=638 tx_done=638 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=63.042
+BNO_TX kind=2 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1540 switch=1540 kind_convert=1540 events=1540 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.013
+BNO_TX kind=3 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1541 switch=1541 kind_convert=1541 events=1541 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014
+BNO_TX kind=4 event=253 req=253 enq=253 drop=0 done=253 bytes=21252
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=2 enable_fail=0 callback=771 switch=771 kind_convert=771 events=771 tx_req=253 tx_enq=253 tx_done=253 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=25.007
+BNO_TX kind=5 event=506 req=506 enq=506 drop=0 done=506 bytes=42504
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1541 switch=1541 kind_convert=1541 events=1541 tx_req=506 tx_enq=506 tx_done=506 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014

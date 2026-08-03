@@ -1,0 +1,17 @@
+{
+  "file": "RUN0046.BIN",
+  "bytes": 82004,
+  "records": 592,
+  "consumed_bytes": 82004,
+  "trailing_bytes": 0,
+  "exact_full_decode": true,
+  "type_counts": {
+    "23": 2,
+    "12": 403,
+    "13": 88,
+    "14": 10,
+    "59": 89
+  },
+  "first_sequence": 1,
+  "last_sequence": 592
+}

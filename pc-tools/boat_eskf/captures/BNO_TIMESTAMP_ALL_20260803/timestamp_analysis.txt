@@ -1,0 +1,37 @@
+BNO timestamp diagnostic
+event_total=2381
+kind=1 count=631 report_seq={'first': 183, 'last': 45, 'missing_events': 0, 'duplicates': 0, 'reversals': 0, 'wraps': 3, 'delta_hist': {1: 630}}
+  sensor_raw count=631 mean=2.698 stddev=2977.488 min=-8600 max=10700 dup=37 rev=327 first=4294964896 last=4294966596
+  sensor_converted count=631 mean=2.698 stddev=2977.488 min=-8600 max=10700 dup=37 rev=327 first=4294964896 last=4294966596
+  xiao_rx count=631 mean=15842.703 stddev=4210.568 min=3165 max=34407 dup=0 rev=0 first=1668013150 last=1677994053
+  queue_push count=631 mean=15842.706 stddev=4209.738 min=3161 max=34405 dup=0 rev=0 first=1668013152 last=1677994057
+  core_rx count=631 mean=15770.868 stddev=6151.300 min=1076 max=40678 dup=0 rev=0 first=46963736 last=56899383
+  xiao_to_core_us={'mean': -1621092127.858954, 'min': -1621095981, 'max': -1621049414}
+kind=2 count=500 report_seq={'first': 28, 'last': 15, 'missing_events': 0, 'duplicates': 0, 'reversals': 0, 'wraps': 2, 'delta_hist': {1: 499}}
+  sensor_raw count=500 mean=-3.808 stddev=1527.728 min=-7500 max=5900 dup=76 rev=215 first=4294964996 last=4294963096
+  sensor_converted count=500 mean=-3.808 stddev=1527.728 min=-7500 max=5900 dup=76 rev=215 first=4294964996 last=4294963096
+  xiao_rx count=500 mean=20004.265 stddev=3377.306 min=11347 max=29294 dup=0 rev=0 first=1668003034 last=1677985162
+  queue_push count=500 mean=20004.251 stddev=3376.443 min=11353 max=29294 dup=0 rev=0 first=1668003044 last=1677985165
+  core_rx count=500 mean=19907.263 stddev=5214.505 min=5477 max=32056 dup=0 rev=0 first=46959333 last=56893057
+  xiao_to_core_us={'mean': -1621092382.26, 'min': -1621095708, 'max': -1621043701}
+kind=3 count=500 report_seq={'first': 28, 'last': 15, 'missing_events': 0, 'duplicates': 0, 'reversals': 0, 'wraps': 2, 'delta_hist': {1: 499}}
+  sensor_raw count=500 mean=9.820 stddev=1485.860 min=-6000 max=6200 dup=45 rev=227 first=4294958196 last=4294963096
+  sensor_converted count=500 mean=9.820 stddev=1485.860 min=-6000 max=6200 dup=45 rev=227 first=4294958196 last=4294963096
+  xiao_rx count=500 mean=19984.126 stddev=2482.060 min=12461 max=29344 dup=0 rev=0 first=1668013098 last=1677985177
+  queue_push count=500 mean=19984.112 stddev=2484.142 min=12452 max=29349 dup=0 rev=0 first=1668013107 last=1677985179
+  core_rx count=500 mean=19907.232 stddev=3447.714 min=5280 max=32889 dup=0 rev=0 first=46960579 last=56894288
+  xiao_to_core_us={'mean': -1621092347.306, 'min': -1621095929, 'max': -1621052519}
+kind=4 count=250 report_seq={'first': 143, 'last': 136, 'missing_events': 0, 'duplicates': 0, 'reversals': 0, 'wraps': 1, 'delta_hist': {1: 249}}
+  sensor_raw count=250 mean=20.884 stddev=2825.097 min=-8100 max=11100 dup=7 rev=119 first=4294957796 last=4294962996
+  sensor_converted count=250 mean=20.884 stddev=2825.097 min=-8100 max=11100 dup=7 rev=119 first=4294957796 last=4294962996
+  xiao_rx count=250 mean=39962.928 stddev=5334.230 min=25277 max=51283 dup=0 rev=0 first=1668034359 last=1677985128
+  queue_push count=250 mean=39962.932 stddev=5332.294 min=25285 max=51282 dup=0 rev=0 first=1668034361 last=1677985131
+  core_rx count=250 mean=39844.036 stddev=8193.868 min=18590 max=56854 dup=0 rev=0 first=46969252 last=56890417
+  xiao_to_core_us={'mean': -1621090369.116, 'min': -1621095722, 'max': -1621065107}
+kind=5 count=500 report_seq={'first': 26, 'last': 13, 'missing_events': 0, 'duplicates': 0, 'reversals': 0, 'wraps': 2, 'delta_hist': {1: 499}}
+  sensor_raw count=500 mean=-3.206 stddev=2036.901 min=-8300 max=7300 dup=45 rev=228 first=4294958196 last=4294956596
+  sensor_converted count=500 mean=-3.206 stddev=2036.901 min=-8300 max=7300 dup=45 rev=228 first=4294958196 last=4294956596
+  xiao_rx count=500 mean=19992.786 stddev=2291.264 min=11793 max=27994 dup=0 rev=0 first=1668013140 last=1677989540
+  queue_push count=500 mean=19992.794 stddev=2291.815 min=11788 max=27998 dup=0 rev=0 first=1668013141 last=1677989545
+  core_rx count=500 mean=19907.158 stddev=3476.559 min=4254 max=32327 dup=0 rev=0 first=46962667 last=56896339
+  xiao_to_core_us={'mean': -1621090861.452, 'min': -1621095256, 'max': -1621050473}
