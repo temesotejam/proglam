@@ -1,0 +1,4 @@
+﻿RESET_RESPONSE 
+T=5 
+T=8 
+T=11 
