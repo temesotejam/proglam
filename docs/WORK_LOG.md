@@ -358,3 +358,12 @@ ec=411 で sdCommand(): Card Failed! cmd: 0x18 が発生。その後CMD0D/CMD00�
 - 25秒以降にRoll/Pitch/Yawの大きな変化を観測したが、約1.15秒のcallback欠測とreport sequence 18→0のリセットが1回発生。
 - 通信・SD経路は合格、姿勢軸・符号判定は部分成立として保留。BNO再初期化原因は未確定。
 - 証跡: docs/BNO_AXIS_TEST_RUN0059_20260803.md、pc-tools/boat_eskf/captures/BNO_ATTITUDE_AXIS_60S_20260803/
+
+## 2026-08-03 RUN0060 Roll軸切り分け
+
+- 20秒自動取得を実施。COM3未操作、Core COM6はAPIのみ。
+- RUN0060: records=5963、type3/type4各2000、normal_stop=1、BIN trailing=0。
+- queue_drops=0、sd_write_errors=0、UART sequence gap/CRC/COBS/length=0、queue high-water=22。
+- report sequence不連続0、callback timestamp単調増加。RUN0059の約1.15秒欠測・report resetは再発なし。
+- 5–15秒でEuler Pitchが約+85度まで変化。物理Roll操作とセンサEuler軸の対応は未確定。
+- 次はPitch、Yawを個別に切り分ける。
