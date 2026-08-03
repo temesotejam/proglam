@@ -227,3 +227,11 @@ Next: inspect, without changing BNO report configuration, why BNO08X kind1 and k
 - RUN0057ã¯kind1..5ã®event/TX enqueue/TX complete/Coreå—ä¿¡/BINä¿å­˜ãŒå„æ®µéšä¸€è‡´ã€UART/report sequenceæ¬ è½ãƒ»é‡è¤‡ãƒ»é€†é †0ã€drop/error0ã€partial/zero0ã€queue=0ã€flush/close/TXTã€FINALIZEDã€BIN trailing=0ã§åˆæ ¼ã€‚
 - é€šå¸¸é‹ç”¨å‘¨æœŸã¸ã®åˆ‡æ›¿ã¯æœªå®Ÿæ–½ã€‚SH-2 raw sensor timestampé‡è¤‡/é€†è¡Œã¨resetãªã—ESKFç´¯ç©çŠ¶æ…‹ã¯æ¬¡ã®è©•ä¾¡èª²é¡Œã€‚
 
+
+## 2026-08-03 ’Êí‰^—püŠú‚Ö‚ÌØ‘Ö
+
+- [Š®—¹] RUN0057‡ŠiŒãABOAT_EXPERIMENT=23i‰Á‘¬“x100 HzEƒWƒƒƒCƒ100 HzE¥‹C20 HzAGame/Linear–³Œøj‚ğCOM4‚Ìƒ{[ƒg—pXIAO‚Öƒrƒ‹ƒhE‘‚İBCOM3‚Í–¢‘€ìB
+- [Šm”F] BNO ready=1B‹N“®f’f‚Åkind1/2/4‚Ì‚İ—LŒøAkind3/5‚Íevents=0BÀŒøHz‚Í–ñ126.36/100.05/25.02B
+- [Ÿ] COM6‚ğÚ‘±‚µ‚½Ã~ó‘Ô‚ÅBNO Roll/Pitch/Yaw²Šm”FŒ±‚ğs‚¤B
+- ØÕ: docs/NORMAL_OPERATION_SWITCH_20260803.md
+
