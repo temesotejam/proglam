@@ -259,3 +259,10 @@ Next: inspect, without changing BNO report configuration, why BNO08X kind1 and k
 - /api/eskf はraw試験終了後のため imu_stale / run_state=0。shadow_only=true、actuator_output_enabled=false。
 - 物理的なRoll/Pitch/Yaw回転は未実施。ユーザーの準備完了後に軸ごとの回転・保持試験を行う。
 - 証跡: docs/BNO_AXIS_TEST_STATUS_20260803.md
+
+## 2026-08-03 RUN0059 姿勢軸確認
+
+- [部分成立] 60秒自動停止、BIN/TXT/finalize、SD/UART経路は正常。Gyro/GVR各5888件、queue drop/SD/UARTエラー0。
+- [要再試験] callback timestampは単調だが、約1.15秒の欠測とreport sequence 18→0のリセットが1回発生。軸符号は未確定。
+- 次は同設定で軸ごとに短時間再試験し、report reset再発を確認してからBOAT_EXPERIMENT=23へ戻す。
+- 証跡: docs/BNO_AXIS_TEST_RUN0059_20260803.md、pc-tools/boat_eskf/captures/BNO_ATTITUDE_AXIS_60S_20260803/

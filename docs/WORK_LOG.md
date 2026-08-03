@@ -349,3 +349,12 @@ ec=411 で sdCommand(): Card Failed! cmd: 0x18 が発生。その後CMD0D/CMD00�
 - link: connected、sequence gap/CRC/COBS/length=0。raw kind2/3はRUN0058終了後のためstale。
 - ESKF: imu_stale、run_state=0、shadow_only=true、actuator_output_enabled=false。
 - 軸回転試験は未実施であり、未完了として記録。次回はユーザーの静止準備完了後に一軸ずつ実施する。
+
+## 2026-08-03 RUN0059 姿勢軸確認
+
+- 準備完了後、Core COM6を開かずAPIで60秒raw取得を開始。COM3は未操作。
+- RUN0059: normal_stop=1、records=17721、BIN trailing=0、queue_drops=0、sd_write_errors=0、UART CRC/COBS/length=0。
+- type3/type4 rawは各5888件。callback timestamp単調増加0、実効約98.13 Hz、四元数ノルム平均0.999994。
+- 25秒以降にRoll/Pitch/Yawの大きな変化を観測したが、約1.15秒のcallback欠測とreport sequence 18→0のリセットが1回発生。
+- 通信・SD経路は合格、姿勢軸・符号判定は部分成立として保留。BNO再初期化原因は未確定。
+- 証跡: docs/BNO_AXIS_TEST_RUN0059_20260803.md、pc-tools/boat_eskf/captures/BNO_ATTITUDE_AXIS_60S_20260803/
