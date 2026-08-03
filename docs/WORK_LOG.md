@@ -299,3 +299,12 @@ ec=411 で sdCommand(): Card Failed! cmd: 0x18 が発生。その後CMD0D/CMD00�
 - 判断：Core→XIAOの最初の失敗はXIAO linkUart.available()/decoder入口前。CRC/COBS/length不一致やmessage type不一致が発生した証拠はない。過去RUNでは同経路のACKが成立している。
 - 安全：VESC/PCA9685出力なし、COM3未操作。コード変更・ビルド・書込み・実機試験はこの段階では行っていない。
 - 次回：配線（Core GPIO9 TX→XIAO D6 RX、XIAO D7 TX→Core GPIO8 RX、GND共通）確認後、reset/START/STOP/ACKだけの短い通信確認。失敗時は10秒試験を開始しない。
+
+## 2026-08-03 RUN0054後の修正・RUN0055短時間確認
+
+- 実施：XIAO bnoTaskスタックを4096→8192 wordへ増量。ESKF predictの15x15行列と診断traceでstack canaryが発生したための最小修正。
+- 検証：XIAO/Core両ビルド成功、COM4/COM6へ書込み、MAC確認とhash verified。
+- 試験：RUN0055。HTTP202、XIAO/Core START/STOP ACK各1、ESKF reset_count=1、sequence gap/CRC/COBS/length/RX full=0、XIAO stack overflow=0、logger FINALIZED q=0、flush/close/TXT成功。
+- 注意：logger診断にpartial_writes=1が残るため、次の10秒試験で全512 B writeとpartial/zeroを再判定する。
+- 証跡：pc-tools/boat_eskf/captures/CONTROL_LINK_CHECK2_20260803/。
+

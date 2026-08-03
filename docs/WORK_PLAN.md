@@ -211,3 +211,11 @@ Next: inspect, without changing BNO report configuration, why BNO08X kind1 and k
 - [保留] VESC/PCA9685未接続、COM4/COM6のみ、COM3未操作を維持して配線確認後に短いreset/START/STOP/ACK確認を行う。
 - [保留] 双方向確認が合格するまで10秒試験・60秒静止試験・通常運用周期への切替は行わない。
 - [次] 配線確認後に短い通信確認、合格時のみ新RUN番号（想定RUN0054）で開始時reset付き10秒静止試験。
+
+## 2026-08-03 追記：RUN0054後のBnoスタック修正とRUN0055通信確認
+
+- RUN0054でXIAO Bnoタスクのstack canary再起動を確認。ESKF 15x15共分散伝播と診断traceの合成スタック不足と判断し、noTaskスタックのみ4096→8192 wordへ増量。周期、UART、SD、mutex、ログ形式、安全設定は維持。
+- XIAO COM4/CoreS3 COM6をビルド・書込み。両方hash verified。COM3は未操作。
+- RUN0055（duration=1、bno_log_enqueue=0）でSTART/STOP ACK、ESKF reset_count=1、seq_gap=0、CRC/COBS/length=0、queue=0、flush/close/TXT、FINALIZED、stack overflow=0を確認。
+- 次は同条件で要求10秒raw BNO試験。partial/zero writeを合格条件として再確認し、10秒合格前に通常運用へ切り替えない。
+
