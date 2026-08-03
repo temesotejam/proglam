@@ -316,3 +316,11 @@ ec=411 ã§ sdCommand(): Card Failed! cmd: 0x18 ãŒç™ºç”Ÿã€‚ãã®å¾ŒCMD0D/CMD00ã
 - RUN0057ï¼šHTTP202ã€è‡ªå‹•åœæ­¢ã€P1/STOP ACKã€kind1..5=1263/999/499/250/500ãŒXIAO event/TX/Core/BINã§ä¸€è‡´ã€‚UART/report sequenceæ¬ è½/é‡è¤‡/é€†é †0ã€CRC/COBS/length/unknown/RX full/drop/SD error/partial/zero=0ã€queue=0ã€flush/close/TXT/FINALIZEDã€BIN 4620ä»¶/trailing0ã€‚
 - è¨¼è·¡ï¼špc-tools/boat_eskf/captures/BNO_ALL_RAW_ENQ_10S_RETRY_20260803/ã€‚
 
+
+## 2026-08-03 ’Êí‰^—püŠúØ‘Ö
+
+- COM4iMAC 34:85:18:AB:FA:90j‚Ì‚İ‚ÖBOAT_EXPERIMENT=23‚ğƒrƒ‹ƒhE‘‚İBƒrƒ‹ƒh¬Œ÷AHash verifiedBCOM3‚Í‘€ì‚¹‚¸ACOM6‚Í•ÏX‚È‚µB
+- COM4‹N“®Œã–ñ8•b‚Ì¶ƒVƒŠƒAƒ‹‚ğ•Û‘¶BBNO ready=1Akind1/2/4—LŒøAkind3/5–³ŒøBÀŒøHz–ñ126.36/100.05/25.02B
+- Core–¢Ú‘±ó‘Ô‚Ì‚½‚ßXIAOˆÀ‘Só‘Ô‚ÍFAULTB²Šm”FŒ±‚ÍCoreÚ‘±Œã‚ÉÀ{‚·‚éB
+- ØÕ: pc-tools/boat_eskf/captures/NORMAL_OPERATION_BOOT_CHECK_20260803/xiao_boot_serial.log
+
