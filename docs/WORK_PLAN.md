@@ -235,3 +235,12 @@ Next: inspect, without changing BNO report configuration, why BNO08X kind1 and k
 - [次] COM6を接続した静止状態でBNO Roll/Pitch/Yaw軸確認試験を行う。
 - 証跡: docs/NORMAL_OPERATION_SWITCH_20260803.md
 
+
+## 2026-08-03 通常運用静止基準
+
+- [不成立] 初回ESKF reset試行後、CoreS3のUSB_UART_CHIP_RESETでSoftAP/API停止。COM6シリアルを開く操作は以後避ける。
+- [復旧] CoreS3 COM6へ全イメージをROM no-stub/DIO書込み、Hash verified。COM3は未操作。
+- [完了] COM6を開かずAPIのみでESKF reset_count=1、12秒静止API基準を保存。sequence gap/CRC/COBS/length=0。
+- [保留] 通常運用ではGame Rotation Vector無効・mount未確定のため、Roll/Pitch/Yaw軸確認は未実施。軸試験条件または一時診断設定を確定する。
+- 証跡: docs/NORMAL_OPERATION_STATIC_BASELINE_20260803.md
+

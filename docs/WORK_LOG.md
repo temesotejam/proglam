@@ -324,3 +324,12 @@ ec=411 ã§ sdCommand(): Card Failed! cmd: 0x18 ãŒç™ºç”Ÿã€‚ãã®å¾ŒCMD0D/CMD00ã
 - Core–¢Ú‘±ó‘Ô‚Ì‚½‚ßXIAOˆÀ‘Só‘Ô‚ÍFAULTB²Šm”FŒ±‚ÍCoreÚ‘±Œã‚ÉÀ{‚·‚éB
 - ØÕ: pc-tools/boat_eskf/captures/NORMAL_OPERATION_BOOT_CHECK_20260803/xiao_boot_serial.log
 
+
+## 2026-08-03 ’Êí‰^—pÃ~Šî€‚ÆCore•œ‹Œ
+
+- COM6‚ğŠJ‚¢‚½Ã~Šî€s‚ÅUSB_UART_CHIP_RESETŒã‚ÉAPI’â~B‰‰ñs‚Í•s¬—§‚Æ‚µ‚Ä•Û‘¶B
+- CoreS3‘SƒCƒ[ƒW‚ğROM no-stub/DIO‚ÅCOM6‚ÖÄ‘‚İiMAC 30:ED:A0:D4:BF:40jAHash verifiedBCOM3–¢‘€ìB
+- COM6‚ğŠJ‚©‚¸AAPI‚Ì‚İ‚ÅESKF reset queued=trueAreset_count=1A–ñ12•b‚ÌÃ~API‚ğ•Û‘¶Bsequence gap/CRC/COBS/length=0B
+- quaternion/RPY‚Í‘S“_‚Åidentity/0 radB’Êíİ’è‚Å‚ÍGame Rotation Vector–³ŒøAmount–¢Šm’è‚Ì‚½‚ß²Šm”FŒ±‚Í–¢À{B
+- ØÕ: pc-tools/boat_eskf/captures/NORMAL_OPERATION_STATIC_BASELINE_20260803/
+
