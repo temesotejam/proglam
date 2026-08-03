@@ -274,3 +274,11 @@ Next: inspect, without changing BNO report configuration, why BNO08X kind1 and k
 - [保留] 操作したRoll軸はEulerではPitch成分が主に約+85度変化。取付姿勢・軸変換の確定にはPitch/Yaw単独試験が必要。
 - 次はPitch軸、続いてYaw軸を同条件で試験する。
 - 証跡: docs/BNO_AXIS_ROLL_RUN0060_20260803.md、pc-tools/boat_eskf/captures/BNO_AXIS_ROLL_20S_20260803/
+
+## 2026-08-03 RUN0061 Pitch軸切り分け
+
+- [合格] Pitch単独20秒raw取得。Gyro 2002、GVR 2003、BIN trailing=0、normal_stop=1、queue/SD/UARTエラー0。
+- [確認] report sequence不連続0、callback timestamp単調、約10 ms周期。BNO report reset再発なし。
+- [確認] 物理Pitch操作はEuler Roll成分が約-176→+99度変化し、Euler Pitchは約0–2度。取付姿勢・軸変換による入替えを強く示唆。
+- 次はYaw軸を同条件で試験し、3軸完了後BOAT_EXPERIMENT=23へ復帰。
+- 証跡: docs/BNO_AXIS_PITCH_RUN0061_20260803.md、pc-tools/boat_eskf/captures/BNO_AXIS_PITCH_20S_20260803/

@@ -367,3 +367,12 @@ ec=411 で sdCommand(): Card Failed! cmd: 0x18 が発生。その後CMD0D/CMD00�
 - report sequence不連続0、callback timestamp単調増加。RUN0059の約1.15秒欠測・report resetは再発なし。
 - 5–15秒でEuler Pitchが約+85度まで変化。物理Roll操作とセンサEuler軸の対応は未確定。
 - 次はPitch、Yawを個別に切り分ける。
+
+## 2026-08-03 RUN0061 Pitch軸切り分け
+
+- 20秒自動取得を実施。COM3未操作、Core COM6はAPIのみ。
+- RUN0061: records=5989、Gyro=2002、GVR=2003、normal_stop=1、BIN trailing=0。
+- queue_drops=0、sd_write_errors=0、UART sequence gap/CRC/COBS/length=0、queue high-water=31。
+- report sequence不連続0、callback timestamp単調増加。RUN0059の欠測・report resetは再発なし。
+- 物理Pitch操作時にEuler Rollが約-176→+99度変化、Euler Pitchは約0–2度。取付姿勢・軸変換による軸入替え候補を記録。
+- 次はYaw単独試験。
