@@ -1,0 +1,3 @@
+ready=1
+diagnostic_count=3
+bytes=421

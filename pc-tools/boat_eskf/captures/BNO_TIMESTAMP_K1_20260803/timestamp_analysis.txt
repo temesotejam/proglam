@@ -1,0 +1,9 @@
+BNO timestamp diagnostic
+event_total=631
+kind=1 count=631 report_seq={'first': 200, 'last': 62, 'missing_events': 0, 'duplicates': 0, 'reversals': 0, 'wraps': 3, 'delta_hist': {1: 630}}
+  sensor_raw count=631 mean=0.000 stddev=47.809 min=-200 max=200 dup=594 rev=18 first=4294966796 last=4294966796
+  sensor_converted count=631 mean=0.000 stddev=47.809 min=-200 max=200 dup=594 rev=18 first=4294966796 last=4294966796
+  xiao_rx count=631 mean=15851.692 stddev=921.639 min=13239 max=32003 dup=0 rev=0 first=14968135 last=24954701
+  queue_push count=631 mean=15851.692 stddev=922.708 min=13240 max=32005 dup=0 rev=0 first=14968143 last=24954709
+  core_rx count=631 mean=15839.673 stddev=1705.748 min=6855 max=31642 dup=0 rev=0 first=250616461 last=260595455
+  xiao_to_core_us={'mean': 235641253.89064977, 'min': 235640081, 'max': 235648326}

@@ -2,7 +2,7 @@
 #include <Arduino.h>
 namespace boat {
 constexpr uint8_t kVersion=1; constexpr size_t kMaxPayload=768,kMaxRaw=800,kMaxEncoded=820;
-enum class Type:uint8_t{Hello=1,BnoAccel=2,BnoGyro=3,BnoQuaternion=4,TofFrame=5,InaSample=6,VescStatus=7,ActuatorState=8,SystemHealth=9,Event=10,TimeSyncReply=11,GnssRaw=12,GnssFix=13,GnssStatus=14,GnssNav=15,GnssProcessResult=16,CommandAck=17,TimeSyncRequest=18,LinkStatistics=19,BnoMagnetic=20,TimingDiagnostic=21,EstimatedState=22,P1Capture=23,PrimaryImuSnapshot=24,ProvisionalSystem=25,CalibrationMarker=26,Heartbeat=32,Arm=33,Disarm=34,StartTest=35,Stop=36,Estop=37,ClearEstop=38,BenchmarkPrepare=48,BenchmarkReady=49,BenchmarkStart=50,BenchmarkStop=51,BenchmarkResult=52,BenchmarkEvent=53,SyntheticData=54,BenchmarkAbort=55};
+enum class Type:uint8_t{Hello=1,BnoAccel=2,BnoGyro=3,BnoQuaternion=4,TofFrame=5,InaSample=6,VescStatus=7,ActuatorState=8,SystemHealth=9,Event=10,TimeSyncReply=11,GnssRaw=12,GnssFix=13,GnssStatus=14,GnssNav=15,GnssProcessResult=16,CommandAck=17,TimeSyncRequest=18,LinkStatistics=19,BnoMagnetic=20,TimingDiagnostic=21,EstimatedState=22,P1Capture=23,PrimaryImuSnapshot=24,ProvisionalSystem=25,CalibrationMarker=26,Heartbeat=32,Arm=33,Disarm=34,StartTest=35,Stop=36,Estop=37,ClearEstop=38,BenchmarkPrepare=48,BenchmarkReady=49,BenchmarkStart=50,BenchmarkStop=51,BenchmarkResult=52,BenchmarkEvent=53,SyntheticData=54,BenchmarkAbort=55,EskfState=56,EskfInnovation=57,EskfHealth=58,GnssNavV2=59,TimeSyncEstimate=60,EskfCommand=61};
 struct __attribute__((packed)) Header{uint8_t version,type;uint16_t length;uint32_t sequence,bootId;uint64_t sourceUs;uint16_t flags;};
 struct Frame{Header header{};uint8_t payload[kMaxPayload]{};uint64_t uartRxUs=0,logQueueUs=0,sdTaskUs=0;};
 struct __attribute__((packed)) BnoPayload{uint8_t kind,accuracy,sequence,reserved;uint64_t sensorUs,callbackUs,queuePushUs;float v[7];};
@@ -13,8 +13,22 @@ struct __attribute__((packed)) TimingDiagnosticPayload{uint32_t originBootId,ori
 enum class EstimateHealth:uint8_t{Invalid=0,Degraded=1,Valid=2};
 enum EstimatedStateFlag:uint8_t{EstimateAccelCorrection=1u<<0,EstimateMagCorrection=1u<<1,EstimateGnssYawCorrection=1u<<2,EstimateMountValidated=1u<<3};
 struct __attribute__((packed)) EstimatedStatePayload{uint64_t estimateUs;float qw,qx,qy,qz;float rollRad,pitchRad,yawRad;float rollRateRadS,pitchRateRadS,yawRateRadS;float gyroBiasX,gyroBiasY,gyroBiasZ;double latitudeDeg,longitudeDeg;float groundSpeedMps,courseOverGroundRad,sideslipEstimateRad,waterDistanceM;uint32_t gyroAgeUs,accelAgeUs,magAgeUs,gnssAgeUs,tofAgeUs;uint8_t attitudeHealth,yawHealth,navigationHealth,heightHealth,flags,reserved[3];};
-enum class P1CaptureAction:uint8_t{Start=1,Stop=2}; struct __attribute__((packed)) P1CapturePayload{uint32_t captureId;uint8_t action,reserved[3];};
-uint32_t crc32(const uint8_t*,size_t);
+enum class P1CaptureAction:uint8_t{Start=1,Stop=2}; struct __attribute__((packed)) P1CapturePayload{uint32_t captureId;uint8_t action,reserved[3];}; struct __attribute__((packed)) P1CaptureAckPayload{uint32_t captureId;uint8_t action,status;uint16_t reserved;uint32_t firstSequence,lastSequence;};
+enum class EskfRunState : uint8_t { Resetting=0, Aligning=1, Running=2, Degraded=3, Invalid=4 };
+enum EskfObservation : uint8_t { EskfObservationGnss=1u<<0, EskfObservationTof=1u<<1, EskfObservationCourse=1u<<2 };
+enum class EskfRejectReason : uint8_t { None=0, Invalid=1, Duplicate=2, Stale=3, Geometry=4, Nis=5, Time=6, Numerical=7 };
+struct __attribute__((packed)) EskfStatePayload { uint64_t estimateUs; float positionNedM[3], velocityNedMps[3], qNb[4], accelBiasMps2[3], gyroBiasRadS[3], stddev[15]; uint32_t imuAgeUs, gnssAgeUs, tofAgeUs, resetCount; uint8_t runState, health, observationMask, mountValid, shadowOnly, actuatorOutputEnabled, secondaryBnoState, inaState; };
+struct __attribute__((packed)) EskfInnovationPayload { uint64_t measurementUs, processedUs; float residual[4], nis, gate; uint8_t observation, dimension, accepted, reason; };
+struct __attribute__((packed)) EskfHealthPayload { uint64_t reportUs; uint32_t imuAgeUs, gnssAgeUs, tofAgeUs, resetCount, uartSequenceGaps, imuGaps, timeReversals; uint8_t runState, health, primaryBnoState, secondaryBnoState, inaState, covarianceValid, finite, lastResetReason; };
+struct __attribute__((packed)) GnssNavV2Payload { uint32_t navSequence, fixSequence, flags, utcCentiseconds; int32_t latitudeE7, longitudeE7, altitudeMm, speedMmPerSec, courseE5Deg; uint16_t hdopCenti, satellites; uint8_t fixType, reserved[3]; uint64_t generatedUs, measurementUs; uint32_t sourceBootId, canonicalCrc; };
+struct __attribute__((packed)) TimeSyncEstimatePayload { uint32_t sequence; int64_t offsetUs; uint32_t rttUs, uncertaintyUs; uint64_t updatedUs; };
+enum class EskfCommandAction : uint8_t { Reset=1 };
+struct __attribute__((packed)) EskfCommandPayload { uint32_t commandId; uint8_t action, reserved[3]; uint32_t canonicalCrc; };
+static_assert(sizeof(EskfStatePayload) <= kMaxPayload, "ESKF state exceeds UART payload");
+static_assert(sizeof(EskfInnovationPayload) <= kMaxPayload, "ESKF innovation exceeds UART payload");
+static_assert(sizeof(EskfHealthPayload) <= kMaxPayload, "ESKF health exceeds UART payload");
+static_assert(sizeof(GnssNavV2Payload) <= kMaxPayload, "GNSS v2 exceeds UART payload");
+uint32_t crc32(const uint8_t*, size_t);
 enum NavFlag:uint32_t{NavFixValid=1u<<0,NavNewFix=1u<<1,NavLatValid=1u<<2,NavLonValid=1u<<3,NavAltitudeValid=1u<<4,NavSpeedValid=1u<<5,NavCourseValid=1u<<6,NavHdopValid=1u<<7};
 struct __attribute__((packed)) HeartbeatPayload{uint32_t uptimeMs,sequence;uint8_t safetyState,dryRun;uint16_t reserved;};
 struct __attribute__((packed)) GnssNavPayload{uint32_t navSequence,fixSequence,flags,utcCentiseconds;int32_t latitudeE7,longitudeE7,altitudeMm,speedMmPerSec,courseE5Deg;uint16_t hdopCenti,satellites;uint8_t fixType,reserved[3];uint64_t generatedUs;uint32_t canonicalCrc;};

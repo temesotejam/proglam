@@ -1,20 +1,14 @@
-# 制御側 XIAO 統合ファームウェア
+# 制御側XIAO ESKF SHADOW
 
-制御側はBNO08X、VL53L5CX、INA226、PCA9685、VESCを扱い、D6/D7の921600 bps UARTで通信側へテレメトリを送信します。GNSS、microSD、Wi-Fi/Web UIは通信側XIAOの役割です。
+制御側XIAO ESP32S3でBNO08X、VL53L5CX、15誤差状態ESKFを実行します。現在はCoreS3暫定通信ブリッジからGNSSを受信します。
 
-通信側から受信する `STOP` は出力を停止してDISARMEDへ、`E-STOP` は出力を即時停止してE_STOPへ遷移させます。制御側の一時的なWi-Fi診断は無効化済みです。
+- 名目状態: NED位置・速度、body FRD → NEDクォータニオン、加速度/ジャイロbias
+- 誤差状態: `[δp, δv, δθ, δba, δbg]` の15状態
+- IMU予測、15×15共分散伝播、Joseph形式更新、NISゲート、GNSS重複排除、ToF複数ゾーン観測を実装
+- `EstimatedState` は従来baselineとして残し、`EskfState/EskfInnovation/EskfHealth` を追加
 
-GNSS往復試験では通信側から10 Hzで届く`GNSS_NAV`を検証し、DRY_RUNの計算結果を`GNSS_PROCESS_RESULT`として返信します。`kDryRunActuators=true`が既定であり、非ゼロVESC dutyやPCA9685サーボパルスを出力しません。
+## 安全固定値
 
-実機への書き込みは、二台の配線と電源状態を確認してからこのプロジェクトで行います。
+`kDryRunActuators=true`、`kShadowOnly=true`、`kActuatorOutputEnabled=false`、`kEnableIna226=false`、`kSecondaryBnoEnabled=false` です。起動状態はDISARMEDで、PCA9685はFull OFF、VESCはDuty 0です。ESKFの状態を物理出力やARMへ接続していません。
 
-## 自動一括ベンチマーク
-
-通信側XIAOが試験指揮役です。`BenchmarkPrepare`では必ず`kDryRunActuators=true`、PCA9685の全チャンネルFull OFF、VESC Duty 0を確認してから、共用I2Cの再初期化、INA226プロファイル、VL53L5CXプロファイルを適用します。BNO08X専用I2Cは100 kHzのまま変更しません。制御側は測定中もDISARMEDのままで、実アクチュエータを動かしません。
-
-INA226はCURRENT（AVG=128、約6.64 Hz）、BALANCED（AVG=16、約53.15 Hz）、FAST（AVG=4、約212.6 Hz）を使います。Mask/EnableのCVRFは読出しでクリアされるため、読取り前のCVRFをfresh、未セットをduplicateとして統計化します。ToFは8x8/10・15 Hz、4x4/15・30 Hzを要求し、拒否時はそのフェーズをFAIL/NOT SUPPORTEDとして返信します。
-
-
-## 固定条件実験（2026-07-23）
-
-I2C速度をRUN中に変更しない実験用ファームウェアを追加しました。制御側・通信側に同名のPlatformIO環境を書き込みます。環境一覧、書込み手順、SoftAP接続、API、結果の判定は [docs/FIXED_EXPERIMENT_FIRMWARE.md](../docs/FIXED_EXPERIMENT_FIRMWARE.md) を参照してください。
+BNO取付変換とToF取付位置は未較正の恒等・原点仮定です。その間も推定は実行しますが、mount healthはDEGRADEDです。

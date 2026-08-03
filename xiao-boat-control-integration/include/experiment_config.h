@@ -44,11 +44,23 @@ constexpr char kName[] = "P3_diag_4x4_30"; constexpr uint8_t kPhase = 7; constex
 #elif BOAT_EXPERIMENT == 17
 constexpr char kName[] = "VESC_passive_3min"; constexpr uint8_t kPhase = 15; constexpr uint32_t kDurationMs = 180000UL; constexpr uint8_t kInaProfile = 0, kTofProfile = 3, kUartProfile = 0; constexpr uint32_t kPeripheralI2cHz = 400000UL;
 #elif BOAT_EXPERIMENT == 18
-constexpr char kName[] = "BNO_gyro_attitude_3min"; constexpr uint8_t kPhase = 15; constexpr uint32_t kDurationMs = 180000UL; constexpr uint8_t kInaProfile = 0, kTofProfile = 3, kUartProfile = 0; constexpr uint32_t kPeripheralI2cHz = 400000UL;
+constexpr char kName[] = "BNO_K3_game_rotation_10s"; constexpr uint8_t kPhase = 15; constexpr uint32_t kDurationMs = 10000UL; constexpr uint8_t kInaProfile = 0, kTofProfile = 3, kUartProfile = 0; constexpr uint32_t kPeripheralI2cHz = 400000UL;
 #elif BOAT_EXPERIMENT == 19
-constexpr char kName[] = "BNO_gyro_accel_3min"; constexpr uint8_t kPhase = 15; constexpr uint32_t kDurationMs = 180000UL; constexpr uint8_t kInaProfile = 0, kTofProfile = 3, kUartProfile = 0; constexpr uint32_t kPeripheralI2cHz = 400000UL;
+constexpr char kName[] = "BNO_K5_linear_accel_10s"; constexpr uint8_t kPhase = 15; constexpr uint32_t kDurationMs = 10000UL; constexpr uint8_t kInaProfile = 0, kTofProfile = 3, kUartProfile = 0; constexpr uint32_t kPeripheralI2cHz = 400000UL;
 #elif BOAT_EXPERIMENT == 20
-constexpr char kName[] = "BNO_attitude100_gyro50_3min"; constexpr uint8_t kPhase = 15; constexpr uint32_t kDurationMs = 180000UL; constexpr uint8_t kInaProfile = 0, kTofProfile = 3, kUartProfile = 0; constexpr uint32_t kPeripheralI2cHz = 400000UL;
+constexpr char kName[] = "BNO_ALL_5reports_10s"; constexpr uint8_t kPhase = 15; constexpr uint32_t kDurationMs = 10000UL; constexpr uint8_t kInaProfile = 0, kTofProfile = 3, kUartProfile = 0; constexpr uint32_t kPeripheralI2cHz = 400000UL;
+#elif BOAT_EXPERIMENT == 27
+constexpr char kName[] = "BNO_K1_accelerometer100_10s"; constexpr uint8_t kPhase = 15; constexpr uint32_t kDurationMs = 10000UL; constexpr uint8_t kInaProfile = 0, kTofProfile = 3, kUartProfile = 0; constexpr uint32_t kPeripheralI2cHz = 400000UL;
+#elif BOAT_EXPERIMENT == 28
+constexpr char kName[] = "BNO_K2_gyro100_10s"; constexpr uint8_t kPhase = 15; constexpr uint32_t kDurationMs = 10000UL; constexpr uint8_t kInaProfile = 0, kTofProfile = 3, kUartProfile = 0; constexpr uint32_t kPeripheralI2cHz = 400000UL;
+#elif BOAT_EXPERIMENT == 29
+constexpr char kName[] = "BNO_K4_magnetic20_10s"; constexpr uint8_t kPhase = 15; constexpr uint32_t kDurationMs = 10000UL; constexpr uint8_t kInaProfile = 0, kTofProfile = 3, kUartProfile = 0; constexpr uint32_t kPeripheralI2cHz = 400000UL;
+#elif BOAT_EXPERIMENT == 30
+constexpr char kName[] = "BNO_ALL_100_100_20_50_50_10s"; constexpr uint8_t kPhase = 15; constexpr uint32_t kDurationMs = 10000UL; constexpr uint8_t kInaProfile = 0, kTofProfile = 3, kUartProfile = 0; constexpr uint32_t kPeripheralI2cHz = 400000UL;
+#elif BOAT_EXPERIMENT == 25
+constexpr char kName[] = "BNO_K1_accelerometer_10s"; constexpr uint8_t kPhase = 15; constexpr uint32_t kDurationMs = 10000UL; constexpr uint8_t kInaProfile = 0, kTofProfile = 3, kUartProfile = 0; constexpr uint32_t kPeripheralI2cHz = 400000UL;
+#elif BOAT_EXPERIMENT == 26
+constexpr char kName[] = "BNO_K4_magnetic_10s"; constexpr uint8_t kPhase = 15; constexpr uint32_t kDurationMs = 10000UL; constexpr uint8_t kInaProfile = 0, kTofProfile = 3, kUartProfile = 0; constexpr uint32_t kPeripheralI2cHz = 400000UL;
 #elif BOAT_EXPERIMENT == 21
 constexpr char kName[] = "BNO_attitude100_gyro100_3min"; constexpr uint8_t kPhase = 15; constexpr uint32_t kDurationMs = 180000UL; constexpr uint8_t kInaProfile = 0, kTofProfile = 3, kUartProfile = 0; constexpr uint32_t kPeripheralI2cHz = 400000UL;
 #elif BOAT_EXPERIMENT == 22
@@ -58,6 +70,6 @@ constexpr char kName[] = "BNO_accel100_gyro100_mag20_INT_3min"; constexpr uint8_
 #elif BOAT_EXPERIMENT == 24
 constexpr char kName[] = "BNO_accel100_gyro100_mag20_INT_60sec"; constexpr uint8_t kPhase = 15; constexpr uint32_t kDurationMs = 60000UL; constexpr uint8_t kInaProfile = 0, kTofProfile = 3, kUartProfile = 0; constexpr uint32_t kPeripheralI2cHz = 400000UL;
 #else
-#error "BOAT_EXPERIMENT must be 0 through 24"
+#error "BOAT_EXPERIMENT must be 0 through 30"
 #endif
 }

@@ -1,0 +1,47 @@
+{
+  "run_label": "BNO_K3_FINAL_RUN0022_20260802",
+  "ports": {
+    "core": "COM6",
+    "xiao": "COM4"
+  },
+  "baud": 115200,
+  "opened_utc": "2026-08-02T10:48:21.378940+00:00",
+  "start_api": {
+    "utc": "2026-08-02T10:48:26.709301+00:00",
+    "epoch": 1785667706.3764374,
+    "url": "http://192.168.4.1/api/log/start?duration_s=10&bno_capture=1&bno_log_enqueue=0&uart_rx_diag=decode_count",
+    "status": 202,
+    "curl_returncode": 0,
+    "body": "{\"logging\":true,\"duration_s\":10,\"bno_capture\":true,\"bno_log_enqueue\":false,\"uart_rx_diag\":\"decode_count\"}"
+  },
+  "end_utc": "2026-08-02T10:48:57.688252+00:00",
+  "core_diag_lines_before_start": 25,
+  "xiao_diag_lines_before_start": 105,
+  "app_ready_before_start": {
+    "core": true,
+    "xiao": true
+  },
+  "prestart_wait_s": 5.0,
+  "files": {
+    "status": 200,
+    "curl_returncode": 0,
+    "run_bin": "RUN0022.BIN",
+    "run_txt": "RUN0022.TXT"
+  },
+  "line_counts_before_close": {
+    "core": 234,
+    "xiao": 775
+  },
+  "app_ready": {
+    "core": true,
+    "xiao": true
+  },
+  "reader_errors": {
+    "core": [],
+    "xiao": []
+  },
+  "line_counts_final": {
+    "core": 234,
+    "xiao": 775
+  }
+}

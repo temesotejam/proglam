@@ -1,0 +1,775 @@
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=1/0/998 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=0/0/3 tof=303
+TXDIAG frames_s=120 bytes_s=16466 total_frames=1184 total_bytes=164932 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=23517 max_write_us=121 free_heap=250036 min_free_heap=250036 usage_pct=17.87
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=499 switch=499 kind_convert=499 events=499 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=1/0/1100 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=1/0/3 tof=334
+TXDIAG frames_s=117 bytes_s=16469 total_frames=1302 total_bytes=181500 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=25736 max_write_us=121 free_heap=250036 min_free_heap=250036 usage_pct=17.87
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=549 switch=549 kind_convert=549 events=549 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.015
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=1/0/1200 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=0/0/3 tof=364
+TXDIAG frames_s=118 bytes_s=16448 total_frames=1420 total_bytes=197932 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=27934 max_write_us=121 free_heap=250036 min_free_heap=250036 usage_pct=17.85
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=599 switch=599 kind_convert=599 events=599 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.015
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=1/0/1300 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=1/0/3 tof=395
+TXDIAG frames_s=116 bytes_s=16420 total_frames=1538 total_bytes=214500 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=30370 max_write_us=121 free_heap=250036 min_free_heap=250036 usage_pct=17.82
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=649 switch=649 kind_convert=649 events=649 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.005
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=1/0/1400 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=0/0/3 tof=425
+TXDIAG frames_s=117 bytes_s=16248 total_frames=1655 total_bytes=230748 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=32605 max_write_us=121 free_heap=250036 min_free_heap=250036 usage_pct=17.63
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=699 switch=699 kind_convert=699 events=699 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+P1_CAPTURE_STATS_RESET
+TX_DIAG_RESET
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/39 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=1/0/3 tof=456
+TXDIAG frames_s=67000 bytes_s=8120000 total_frames=67 total_bytes=8120 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=912 max_write_us=76 free_heap=250036 min_free_heap=250036 usage_pct=8810.76
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=20 req=20 enq=20 drop=0 done=20 bytes=1680
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=20 switch=20 kind_convert=20 events=20 tx_req=20 tx_enq=20 tx_done=20 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=49.966
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/139 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=0/0/3 tof=486
+TXDIAG frames_s=168 bytes_s=20707 total_frames=236 total_bytes=28848 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=3278 max_write_us=104 free_heap=250036 min_free_heap=250036 usage_pct=22.47
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=70 req=70 enq=70 drop=0 done=70 bytes=5880
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=70 switch=70 kind_convert=70 events=70 tx_req=70 tx_enq=70 tx_done=70 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/240 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=1/0/3 tof=517
+TXDIAG frames_s=167 bytes_s=20718 total_frames=405 total_bytes=49712 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=5993 max_write_us=104 free_heap=250036 min_free_heap=250036 usage_pct=22.48
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=120 req=120 enq=120 drop=0 done=120 bytes=10080
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=120 switch=120 kind_convert=120 events=120 tx_req=120 tx_enq=120 tx_done=120 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=49.996
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/340 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=0/0/3 tof=547
+TXDIAG frames_s=170 bytes_s=20800 total_frames=575 total_bytes=70512 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=8872 max_write_us=141 free_heap=250036 min_free_heap=250036 usage_pct=22.57
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=170 req=170 enq=170 drop=0 done=170 bytes=14280
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=170 switch=170 kind_convert=170 events=170 tx_req=170 tx_enq=170 tx_done=170 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/440 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=1/0/3 tof=578
+TXDIAG frames_s=167 bytes_s=20698 total_frames=744 total_bytes=91376 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=11358 max_write_us=141 free_heap=250036 min_free_heap=250036 usage_pct=22.46
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=220 req=220 enq=220 drop=0 done=220 bytes=18480
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=221 switch=221 kind_convert=221 events=221 tx_req=220 tx_enq=220 tx_done=220 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/540 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=1/0/3 tof=608
+TXDIAG frames_s=169 bytes_s=20748 total_frames=913 total_bytes=112104 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=14113 max_write_us=141 free_heap=250036 min_free_heap=250036 usage_pct=22.51
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=270 req=270 enq=270 drop=0 done=270 bytes=22680
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=271 switch=271 kind_convert=271 events=271 tx_req=270 tx_enq=270 tx_done=270 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.005
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/642 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=1/0/3 tof=639
+TXDIAG frames_s=168 bytes_s=20598 total_frames=1083 total_bytes=132908 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=16683 max_write_us=141 free_heap=250036 min_free_heap=250036 usage_pct=22.35
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=321 req=321 enq=321 drop=0 done=321 bytes=26964
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=321 switch=321 kind_convert=321 events=321 tx_req=321 tx_enq=321 tx_done=321 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.015
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/742 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=0/0/3 tof=669
+TXDIAG frames_s=168 bytes_s=20686 total_frames=1252 total_bytes=153636 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=19096 max_write_us=141 free_heap=250036 min_free_heap=250036 usage_pct=22.45
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=371 req=371 enq=371 drop=0 done=371 bytes=31164
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=371 switch=371 kind_convert=371 events=371 tx_req=371 tx_enq=371 tx_done=371 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.015
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/842 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=1/0/3 tof=700
+TXDIAG frames_s=166 bytes_s=20613 total_frames=1419 total_bytes=174332 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=21799 max_write_us=141 free_heap=250036 min_free_heap=250036 usage_pct=22.37
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=421 req=421 enq=421 drop=0 done=421 bytes=35364
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=421 switch=421 kind_convert=421 events=421 tx_req=421 tx_enq=421 tx_done=421 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.015
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/942 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=0/0/3 tof=730
+TXDIAG frames_s=168 bytes_s=20580 total_frames=1587 total_bytes=194912 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=24398 max_write_us=141 free_heap=250036 min_free_heap=250036 usage_pct=22.33
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=471 req=471 enq=471 drop=0 done=471 bytes=39564
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=472 switch=472 kind_convert=472 events=472 tx_req=471 tx_enq=471 tx_done=471 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+P1_CAPTURE_SEQUENCE first=1725 last=3416 valid=1
+P1_CAPTURE_STATS_STOP
+BNO_CAPTURE_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_event=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_CAPTURE_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_event=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_CAPTURE_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=505 switch=505 kind_convert=505 events=505 tx_event=505 tx_req=505 tx_enq=505 tx_done=505 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.015
+BNO_CAPTURE_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_event=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_CAPTURE_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_event=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+TXTYPE type=4 name=BnoQuaternion req=505 enq=505 done=505 bytes=42420
+TXTYPE type=5 name=TofFrame req=304 enq=304 done=304 bytes=68096
+TXTYPE type=7 name=VescStatus req=304 enq=304 done=304 bytes=26752
+TXTYPE type=11 name=TimeSyncReply req=10 enq=10 done=10 bytes=560
+TXTYPE type=16 name=GnssProcessResult req=99 enq=99 done=99 bytes=9504
+TXTYPE type=22 name=EstimatedState req=100 enq=100 done=100 bytes=14800
+TXTYPE type=32 name=Heartbeat req=101 enq=101 done=101 bytes=4040
+TXTYPE type=56 name=EskfState req=199 enq=199 done=199 bytes=36616
+TXTYPE type=57 name=EskfInnovation req=20 enq=20 done=20 bytes=1440
+TXTYPE type=58 name=EskfHealth req=50 enq=50 done=50 bytes=3600
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/1044 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=1/0/3 tof=759
+TXDIAG frames_s=145 bytes_s=18468 total_frames=1734 total_bytes=213528 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=26768 max_write_us=141 free_heap=250036 min_free_heap=250036 usage_pct=20.04
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=505 req=505 enq=505 drop=0 done=505 bytes=42420
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=522 switch=522 kind_convert=522 events=522 tx_req=505 tx_enq=505 tx_done=505 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.017
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/1144 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=0/0/3 tof=789
+TXDIAG frames_s=119 bytes_s=16504 total_frames=1853 total_bytes=230032 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=28981 max_write_us=141 free_heap=250036 min_free_heap=250036 usage_pct=17.91
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=505 req=505 enq=505 drop=0 done=505 bytes=42420
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=572 switch=572 kind_convert=572 events=572 tx_req=505 tx_enq=505 tx_done=505 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/1244 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=1/0/3 tof=820
+TXDIAG frames_s=118 bytes_s=16661 total_frames=1972 total_bytes=246810 queue=1 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=31306 max_write_us=141 free_heap=250036 min_free_heap=250036 usage_pct=18.08
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=505 req=505 enq=505 drop=0 done=505 bytes=42420
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=622 switch=622 kind_convert=622 events=622 tx_req=505 tx_enq=505 tx_done=505 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.015
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/1344 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=0/0/3 tof=850
+TXDIAG frames_s=117 bytes_s=16277 total_frames=2090 total_bytes=263104 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=33538 max_write_us=141 free_heap=250036 min_free_heap=250036 usage_pct=17.66
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=505 req=505 enq=505 drop=0 done=505 bytes=42420
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=672 switch=672 kind_convert=672 events=672 tx_req=505 tx_enq=505 tx_done=505 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.007
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/1445 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=1/0/3 tof=881
+TXDIAG frames_s=117 bytes_s=16436 total_frames=2208 total_bytes=279672 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=35857 max_write_us=141 free_heap=250036 min_free_heap=250036 usage_pct=17.83
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=505 req=505 enq=505 drop=0 done=505 bytes=42420
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=723 switch=723 kind_convert=723 events=723 tx_req=505 tx_enq=505 tx_done=505 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/1545 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=0/0/3 tof=911
+TXDIAG frames_s=117 bytes_s=16248 total_frames=2325 total_bytes=295920 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=38171 max_write_us=141 free_heap=250036 min_free_heap=250036 usage_pct=17.63
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=505 req=505 enq=505 drop=0 done=505 bytes=42420
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=773 switch=773 kind_convert=773 events=773 tx_req=505 tx_enq=505 tx_done=505 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/1646 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=1/0/3 tof=942
+TXDIAG frames_s=118 bytes_s=16599 total_frames=2444 total_bytes=312636 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=40487 max_write_us=141 free_heap=250036 min_free_heap=250036 usage_pct=18.01
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=505 req=505 enq=505 drop=0 done=505 bytes=42420
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=823 switch=823 kind_convert=823 events=823 tx_req=505 tx_enq=505 tx_done=505 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.016
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/1746 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=0/0/3 tof=972
+TXDIAG frames_s=117 bytes_s=16284 total_frames=2561 total_bytes=328920 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=42780 max_write_us=141 free_heap=250036 min_free_heap=250036 usage_pct=17.67
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=505 req=505 enq=505 drop=0 done=505 bytes=42420
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=873 switch=873 kind_convert=873 events=873 tx_req=505 tx_enq=505 tx_done=505 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/1846 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=1/0/3 tof=1003
+TXDIAG frames_s=117 bytes_s=16566 total_frames=2680 total_bytes=345636 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=45036 max_write_us=141 free_heap=250036 min_free_heap=250036 usage_pct=17.98
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=505 req=505 enq=505 drop=0 done=505 bytes=42420
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=923 switch=923 kind_convert=923 events=923 tx_req=505 tx_enq=505 tx_done=505 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/1946 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=0/0/3 tof=1033
+TXDIAG frames_s=117 bytes_s=16284 total_frames=2797 total_bytes=361920 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=47168 max_write_us=141 free_heap=250036 min_free_heap=250036 usage_pct=17.67
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=505 req=505 enq=505 drop=0 done=505 bytes=42420
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=974 switch=974 kind_convert=974 events=974 tx_req=505 tx_enq=505 tx_done=505 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/2048 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=2/0/3 tof=1064
+TXDIAG frames_s=118 bytes_s=16599 total_frames=2916 total_bytes=378636 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=49480 max_write_us=141 free_heap=250036 min_free_heap=250036 usage_pct=18.01
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=505 req=505 enq=505 drop=0 done=505 bytes=42420
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1024 switch=1024 kind_convert=1024 events=1024 tx_req=505 tx_enq=505 tx_done=505 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.015
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/2148 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=0/0/3 tof=1094
+TXDIAG frames_s=117 bytes_s=16284 total_frames=3033 total_bytes=394920 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=51632 max_write_us=141 free_heap=250036 min_free_heap=250036 usage_pct=17.67
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=505 req=505 enq=505 drop=0 done=505 bytes=42420
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1074 switch=1074 kind_convert=1074 events=1074 tx_req=505 tx_enq=505 tx_done=505 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/2248 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=1/0/3 tof=1125
+TXDIAG frames_s=118 bytes_s=16573 total_frames=3152 total_bytes=411610 queue=1 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=53901 max_write_us=141 free_heap=250036 min_free_heap=250036 usage_pct=17.98
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=505 req=505 enq=505 drop=0 done=505 bytes=42420
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1124 switch=1124 kind_convert=1124 events=1124 tx_req=505 tx_enq=505 tx_done=505 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/2348 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=0/0/3 tof=1155
+TXDIAG frames_s=116 bytes_s=16181 total_frames=3269 total_bytes=427808 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=56113 max_write_us=141 free_heap=250036 min_free_heap=250036 usage_pct=17.56
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=505 req=505 enq=505 drop=0 done=505 bytes=42420
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1174 switch=1174 kind_convert=1174 events=1174 tx_req=505 tx_enq=505 tx_done=505 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/2449 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=1/0/3 tof=1186
+TXDIAG frames_s=118 bytes_s=16507 total_frames=3388 total_bytes=444448 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=58342 max_write_us=141 free_heap=250036 min_free_heap=250036 usage_pct=17.91
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=505 req=505 enq=505 drop=0 done=505 bytes=42420
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1225 switch=1225 kind_convert=1225 events=1225 tx_req=505 tx_enq=505 tx_done=505 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/2549 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=0/0/3 tof=1216
+TXDIAG frames_s=119 bytes_s=16528 total_frames=3507 total_bytes=460976 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=60658 max_write_us=141 free_heap=250036 min_free_heap=250036 usage_pct=17.93
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=505 req=505 enq=505 drop=0 done=505 bytes=42420
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1275 switch=1275 kind_convert=1275 events=1275 tx_req=505 tx_enq=505 tx_done=505 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/2650 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=1/0/3 tof=1247
+TXDIAG frames_s=117 bytes_s=16436 total_frames=3625 total_bytes=477544 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=63026 max_write_us=141 free_heap=250036 min_free_heap=250036 usage_pct=17.83
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=505 req=505 enq=505 drop=0 done=505 bytes=42420
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1325 switch=1325 kind_convert=1325 events=1325 tx_req=505 tx_enq=505 tx_done=505 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/2750 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=0/0/3 tof=1277
+TXDIAG frames_s=116 bytes_s=16231 total_frames=3742 total_bytes=493792 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=65257 max_write_us=141 free_heap=250036 min_free_heap=250036 usage_pct=17.61
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=505 req=505 enq=505 drop=0 done=505 bytes=42420
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1375 switch=1375 kind_convert=1375 events=1375 tx_req=505 tx_enq=505 tx_done=505 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.013
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/2850 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=1/0/3 tof=1308
+TXDIAG frames_s=117 bytes_s=16469 total_frames=3860 total_bytes=510360 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=67533 max_write_us=141 free_heap=250036 min_free_heap=250036 usage_pct=17.87
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=505 req=505 enq=505 drop=0 done=505 bytes=42420
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1426 switch=1426 kind_convert=1426 events=1426 tx_req=505 tx_enq=505 tx_done=505 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/2950 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=0/0/3 tof=1338
+TXDIAG frames_s=118 bytes_s=16432 total_frames=3978 total_bytes=526792 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=69617 max_write_us=141 free_heap=250036 min_free_heap=250036 usage_pct=17.83
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=505 req=505 enq=505 drop=0 done=505 bytes=42420
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1476 switch=1476 kind_convert=1476 events=1476 tx_req=505 tx_enq=505 tx_done=505 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=0/0/3052 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=1
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=1/0/3 tof=1369
+TXDIAG frames_s=111 bytes_s=15952 total_frames=4090 total_bytes=542872 queue=0 high=3 drops=0 bno_drop=0 partial=0 zero=0 write_calls=71892 max_write_us=141 free_heap=250036 min_free_heap=250036 usage_pct=17.31
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=505 req=505 enq=505 drop=0 done=505 bytes=42420
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=1526 switch=1526 kind_convert=1526 events=1526 tx_req=505 tx_enq=505 tx_done=505 tx_drop=0 event_drop=0 reset_reconfig=1 effective_hz=50.014
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=0 interval_us=0 requested_hz=0.000 enable_ok=0 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000

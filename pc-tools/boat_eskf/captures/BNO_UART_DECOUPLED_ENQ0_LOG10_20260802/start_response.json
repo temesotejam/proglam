@@ -1,0 +1,7 @@
+{
+  "utc": "2026-08-02T07:53:55.537747+00:00",
+  "epoch": 1785657231.5120213,
+  "url": "http://192.168.4.1/api/log/start?duration_s=10&bno_capture=1&bno_log_enqueue=0",
+  "status": null,
+  "body": "TimeoutError('timed out')"
+}

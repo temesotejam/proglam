@@ -1,0 +1,73 @@
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=26199 frames=222 bytes_s=316 frames_s=1 crc/cobs/len=2/36/37 seqgap=9516 age_ms=544 type=20 log=0 q=0 rec=0 final=0
+RXDIAG max_us=3120 budget_hits=10015 byte/frame/time=0/0/10015 rx_buf_max=16384 loop_period_max_us=81806 loop_exec_max_us=18792 free_heap=162312 min_free_heap=160952 reset_reason=1 bno_kind_1to5_s=0/0/0/1/0 queue=0 high=0 drops=0
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=26536 frames=224 bytes_s=337 frames_s=2 crc/cobs/len=2/38/39 seqgap=10139 age_ms=159 type=7 log=0 q=0 rec=0 final=0
+RXDIAG max_us=3120 budget_hits=10164 byte/frame/time=0/0/10164 rx_buf_max=16384 loop_period_max_us=81806 loop_exec_max_us=18792 free_heap=162312 min_free_heap=160952 reset_reason=1 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=0 drops=0
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=26896 frames=225 bytes_s=360 frames_s=1 crc/cobs/len=2/39/41 seqgap=10290 age_ms=936 type=3 log=0 q=0 rec=0 final=0
+RXDIAG max_us=3120 budget_hits=10313 byte/frame/time=0/0/10313 rx_buf_max=16384 loop_period_max_us=81806 loop_exec_max_us=18792 free_heap=162312 min_free_heap=160952 reset_reason=1 bno_kind_1to5_s=0/1/0/0/0 queue=0 high=0 drops=0
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=27418 frames=3 bytes_s=522 frames_s=3 crc/cobs/len=2/40/43 seqgap=10919 age_ms=216 type=16 log=1 q=1 rec=46 final=0
+RXDIAG max_us=3120 budget_hits=10526 byte/frame/time=0/0/10526 rx_buf_max=16384 loop_period_max_us=81806 loop_exec_max_us=50050 free_heap=157016 min_free_heap=156540 reset_reason=1 bno_kind_1to5_s=0/1/1/0/1 queue=1 high=4 drops=0
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=27931 frames=3 bytes_s=513 frames_s=0 crc/cobs/len=2/43/44 seqgap=10919 age_ms=1218 type=16 log=1 q=1 rec=91 final=0
+RXDIAG max_us=3120 budget_hits=10746 byte/frame/time=0/0/10746 rx_buf_max=16384 loop_period_max_us=81806 loop_exec_max_us=50050 free_heap=157016 min_free_heap=156540 reset_reason=1 bno_kind_1to5_s=0/0/0/0/0 queue=1 high=8 drops=0
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=28529 frames=8 bytes_s=598 frames_s=5 crc/cobs/len=2/46/47 seqgap=12561 age_ms=57 type=24 log=1 q=1 rec=141 final=0
+RXDIAG max_us=3120 budget_hits=10973 byte/frame/time=0/0/10973 rx_buf_max=16384 loop_period_max_us=81806 loop_exec_max_us=50050 free_heap=157016 min_free_heap=156540 reset_reason=1 bno_kind_1to5_s=1/0/0/0/0 queue=1 high=8 drops=0
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=29044 frames=9 bytes_s=515 frames_s=1 crc/cobs/len=2/47/49 seqgap=12745 age_ms=890 type=4 log=1 q=1 rec=187 final=0
+RXDIAG max_us=3120 budget_hits=11197 byte/frame/time=0/0/11197 rx_buf_max=16384 loop_period_max_us=81806 loop_exec_max_us=50050 free_heap=157016 min_free_heap=156540 reset_reason=1 bno_kind_1to5_s=0/0/0/0/1 queue=1 high=8 drops=0
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=29561 frames=10 bytes_s=517 frames_s=1 crc/cobs/len=3/49/51 seqgap=13720 age_ms=506 type=4 log=1 q=1 rec=232 final=0
+RXDIAG max_us=3120 budget_hits=11422 byte/frame/time=0/0/11422 rx_buf_max=16384 loop_period_max_us=81806 loop_exec_max_us=50050 free_heap=156856 min_free_heap=153540 reset_reason=1 bno_kind_1to5_s=0/0/1/0/0 queue=1 high=8 drops=0
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=30112 frames=12 bytes_s=551 frames_s=2 crc/cobs/len=3/52/52 seqgap=14716 age_ms=151 type=7 log=1 q=1 rec=279 final=0
+RXDIAG max_us=3120 budget_hits=11647 byte/frame/time=0/0/11647 rx_buf_max=16384 loop_period_max_us=81806 loop_exec_max_us=50050 free_heap=156856 min_free_heap=153540 reset_reason=1 bno_kind_1to5_s=0/1/0/0/0 queue=1 high=8 drops=0
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=30634 frames=16 bytes_s=522 frames_s=4 crc/cobs/len=3/52/57 seqgap=15300 age_ms=138 type=3 log=1 q=1 rec=327 final=0
+RXDIAG max_us=3120 budget_hits=11872 byte/frame/time=0/0/11872 rx_buf_max=16384 loop_period_max_us=81806 loop_exec_max_us=50050 free_heap=156856 min_free_heap=153540 reset_reason=1 bno_kind_1to5_s=2/1/0/0/1 queue=1 high=8 drops=0
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=31127 frames=18 bytes_s=493 frames_s=2 crc/cobs/len=3/54/60 seqgap=15916 age_ms=302 type=3 log=1 q=1 rec=374 final=0
+RXDIAG max_us=3120 budget_hits=12097 byte/frame/time=0/0/12097 rx_buf_max=16384 loop_period_max_us=81806 loop_exec_max_us=50050 free_heap=156856 min_free_heap=153540 reset_reason=1 bno_kind_1to5_s=0/1/0/0/0 queue=1 high=8 drops=0
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=31690 frames=19 bytes_s=563 frames_s=1 crc/cobs/len=3/58/62 seqgap=16717 age_ms=177 type=7 log=1 q=1 rec=420 final=0
+RXDIAG max_us=3120 budget_hits=12324 byte/frame/time=0/0/12324 rx_buf_max=16384 loop_period_max_us=81806 loop_exec_max_us=50050 free_heap=156632 min_free_heap=151180 reset_reason=1 bno_kind_1to5_s=0/0/0/0/0 queue=1 high=8 drops=0
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=32585 frames=21 bytes_s=895 frames_s=2 crc/cobs/len=3/60/68 seqgap=17866 age_ms=363 type=32 log=1 q=1 rec=467 final=0
+RXDIAG max_us=3120 budget_hits=12549 byte/frame/time=0/0/12549 rx_buf_max=16384 loop_period_max_us=81806 loop_exec_max_us=50050 free_heap=156632 min_free_heap=151180 reset_reason=1 bno_kind_1to5_s=1/0/0/0/0 queue=1 high=8 drops=0
+SDTRACE count=26 write_calls=122
+SDTRACE us=70361418 src=log_start op=mkdir ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=70364608 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=70368243 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=70371855 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=70375487 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=70379143 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=70382767 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=70386432 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=70390087 src=log_start op=exists ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=70393274 src=log_start op=exists ok=0 rec=0 q=0 req=0 actual=0
+SDTRACE us=70399769 src=log_start op=open ok=1 rec=0 q=0 req=0 actual=0
+SDTRACE us=71897474 src=writer op=write ok=1 rec=63 q=1 req=512 actual=512
+SDTRACE us=71897516 src=writer op=write ok=1 rec=63 q=1 req=512 actual=512
+SDTRACE us=71897552 src=writer op=write ok=1 rec=63 q=1 req=512 actual=512
+SDTRACE us=71946029 src=writer op=write ok=1 rec=63 q=8 req=512 actual=512
+SDTRACE us=72988454 src=writer op=write ok=1 rec=124 q=3 req=512 actual=512
+SDTRACE us=74152590 src=writer op=write ok=1 rec=185 q=0 req=512 actual=512
+SDTRACE us=75932602 src=writer op=write ok=1 rec=248 q=7 req=512 actual=512
+SDTRACE us=76995408 src=writer op=write ok=1 rec=310 q=7 req=512 actual=512
+SDTRACE us=78034142 src=writer op=write ok=1 rec=371 q=0 req=512 actual=512
+SDTRACE us=79917826 src=writer op=write ok=1 rec=435 q=5 req=512 actual=512
+SDTRACE us=80428072 src=writer op=flush ok=1 rec=470 q=0 req=0 actual=0
+SDTRACE us=80428285 src=writer op=close ok=1 rec=470 q=0 req=0 actual=0
+SDTRACE us=80435894 src=summary op=open ok=1 rec=470 q=0 req=0 actual=0
+SDTRACE us=80436189 src=summary op=write ok=1 rec=470 q=0 req=0 actual=0
+SDTRACE us=80446880 src=summary op=close ok=1 rec=470 q=0 req=0 actual=0
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=32917 frames=22 bytes_s=332 frames_s=1 crc/cobs/len=3/63/68 seqgap=18480 age_ms=166 type=57 log=0 q=0 rec=470 final=0
+RXDIAG max_us=3898 budget_hits=12707 byte/frame/time=0/0/12707 rx_buf_max=16384 loop_period_max_us=81806 loop_exec_max_us=50050 free_heap=161004 min_free_heap=151180 reset_reason=1 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=8 drops=0
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=33260 frames=24 bytes_s=343 frames_s=2 crc/cobs/len=3/67/69 seqgap=18863 age_ms=209 type=3 log=0 q=0 rec=470 final=0
+RXDIAG max_us=3898 budget_hits=12857 byte/frame/time=0/0/12857 rx_buf_max=16384 loop_period_max_us=81806 loop_exec_max_us=50050 free_heap=161004 min_free_heap=151180 reset_reason=1 bno_kind_1to5_s=0/2/0/0/0 queue=0 high=8 drops=0
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=33566 frames=25 bytes_s=306 frames_s=1 crc/cobs/len=3/69/70 seqgap=19349 age_ms=178 type=3 log=0 q=0 rec=470 final=0
+RXDIAG max_us=3898 budget_hits=13005 byte/frame/time=0/0/13005 rx_buf_max=16384 loop_period_max_us=81806 loop_exec_max_us=50050 free_heap=160632 min_free_heap=151180 reset_reason=1 bno_kind_1to5_s=0/1/0/0/0 queue=0 high=8 drops=0
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=33902 frames=27 bytes_s=336 frames_s=2 crc/cobs/len=3/71/71 seqgap=19667 age_ms=563 type=57 log=0 q=0 rec=470 final=0
+RXDIAG max_us=3898 budget_hits=13155 byte/frame/time=0/0/13155 rx_buf_max=16384 loop_period_max_us=81806 loop_exec_max_us=50050 free_heap=160780 min_free_heap=151180 reset_reason=1 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=8 drops=0
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=34206 frames=30 bytes_s=304 frames_s=3 crc/cobs/len=3/73/72 seqgap=20347 age_ms=13 type=4 log=0 q=0 rec=470 final=0
+RXDIAG max_us=3898 budget_hits=13304 byte/frame/time=0/0/13304 rx_buf_max=16384 loop_period_max_us=81806 loop_exec_max_us=50050 free_heap=160780 min_free_heap=151180 reset_reason=1 bno_kind_1to5_s=0/1/1/0/0 queue=0 high=8 drops=0
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=34558 frames=30 bytes_s=352 frames_s=0 crc/cobs/len=3/75/74 seqgap=20347 age_ms=1013 type=4 log=0 q=0 rec=470 final=0
+RXDIAG max_us=3898 budget_hits=13452 byte/frame/time=0/0/13452 rx_buf_max=16384 loop_period_max_us=81806 loop_exec_max_us=50050 free_heap=160780 min_free_heap=151180 reset_reason=1 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=8 drops=0
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=34858 frames=30 bytes_s=300 frames_s=0 crc/cobs/len=3/76/78 seqgap=20347 age_ms=2015 type=4 log=0 q=0 rec=470 final=0
+RXDIAG max_us=3898 budget_hits=13597 byte/frame/time=0/0/13597 rx_buf_max=16384 loop_period_max_us=81806 loop_exec_max_us=50050 free_heap=160556 min_free_heap=151180 reset_reason=1 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=8 drops=0
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=34932 frames=31 bytes_s=74 frames_s=1 crc/cobs/len=3/77/78 seqgap=21267 age_ms=1028 type=2 log=0 q=0 rec=470 final=0
+RXDIAG max_us=3898 budget_hits=13631 byte/frame/time=0/0/13631 rx_buf_max=16384 loop_period_max_us=81806 loop_exec_max_us=807063 free_heap=159560 min_free_heap=151180 reset_reason=1 bno_kind_1to5_s=1/0/0/0/0 queue=0 high=8 drops=0
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=34985 frames=32 bytes_s=53 frames_s=1 crc/cobs/len=3/77/78 seqgap=21458 age_ms=5278 type=4 log=0 q=0 rec=470 final=0
+RXDIAG max_us=3898 budget_hits=13651 byte/frame/time=0/0/13651 rx_buf_max=16384 loop_period_max_us=876002 loop_exec_max_us=5252291 free_heap=158176 min_free_heap=151180 reset_reason=1 bno_kind_1to5_s=0/0/1/0/0 queue=0 high=8 drops=0
+XIAO UART baud=921600 rx=GPIO8 tx=GPIO9 bytes=34994 frames=32 bytes_s=9 frames_s=0 crc/cobs/len=3/77/78 seqgap=21458 age_ms=6615 type=4 log=0 q=0 rec=470 final=0
+RXDIAG max_us=3898 budget_hits=13655 byte/frame/time=0/0/13655 rx_buf_max=16384 loop_period_max_us=5321008 loop_exec_max_us=5252291 free_heap=158176 min_free_heap=151180 reset_reason=1 bno_kind_1to5_s=0/0/0/0/0 queue=0 high=8 drops=0

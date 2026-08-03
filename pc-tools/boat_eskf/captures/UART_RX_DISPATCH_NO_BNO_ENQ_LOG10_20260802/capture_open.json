@@ -1,0 +1,11 @@
+{
+  "run_label": "UART_RX_DISPATCH_NO_BNO_ENQ_LOG10_20260802",
+  "ports": {
+    "core": "COM6",
+    "xiao": "COM4"
+  },
+  "baud": 115200,
+  "opened_utc": "2026-08-02T09:18:37.224711+00:00",
+  "start_api": null,
+  "end_utc": null
+}

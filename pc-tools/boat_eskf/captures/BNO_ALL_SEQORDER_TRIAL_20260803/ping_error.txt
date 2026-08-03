@@ -1,0 +1,1 @@
+TimeoutExpired(['ping', '-n', '2', '192.168.4.1'], 5)

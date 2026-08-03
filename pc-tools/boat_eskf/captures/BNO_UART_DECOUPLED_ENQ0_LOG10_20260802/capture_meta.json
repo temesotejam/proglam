@@ -1,0 +1,39 @@
+{
+  "run_label": "BNO_UART_DECOUPLED_ENQ0_LOG10_20260802",
+  "ports": {
+    "core": "COM6",
+    "xiao": "COM4"
+  },
+  "baud": 115200,
+  "opened_utc": "2026-08-02T07:53:51.306837+00:00",
+  "start_api": {
+    "utc": "2026-08-02T07:53:55.537747+00:00",
+    "epoch": 1785657231.5120213,
+    "url": "http://192.168.4.1/api/log/start?duration_s=10&bno_capture=1&bno_log_enqueue=0",
+    "status": null,
+    "body": "TimeoutError('timed out')"
+  },
+  "end_utc": "2026-08-02T07:54:21.637718+00:00",
+  "core_diag_lines_before_start": 10,
+  "xiao_diag_lines_before_start": 10,
+  "prestart_wait_s": -1785465813.9288542,
+  "files": {
+    "status": null,
+    "run_bin": null,
+    "run_txt": null
+  },
+  "line_counts_before_close": {
+    "core": 10,
+    "xiao": 446
+  },
+  "reader_errors": {
+    "core": [
+      "SerialException(\"ClearCommError failed (PermissionError(13, 'デバイスがコマンドを認識できません。', None, 22))\")"
+    ],
+    "xiao": []
+  },
+  "line_counts_final": {
+    "core": 10,
+    "xiao": 446
+  }
+}

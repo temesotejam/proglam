@@ -1,232 +1,205 @@
-## 2026-07-26 -- RUN0020を正式な比較基準に確定
+# 作業計画
 
-- RUN0020を、通信側 `0.3.5-ingress-timestamp`・直結10 cm・DRY_RUNにおける安定動作の基準構成とする。RUN0013以前のBOAT24不合格結果は旧実装の診断記録として保持するが、現行構成の判定には用いない。
-- 再接続時は構成を変更せず、短時間のBNO／GNSS／制御UART／SD再現確認から開始する。BOAT23への移行は別途ユーザー指示を待つ。
+最終更新: 2026-08-01
 
-## 2026-07-26 -- BOAT24 RUN0020（記録間隔ゲート合格）
+## 現在の段階
 
-- 通信側ログを専用タスクへ分離し、BINの外側タイムスタンプをSDタスクの書込み開始時刻ではなく、フレームが記録キューへ入った時刻に変更した。SD待ち時間は従来どおり `sdTaskUs` と TimingDiagnostic に残すため、記録時刻とストレージ遅延を混同しない。
-- 直結10 cm・DRY_RUNで `RUN0020.BIN/TXT` を60.039 s測定した。通信側／制御側の加速度・ジャイロ・地磁気すべてでsequence欠落、SD書込みエラー、ログキュードロップ、BNOデコードエラー、BNOイベントキュードロップ、結果CRCエラーは0である。地磁気の最大記録間隔は通信側46.989 ms、制御側UART由来53.575 msで、80 ms以下を満たした。
-- SDタスク待ちの最大値123.600 msとTimingDiagnostic 197件は診断として残るが、ログキュー高水位80/160で吸収され、欠落はない。BOAT24の記録間隔ゲートは通過した。BOAT23はユーザー指示があるまで開始しない。
+- [完了] CoreS3を一時的な通信・SD・GNSS側として稼働（UART 921600 bps、Core GPIO8=RX/GPIO9=TX、COBS+CRC）。
+- [完了] RUN0001の再解析。実録時間は92.853619秒であり、60秒ではない。
+- [完了] BNO08XからESKFへの入力停止を診断し、原因を制御XIAO側だけで修正。
+- [完了] BOAT_EXPERIMENT=24（加速度・ジャイロ100 Hz、磁気20 Hz）をCOM4のXIAO ESP32S3へ書込み、ハッシュ照合を確認。
+- [完了] RUN0002静止ログを取得・回収・解析。実録時間は74.233763秒。
+- [完了] health=Degradedの理由を特定し、BNOイベント時刻・生IMU統計と60秒自動停止ログを実装・実機起動確認。`mount_valid=false`がDegradedの直接理由。
+- [実機待ち] 水平固定を確認後、正確な60秒静止ログを取得する。
+- [保留] 静止ログの解析後にBNO一軸ずつの軸・符号試験。ToF較正とGNSS屋外試験には進まない。
 
-## 2026-07-26 -- BOAT24 RUN0018（記録間隔ゲート不合格）
+## 次の作業
 
-- 10 cm直結・DRY_RUN・固定条件で `RUN0018.BIN/TXT` を取得した。60.056 sの測定は正常終了し、SD書込みエラー、ログキュードロップ、I2Cエラー、BNOデコードエラー、BNOイベントキュードロップ、結果CRCエラーはすべて0、BNOの各ストリームにもsequence欠落はない。
-- ただし地磁気の最大記録間隔は通信側158.076 ms、制御側UART由来164.476 msであり、要求する80 ms以下を満たさない。最大ログキュー待ちは124.516 ms、TimingDiagnosticは96件である。最大SD書込み時間16.849 msを超える待ちであり、次は通信側のログキュー／SDタスクのスケジューリング遅延を特定・低減する。BOAT23は開始しない。
+1. 静止時の大きなNED位置・速度ドリフトを、座標系・重力符号・初期加速度バイアスの観測として切り分ける。ESKF数式・ノイズ・取付設定は、根拠が得られるまで変更しない。
+2. 上記が解決した後、ToF姿勢試験、GNSS屋外試験、BNO軸試験を順に実施する。
+## 2026-08-01 追記 — 静止試験のSD安定化
 
-## 2026-07-26 -- BNO callback queues on both nodes (60-second screening pending)
+- [完了] CoreS3のSD書込みタスク `SdWriter` のスタックオーバーフローを実機ログで特定し、4KBから12KBへ拡張した。書込みタスクはメインループと同一優先度、各反復で1ms譲渡する。
+- [完了] SD記録中は一覧・ダウンロードAPIを拒否し、停止処理はSD書込みタスクへ一元化した。
+- [保留] Core WebServerが再起動後の最初のHTTP要求しか安定応答しない。静止60秒本測定は、Core再起動後の最初の要求として開始し、停止後に再起動してSDから回収する。- [保留] RUN0012は開始応答後に0 byteとなり無効。60秒中のCoreシリアル監視で停止原因を確定してから、静止本測定を再実施する。- [完了] 60秒ログ中のCoreシリアルを取得し、停止原因を特定した。次はmicroSDの接触・給電・SPI信号を点検し、必要ならSDクロックを下げる変更の可否をユーザーへ確認する。- [完了] SDカード抜き差し後も10秒ログでCMD18→CMD0D/CMD00失敗を再現。接触のみでは解消しない。次の修正候補はSPIクロック25MHzを低下させることだが、未実施。
+- [不合格・原因未確定] CoreS3のSD SPIクロック10 MHz版で、フォーマット後の10秒ログは1,719レコードで通過したが、続く静止60秒ログは411レコードでCMD18、その後CMD0D/CMD00失敗により停止した。フォーマットでは持続書込みを保証できない。次は別のmicroSDカードで同じ60秒試験を行い、カード本体とCoreS3のカードソケット・3.3 V電源・SPI信号品質を切り分ける。
 
-- The control-side `bno::Reader` now replaces `getSensorEvent()` with the same direct SH-2 callback and 96-event FreeRTOS queue that passed on the communication node. D3 remains notification-only; BNO I2C and queue draining remain in the dedicated core-0 priority-3 task.
-- Control BENCH events 29--32 now record callback count / BNO queue drops, queue high-water / decode errors, SH-2 service calls / maximum service time, and BNO UART enqueue successes / failures. This permits direct count matching across SH-2 callback → BNO queue → UART frame → communication receiver → log queue → SD.
-- Added matching BOAT24 `bno_accel100_gyro100_mag20_int_60sec` environments (same 100 Hz accel, 100 Hz gyro, 20 Hz magnetic request; 60 s). Both images build successfully. The control image was uploaded to COM4 (MAC `34:85:18:AB:FA:90`) and boot diagnostics show `bno=1`, ToF updating, INA errors 0, UART NAV gaps 0.
-- RUN0012 completed BOAT24 but is not an acceptance pass. The communication node has zero BNO sequence loss and zero queue/decode/SD/UART errors, but logged magnetic maximum gap is 200.252 ms (criterion <= 80 ms). On the control node, BNO pipeline diagnostics are loss-free but no magnetic frames were emitted. Root cause is a BOAT24 report-selection bug: `bno::Reader::enableReports()` enables the magnetic report only for BOAT23 and BOAT24 falls through to the legacy accel/gyro/game-rotation configuration. The control report condition is corrected and BOAT24 was uploaded to COM4 / MAC 34:85:18:AB:FA:90 with hash verification. Post-reset diagnostics show bno=1, ToF updating, INA errors 0, and NAV errors/gaps 0. Both nodes ran corrected BOAT24 in RUN0013. All BNO sequence, callback, queue, UART, logger, SD, ToF, INA, and I2C loss/error counters are zero and both magnetic streams are about 25 Hz, but logged magnetic maximum gaps are 111.384 ms (communication local) and 115.311 ms (control over UART), exceeding the <=80 ms gate. Timing instrumentation is now implemented and both BOAT24 images build successfully. Each BNO frame carries sensor/callback/queue-push time; recorder frames retain UART receive/log-queue/SD-task time; a fixed-size TimingDiagnostic BIN frame is emitted only when BNO log-queue wait is >=80 ms and includes all stages plus the last SD write start/end. Control diagnostic BOAT24 is uploaded to COM4 / MAC 34:85:18:AB:FA:90 with hash verification; boot diagnostics show bno=1, ToF updating, INA errors 0, and NAV errors/gaps 0. Communication diagnostic BOAT24 is uploaded to COM5 / MAC E0:72:A1:FC:08:D0 with hash verification; boot diagnostics show SD=1, GNSS=1, BNO=1, no idle logger drops, and increasing control-UART input. Both diagnostic images are ready. Next: repeat the 60-second BOAT24 and analyze TimingDiagnostic records; do not start BOAT23 yet.
-## 2026-07-25 -- BNO08X magnetic-field acquisition (IN PROGRESS)
+- [完了] 添付指示に基づき、過去のUART→SD保存成功実績版（RUN0007、121.377秒）とCoreS3現行版を比較し、SDアクセス経路・File共有・キュー・バッファ境界を監査した。
+- [実施中] 現行CoreS3へSD時系列診断版をCOM6書込み済み。別microSDカードでの60秒試験ではSDTRACEを回収して、software経路とカード/ハードウェアを切り分ける。
 
-- Added BOAT_EXPERIMENT=23: accelerometer and calibrated gyroscope at 100 Hz, calibrated magnetic field at 20 Hz, D3 INT driven, 3 minutes.
-- Both firmware images were uploaded and RUN0009 completed, but communication-side SD queue drops (1414) and BNO sequence gaps make the BOAT23 result a failed measurement. Diagnose logging throughput before retrying.
-- RUN0010 confirms communication-side logging loss is now zero after the INT-task upload, but the BNO stream-rate and sequence-loss criteria remain unmet. Correct the communication-side BNO task scheduling before the next BOAT23 run.
-﻿# 作業計画・現在地
+## 2026-08-02 追記 — 現行microSD・SDTRACE 60秒静止試験
 
-## 2026-07-23 更新
+- [実施済み・証跡不全] ユーザー指定どおり、現行microSDとSDTRACE版のまま60秒静止ログを1回だけ実行した。SDクロック、カード、バッファ、mutex、Web処理、ログ形式は変更していない。
+- [未達] USB再列挙により開始〜終了のアプリシリアル取得が欠落し、SDTRACE/CMD行は0行しか回収できなかった。`rec=7971`、`log=0`、`q=3`は観測したが、`RUN0003.BIN`は0 byte、TXTは未生成である。CMDエラー有無・順序の判定はできない。
+- [保留] この一回を再試験として扱わず、次の試験の可否と、USBリセット前から終了後まで単一の取得器を維持する方法をユーザーと確認する。詳細と全保存物は `docs/SDTRACE_STATIC60_TEST_20260802.md`。
+## 2026-08-02 追記 — SDTRACE再試験（RUN0004）
 
-通信・記録側の診断RUN0001で、周辺I2Cを100 kHzへ下げる計測は完了した一方、試験途中に400 kHzへ戻す再初期化で`prepare_timeout`となった。以後はI2C速度をRUN途中で変更せず、構成を固定した別RUNとして比較する。
+- [不合格・分岐B] 現行microSD・10 MHz・現行SDTRACEファームウェアを変更せず、CoreS3を再起動せずに60秒要求を1回実行。アプリ診断3行を確認した持続シリアル記録で、`RUN0004`の途中書込み失敗を完全捕捉した。
+- [確定] 512 byte writeは769回成功後、`rec=2880`で770回目が0 byte。SDライブラリは`ff_sd_status(): Check status failed`を3回出力した。直後にwriterがflush/close/TXT open/write/closeを成功として記録したが、`q=5`を残してfinalizeを完了した。BINは0 byte、TXTは257 byteである。
+- [保留] 次は変更を加える前に、持続書込み途中のSD状態喪失と、失敗時にqを排出せずfinalizeする状態遷移を切り分ける。詳細と証跡は`docs/SDTRACE_STATIC60_RETRY_REPORT_20260802.md`。
+## 2026-08-02 追記 — LCD停止版の書込み待ち
 
-最終更新: 2026-07-23
-状態: `TODO`（未着手） / `IN PROGRESS`（進行中） / `BLOCKED`（外部条件待ち） / `DONE`（検証済み）
+- [完了] `logging || logFinalizing` の間だけ `draw()` を呼ばない変更を実装。`M5.update()`、UART、Web API、SDTRACE、SD設定、ログ形式は不変。CoreS3ビルド成功（RAM 148,556/327,680、Flash 1,017,013/6,553,600）。
+- [書込み済み・実機待ち] COM6へROM no-stub書込みし全イメージhash verified。しかしhard reset後にCOM6がWindowsへ再列挙されずCOM4のみ検出。アプリ診断3行の確認前であり、60秒試験は未開始。
+## 2026-08-02 追記 — LCD停止でのSD連続記録合格
 
-## 現在地
+- [完了] CoreS3では`logging || logFinalizing`中に`draw()`を停止し、`M5.update()`は維持する方式を採用。RUN0005の60秒ログは全512 B write成功、SDエラー0、queue drop 0、q=0、auto stop・flush・close・TXT成功、BIN全件復号成功。
+- [判断] LCDとmicroSDの共有SPI競合/表示負荷を有力候補として記録。CoreS3向けの複雑なSPI排他は追加せず、画面はログ中停止を暫定方針とする。
+- [次] 本来のBNO、ToF、GNSS試験へ進む。XIAO移行後にはXIAO上でSD連続記録を改めて検証する。詳細と証跡は`docs/LCD_OFF_SDTRACE_STATIC60_SUCCESS_20260802.md`。
+## 2026-08-02 — BNO08X静止60秒試験の障害後
 
-現在の主作業は、`xiao-boat-control-integration` と通信・記録側の二台を、実アクチュエータを動かさない固定構成で測定し、将来の制御周期を決める根拠を得ることである。診断フレームワークは`origin/agent/benchmark-stability`にあり、両XIAOを同一コミットで揃えてから試験する。
+- [完了・不成立] RUN0005のLCD停止条件を維持して、BNO Game Rotation Vector/Linear Accelerationを各50 Hzで追加したXIAOビルドをCOM4に明示書込みし、静止60秒自動試験を開始した。
+- [障害] 開始APIはHTTP 202だったが、その後CoreS3のアプリUSB/Web/ICMPが停止し、70秒超後も停止APIを送れなかった。ROM書込みツールは応答するが、同一ファームウェア復旧書込み後もアプリが起動しない。
+- [次] CoreS3を物理的にUSB抜き差しまたは電源再投入してアプリ起動を回復させ、`/api/eskf` と診断3行を確認する。回収不能な本試行は成功回数に数えず、原因を断定しない。証跡: `docs/BNO_STATIC60_ATTEMPT_20260802.md`。
 
-**次に行う作業:** INAは現行の低速・確実な監視設定を暫定採用し、詳細なP4比較は後回しにする。VESCテレメトリを優先し、DRY_RUN・Duty 0のまま3分間、VESC電圧、電流、eRPM、温度、故障コードの連続取得とUART完全性を確認する。速度推定はeRPMを駆動系の既知比とGNSS速度で較正して用いる。
+## 2026-08-02 — CoreS3単体切り分け
 
-## 実施順序
+- [完了] XIAO TX→CoreS3 RXを外し、両機電源断後にCoreS3だけを起動。ログは開始せず、アプリ診断3行以上、SoftAP接続、ping 3/3（開始前2–3 ms、32秒後1 ms）、`/api/eskf`応答、32秒連続動作をすべて確認。
+- [判定] 追加BNOデータを送らないCoreS3単体では障害は再現しない。次はCoreS3を停止し、XIAO TX→CoreS3 RXだけを復帰させて、ログを開始せずUART受信下で同じ30秒監視を実施する。
 
-| 順序 | 作業 | 状態 | 完了条件・記録先 |
-| --- | --- | --- | --- |
-| 0 | プロジェクト文脈・Git管理・引継ぎ台帳を整備 | DONE | この3文書とルートREADME、AGENTS.mdに運用を記載 |
-| 1 | 統合コードの差分レビュー | DONE（静的確認のみ） | `INTEGRATION_GAP_REVIEW.md` にピン、役割分離、プロトコル、ログ、計測指標、安全動作の差分を記録。ビルド・実機確認は未実施 |
-| 2 | 通信・記録側の全体統合プロジェクト作成 | IN PROGRESS | 既存UART→SD基盤へGNSS、比較BNO、SoftAP/Web UIを統合。診断ブランチの同一コミットを両XIAOで使う |
-| 3 | 制御側の最小受信と遠隔安全停止 | IN PROGRESS | STOP/E-STOP、Heartbeat、状態参照を通信側UARTから通し、P0で再確認する |
-| 4 | 2台全体の縦切りスモーク試験 | IN PROGRESS | P0/P1で制御側全センサ、通信側GNSS/比較BNO、SD、Web UI、STOP/E-STOPを固定400 kHzで確認 |
-| 5 | 制御側の受動統合計測（全センサ・出力なし） | IN PROGRESS | `EXPERIMENT_PLAN.md` のP1〜P7。センサ別Hz・最大間隔・I2C時間・UART・キュー・エラーを、1条件1RUNで記録 |
-| 6 | 制御側 B: サーボ中央保持 | TODO | センサへのサーボ電源由来の干渉を比較 |
-| 7 | 制御側 C: サーボ安全範囲の低速往復 | TODO | 急反転500/2500 µsは使用しない |
-| 8 | 制御側 D: VESC状態取得（Duty 0） | TODO | UART応答、タイムアウト、センサ干渉を記録 |
-| 9 | 制御側 E: VESC 3% | TODO | 低Duty基準での連続動作と安全停止を確認 |
-| 10 | 制御側 F: サーボ低速往復 + VESC 3% | TODO | 電流変動とセンサ欠損の相関を記録 |
-| 11 | G: 2台・SD・Web UIを含む全体試験 | TODO | 5〜10分、時刻同期、全ログ、全停止動作を確認 |
-| 11 | 計測ログのBIN→CSV変換・周期/遅延/欠損解析 | TODO | フィルタ・制御周期の根拠を作成 |
-| 12 | 状態推定、ToF評価、ロール、舵、VESC、航法 | IN PROGRESS | 状態推定のDRY_RUN実装は完了。取付軸較正、実機再現、ToF評価、アクチュエータ出力は未着手 |
+## 2026-08-02 — CoreS3 + XIAO UART受信のみ切り分け
 
-## 試験ごとの必須判定
+- [完了] XIAO TX→CoreS3 RXを復帰し、ログ開始なしで32秒監視。CoreS3はWeb/pingを維持し、XIAO受信・ESKF更新も継続した。
+- [判定] 追加BNO報告を含むUART受信だけでは、前回のCoreS3停止は再現しない。障害候補は「追加データ受信とSDログ記録」の組合せ、または前回の非再現要因へ狭まった。
+- [注意] UART CRC/COBSは0だが、開始直後からsequence_gaps累計が大きく、length_errors=1を観測。ログ試験を再開する前に、追加報告を送るXIAO側の全体フレームレートとCoreの受信処理余裕を確認する。
 
-各試験で、センサ更新停止なし、SD書込みエラー0、UART CRCエラー0、ログ／キュードロップ0、異常な最大間隔なし、STOP/E-STOP正常、正常停止サマリー生成を確認する。具体的な条件固定、実測項目、停止条件、合格後の判断は `EXPERIMENT_PLAN.md` を正本とする。満たせない場合は、`WORK_LOG.md` に事実・条件・次の切り分けを記録し、次段階へ進めない。
+## 2026-08-02 — 追加BNO報告、raw BNO記録なしのSDログ
 
+- [完了] `duration_s=10&bno_capture=0`でRUN0007を自動停止。1,918件、9.983638秒、queue drop 0、SD write error 0、全512 B write/flush/close/TXT成功、BIN全件復号（259,122 byteを末尾なしで消費）。
+- [次] 同一条件で`bno_capture=1`の10秒試験を1回行い、raw BNOのCoreS3転送・SD記録を加えた時だけ障害が再現するか確認する。
 
-## 固定条件ファームウェア（2026-07-23）
+## 2026-08-02 — raw BNO記録有効10秒ログの再現障害
 
-- 状態: **IN PROGRESS（実機未検証）**。P0〜P7を個別にビルドする環境を追加済み。使用方法は [FIXED_EXPERIMENT_FIRMWARE.md](FIXED_EXPERIMENT_FIRMWARE.md) を参照。
-- 次: P0を両XIAOへ書込み、SoftAP・SD・DRY_RUN・STOP/E-STOPを実機確認する。
+- [完了・再現] `duration_s=10&bno_capture=1`で、開始直後にCoreS3のアプリ診断とHTTP APIが停止した。ICMPは継続応答し、`bno_capture=0`のRUN0007との明確な差分はraw BNOフレーム受信・ログ投入である。
+- [原因候補（コード根拠あり）] CoreS3 `serviceControl()`は`while(controlUart.available())`に処理予算がなく、raw BNOの連続受信中にループが戻らず、`web.handleClient()`、自動停止判定、診断出力へ到達しない。XIAO側にはbyte budgetがあるがCoreS3側にはない。
+- [次] ファームウェア変更を行う前にユーザーへこの候補と修正案（Core UART受信にbyte/frame budgetを導入）を提示して承認を得る。修正後は、raw BNO有効10秒→60秒静止の順で再試験する。
 
+## 2026-08-02 — UART受信公平化修正と10秒試験
 
-### P0 実機書込み状況（2026-07-24）
+- [完了] CoreS3の修正前構造を確認。UART受信はArduino loopTask内、`while(controlUart.available())`で無制限。SdWriterはCore 1/priority 1、RXバッファ16 KiB、enqueueは非ブロッキング。
+- [完了] CoreS3 `serviceControl()`に最大2048 byte、32 frame、2000 usの受信予算を導入。decoder状態、CRC/COBS/length処理、ログ形式、SD設定、BNO周期、mutexは維持。RXDIAGへ予算・バッファ・loop・heap・reset診断を追加。
+- [完了] ビルド成功（RAM 148,668 / 327,680、Flash 1,018,865 / 6,553,600）。COM6へROM no-stub書込み、全イメージhash verified。
+- [不合格・一部回復] `bno_capture=1` 10秒試験を実施。HTTP、ping、診断、自動停止、q=0、flush、close、TXT、BIN全件復号は成功したが、RX buffer=16 KiB張り付き、time budget hit継続、CRC/COBS/length=3/77/78、decoded frame不足のためUART合格条件未達。
+- [保留] BNO08X 60秒静止試験へは進まない。次はUART受信実byte/frame、ハードウェアoverflow、XIAO BNO送信drop、ログ投入有無を分離する診断を行う。
+- 詳細報告: `詳細な報告.md`。証跡: `pc-tools/boat_eskf/captures/BNO_FAIR_RX_BUDGET_LOG10_20260802_RERUN/`。
 
-- 通信側XIAO: p0_bringup_400k を COM5 へ書込み済み。起動後のシリアルで SD=1、GNSS=1、BNO=1、制御側UART受信を確認。
-- 制御側XIAO: p0_bringup_400k を COM4 へ書込み済み。起動診断で `dry=1`、BNO08X正常、ToFフレーム増加、INAエラー0、UART NAV連番欠落0を確認した。一方、測定未開始時の状態は `FAULT`、`bench=0` であり、原因とP0全体の成立は未確認。
-- P0自動測定: `E:\BENCH\RUN0009.BIN/TXT` は `benchmark_outcome=completed`、`normal_stop=1`、SD書込みエラー0、キュードロップ0、ログ異常なしで完走した。BINは27,046レコードを末尾まで復号でき、60秒の制御側結果もPASSだった。
-- P0全体: **DONE**。RUN0009でWeb UI、SD、GNSS、Heartbeat、DRY_RUN、STOP、BIN/TXT回収を確認した。RUN0011の意図した `emergency_stop` ログに加え、制御側シリアル診断で `STATE E_STOP` と継続する `DIAG state=E_STOP` を直接確認した。E-STOP ACKはログ終了後のためBINには残らないが、制御側はE-STOP受信後にACKをキュー送信する実装である。
+## 2026-08-02 追記：BNO UART分離10秒診断 RUN0011
 
-- 2026-07-24: 制御側XIAOを接続したが、Windows上でCOMポートおよびESP32/XIAO USBデバイスとして認識されなかった。再接続後はCOM4（USB Serial Device、VID:303A/PID:1001）として認識され、書込みに成功した。
-- P1結果: RUN0015〜RUN0017の3反復で、連番欠落／重複0、SD書込みエラー0、キュードロップ0、ログ異常なし、安定区間GNSS往復完全性を確認。400 kHzの基準値はToF 7.214〜7.281 Hz、INA 7.300〜7.392 Hz、GNSS_NAV 10.000 Hz。ToF 10 Hz要求には未達であり、P3設定比較で改善可否を評価する。
-- P2結果: RUN0018は測定フェーズのToF 0フレーム・GNSS結果2,132件欠落となり、RUN0019・RUN0020は同じ `prepare_timeout` で中断した。100 kHz固定はこの統合構成で不採用とし、共有I2Cは400 kHz固定を維持する。
+- [完了] Coreアプリ診断行を確認後、開始前5秒からfinalize後まで生シリアルを保存した。
+- [完了] POST /api/log/start?duration_s=10&bno_capture=1&bno_log_enqueue=0 をHTTP 202で実施し、RUN0011を取得した。
+- [完了] SD writer、flush、close、TXT、BIN復号を確認した。
+- [判定] XIAO送信drop=0に対し、Core試験区間の有効BNO受信=0、RX buffer最大16 KiB、full観測12回。分岐B（Core UART受信/serviceControl/decoder経路）として60秒試験を保留する。
+- [次] SD・ログ形式・BNO周期を変更せず、Core UART受信取り込みの追加診断を行う。
+## 2026-08-02 追記 — Core UART専用受信タスク診断
 
-## 2026-07-25 — BNO08X専用タスク化（進行中）
+- [完了] RUN0011の帯域値を訂正。XIAO encoded 263,584 byte / 10.002 s = 26,353 B/s、921600 bps 8N1占有率28.6%。
+- [完了] 変更前のCore task構造（loopTask内無制限UART、SdWriter Core1/priority1/stack12KiB、RX buffer16KiB）をコードで確認・記録。
+- [完了] Core UART専用taskをCore1/priority2/stack8KiB、最大512 byte/read、timeout2 ms、1 tick yieldで追加。UART readerとdecoderを一元化し、loopTaskからserviceControlを除去。SD、ログ形式、mutex、UART設定は不変。
+- [完了] `raw` / `decode_count` / `dispatch_no_bno_enqueue` / `dispatch`診断モード、毎秒RX/タスク/stack/loop/SDTASK診断を追加。
+- [完了] XIAO型別requested/enqueued/completed/encodedBytesカウンタを追加し、P1開始リセット・停止スナップショットを保存。
+- [完了] A RUN0012 raw、B RUN0013 decode_count、C RUN0014 dispatch_no_bno_enqueueを実施し、すべて診断目的に合格。現行診断版C RUN0015も自動停止・SDTASK値取得まで完了。
+- [完了] BIN/TXT、Core/XIAO生シリアル、SDTRACE、HTTP応答、XIAO型別送信値をcaptureへ保存。詳細は`docs/UART_RX_TASK_DIAGNOSTIC_REPORT_20260802.md`。
+- [保留] BNO kind3=Game Rotation Vector、kind5=Linear Accelerationが全試験0件。kind3/5送信原因をXIAO側で切り分けるまで、BNO queue投入60秒静止試験へ進まない。
 
-- 実装済み: 制御側のBNO08X取得・復旧を、ToF/INA/VESCを処理するメインループから専用FreeRTOSタスクへ分離した。BNOタスクはcore 0、優先度1、1 ms周期で動作し、UART送信タスク（core 0、優先度2）には譲る。
-- 測定条件: `bno_attitude100_gyro50_3min`（BOAT_EXPERIMENT=20）。Game Rotation Vectorを100 Hz、較正ジャイロを50 Hzで要求し、ToF 4x4/30 Hz・INA現行設定・VESC Duty 0を維持する。3分間のログでBNO各出力率、欠番、最大サービス時間、ToF/INA/VESC/SD/UART健全性を確認する。
-- 制御側: `bno_attitude100_gyro50_3min` をCOM4へ書込み済み（ハッシュ照合成功）。`IN PROGRESS`。
-- RUN0004で姿勢100 Hz・ジャイロ50 Hz・ToF/INA/VESC各30 Hzの3分DRY_RUNを合格確認した。次はジャイロも100 Hzとする比較条件を準備・測定する。`IN PROGRESS`。
-- BNOは制御・推定の中心として最高優先度の単独所有タスクにする。D3 INT通知駆動の自前推定用「加速度＋ジャイロ100 Hz」（BOAT22）はRUN0008でジャイロ欠番0・周辺系健全を確認した。加速度は実測126.489 Hzであり、以後の推定器入力は実測周期を用いるか100 Hzへ明示的に間引く。次はBNO内蔵推定用「ジャイロ＋姿勢100 Hz」を同じINT駆動で比較し、その後に共有I2C・VESC UARTの所有タスク分離を進める。
-## 2026-07-26 -- RUN0014 BOAT24 timing diagnostic: failed (control-to-communication link timeout)
+## 次の作業
 
-- RUN0014 is not an acceptance measurement: `normal_stop=0`, `benchmark_outcome=link_timeout`, and its complete recorder span is only 20.237 s rather than the required 60 s. Do not advance to BOAT23 from this run.
-- The recorder, local communication BNO, and SD path remain healthy in the observed interval: BIN is fully parseable (8,403 frames, no tail), SD errors and logger drops are zero, BNO decode errors and BNO event-queue drops are zero, and the local stream is 124.5 Hz accel / 100.0 Hz gyro / 25.0 Hz magnetic with no observed sequence gap.
-- The failure is specifically the control-to-communication transmit path. The control-origin BNO frames carry only 6.13 s of control-side creation timestamps but were received over 20.18 s; only 62 control heartbeats arrived while 147 communication heartbeats were sent. This is a control-link transmit backlog, not a BNO acquisition or UART receiver corruption problem.
-- Root cause to address first: control `bnoTask` runs at priority 3 on core 0 and directly calls `linkSend()` through its BNO callback, while `linkTxTask` that drains the same FIFO is priority 2 on core 0. When the BNO INT line remains asserted, the BNO task has no blocking delay and can starve the FIFO-drain task. The saturated FIFO also delays/drops heartbeat frames, causing the communication node's measurement-time link watchdog to abort.
-- TimingDiagnostic frames were correctly absent because `max_log_queue_wait_us=76,313`, below the current 80,000-us emission threshold. This does not satisfy the 80-ms inter-record criterion: local magnetic has a 103.418-ms recorded gap and a 70.510-ms frame-to-record delay. Lower the diagnostic emission threshold (recommended 60 ms) so near-limit waits are persisted with stage timestamps on the next run.
+1. XIAOのBNO kind3/5設定・イベント処理・送信分岐を確認し、個別送信試験を実施する。
+2. kind3/5受信が成立した後、通常dispatch+BNO queue投入の10秒試験を行う。
+3. 10秒完全合格後、機体静止を確認して60秒静止試験へ進む。
+## 2026-08-02 追記 — Core型別encoded byte診断の追加（書込み待ち）
 
-### Next actions (before repeating BOAT24)
+- [完了] Core `TRIALTYPE`へCOBS delimiter込みの実受信encoded bytesを型別出力する診断を追加。XIAO送信byte数との比較を可能にした。
+- [完了] ビルド成功（RAM 154,596/327,680、Flash 1,023,745/6,553,600）。
+- [書込み待ち] 自動C試験後にCoreS3 COM6が再列挙されず、現時点はCOM4のみ。最新型別byte版のCOM6書込み・B/C再取得はCoreS3再接続後に実施する。
+## 2026-08-02 追記 — 型別encoded byte版の実機書込み・B/C再取得
 
-1. Make control UART transmission schedulable while BNO is active: raise the FIFO-drain task above the BNO task and/or explicitly yield the BNO task for one tick after servicing. Preserve callback queue acquisition and verify its loss counters remain zero.
-2. Preserve and report control-link FIFO high-water and drops even on an abort, so a subsequent `link_timeout` has a definitive counter record.
-3. Reduce the TimingDiagnostic trigger from 80 ms to 60 ms; this is diagnostic-only and retains the 80-ms acceptance gate.
-4. Rebuild, upload both BOAT24 images, then repeat a full 60-s run. Analyze all Type-21 timing records and require normal stop before judging the magnetic continuity gate.
-## 2026-07-26 -- RUN0014 link-timeout mitigation implemented; control uploaded
+- [完了] COM6復帰後、型別encoded byte診断版をCoreS3へROM no-stub書込み。全hash verified、書込み後診断を保存。
+- [完了] 最新B RUN0016を再実施。trial CRC/COBS/length=0/0/0、型別encoded bytes合計がCore trial rx_bytesと一致、BIN/TXT/SD/finalize成功。
+- [完了] 最新C RUN0017を再実施。trial CRC/COBS/length=0/0/0、通常dispatch継続、queue/SD/finalize/BIN成功。終了診断の非原子的境界でTRIALTYPEが1フレーム先行するため、TRIAL_ENDを正本として記録。
+- [不成立・除外] RUN0015後のB/C再試験は開始API timeoutでログ開始なし。証跡は保存し、合格数へ含めない。
+- [保留] kind3/Game Rotation Vector、kind5/Linear Accelerationは引き続き0件。XIAO BNO設定・イベント送信経路を切り分けるまで60秒静止試験へ進まない。
+## 2026-08-02 BNO個別report経路試験の確定更新
 
-- Control firmware `0.3.3-control-link-fairness`: the core-0 UART FIFO-drain task now has priority 4, above the priority-3 BNO task, and active BNO servicing explicitly delays for one tick after service. This keeps the callback queue design but prevents an asserted BNO INT from starving UART transmission and heartbeats.
-- Communication firmware `0.3.3-bno-timing-60ms`: Type-21 diagnostic emission threshold is now 60 ms. The BOAT24 acceptance limit remains <=80 ms; the lower value only ensures near-limit waits are retained in BIN for analysis.
-- Both BOAT24 builds succeeded: control RAM/flash 109,532 bytes (33.4%) / 539,749 bytes (16.1%); communication RAM/flash 190,028 bytes (58.0%) / 863,557 bytes (25.8%).
-- Control image uploaded to COM4 / MAC `34:85:18:AB:FA:90`; esptool hash verification passed. Post-upload diagnostics show BNO=1, ToF incrementing, INA errors=0, and UART NAV TX/RX gap=0. Communication image is built but awaits COM5 upload.
+- [完了] BNO08X kind1〜5のSH-2 sensor ID/report ID、enableReport interval、sensorId switch、wasReset再設定、イベント経路カウンタをコードで確認し、診断出力を追加した。
+- [完了] RUN0024 kind3、RUN0025 kind5、RUN0026 全5reportの10秒試験を実施し、BIN/TXT/SDTRACEとCore/XIAOカウンタを保存した。
+- [判定] RUN0025 kind5は指定条件に合格。RUN0024はsequence gap=6、RUN0026はsequence gap=14で不合格。RUN0026はkind1=63.062 Hz、kind4=25.006 Hzも要求値から外れた。
+- [保留] BNO enqueue=true dispatch 10秒試験および60秒静止試験。sequence gap=0と全report実効Hz確認後に再開する。
+- [注意] RUN0016/17はsequence端点計測追加前の取得であり、first/last sequenceは保存されていない。以後の試験では端点を必須保存とする。
+## 2026-08-02 追記 — sequence境界診断とK3/ALL/K1/K4個別10秒試験
 
-### Next actions
+- [完了] XIAO共通`uint32_t`採番、START_ACK/STOP_ACKによる同一閉区間、XIAO TX_HISTORY、Core SEQUENCE_GAP（prev/next/欠落範囲/型/RX buffer/decoder/RX task）を実装。
+- [完了] Core到着時刻統計 `BNO_CORE_TS`（kind別 first/last、Δt min/avg/max）を追加。UART構造、BNO設定周期、SD設定、バッファ、mutex、ログ形式は維持。
+- [完了・不合格] RUN0027 K3：500件、effective 50.014 Hz、drop/error 0、ただし同一区間sequence gap=2（67030/67031、XIAO TX complete履歴あり）。
+- [完了・不合格] RUN0028 ALL：kind=630/499/500/250/500、gap=26、K1=63.063 Hz、K4=25.006 Hz。drop/error 0。
+- [完了・不合格] RUN0029 K1：設定20,000 us、Core到着631件、Δt 10.265/15.869/33.039 ms、gap=6。
+- [完了・不合格] RUN0030 K4：設定50,000 us、Core到着200件、Δt 47.075/49.975/53.863 ms、gap=2。2223/2224はXIAO TX complete履歴あり。
+- [保留] K1/K4の試験区間専用sensor timestamp統計、欠落A/B/C/Dの全件照合、dispatch enqueue=1、60秒静止試験。
+- [次] `docs/SEQUENCE_DIAGNOSTIC_HANDOFF_20260802.md`の明日手順から再開する。
+## 2026-08-03 追記 — K4 timestamp/sequence再診断
 
-1. Connect the communication node and upload `0.3.3-bno-timing-60ms`.
-2. Run one complete 60-second BOAT24 measurement and require `normal_stop=1` before acceptance analysis.
-3. Use the Type-21 records (now >=60 ms) and BNO continuity metrics to determine whether the remaining <=80-ms magnetic criterion is met.
-## 2026-07-26 -- Communication diagnostic image uploaded; BOAT24 retry ready
+- [完了] XIAO P1区間専用の `BNO_TS_TRIAL` を追加。kind 1–5ごとにevents、重複、逆行、sensor/RX間隔、最初/最後を停止時に確定出力する。BNO周期、UART、SD、ログ形式、payload、出力設定は不変。
+- [完了] RUN0031で2件の`seq_gap`をXIAO TX_HISTORYと照合。両方とも送信完了（flags=0x07）で、XIAO並行タスクがsequence採番後に別順でTX FIFOへ投入した順不同だった。物理UART欠落ではない。
+- [完了] XIAO `linkSend()`を、sequence採番からencode・TX FIFO投入まで同じ短い`linkMux`区間にして順序を保証するよう修正。K4再試験RUN0032でtrial seq_gap=0を確認。
+- [完了] RUN0032: K4 TX/ Core receive=200/200、Core到着間隔45,967/49,969.98/53,827 us、CRC/COBS/length=0/0/0、RX full=0、SD error/queue drop=0、flush/close/TXT/BIN全件復号成功。
+- [注意] ROM書込みでQIOを明示したためbootloaderヘッダが本来のDIOからQIOへ変わり、XIAOがROM段階でTG0WDTを繰返した。COM4/MAC照合済みXIAOを生成物本来のDIOで再書込みし復旧。以後このXIAOのROM書込みはDIOを使用する。
+- [次] K3を同じ順序修正後に再試験し、次にALL 5 reportsでtrial seq_gap=0・型別一致を確認する。両方の合格前にdispatch enqueue/60秒静止試験へは進まない。
 
-- Uploaded communication firmware `0.3.3-bno-timing-60ms` to COM5 / MAC `E0:72:A1:FC:08:D0`; all esptool hash checks passed.
-- Post-upload serial diagnostics: `SD=1`, `GNSS=1`, `BNO=1`, logger `drop=0`, and the control-UART receive counter increased. Both control and communication images are now deployed for the RUN0014 mitigation test.
-- Next operation is exactly one complete 60-second BOAT24 DRY_RUN from the communication Web UI. Preserve the resulting BIN/TXT and do not advance to BOAT23 until it has `normal_stop=1`, no transport errors/drops, and the <=80-ms magnetic continuity gate is evaluated from the complete file.
-## 2026-07-26 -- RUN0015/RUN0016 preflight failures: control STOP acknowledgement unavailable
+## 2026-08-03 追記 — K3/ALL順序修正後の再試験
 
-- RUN0015 and RUN0016 are not BOAT24 measurement attempts. Both abort in preflight with `normal_stop=0`, `benchmark_outcome=stop_ack_timeout`, `command_ack_rx=0`, and no measurement phase. Their complete recorder spans are only 494.587 ms and 509.802 ms respectively.
-- Both BIN files parse fully (172 / 150 frames) and the local recorder/BNO queues have zero errors, but this does not constitute a sensor or timing pass. No Type-21 records occur because neither run reaches load conditions.
-- Each BIN contains the communication-origin Stop request and outgoing communication heartbeats, but no control-origin heartbeat or CommandAck. Only 3 / 6 control-origin ordinary data frames arrive. The immediate blocker is therefore the control-node response path or its power/UART connection at preflight, not an SD or BNO timing result.
-- After analysis, Windows exposed no serial ports and COM4 could not be opened, so live control diagnostics cannot presently distinguish an unpowered/disconnected control board from a UART-link problem. Do not make another run until both nodes are powered and the control board is reachable again.
+- [完了] K3再試験RUN0033: trial seq_gap=0、kind3 TX/Core=500/500、Core到着15,389/19,993.76/24,082 us、trial CRC/COBS/length=0/0/0、RX full=0、SD/TXT/BIN成功。
+- [完了] ALL再試験RUN0034: trial seq_gap=0、kind1/2/3/4/5のCore受信=631/500/500/250/500、XIAO TX完了=631/500/500/250/500、CRC/COBS/length=0/0/0、RX full=0、queue drop/SD error=0、flush/close/TXT/BIN成功。
+- [不合格・BNO周期] RUN0034のXIAO試験区間実効Hzはkind1=63.118、kind2=50.017、kind3=50.016、kind4=25.029、kind5=50.016。kind1/4は設定した50/20 Hzに一致しない。連番順序問題とは分離済み。
+- [保留] `bno_log_enqueue=1`のdispatch試験と60秒静止試験には進まない。次はBNO08Xが受理・出力するkind1/4周期を、設定値変更なしの診断で確認し、必要ならユーザー承認後に条件変更を検討する。
 
-### Required connection check before retry
+## 2026-08-03 update — direct ALL-5 retry
 
-1. Power both XIAOs simultaneously and keep the control-to-communication UART connected (crossed TX/RX and common GND).
-2. Confirm the control board re-enumerates in Windows, then verify its serial diagnostic shows BNO=1, ToF increasing, INA errors=0, and NAV TX/RX advancing.
-3. Confirm the communication serial diagnostic has SD=1, GNSS=1, BNO=1, and a continuously increasing `control=` count before pressing the benchmark start button.
-4. If STOP acknowledgement still times out with both boards confirmed, capture the two serial diagnostics before any further firmware change.
-## 2026-07-26 -- Control connection restored after RUN0015/RUN0016
+Status: RUN0035 is a valid direct-PC capture and passes UART transport, sequence ordering, SD finalization, and BIN decoding. The earlier retry directory without proxy exclusion is invalid as a test run.
 
-- Control COM4 re-enumerated and firmware `0.3.3-control-link-fairness` was observed after reset. Direct serial diagnostics show BNO=1, ToF increasing, INA errors=0.
-- After reset, control `nav` and `gnss_result_tx` both advanced at 10 Hz with NAV error/gap=0. This confirms the communication-to-control UART direction is live again.
-- The control remains `FAULT` while idle because of the normal no-host-heartbeat failsafe; benchmark preflight sends STOP and transitions it to DISARMED. The remaining check is the control-to-communication STOP acknowledgement during the next benchmark start.
-## 2026-07-26 -- RUN0017 confirms preflight ACK starvation; control stream gate uploaded
+Next: inspect, without changing BNO report configuration, why BNO08X kind1 and kind4 output 63.2/25.0 Hz for requested 50/20 Hz. Keep bno_log_enqueue=0 and do not start the 60-second static data run until this gate is resolved or the user approves changed acceptance conditions. For future CoreS3 HTTP commands, force local bypass with NO_PROXY=* / no_proxy=* or curl --noproxy "*".
+## 2026-08-03 — BNO Feature Response受理周期診断
 
-- RUN0017 fully parses to 175 frames over 495.733 ms and again fails only as `stop_ack_timeout` with `command_ack_rx=0`. It contains the communication STOP request and four local heartbeats, but no control ACK or heartbeat; only three control BNO frames arrive.
-- The control was observed to transition to DISARMED during the failed start, proving it received STOP. The missing item is its queued reply, not command reception. This confirms that start-before-measurement control BNO traffic was starving the reply in the shared control UART FIFO.
-- Implemented and uploaded control firmware `0.3.4-control-bench-stream-gate` to COM4 / MAC `34:85:18:AB:FA:90`, hash verified. Control BNO acquisition continues continuously, but BNO UART frames are now emitted only while `bnoBenchmarkActive` is true (the actual measurement phase). STOP/ACK, Prepare/Ready, heartbeat, ToF, INA, and benchmark-result traffic are no longer preceded by idle BNO frames.
-- Added control serial `link=used/drops/high-water` diagnostic. After upload and reset: BNO=1, ToF updating, INA errors=0, NAV TX/RX advancing at 10 Hz with no gaps, and idle link values settled at `0/0/2`. Thus the start-path FIFO is empty with zero drops before a benchmark.
+- [完了] 現行BOAT_EXPERIMENT=20の要求周期を変更せず、BNO専用タスク内でSH-2 Get Feature Response（0xFC）を取得する診断を追加してビルドした。
+- [実機待ち] 各Set Feature直後、全設定後、wasReset再設定後、およびP1試験開始直後の5種スナップショットを記録する。対象はCOM4のボートXIAO（MAC照合必須）だけであり、COM3は対象外。
+- [保留] Feature ResponseとK1/K4/ALLのBNO/XIAO/Core時刻計測に基づく最終要求周期の決定。値の変更にはユーザー承認が必要。
+## 2026-08-03 — Feature Response診断の実機結果
 
-### Next action
+- [完了] K1/K4/ALLについて、現行要求値を変えずにFeature ResponseとXIAO/Core到着時刻を取得した。K1は単独/ALLとも62.5Hz受理、K4は単独20Hz・ALL 25Hz受理である。
+- [未完了] BNO sensor timestampの形式・wrap・単調性、およびBNO/XIAO/Coreのdelta分布診断。Core type=23 unknown 1件の送信元特定。
+- [保留] 上記を終え、最終要求周期をユーザー承認で確定するまで、raw BNO enqueue試験・60秒静止試験へ進まない。
+## 2026-08-03 — 最終周期確定・実機試験完了
 
-- Keep both nodes powered and run one BOAT24 retry. The primary first check is that STOP ACK now passes; retain the resulting BIN/TXT whether it completes or stops.
+- [完了] Core type=23を共有enumのP1Capture ACKとして登録し、payload長16、payload hex、CRC/COBS/length、境界情報を診断出力。
+- [完了] Core BNO_CORE_EVENTを追加し、kind/report sequence/UART sequence/sensor raw・converted/XIAO rx/queue push/Core rxを保存。
+- [完了] SH-2 timestampの意味をコード確認。millis()*1000由来のホスト時刻推定値であり、BNO独立時計ではないことを確定。
+- [完了] K1/K4/ALL timestamp診断（RUN0040〜0042）。report sequence、UART sequence、CRC/COBS/length、RX full、type23を確認。sensor timestampの同値/逆行はSH-2 report delay補正とpayload内順序で説明。
+- [完了] 最終周期環境27〜30を追加し、4環境ビルド成功。
+- [完了] 最終要求周期試験 RUN0043〜0046。Feature Response、実効Hz、SDTRACE、flush/close/TXT、BIN全件復号を保存。
+- [注意] ALL同時設定では磁気要求20 HzがFeature accepted 25 Hz（40,000 us）。単独K4は20 Hzを受理。要求値と受理値を分離して通常運用設計へ引継ぐ。
+- [次] 通常運用周期の実装・静止60秒試験。COM4 XIAOとCOM6 CoreS3のみ使用し、COM3は触らない。
+## 2026-08-03 最終ALL raw BNO保存確認 RUN0047（不合格）
 
-## 2026-07-26 -- 状態推定の初期DRY_RUN実装
+- [完了] COM4/COM6のMACを照合し、COM3を操作せず、現行最終ALL設定のまま指定API（bno_log_enqueue=1、uart_rx_diag=dispatch）を10秒1回実施。
+- [完了] 生シリアル、開始API応答、RUN0047.BIN/TXT、SDTRACE、BIN復号結果、段階別件数集計を保存。
+- [不合格] XIAO event→TX enqueue→TX complete→Core受信は一致したが、BIN保存がkind1:-3、kind2:-3、kind3:-1、kind4:0、kind5:-1で不一致。finalize後queueも0にならず27で残留。
+- [確認] UART seq gap/CRC/COBS/length/unknown/RX buffer full、XIAO drop/partial/zero、SDTRACE write/flush/close/TXT生成はエラーなし。type23はP1Capture START/STOP ACKとして認識。
+- [次] writer停止条件、finalize開始条件、キュー排出待ち、BIN保存件数の整合をコードと再現試験で調査する。完全合格まで通常運用周期へ切り替えない。
+## 2026-08-03 RUN0048–RUN0051 finalize競合切り分け（完了）
 
-- 状態: **IN PROGRESS（ビルド済み・実機未書込み）**。RUN0020を通信と取得周期の比較基準として固定し、制御側BNO08Xの生加速度・生ジャイロをセンサ時刻で処理する四元数推定器を追加した。
-- 安全条件: BNOの機体軸変換は未較正である。設定は恒等変換の仮置き、`kBnoMountValidated=false` とし、推定健全性は意図的に `DEGRADED` とする。推定値をサーボ・VESCその他の出力へ接続しない。
-- 通信側は制御側の推定状態を100 ms周期で受信し、SoftAPの `/state` と `/api/estimated-state` で、姿勢、角速度、入力鮮度、健全性、補正状態を表示する。
-- 次: 両XIAO再接続後、現構成のまま書込み、短時間DRY_RUNでUART/SD/センサ鮮度を確認する。続いて静止6姿勢と既知ヨー回転でBNO取付変換を実測し、`kBnoMountValidated` を有効化する。その検証前に制御出力は実装しない。
+- RUN0048/0049で、Core受信までのraw BNO段階件数は一致する一方、writer終了・File close後にenqueueが受理され、queue残量とBIN欠落が発生する競合を確認した。
+- CoreS3へlogger状態機械とenqueueゲートを実装した。STOP ACK受信後にゲートを閉じ、active enqueue=0、queue=0、BIN buffer=0を確認してからwriter終了、flush、close、TXT生成を行う。
+- COM6（MAC 30:ED:A0:D4:BF:40）へビルド・ROM no-stub書込み・hash検証済み。COM4（XIAO MAC 34:85:18:AB:FA:90）を併用し、COM3（MAC 44:1B:F6:E2:09:F8）は操作していない。
+- RUN0050、RUN0051の同一API 10秒試験が連続合格。kind1..5のXIAO event/TX enqueue/TX complete/Core受信/BIN保存が完全一致し、UART gap・CRC/COBS/length・drop・SD error=0、queue=0、flush/close/TXT/BIN復号が成功した。
+- RUN0051保存先: `pc-tools/boat_eskf/captures/BNO_FINALIZE_FIXED_ALL_FINAL_20260803/`。次はこの条件を維持した60秒静止試験を行い、その後に通常運用周期へ切り替える。
+## 2026-08-03 RUN0052 VESC/PCA9685取り外し60秒静止ESKF試験
 
-### 書込み状況（2026-07-26）
+- [完了] VESC（電源・信号・UART）とPCA9685（I2C・電源・サーボ）を全電源断状態で取り外し、再接続なしでCOM4 XIAO/COM6 CoreS3のみを使用した。COM3は未操作。
+- [完了] `duration_s=60&bno_capture=1&bno_log_enqueue=1&uart_rx_diag=dispatch`をHTTP 202で実施し、自動停止・STOP ACK・finalizeを確認した。
+- [完了] raw BNO kind1..5のXIAO event/TX enqueue/TX complete/Core受信/logger enqueue/BIN保存が全件一致。UART gap、CRC/COBS/length、unknown、RX full、SD error、queue残量は0。RUN0052.BIN/TXTを保存し、BINは27,724 records・trailing=0で完全復号。
+- [不合格・ESKF静止性能] quaternion norm、finite、covariance、reset_countは正常だが、5→60秒で速度・NED位置が大きくドリフト（速度+41.30/-125.33/+8.08 m/s、位置+19,899.62/-114,850.13/+2,018.02 m）。predict bad-dt reject増分328、innovation時系列は現行実装/APIで未保存。
+- [保留] 通常運用周期切替、アクチュエータ統合、航行試験は行わない。次はESKF開始時リセットを明示した再試験、bad-dt原因、ToF/GNSS未接続時の推定設計、innovation/predict/update診断保存を検討する。詳細は`詳細な報告.md`および証跡フォルダ。
 
-- 制御側XIAO: COM5、MAC `34:85:18:AB:FA:90` を読出しで照合後、`seeed_xiao_esp32s3` 環境の `0.3.5-estimated-state-dry-run` を書込み、esptoolの各領域ハッシュ照合を通過した。さらにアプリケーション領域547,504 bytesを目的バイナリと読み取り照合し、digest一致を確認した。起動後4秒の診断で、`dry=1`、BNO=1、ToFフレーム増加、INAエラー0、NAV/結果とも10 Hz・CRC/連番ギャップ0を確認した。
-- 通信側XIAO: USB COMポートは未検出であり、状態表示/APIを含む新ファームウェアは未書込み。USB接続後にMACを照合してから同じく明示環境で書込む。
-
-### 地磁気入力の修正待ち（2026-07-26）
-
-- 初回の `/api/estimated-state` ライブ確認で、加速度・ジャイロ・ToF・GNSSは鮮度基準内だった一方、`mag_age_us` は未受信値であった。通常環境（BOAT_EXPERIMENT=0）が地磁気レポートを有効化していないことを確認した。
-- 通常DRY_RUNを設計どおり加速度・較正ジャイロ・較正地磁気（20 ms / 20 ms / 50 ms）に修正し、制御側 `seeed_xiao_esp32s3` 環境でビルド成功（RAM 33.5%、Flash 16.4%）を確認した。制御側をUSB再接続して再書込み後、`mag_age_us < 120000` を確認するまでヨーの状態は `DEGRADED` のままとする。
-
-## 2026-07-26 -- 推定・航法計画の具体化
-
-- RUN0020はログ番号だけでなく、両ノードのソース、ビルド済みバイナリ、環境・ライブラリ版、設定、プロトコル版、基板MAC、短時間の正常ログ、API応答例を含む**読み取り専用の再現基準一式**として保存する。以後の変更・試験はRUN0021以降として扱い、RUN0020基準を上書きしない。
-- 地磁気修正版の合格は、`mag_age_us < 120000` だけで判断しない。約20 Hzの更新周期と最大間隔、3軸値のヨー回転時の連続変化、磁場強度、BNO accuracy、IMU/UART/SDのdrop増加なし、静止時の異常な方位ジャンプなしを確認する。地磁気は取付・干渉評価が終わるまで制御補正へ使わない。
-- ESKFより先に、主副IMUの生加速度・角速度・地磁気、連番、qualityを、センサ測定時刻・制御側受信時刻・通信側ログ投入時刻の3種類とともにP1ログへ保存する。静止6姿勢と機体X/Y/Z軸の正逆回転を記録し、ログから各BNOの取付変換を決め、同じログの再生で確認する。
-- `DUAL_IMU_COMPARE` は比較・警告専用とする。生3軸、姿勢クォータニオン差、回転角、時刻差、更新周期、age、連番欠落、accuracy、瞬間差・移動平均差・閾値超過時間を記録し、自動切替・制御入力・サーボ操作には使わない。
-- ESKFは三段階に分ける。`ESKF-0` はIMU予測・静止健全性、`ESKF-1` はGNSS位置/速度更新と残差/NIS/採否記録、`ESKF-2` は測定時刻への更新と再伝播による遅延補償である。各段階は静止、既知ヨー回転、直進、GNSS欠落、外れ値挿入を含む再生試験で再現性・有限性・棄却動作を確認してから次へ進む。
-- モード、3翼ミキシング、VESC、LOSはESKFの後にDRY_RUNで実装する。遷移表、STOP/E_STOP差、設定変更はDISARMEDのみ、全ミキシング途中値のP2ログ、VESC Duty 0の物理的安全確認を先に固定する。
-
-### 地磁気修正版の書込み・基本確認（2026-07-26）
-
-- 制御側COM5、MAC `34:85:18:AB:FA:90` を照合し、`seeed_xiao_esp32s3` 環境の地磁気有効版を書込んだ。ブートローダ、パーティション、547,520-byteアプリケーションの各領域でハッシュ照合に成功した。
-- 通信側SoftAP APIの連続10サンプルで、制御側地磁気の年齢は50〜33,447 us、ジャイロは50〜17,681 us、加速度は65〜12,983 us、GNSSは21,237〜40,807 usであった。地磁気入力の未受信状態は解消した。取付未較正のため姿勢・ヨーは引き続きDEGRADEDであり、地磁気補正・アクチュエータ出力は無効である。
-- ToF年齢は79,630〜220,253 usであり、100 msを超える期間は高さhealthがINVALIDとなった。これは高さだけを縮退させる設計どおりの表示で、姿勢・航法の有効性を上げる根拠にはしない。地磁気3軸値、accuracy、最大間隔、干渉、dropの完全な合格判定は、次のP1三時刻生ログで確認する。
-
-### P1生IMUキャプチャ実装（2026-07-26）
-
-### P1書込み・スモーク試験（2026-07-26）
-
-- 2026-07-26の静止姿勢採取で`RUN0002.BIN`を開始したが、記録中に通信側のP1状態が初期化された。`/api/p1`と`/api/manual`はlogging=false、run=none、records=0、SD error=0を返し、`/P1/RUN0002.BIN/TXT`は存在しなかった。P1はコード上で自動停止しないため、通信側の再起動または同等の状態初期化と扱う。このRUNを較正データとして使用しない。
-- 追加切り分け: 通信側の更新後にP1・通常ログを開始しても、`/api/manual`は`sd="error"`、logging=false、run=noneを返した。現在はSDをマウントできず、新規RUNを作成できない。SDを挿し直し、通信側を再起動して`sd="ready"`を確認するまで、P1較正を開始しない。
-- 復旧確認: SDの挿し直しと通信側再起動後、`/api/manual`はSD ready、制御リンクhealthy、DRY_RUN=trueを返した。P1の10秒確認は`/P1/RUN0003.BIN/TXT`をnormal_stop=1で確定し、records=5,368、queue_drops=0、SD write error=0、BNO decode/event-queue drop=0だった。次のP1は静止6姿勢の本番記録として開始できる。
-- 本番採取失敗: 第1静止姿勢としてRUN0004を開始し、12秒時点でrecords=6,453、drop=0、SD error=0を確認した。しかし後続確認で通信側boot IDが変化し、`reset_reason=1`（電源投入リセット）、P1 inactive、run=noneとなった。再起動後の`/api/manual`もSD error、`/P1/RUN0004.TXT`はfile not foundであった。RUN0004は採用しない。通信側のUSB給電・ケーブル保持・SDカード接触を物理的に安定化し、再起動後にSD readyが継続することを確認するまでP1を再開しない。
-- 採取方法を変更する。USBを完全固定できないため、静止6姿勢を一つの連続P1では取得しない。各姿勢でSD readyを確認してから3〜10秒だけ新規P1を開始し、**姿勢を動かす前に必ず正常停止・TXT確定を確認する**。姿勢変更中にUSBが動いて通信側が再起動しても、既に確定したRUNは失われない。各RUNの起動ID・reset reason・静止区間を後で対応付けて較正に使用する。
-- 静止姿勢1: `RUN0005.BIN/TXT`を6秒でnormal_stop=1として確定した。records=3,212、queue_drops=0、SD write error=0、BNO decode/event-queue drop=0である。第1姿勢候補として保全し、姿勢変更後に次の独立RUNを採取する。
-- 静止姿勢2: 初回`RUN0006`はnormal_stop=1・欠落0だが、SD最大書込み76.908 ms、最大ログキュー待ち121.089 ms、TimingDiagnostic 26件だったため参考扱いとする。同じ姿勢の再採取`RUN0007.BIN/TXT`はnormal_stop=1、records=1,613、drop=0、SD error=0、TimingDiagnostic=0、最大ログキュー待ち21.421 msで確定した。RUN0007を第2姿勢候補として保全する。
-- 静止姿勢3: 再接続後にSD ready、BNO ready、制御リンク正常を確認してから、`RUN0009.BIN/TXT`を2秒でnormal_stop=1として確定した。records=1,058、queue_drops=0、SD error=0、BNO decode/event-queue drop=0、TimingDiagnostic=0、最大ログキュー待ち22.874 msである。RUN0009を第3姿勢候補として保全する。
-- 静止姿勢4: 再接続後にSD ready、BNO ready、制御リンク正常を確認してから、`RUN0010.BIN/TXT`を2秒でnormal_stop=1として確定した。records=1,056、queue_drops=0、SD error=0、BNO decode/event-queue drop=0、TimingDiagnostic=0、最大ログキュー待ち20.543 msである。RUN0010を第4姿勢候補として保全する。
-- 静止姿勢5: 再接続後にSD ready、BNO ready、制御リンク正常を確認してから、`RUN0011.BIN/TXT`を2秒でnormal_stop=1として確定した。records=1,055、queue_drops=0、SD error=0、BNO decode/event-queue drop=0、TimingDiagnostic=0、最大ログキュー待ち22.677 msである。RUN0011を第5姿勢候補として保全する。
-- 静止姿勢6: 再接続後にSD ready、BNO ready、制御リンク正常を確認してから、`RUN0012.BIN/TXT`を2秒でnormal_stop=1として確定した。records=1,045、queue_drops=0、SD error=0、BNO decode/event-queue drop=0、TimingDiagnostic=0、最大ログキュー待ち21.996 msである。
-- 6候補BINの加速度平均・標準偏差を解析した。すべての主副IMUで軸ごとの標準偏差は0.01〜0.08 m/s²であり、静止性は良好だった。一方でRUN0005/0007/0011/0012は重力ベクトルが概ね負Z方向に集中し、RUN0009（正X寄り）とRUN0010（負Y寄り）を加えても、取付変換のための球面上の広がりは不足している。追加で、既存と異なる大きな傾き（目標: 正X寄りの反対、負Y寄りの反対、第三の斜め方向）の独立P1を最低3本採取してから取付変換を推定する。
-- 実機制約により追加姿勢は採取しない。既存6本から主副IMU間の相対回転は暫定推定できた（通信側→制御側: quaternion `(0.99969,-0.00269,0.01881,-0.01631)`、加速度方向残差平均4.683°／最大6.528°、姿勢方向のGram条件数8.08）。これは`DUAL_IMU_COMPARE`の比較専用候補には使えるが、機体軸への取付変換・ヨー有効化・`kBnoMountValidated=true`の根拠にはしない。正式な機体軸変換は、固定治具または追加可能な既知姿勢が得られるまで未検証として保持する。
-- `DUAL_IMU_COMPARE`を実装した。制御側は主IMUの加速度・ジャイロ・地磁気スナップショットを20 Hzで送信し、通信側は暫定相対回転で副IMUを制御側座標へ写して3種の差分ノルム・入力鮮度を`/api/dual-imu`と`/dual-imu`へ表示する。比較専用・provisionalをAPIで明示し、機体軸変換、推定器のVALID化、ヨー補正、アクチュエータ出力には接続しない。両方のビルドは成功し、通信側COM4へ書込み済み。制御側USB未接続のため、比較値の実機確認と制御側書込みは保留する。
-- 制御側COM5/MAC `34:85:18:AB:FA:90`へ書込み、主副IMU比較を実機確認した。`/api/dual-imu`はavailable=true、provisional=true、comparison_only=true、主IMU鮮度11 ms、副IMU鮮度4/10/26 ms、加速度差1.8876 m/s²、ジャイロ差0.0034 rad/s、地磁気差12.2390 µTを返した。SD ready、制御リンクhealthy、DRY_RUN=trueである。これは比較経路の成立確認であり、正式な取付変換の合格や制御有効化ではない。
-
-### 仮統合の全経路（機体固定前）
-
-**2026-07-27更新:** 主副IMU影融合、GNSS/ToFゲート、DISARMED固定の仮想3翼/VESCミキサ、Type-25 SDログ、`/api/provisional-system` とWeb UIまで実装済み。通信側XIAO（COM4/MAC `E0:72:A1:FC:08:D0`）へ書込み、ライブAPIで主副IMU・ToF・出力ゼロ固定を確認済みである。GNSSは受信/fix待ちのため影航法入力は不採用表示である。制御側への実出力は引き続き禁止する。
-
-**2026-07-27設計更新:** 添付の最新設計を以後の受入条件とする。次の実装順は、(1) `DISARMED/CALIBRATION/REPLAY` の出力ゼロ状態機械、(2) static-6face・各軸回転・gyro/mag/time-offset・ToF・servo/VESC用の較正RUNと統一ログ、(3) PC上のログ検証器とREPLAY、(4) 較正済みフラグにより停止可能なESKF shadow、(5) LOS・3翼/VESCのDRY_RUNである。`MANUAL/STABILIZE/AUTO` と実PWM/VESC書込みは、全較正・REPLAY・安全試験が合格するまで実装しても出力を有効化しない。
-
-**2026-07-27実装:** `CALIBRATION` RUNの選択・開始・停止APIと画面を追加した。種別はstatic-6face、各軸回転、gyro bias、磁気、時間ずれ、ToF、servo geometry、VESC telemetryであり、開始／停止マーカーを含む `/CAL/RUNxxxx.BIN` を作る。通信側実機で待機APIが `DISARMED`、出力無効、SDエラー0を返すことを確認済み。次は機体固定後の `STATIC_6FACE` 実測と、PC側REPLAY/検証器である。
-
-- 方針: 以下の全経路を実装・接続する。ただし全て `provisional` として明示し、実アクチュエータ出力は常にゼロ、正式推定・制御の入力には昇格しない。
-- すでに成立: 主IMU推定（DEGRADED）、主副IMU比較、GNSS往復通信、ToF/INA取得、SD/P1ログ、SoftAP API、STOP/E-STOP、DRY_RUN。
-- 今から仮接続する: (1) 主IMU基準＋副IMU条件付きの影融合姿勢、(2) GNSS位置/速度をゲートした影航法、(3) ToF距離をゲートした影高さ、(4) 影推定→モード→3翼ミキシング→VESC/サーボ指令の全ソフト経路。各段は値・鮮度・ゲート採否・理由をWeb APIとSDログへ出す。
-- 現時点で作れない／正式化しない: 機体軸取付変換、磁気干渉補正とヨーのVALID化、GNSSの実航走精度、ToFの機体幾何と水面高さ、推進・舵・翼の実機効き、閉ループ航法。これらは機体固定後の正式較正・静止／回転／航走試験を待つ。
-- 安全境界: 仮統合は比較・影推定・仮指令の生成までとし、PCA9685の実PWM、VESC Duty、操舵・翼出力は書き込まない。STOP/E-STOPとDISARMEDを全仮モードより優先する。
-- 静止姿勢3の`RUN0008`はP1開始後にWeb APIが無応答となり、停止要求を処理できなかった。シリアル診断では`I2C address not found`と通信側BNO=0も観測した。RUN0008はSD確定を確認できないため採用しない。通信側を再起動して未確定RUNを無効化し、P1開始中にWeb操作が処理できなくなる原因を解消するまで姿勢3の再採取は行わない。
-- USBを動かさずに姿勢を変えることは実機条件として不可能である。以後は、姿勢変更の前に通信側USBを外し、姿勢を決めてから通信側（必要なら制御側も）を再接続して起動・SD ready・BNO ready・SoftAP応答を確認する。その後に2〜3秒の独立P1を開始・停止・確定する。姿勢変更中に給電を維持しないので、未確定ログとWeb停止を避けられる。
-- 次のP1較正採取の前に、通信側へ再起動理由とP1セッション異常終了を永続記録する診断を追加し、短時間ログと継続ログで正常停止・SD確定を確認する。根本原因が確認されるまで静止6姿勢の採取を進めない。
-- 更新: RUN0001.BINを完全解析した。制御側BNO（起動ID `41526774`）は加速度185・ジャイロ146・地磁気73、通信側BNO（起動ID `1686839828`）は加速度365・ジャイロ293・地磁気74を記録した。BNO合計1,136件はすべて56-byte payloadで、`sensorUs`、`callbackUs`、`queuePushUs`、外側の`logQueueUs`がすべて非ゼロである。主副IMU三時刻ログの経路は成立した。
-- 現在の次: 機体を動かさない静止6姿勢をP1で採取し、続けて機体X/Y/Z軸の正逆回転を記録する。RUN0001は短時間の配線・記録スモーク試験であり、取付変換の較正値としては使用しない。取付変換・ESKF・アクチュエータ出力へはまだ進まない。
-
-- 状態: **IN PROGRESS（P1の開始・停止・SD確定を確認済み、取付軸較正は未実施）**。通信側COM4/MAC `E0:72:A1:FC:08:D0`へP1対応版を書込み、esptoolの全領域ハッシュ照合を通過した。
-- `/api/p1/start?confirm=1` から約3秒後に `/api/p1/stop` を実行し、`/P1/RUN0001.BIN` を正常終了として確定した。記録数1,671、キュードロップ0、SD書込みエラー0である。副BNOは加速度405、ジャイロ324、地磁気81イベントを記録した。
-- 次: SoftAPへ再接続した後、同BINを解析して主・副BNOの各ストリームと三時刻を個別に照合する。その後に静止6姿勢、機体X/Y/Z軸の正逆回転をP1で採取する。取付変換・ESKF・アクチュエータ出力へはまだ進まない。
-
-- P1開始中だけ、通信側は`/P1/RUNxxxx.BIN`を開き、制御側へ `P1Capture` を送る。制御側は主BNOの加速度・較正ジャイロ・較正地磁気を送信し、通信側は副BNOと同じBINへ記録する。停止時は主BNO送信を停止してSDを確定する。通常時のBNO UART送信は従来どおり抑止し、STOP/E-STOP経路を圧迫しない。
-- すべてのBNO payloadには`sensorUs`、`callbackUs`、`queuePushUs`があり、BIN外側時刻は通信側`logQueueUs`である。P1で要求するセンサ測定・制御側取得・通信側ログ投入の時刻を区別して再生できる。
-- 制御側・通信側の`seeed_xiao_esp32s3`ビルドは成功した。制御側COM5/MAC `34:85:18:AB:FA:90`へP1対応版を書込み、全領域ハッシュ照合が成功した。通信側はUSB接続後に同版を書込むまでP1開始を行わない。
-## 2026-07-27 -- 別PC引継ぎの固定化
-
-- `docs/PC_HANDOFF.md` を正本ブランチ、確定コミット、別PCで再現できる範囲、PC側で別途必要な環境、検証済み到達点、未確定事項、実出力を有効化しない順序として追加した。
-- 次の実作業は、機体固定後の正式校正ログ取得である。別PCへの移行後も、この順序を変更せず、校正値・ESKF・実出力を未検証のまま有効化しない。
+## 2026-08-03 RUN0053 ESKF??10???
+- ??????predict dt??????????trace?ESKF reset_at_start?innovation/update counters??XIAO COM4?Core COM6?????????COM3?????
+- Core??stub???????COM6 MAC 30:ED:A0:D4:BF:40?????ROM no-stub?????hash verified?
+- ??API?HTTP 202?????????????????Core?XIAO?????????P1 START/STOP ACK?????????TRIAL_END?105?????raw BNO 0??STOP_ACK timeout?LOGGER_STATE ERROR?
+- SDTRACE?512 B write?flush?close?TXT???????????ESKF??????????????RUN0053??? pc-tools/boat_eskf/captures/BNO_ESKF_DIAGNOSTIC10_20260803/ ??????TX/RX/GND????????10??????????

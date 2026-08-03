@@ -18,6 +18,17 @@ constexpr uint16_t kHardMinUs=500,kHardMaxUs=2500,kServoCenterUs=1500,kServoInte
 constexpr float kVescMaxDuty=0.03f,kVescTestDuty=0.03f; constexpr uint32_t kVescUartBaud=115200UL,kVescRequestIntervalMs=20UL,kVescFrameTimeoutMs=100UL,kVescMaxPayloadBytes=512,kVescKeepaliveMs=50UL,kMaxTestMs=300000UL;
 constexpr uint32_t kLinkBaud=921600UL,kProtocolVersion=1,kLinkHeartbeatTimeoutMs=500UL; constexpr bool kRequireHostHeartbeat=false;
 constexpr bool kDryRunActuators=true; constexpr uint32_t kGnssNavExpectedIntervalMs=100UL,kControlHeartbeatIntervalMs=100UL,kLinkFailSafeTimeoutMs=500UL;
+// ESKF shadow-run configuration. It has no path to PWM, VESC, arming, or navigation control.
+constexpr bool kShadowOnly=true,kActuatorOutputEnabled=false,kEnableIna226=false;
+constexpr bool kPrimaryBnoEnabled=true,kSecondaryBnoEnabled=false;
+constexpr uint32_t kEskfStateIntervalMs=50UL,kEskfHealthIntervalMs=200UL,kEskfAlignmentUs=2000000UL,kEskfCheckpointIntervalUs=50000UL,kEskfImuStaleUs=50000UL;
+constexpr float kEskfGyroNoise=0.020f,kEskfAccelNoise=0.35f,kEskfGyroBiasRw=0.0005f,kEskfAccelBiasRw=0.010f;
+constexpr float kEskfGnssPositionNoiseM=3.0f,kEskfGnssVelocityNoiseMps=0.8f,kEskfTofNoiseM=0.15f;
+constexpr float kEskfGnssNisGate=13.3f,kEskfTofNisGate=6.63f,kEskfMinCourseSpeedMps=1.0f;
+constexpr float kEskfTofMinM=0.20f,kEskfTofMaxM=4.0f,kEskfTofMaxSpreadM=0.25f,kEskfTofMaxTiltRad=0.52f;
+constexpr float kEskfWaterPlaneDownM=0.0f,kEskfTofOffsetM=0.0f;
+constexpr float kEskfTofPositionBodyM[3]={0,0,0},kEskfTofBeamBody[3]={0,0,1};
+constexpr bool kEskfGnssAltitudeEnabled=false,kEskfCourseYawEnabled=false,kEskfMountValid=false;
 // The control node has no radio role. Integration status is served by the communication node.
 constexpr bool kEnableTemporaryDebugWifi=false; constexpr char kDebugApSsid[]="XIAO-BOAT-DEBUG",kDebugApPass[]="12345678"; constexpr uint16_t kDebugHttpPort=80;
 constexpr uint16_t kInaConfig=0x08DF,kInaCalibration=0x0800; constexpr uint16_t kConfig=kInaConfig,kCalibration=kInaCalibration; constexpr float kShuntOhm=0.002f,kCurrentLsbA=0.00125f,kPowerLsbW=0.03125f;

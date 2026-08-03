@@ -1,0 +1,68 @@
+{
+  "run": "RUN0053",
+  "status": "invalid_control_direction",
+  "test_duration_s": 10,
+  "ports": {
+    "xiao": "COM4",
+    "xiao_mac": "34:85:18:AB:FA:90",
+    "core": "COM6",
+    "core_mac": "30:ED:A0:D4:BF:40",
+    "com3": "untouched"
+  },
+  "start_api": {
+    "run_label": "BNO_ESKF_DIAGNOSTIC10_20260803",
+    "ports": {
+      "core": "COM6",
+      "xiao": "COM4"
+    },
+    "baud": 115200,
+    "opened_utc": "2026-08-03T08:14:27.201467+00:00",
+    "start_api": {
+      "utc": "2026-08-03T08:14:33.345095+00:00",
+      "epoch": 1785744872.2139962,
+      "url": "http://192.168.4.1/api/log/start?duration_s=10&bno_capture=1&bno_log_enqueue=1&uart_rx_diag=dispatch&eskf_reset_at_start=1",
+      "status": 202,
+      "curl_returncode": 0,
+      "body": "{\"logging\":true,\"duration_s\":10,\"bno_capture\":true,\"bno_log_enqueue\":true,\"uart_rx_diag\":\"dispatch\",\"eskf_reset_at_start\":true,\"eskf_reset_queued\":true}"
+    },
+    "end_utc": null,
+    "core_diag_lines_before_start": 20,
+    "xiao_diag_lines_before_start": 104,
+    "app_ready_before_start": {
+      "core": true,
+      "xiao": true
+    },
+    "prestart_wait_s": 5.0
+  },
+  "core": {
+    "trial_start_frames": 0,
+    "trial_end_frames": 105,
+    "raw_bno_kind": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "stop_ack": "timeout",
+    "logger_state": "ERROR",
+    "sdtrace_lines": 66
+  },
+  "xiao": {
+    "p1_start_ack": false,
+    "p1_stop_ack": false,
+    "reset_ack": false,
+    "bno_capture_report": false,
+    "eskf_trace": false,
+    "usb_bno_events_seen": true
+  },
+  "artifacts": {
+    "bin": "RUN0053.BIN",
+    "bin_bytes": 26992,
+    "txt": "RUN0053.TXT",
+    "txt_bytes": 253,
+    "serial_core": "core_serial_raw.log",
+    "serial_xiao": "xiao_serial_raw.log"
+  },
+  "classification": "Core TX to XIAO RX control direction did not produce reset/P1 ACK; do not use for ESKF or SD verdict."
+}

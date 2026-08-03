@@ -1,0 +1,25 @@
+{
+  "run_label": "BNO_FINALIZE_DIAG_ALL_V2_20260803",
+  "ports": {
+    "core": "COM6",
+    "xiao": "COM4"
+  },
+  "baud": 115200,
+  "opened_utc": "2026-08-03T06:31:20.839444+00:00",
+  "start_api": {
+    "utc": "2026-08-03T06:31:26.865247+00:00",
+    "epoch": 1785738685.8535128,
+    "url": "http://192.168.4.1/api/log/start?duration_s=10&bno_capture=1&bno_log_enqueue=1&uart_rx_diag=dispatch",
+    "status": 202,
+    "curl_returncode": 0,
+    "body": "{\"logging\":true,\"duration_s\":10,\"bno_capture\":true,\"bno_log_enqueue\":true,\"uart_rx_diag\":\"dispatch\"}"
+  },
+  "end_utc": null,
+  "core_diag_lines_before_start": 25,
+  "xiao_diag_lines_before_start": 84,
+  "app_ready_before_start": {
+    "core": true,
+    "xiao": true
+  },
+  "prestart_wait_s": 5.0
+}

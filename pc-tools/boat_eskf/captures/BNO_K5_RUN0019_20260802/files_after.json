@@ -1,0 +1,142 @@
+{
+  "sd_ready": true,
+  "logging": false,
+  "files": [
+    {
+      "name": "RUN0001.BIN",
+      "size": 239264
+    },
+    {
+      "name": "RUN0001.TXT",
+      "size": 255
+    },
+    {
+      "name": "RUN0002.BIN",
+      "size": 0
+    },
+    {
+      "name": "RUN0003.BIN",
+      "size": 0
+    },
+    {
+      "name": "RUN0004.BIN",
+      "size": 0
+    },
+    {
+      "name": "RUN0004.TXT",
+      "size": 257
+    },
+    {
+      "name": "RUN0005.BIN",
+      "size": 1566502
+    },
+    {
+      "name": "RUN0005.TXT",
+      "size": 257
+    },
+    {
+      "name": "RUN0006.BIN",
+      "size": 0
+    },
+    {
+      "name": "RUN0007.BIN",
+      "size": 259122
+    },
+    {
+      "name": "RUN0007.TXT",
+      "size": 257
+    },
+    {
+      "name": "RUN0008.BIN",
+      "size": 0
+    },
+    {
+      "name": "RUN0009.BIN",
+      "size": 62046
+    },
+    {
+      "name": "RUN0009.TXT",
+      "size": 254
+    },
+    {
+      "name": "RUN0010.BIN",
+      "size": 62494
+    },
+    {
+      "name": "RUN0010.TXT",
+      "size": 254
+    },
+    {
+      "name": "RUN0011.BIN",
+      "size": 64539
+    },
+    {
+      "name": "RUN0011.TXT",
+      "size": 253
+    },
+    {
+      "name": "RUN0012.BIN",
+      "size": 61344
+    },
+    {
+      "name": "RUN0012.TXT",
+      "size": 252
+    },
+    {
+      "name": "RUN0013.BIN",
+      "size": 59086
+    },
+    {
+      "name": "RUN0013.TXT",
+      "size": 255
+    },
+    {
+      "name": "RUN0014.BIN",
+      "size": 205726
+    },
+    {
+      "name": "RUN0014.TXT",
+      "size": 256
+    },
+    {
+      "name": "RUN0015.BIN",
+      "size": 205472
+    },
+    {
+      "name": "RUN0015.TXT",
+      "size": 257
+    },
+    {
+      "name": "RUN0016.BIN",
+      "size": 62589
+    },
+    {
+      "name": "RUN0016.TXT",
+      "size": 255
+    },
+    {
+      "name": "RUN0017.BIN",
+      "size": 208584
+    },
+    {
+      "name": "RUN0017.TXT",
+      "size": 256
+    },
+    {
+      "name": "RUN0018.BIN",
+      "size": 63552
+    },
+    {
+      "name": "RUN0018.TXT",
+      "size": 254
+    },
+    {
+      "name": "RUN0019.BIN",
+      "size": 62782
+    },
+    {
+      "name": "RUN0019.TXT",
+      "size": 255
+    }
+  ]
+}

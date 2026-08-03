@@ -1,0 +1,13 @@
+{
+  "run_label": "BNO_UART_DECOUPLED_ENQ0_LOG10_20260802_RERUN3",
+  "ports": {
+    "core": "COM6",
+    "xiao": "COM4"
+  },
+  "baud": 115200,
+  "opened_utc": "2026-08-02T08:25:56.926624+00:00",
+  "start_api": null,
+  "end_utc": null,
+  "core_diag_lines_before_start": null,
+  "xiao_diag_lines_before_start": null
+}

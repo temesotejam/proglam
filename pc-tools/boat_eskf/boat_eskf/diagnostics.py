@@ -1,0 +1,1 @@
+def finite_state(e):return all(__import__('math').isfinite(x) for x in e.p+e.v+e.ba+e.bg+list(e.q))

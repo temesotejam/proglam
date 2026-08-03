@@ -1,0 +1,590 @@
+BNO_FEATURE phase=initial point=after_set kind=1 report_id=1 status=0 request_us=3634541 response_us=3638954 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=2 report_id=2 status=0 request_us=3643017 response_us=3648177 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=3 report_id=8 status=0 request_us=3651996 response_us=3656191 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=4 report_id=3 status=0 request_us=3659988 response_us=3664853 requested_interval_us=50000 accepted_interval_us=0 requested_hz=20.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=5 report_id=4 status=0 request_us=3668988 response_us=3673854 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=1 report_id=1 status=0 request_us=3675449 response_us=3680660 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=2 report_id=2 status=0 request_us=3682448 response_us=3687988 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=3 report_id=8 status=0 request_us=3689440 response_us=3694664 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=4 report_id=3 status=0 request_us=3696448 response_us=3701034 requested_interval_us=50000 accepted_interval_us=0 requested_hz=20.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=5 report_id=4 status=0 request_us=3702452 response_us=3717077 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+STATE DISARMED
+xiao-boat-control-integration 0.3.5-estimated-state-dry-run boot=4211003754
+STATE FAULT
+BNO_FEATURE phase=reset point=after_set kind=1 report_id=1 status=0 request_us=3722267 response_us=3729494 requested_interval_us=20000 accepted_interval_us=16000 requested_hz=50.000 accepted_hz=62.500 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=1/0/0 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=0
+BNO_FEATURE phase=reset point=after_set kind=2 report_id=2 status=0 request_us=3733084 response_us=3742117 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=1/0/1 tof=1
+TXDIAG frames_s=2000 bytes_s=264000 total_frames=2 total_bytes=264 queue=0 high=1 drops=0 bno_drop=0 partial=0 zero=0 write_calls=46 max_write_us=0 free_heap=165804 min_free_heap=4294967295 usage_pct=286.46
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=2 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=1 enable_fail=0 callback=1 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=1 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+s=0 request_us=3745600 response_us=3770262 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_set kind=4 report_id=3 status=0 request_us=3774477 response_us=3790786 requested_interval_us=50000 accepted_interval_us=40000 requested_hz=20.000 accepted_hz=25.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_set kind=5 report_id=4 status=0 request_us=3794492 response_us=3801730 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 ssor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=1 report_id=1 status=0 request_us=3802964 response_us=3811760 requested_interval_us=20000 accepted_interval_us=16000 requested_hz=50.000 accepted_hz=62.500 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=2 report_id=2 status=0 request_us=3812962 response_us=3824907 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=3 report_id=8 status=0 request_us=3825963 response_us=3832017 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=4 report_id=3 status=0 request_us=3832968 response_us=3842554 requested_interval_us=50000 accepted_interval_us=40000 requested_hz=20.000 accepted_hz=25.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=5 report_id=4 status=0 request_us=3844962 response_us=3855264 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+Guru Meditation Error: Core  1 panic'ed (Unhandled debug exception). 
+Debug exception reason: Stack canary watchpoint triggered (loopTask) 
+Core  1 register dump:
+PC      : 0x400570ee  PS      : 0x00060836  A0      : 0x82005496  A1      : 0x3fce9d40  
+A2      : 0x3fcea044  A3      : 0x00000000  A4      : 0x00000384  A5      : 0x3fcea0d4  
+A6      : 0x3fceab58  A7      : 0x00000038  A8      : 0x8200484c  A9      : 0x3fce9d10  
+A10     : 0x00000000  A11     : 0x3f800000  A12     : 0x86ceb5f4  A13     : 0x3fe9ba94  
+A14     : 0x7ff00000  A15     : 0x000003fe  SAR     : 0x0000001d  EXCCAUSE: 0x00000001  
+EXCVADDR: 0x00000000  LBEG    : 0x400570e8  LEND    : 0x400570f3  LCOUNT  : 0x0000002e  
+
+
+Backtrace: 0x400570eb:0x3fce9d40 0x42005493:0x3fce9d50 0x42005a1a:0x3fceaaf0 0x42007cfa:0x3fceac90 0x4200932f:0x3fcead60 0x420095de:0x3fceb460 0x42014db5:0x3fcebf70
+
+
+
+
+ELF file SHA256: e980388718751fd1
+
+Rebooting...
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x2b (SPI_FAST_FLASH_BOOT)
+Saved PC:0x42049ffe
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce3808,len:0x4bc
+load:0x403c9700,len:0xbd8
+load:0x403cc700,len:0x2a0c
+entry 0x403c98d0
+PERIPH_SCAN 0x29,0x40,0x70
+BNO_FEATURE phase=initial point=after_set kind=1 report_id=1 status=0 request_us=3628589 response_us=3633051 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=2 report_id=2 status=0 request_us=3637096 response_us=3642287 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=3 report_id=8 status=0 request_us=3646105 response_us=3650269 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=4 report_id=3 status=0 request_us=3654097 response_us=3658963 requested_interval_us=50000 accepted_interval_us=0 requested_hz=20.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=5 report_id=4 status=0 request_us=3663104 response_us=3667963 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=1 report_id=1 status=0 request_us=3669551 response_us=3674769 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=2 report_id=2 status=0 request_us=3676549 response_us=3681912 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=3 report_id=8 status=0 request_us=3683548 response_us=3688773 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=4 report_id=3 status=0 request_us=3690549 response_us=3695143 requested_interval_us=50000 accepted_interval_us=0 requested_hz=20.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=5 report_id=4 status=0 request_us=3696540 response_us=3711508 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+STATE DISARMED
+xiao-boat-control-integration 0.3.5-estimated-state-dry-run boot=1024045453
+STATE FAULT
+BNO_FEATURE phase=reset point=after_set kind=1 report_id=1 status=0 request_us=3716327 response_us=3723558 requested_interval_us=20000 accepted_interval_us=16000 requested_hz=50.000 accepted_hz=62.500 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=1/0/0 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=0
+BNO_FEATURE phase=reset point=after_set kind=2 report_id=2 status=0 request_us=3727184 response_us=3736207 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=1/0/1 tof=1
+TXDIAG frames_s=2000 bytes_s=264000 total_frames=2 total_bytes=264 queue=0 high=1 drops=0 bno_drop=0 partial=0 zero=0 write_calls=46 max_write_us=0 free_heap=165804 min_free_heap=4294967295 usage_pct=286.46
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=2 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=1 enable_fail=0 callback=1 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=1 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_FEATURE phase=reset point=after_set kind=3 report_id=8 status=0 request_us=3739644 response_us=3763089 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_set kind=4 report_id=3 status=0 request_us=3766326 response_us=3781953 requested_interval_us=50000 accepted_interval_us=40000 requested_hz=20.000 accepted_hz=25.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_set kind=5 report_id=4 status=0 request_us=3786984 response_us=3795140 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=1 report_id=1 status=0 request_us=3796065 response_us=3809057 requested_interval_us=20000 accepted_interval_us=16000 requested_hz=50.000 accepted_hz=62.500 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=2 report_id=2 status=0 request_us=3810063 response_us=3819972 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=3 report_id=8 status=0 request_us=3821063 response_us=3828092s=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=4 report_id=3 status=0 request_us=3829063 response_us=3838215 requested_interval_us=50000 accepted_interval_us=40000 requested_hz=20.000 accepted_hz=25.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+Guru Meditation Error: Core  1 panic'ed (Unhandled debug exception). 
+Debug exception reason: Stack canary watchpoint triggered (loopTask) 
+Core  1 register dump:
+PC      : 0x400570ee  PS      : 0x00060836  A0      : 0x82005496  A1      : 0x3fce9d40  
+A2      : 0x3fcea044  A3      : 0x00000000  A4      : 0x00000384  A5      : 0x3fcea0d4  
+A6      : 0x3fceab58  A7      : 0x00000038  A8      : 0x8200484c  A9      : 0x3fce9d10  
+A10     : 0x00000000  A11     : 0x3f800000  A12     : 0x8fb8c592  A13     : 0x3fe9ba94  
+A14     : 0x7ff00000  A15     : 0x000003fe  SAR     : 0x00000014  EXCCAUSE: 0x00000001  
+EXCVADDR: 0x00000000  LBEG    : 0x400570e8  LEND    : 0x400570f3  LCOUNT  : 0x0000002e  
+
+
+Backtrace: 0x400570eb:0x3fce9d40 0x42005493:0x3fce9d50 0x42005a1a:0x3fceaaf0 0x42007cfa:0x3fceac90 0x4200932f:0x3fcead60 0x420095de:0x3fceb460 0x42014db5:0x3fcebf70
+
+
+
+
+ELF file SHA256: e980388718751fd1
+
+Rebooting...
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x2b (SPI_FAST_FLASH_BOOT)
+Saved PC:0x42049ffe
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce3808,len:0x4bc
+load:0x403c9700,len:0xbd8
+load:0x403cc700,len:0x2a0c
+entry 0x403c98d0
+PERIPH_SCAN 0x29,0x40,0x70
+BNO_FEATURE phase=initial point=after_set kind=1 report_id=1 status=0 request_us=3629305 response_us=3634390 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=2 report_id=2 status=0 request_us=3637562 response_us=3642714 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=3 report_id=8 status=0 request_us=3646761 response_us=3651626 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=4 report_id=3 status=0 request_us=3655759 response_us=3660625 requested_interval_us=50000 accepted_interval_us=0 requested_hz=20.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=5 report_id=4 status=0 request_us=3664478 response_us=3669351 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=1 report_id=1 status=0 request_us=3671204 response_us=3676431 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=2 report_id=2 status=0 request_us=3678209 response_us=3683028 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=3 report_id=8 status=0 request_us=3684201 response_us=3689435 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=4 report_id=3 status=0 request_us=3691210 response_us=3695769 requested_interval_us=50000 accepted_interval_us=0 requested_hz=20.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=5 report_id=4 status=0 request_us=3697209 response_us=3712544 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+STATE DISARMED
+xiao-boat-control-integration 0.3.5-estimated-state-dry-run boot=2090635448
+STATE FAULT
+BNO_FEATURE phase=reset point=after_set kind=1 report_id=1 status=0 request_us=3718008 response_us=3725982 requested_interval_us=20000 accepted_interval_us=16000 requested_hz=50.000 accepted_hz=62.500 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=1/0/0 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=0
+BNO_FEATURE phase=reset point=after_set kind=2 report_id=2 status=0 request_us=3730255 response_us=3737880 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=1/0/1 tof=1
+TXDIAG frames_s=2000 bytes_s=264000 total_frames=2 total_bytes=264 queue=0 high=1 drops=0 bno_drop=0 partial=0 zero=0 write_calls=46 max_write_us=0 free_heap=165804 min_free_heap=4294967295 usage_pct=286.46
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=2 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=1 enable_fail=0 callback=1 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=1 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_FEATURE phase=reset point=after_set kind=3 report_id=8 status=0 request_us=3741338 response_us=3763624 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_set kind=4 report_id=3 status=0 request_us=3766923 response_us=3782525 requested_interval_us=50000 accepted_interval_us=40000 requested_hz=20.000 accepted_hz=25.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_set kind=5 report_id=4 status=0 request_us=3785865 response_us=3794080 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=1 report_id=1 status=0 request_us=3794726 response_us=3803783 requested_interval_us=20000 accepted_interval_us=16000 requested_hz=50.000 accepted_hz=62.500 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=2 report_id=2 status=0 request_us=3804724 response_us=3813319 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=3 report_id=8 status=0 request_us=3814720 response_us=3823896 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=4 report_id=3 status=0 request_us=3824730 response_us=3833729 requested_interval_us=50000 accepted_interval_us=40000 requested_hz=20.000 accepted_hz=25.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=5 report_id=4 status=0 request_us=3834727 response_us=3843663 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+Guru Meditation Error: Core  1 panic'ed (Unhandled debug exception). 
+Debug exception reason: Stack canary watchpoint triggered (loopTask) 
+Core  1 register dump:
+PC      : 0x400570ee  PS      : 0x00060836  A0      : 0x82005496  A1      : 0x3fce9d40  
+A2      : 0x3fcea044  A3      : 0x00000000  A4      : 0x00000384  A5      : 0x3fcea0d4  
+A6      : 0x3fceab58  A7      : 0x00000038  A8      : 0x8200484c  A9      : 0x3fce9d10  
+A10     : 0x00000000  A11     : 0x3f800000  A12     : 0x8fb8c592  A13     : 0x3fe9ba94  
+A14     : 0x7ff00000  A15     : 0x000003fe  SAR     : 0x0000001d  EXCCAUSE: 0x00000001  
+EXCVADDR: 0x00000000  LBEG    : 0x400570e8  LEND    : 0x400570f3  LCOUNT  : 0x0000002e  
+
+
+Backtrace: 0x400570eb:0x3fce9d40 0x42005493:0x3fce9d50 0x42005a1a:0x3fceaaf0 0x42007cfa:0x3fceac90 0x4200932f:0x3fcead60 0x420095de:0x3fceb460 0x42014db5:0x3fcebf70
+
+
+
+
+ELF file SHA256: e980388718751fd1
+
+Rebooting...
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x2b (SPI_FAST_FLASH_BOOT)
+Saved PC:0x4037e1ca
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce3808,len:0x4bc
+load:0x403c9700,len:0xbd8
+load:0x403cc700,len:0x2a0c
+entry 0x403c98d0
+PERIPH_SCAN 0x29,0x40,0x70
+BNO_FEATURE phase=initial point=after_set kind=1 report_id=1 status=0 request_us=3629402 response_us=3634487 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=2 report_id=2 status=0 request_us=3638610 response_us=3643176 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=3 report_id=8 status=0 request_us=3646904 response_us=3651083 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=4 report_id=3 status=0 request_us=3654880 response_us=3659745 requested_interval_us=50000 accepted_interval_us=0 requested_hz=20.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=5 report_id=4 status=0 request_us=3663880 response_us=3668746 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=1 report_id=1 status=0 request_us=3670332 response_us=3675552 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=2 report_id=2 status=0 request_us=3677338 response_us=3682756 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=3 report_id=8 status=0 request_us=3684338 response_us=3689554 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=4 report_id=3 status=0 request_us=3691339 response_us=3695752 requested_interval_us=50000 accepted_interval_us=0 requested_hz=20.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=5 report_id=4 status=0 request_us=3697338 response_us=3711999 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+STATE DISARMED
+xiao-boat-control-integration 0.3.5-estimated-state-dry-run boot=4234350010
+STATE FAULT
+BNO_FEATURE phase=reset point=after_set kind=1 report_id=1 status=0 request_us=3717113 response_us=3724849 requested_interval_us=20000 accepted_interval_us=16000 requested_hz=50.000 accepted_hz=62.500 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=1/0/0 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=0
+BNO_FEATURE phase=reset point=after_set kind=2 report_id=2 status=0 request_us=3729620 response_us=3737004 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=1/0/1 tof=1
+TXDIAG frames_s=2000 bytes_s=264000 total_frames=2 total_bytes=264 queue=0 high=1 drops=0 bno_drop=0 partial=0 zero=0 write_calls=46 max_write_us=0 free_heap=165804 min_free_heap=4294967295 usage_pct=286.46
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=2 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=1 enable_fail=0 callback=1 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=1 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_FEATURE phase=reset point=after_set kind=3 report_id=8 status=0 request_us=3740491 response_us=3765263 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_set kind=4 report_id=3 status=0 request_us=3769370 response_us=3786109 requested_interval_us=50000 accepted_interval_us=40000 requested_hz=20.000 accepted_hz=25.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_set kind=5 report_id=4 status=0 request_us=3789415 response_us=3795958 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=1 report_id=1 status=0 request_us=3796855 response_us=3806626 requested_interval_us=20000 accepted_interval_us=16000 requested_hz=50.000 accepted_hz=62.500 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=2 report_id=2 status=0 request_us=3807852 response_us=3817449 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=3 report_id=8 status=0 request_us=3818851 response_us=3825989 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=4 report_id=3 status=0 request_us=3826854 response_us=3836385 requested_interval_us=50000 accepted_interval_us=40000 requested_hz=20.000 accepted_hz=25.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=5 report_id=4 status=0 request_us=3838925 response_us=3846973 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+Guru Meditation Error: Core  1 panic'ed (Unhandled debug exception). 
+Debug exception reason: Stack canary watchpoint triggered (loopTask) 
+Core  1 register dump:
+PC      : 0x400570ee  PS      : 0x00060836  A0      : 0x82005496  A1      : 0x3fce9d40  
+A2      : 0x3fcea044  A3      : 0x00000000  A4      : 0x00000384  A5      : 0x3fcea0d4  
+A6      : 0x3fceab58  A7      : 0x00000038  A8      : 0x8200484c  A9      : 0x3fce9d10  
+A10     : 0x00000000  A11     : 0x3f800000  A12     : 0x8fb8c592  A13     : 0x3fe9ba94  
+A14     : 0x7ff00000  A15     : 0x000003fe  SAR     : 0x00000014  EXCCAUSE: 0x00000001  
+EXCVADDR: 0x00000000  LBEG    : 0x400570e8  LEND    : 0x400570f3  LCOUNT  : 0x0000002e  
+
+
+Backtrace: 0x400570eb:0x3fce9d40 0x42005493:0x3fce9d50 0x42005a1a:0x3fceaaf0 0x42007cfa:0x3fceac90 0x4200932f:0x3fcead60 0x420095de:0x3fceb460 0x42014db5:0x3fcebf70
+
+
+
+
+ELF file SHA256: e980388718751fd1
+
+Rebooting...
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x2b (SPI_FAST_FLASH_BOOT)
+Saved PC:0x42049ffe
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce3808,len:0x4bc
+load:0x403c9700,len:0xbd8
+load:0x403cc700,len:0x2a0c
+entry 0x403c98d0
+PERIPH_SCAN 0x29,0x40,0x70
+BNO_FEATURE phase=initial point=after_set kind=1 report_id=1 status=0 request_us=3629401 response_us=3634486 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=2 report_id=2 status=0 request_us=3638610 response_us=3643097 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=3 report_id=8 status=0 request_us=3646887 response_us=3651051 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=4 report_id=3 status=0 request_us=3654879 response_us=3659744 requested_interval_us=50000 accepted_interval_us=0 requested_hz=20.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=5 report_id=4 status=0 request_us=3663880 response_us=3668745 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=1 report_id=1 status=0 request_us=3670334 response_us=3675551 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=2 report_id=2 status=0 request_us=3677334 response_us=3682602 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=3 report_id=8 status=0 request_us=3684333 response_us=3689555 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=4 report_id=3 status=0 request_us=3691334 response_us=3695687 requested_interval_us=50000 accepted_interval_us=0 requested_hz=20.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=5 report_id=4 status=0 request_us=3697331 response_us=3711935 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+STATE DISARMED
+xiao-boat-control-integration 0.3.5-estimated-state-dry-run boot=2733074974
+STATE FAULT
+BNO_FEATURE phase=reset point=after_set kind=1 report_id=1 status=0 request_us=3717129 response_us=3725302 requested_interval_us=20000 accepted_interval_us=16000 requested_hz=50.000 accepted_hz=62.500 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=1/0/0 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=0
+BNO_FEATURE phase=reset point=after_set kind=2 report_id=2 status=0 request_us=3729677 response_us=3737018 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=1/0/1 tof=1
+TXDIAG frames_s=2000 bytes_s=264000 total_frames=2 total_bytes=264 queue=0 high=1 drops=0 bno_drop=0 partial=0 zero=0 write_calls=47 max_write_us=0 free_heap=165804 min_free_heap=4294967295 usage_pct=286.46
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=2 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=1 enable_fail=0 callback=1 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=1 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+s=0 request_us=3740443 response_us=3763579 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_set kind=4 report_id=3 status=0 request_us=3767598 response_us=3783961 requested_interval_us=50000 accepted_interval_us=40000 requested_hz=20.000 accepted_hz=25.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_set kind=5 report_id=4 status=0 request_us=3786977 response_us=3794900 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=1 report_id=1 status=0 request_us=3795853 response_us=3805737 requested_interval_us=20000 accepted_interval_us=16000 requested_hz=50.000 accepted_hz=62.500 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=2 report_id=2 status=0 request_us=3807905 response_us=3819678 requested_inteed_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=3 report_id=8 status=0 request_us=3820847 response_us=3828907 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=4 report_id=3 status=0 request_us=3829848 response_us=3838687 requested_interval_us=50000 accepted_interval_us=40000 requested_hz=20.000 accepted_hz=25.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=5 report_id=4 status=0 request_us=3840846 response_us=3850795 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+Guru Meditation Error: Core  1 panic'ed (Unhandled debug exception). 
+Debug exception reason: Stack canary watchpoint triggered (loopTask) 
+Core  1 register dump:
+PC      : 0x400570ee  PS      : 0x00060836  A0      : 0x82005496  A1      : 0x3fce9d40  
+A2      : 0x3fcea044  A3      : 0x00000000  A4      : 0x00000384  A5      : 0x3fcea0d4  
+A6      : 0x3fceab58  A7      : 0x00000038  A8      : 0x8200484c  A9      : 0x3fce9d10  
+A10     : 0x00000000  A11     : 0x3f800000  A12     : 0x86ceb5f4  A13     : 0x3fe9ba94  
+A14     : 0x7ff00000  A15     : 0x000003fe  SAR     : 0x0000001d  EXCCAUSE: 0x00000001  
+EXCVADDR: 0x00000000  LBEG    : 0x400570e8  LEND    : 0x400570f3  LCOUNT  : 0x0000002e  
+
+
+Backtrace: 0x400570eb:0x3fce9d40 0x42005493:0x3fce9d50 0x42005a1a:0x3fceaaf0 0x42007cfa:0x3fceac90 0x4200932f:0x3fcead60 0x420095de:0x3fceb460 0x42014db5:0x3fcebf70
+
+
+
+
+ELF file SHA256: e980388718751fd1
+
+Rebooting...
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x2b (SPI_FAST_FLASH_BOOT)
+Saved PC:0x4037e06f
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce3808,len:0x4bc
+load:0x403c9700,len:0xbd8
+load:0x403cc700,len:0x2a0c
+entry 0x403c98d0
+PERIPH_SCAN 0x29,0x40,0x70
+BNO_FEATURE phase=initial point=after_set kind=1 report_id=1 status=0 request_us=3628460 response_us=3632953 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=2 report_id=2 status=0 request_us=3636969 response_us=3642127 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=3 report_id=8 status=0 request_us=3645993 response_us=3650141 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=4 report_id=3 status=0 request_us=3653968 response_us=3658834 requested_interval_us=50000 accepted_interval_us=0 requested_hz=20.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=5 report_id=4 status=0 request_us=3662975 response_us=3667835 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=1 report_id=1 status=0 request_us=3669417 response_us=3674640 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=2 report_id=2 status=0 request_us=3676416 response_us=3681935 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=3 report_id=8 status=0 request_us=3683415 response_us=3688644 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=4 report_id=3 status=0 request_us=3690416 response_us=3694985 requested_interval_us=50000 accepted_interval_us=0 requested_hz=20.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=5 report_id=4 status=0 request_us=3696415 response_us=3711070 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+STATE DISARMED
+xiao-boat-control-integration 0.3.5-estimated-state-dry-run boot=112166015
+STATE FAULT
+BNO_FEATURE phase=reset point=after_set kind=1 report_id=1 status=0 request_us=3716200 response_us=3723437 requested_interval_us=20000 accepted_interval_us=16000 requested_hz=50.000 accepted_hz=62.500 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=1/0/0 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=0
+BNO_FEATURE phase=reset point=after_set kind=2 report_id=2 status=0 request_us=3727061 response_us=3734860 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=1/0/1 tof=1
+TXDIAG frames_s=2000 bytes_s=264000 total_frames=2 total_bytes=264 queue=0 high=1 drops=0 bno_drop=0 partial=0 zero=0 write_calls=46 max_write_us=0 free_heap=165804 min_free_heap=4294967295 usage_pct=286.46
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=2 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=1 enable_fail=0 callback=1 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=1 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_FEATURE phase=reset point=after_set kind=3 report_id=8 status=0 request_us=3739580 response_us=3764785 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_set kind=4 report_id=3 status=0 request_us=3769433 response_us=3784736 requested_interval_us=50000 accepted_interval_us=40000 requested_hz=20.000 accepted_hz=25.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_set kind=5 report_id=4 status=0 request_us=3788475 response_us=3795742 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=1 report_id=1 status=0 request_us=3796940 response_us=3806085 requested_interval_us=20000 accepted_interval_us=16000 requested_hz=50.000 accepted_hz=62.500 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=2 report_id=2 status=0 request_us=3807007 response_us=3818859 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=3 report_id=8 status=0 request_us=3819939 response_us=3825993 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=4 report_id=3 status=0 request_us=3826936 response_us=3836544 requested_interval_us=50000 accepted_interval_us=40000 requested_hz=20.000 accepted_hz=25.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+Guru Meditation Error: Core  1 panic'ed (Unhandled debug exception). 
+Debug exception reason: Stack canary watchpoint triggered (loopTask) 
+Core  1 register dump:
+PC      : 0x400570ee  PS      : 0x00060836  A0      : 0x82005496  A1      : 0x3fce9d40  
+A2      : 0x3fcea044  A3      : 0x00000000  A4      : 0x00000384  A5      : 0x3fcea0d4  
+A6      : 0x3fceab58  A7      : 0x00000038  A8      : 0x8200484c  A9      : 0x3fce9d10  
+A10     : 0x00000000  A11     : 0x3f800000  A12     : 0x86ceb5f4  A13     : 0x3fe9ba94  
+A14     : 0x7ff00000  A15     : 0x000003fe  SAR     : 0x00000014  EXCCAUSE: 0x00000001  
+EXCVADDR: 0x00000000  LBEG    : 0x400570e8  LEND    : 0x400570f3  LCOUNT  : 0x0000002e  
+
+
+Backtrace: 0x400570eb:0x3fce9d40 0x42005493:0x3fce9d50 0x42005a1a:0x3fceaaf0 0x42007cfa:0x3fceac90 0x4200932f:0x3fcead60 0x420095de:0x3fceb460 0x42014db5:0x3fcebf70
+
+
+
+
+ELF file SHA256: e980388718751fd1
+
+Rebooting...
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x2b (SPI_FAST_FLASH_BOOT)
+Saved PC:0x42049ffe
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce3808,len:0x4bc
+load:0x403c9700,len:0xbd8
+load:0x403cc700,len:0x2a0c
+entry 0x403c98d0
+PERIPH_SCAN 0x29,0x40,0x70
+BNO_FEATURE phase=initial point=after_set kind=1 report_id=1 status=0 request_us=3629727 response_us=3634812 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=2 report_id=2 status=0 request_us=3639096 response_us=3644249 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=3 report_id=8 status=0 request_us=3648190 response_us=3653055 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=4 report_id=3 status=0 request_us=3657188 response_us=3662053 requested_interval_us=50000 accepted_interval_us=0 requested_hz=20.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=5 report_id=4 status=0 request_us=3666188 response_us=3671058 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=1 report_id=1 status=0 request_us=3672640 response_us=3677860 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=2 report_id=2 status=0 request_us=3679638 response_us=3684176 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=3 report_id=8 status=0 request_us=3685637 response_us=3690859 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=4 report_id=3 status=0 request_us=3692638 response_us=3696487 requested_interval_us=50000 accepted_interval_us=0 requested_hz=20.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=5 report_id=4 status=0 request_us=3697637 response_us=3711469 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+STATE DISARMED
+xiao-boat-control-integration 0.3.5-estimated-state-dry-run boot=3264302726
+STATE FAULT
+BNO_FEATURE phase=reset point=after_set kind=1 report_id=1 status=0 request_us=3716028 response_us=3724623 requested_interval_us=20000 accepted_interval_us=16000 requested_hz=50.000 accepted_hz=62.500 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=1/0/0 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=0
+BNO_FEATURE phase=reset point=after_set kind=2 report_id=2 status=0 request_us=3728282 response_us=3736309 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=1/0/1 tof=1
+TXDIAG frames_s=2000 bytes_s=264000 total_frames=2 total_bytes=264 queue=0 high=1 drops=0 bno_drop=0 partial=0 zero=0 write_calls=46 max_write_us=0 free_heap=165804 min_free_heap=4294967295 usage_pct=286.46
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=2 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=1 enable_fail=0 callback=1 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=1 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_FEATURE phase=reset point=after_set kind=3 report_id=8 status=0 request_us=3739753 response_us=3762912 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_set kind=4 report_id=3 status=0 request_us=3766364 response_us=3783217 requested_interval_us=50000 accepted_interval_us=40000 requested_hz=20.000 accepted_hz=25.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_set kind=5 report_id=4 status=0 request_us=3786295 response_us=3795358 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=1 report_id=1 status=0 request_us=3796162 response_us=3805165 requested_interval_us=20000 accepted_interval_us=16000 requested_hz=50.000 accepted_hz=62.500 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=2 report_id=2 status=0 request_us=3806156 response_us=3814262 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=3 report_id=8 status=0 request_us=3815161 response_us=3823545 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=4 report_id=3 status=0 request_us=3825153 response_us=3834107 requested_interval_us=50000 accepted_interval_us=40000 requested_hz=20.000 accepted_hz=25.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=5 report_id=4 status=0 request_us=3835164 response_us=3843259 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+Guru Meditation Error: Core  1 panic'ed (Unhandled debug exception). 
+Debug exception reason: Stack canary watchpoint triggered (loopTask) 
+Core  1 register dump:
+PC      : 0x400570ee  PS      : 0x00060836  A0      : 0x82005496  A1      : 0x3fce9d40  
+A2      : 0x3fcea044  A3      : 0x00000000  A4      : 0x00000384  A5      : 0x3fcea0d4  
+A6      : 0x3fceab58  A7      : 0x00000038  A8      : 0x8200484c  A9      : 0x3fce9d10  
+A10     : 0x00000000  A11     : 0x3f800000  A12     : 0xbd560562  A13     : 0x3fe9ba95  
+A14     : 0x7ff00000  A15     : 0x000003fe  SAR     : 0x0000001d  EXCCAUSE: 0x00000001  
+EXCVADDR: 0x00000000  LBEG    : 0x400570e8  LEND    : 0x400570f3  LCOUNT  : 0x0000002e  
+
+
+Backtrace: 0x400570eb:0x3fce9d40 0x42005493:0x3fce9d50 0x42005a1a:0x3fceaaf0 0x42007cfa:0x3fceac90 0x4200932f:0x3fcead60 0x420095de:0x3fceb460 0x42014db5:0x3fcebf70
+
+
+
+
+ELF file SHA256: e980388718751fd1
+
+Rebooting...
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x2b (SPI_FAST_FLASH_BOOT)
+Saved PC:0x42049ffe
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce3808,len:0x4bc
+load:0x403c9700,len:0xbd8
+load:0x403cc700,len:0x2a0c
+entry 0x403c98d0
+PERIPH_SCAN 0x29,0x40,0x70
+BNO_FEATURE phase=initial point=after_set kind=1 report_id=1 status=0 request_us=3629267 response_us=3634352 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=2 report_id=2 status=0 request_us=3638593 response_us=3643789 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=3 report_id=8 status=0 request_us=3647791 response_us=3652656 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=4 report_id=3 status=0 request_us=3656759 response_us=3661624 requested_interval_us=50000 accepted_interval_us=0 requested_hz=20.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_set kind=5 report_id=4 status=0 request_us=3665790 response_us=3670659 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=1 report_id=1 status=0 request_us=3672232 response_us=3677431 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=2 report_id=2 status=0 request_us=3679223 response_us=3683764 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=3 report_id=8 status=0 request_us=3685222 response_us=3690429 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=4 report_id=3 status=0 request_us=3692223 response_us=3696065 requested_interval_us=50000 accepted_interval_us=0 requested_hz=20.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=initial point=after_all kind=5 report_id=4 status=0 request_us=3697222 response_us=3711430 requested_interval_us=20000 accepted_interval_us=0 requested_hz=50.000 accepted_hz=0.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+STATE DISARMED
+xiao-boat-control-integration 0.3.5-estimated-state-dry-run boot=1419976063
+STATE FAULT
+BNO_FEquest_us=3717005 response_us=3724949 requested_interval_us=20000 accepted_interval_us=16000 requested_hz=50.000 accepted_hz=62.500 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+DIAG state=FAULT dry=1 bno_ready=1 addr=0x4A init/reinit/poll=1/0/0 event A/G/M=0/0/0 age_rx_us=4294967295/4294967295/4294967295
+IMU cand/pair/call/ok=0/0/0/0 reject=0 dup/order/stale/dt/nonfinite/norm/queue=0/0/0/0/0/0/0 last_ok_age_us=4294967295 dt_us=0 align_samples=0 align_elapsed_us=0
+HEALTH state=0 health=0 reason=imu_stale mount=0 imu_age_us=4294967295 imu_gaps=0 reversals=0 covariance=1 finite=1 gnss_age_us=4294967295 tof_age_us=4294967295 obs=0
+BNO_TS ACCEL events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_TS GYRO events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_FEATURE phase=reset point=after_set kind=2 report_id=2 status=0 request_us=3728870 response_us=3736918 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_TS MAG events=0 unique=0 exact=1 overflow=0 dup=0 reverse=0 rollover=0 sensor_dt_us=0/0.00/0 rx_dt_us=0/0.00/0 pair_first=0/0 pair_last=0/0
+BNO_VEC ACCEL_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC GYRO_SENSOR_AND_ESKF_INPUT events=0 nonfinite=0
+BNO_VEC MAG_SENSOR events=0 nonfinite=0
+LINK queue/drop/high=1/0/1 tof=1
+TXDIAG frames_s=2000 bytes_s=264000 total_frames=2 total_bytes=264 queue=0 high=1 drops=0 bno_drop=0 partial=0 zero=0 write_calls=46 max_write_us=0 free_heap=165804 min_free_heap=4294967295 usage_pct=286.46
+BNO_TX kind=1 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=1 report_id=1 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=2 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=2 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=2 report_id=2 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=3 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=3 report_id=8 interval_us=20000 requested_hz=50.000 enable_ok=2 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=4 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=4 report_id=3 interval_us=50000 requested_hz=20.000 enable_ok=1 enable_fail=0 callback=1 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_TX kind=5 event=0 req=0 enq=0 drop=0 done=0 bytes=0
+BNO_REPORT kind=5 report_id=4 interval_us=20000 requested_hz=50.000 enable_ok=1 enable_fail=0 callback=0 switch=0 kind_convert=0 events=0 tx_req=0 tx_enq=0 tx_done=0 tx_drop=0 event_drop=0 reset_reconfig=0 effective_hz=0.000
+BNO_FEATURE phase=reset point=after_set kind=3 report_id=8 status=0 request_us=3740326 response_us=3765884 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_set kind=4 report_id=3 status=0 request_us=3769265 response_us=3784797 requested_interval_us=50000 accepted_interval_us=40000 requested_hz=20.000 accepted_hz=25.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_set kind=5 report_id=4 status=0 request_us=3787865 response_us=3795149 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=1 report_id=1 status=0 request_us=3796738 response_us=3806546 requested_interval_us=20000 accepted_interval_us=16000 requested_hz=50.000 accepted_hz=62.500 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=2 report_id=2 status=0 request_us=3807743 response_us=3817342 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=3 report_id=8 status=0 request_us=3818743 response_us=3826816 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=4 report_id=3 status=0 request_us=3827745 response_us=3837306 requested_interval_us=50000 accepted_interval_us=40000 requested_hz=20.000 accepted_hz=25.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+BNO_FEATURE phase=reset point=after_all kind=5 report_id=4 status=0 request_us=3839742 response_us=3850874 requested_interval_us=20000 accepted_interval_us=20000 requested_hz=50.000 accepted_hz=50.000 flags=0x00 change_sensitivity=0 batch_interval_us=0 sensor_specific=0
+Guru Meditation Error: Core  1 panic'ed (Unhandled debug exception). 
+Debug exception reason: Stack canary watchpoint triggered (loopTask) 
+Core  1 register dump:
+PC      : 0x400570ee  PS      : 0x00060836  A0      : 0x82005496  A1      : 0x3fce9d40  
+A2      : 0x3fcea044  A3      : 0x00000000  A4      : 0x00000384  A5      : 0x3fcea0d4  
+A6      : 0x3fceab58  A7      : 0x00000038  A8      : 0x8200484c  A9      : 0x3fce9d10  
+A10     : 0x00000000  A11     : 0x3f800000  A12     : 0xbd560562  A13     : 0x3fe9ba95  
+A14     : 0x7ff00000  A15     : 0x000003fe  SAR     : 0x00000014  EXCCAUSE: 0x00000001  
+EXCVADDR: 0x00000000  LBEG    : 0x400570e8  LEND    : 0x400570f3  LCOUNT  : 0x0000002e  
+
+
+Backtrace: 0x400570eb:0x3fce9d40 0x42005493:0x3fce9d50 0x42005a1a:0x3fceaaf0 0x42007cfa:0x3fceac90 0x4200932f:0x3fcead60 0x420095de:0x3fceb460 0x42014db5:0x3fcebf70
+
+
+
+
+ELF file SHA256: e980388718751fd1
+
+Rebooting...
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x2b (SPI_FAST_FLASH_BOOT)
+Saved PC:0x42049ffe
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce3808,len:0x4bc
+load:0x403c9700,len:0xbd8
+load:0x403cc700,len:0x2a0c
+entry 0x403c98d0
+PERIPH_SCAN 0x29,0x40,0x70
