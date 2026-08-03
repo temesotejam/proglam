@@ -386,3 +386,11 @@ ec=411 で sdCommand(): Card Failed! cmd: 0x18 が発生。その後CMD0D/CMD00�
 - 物理Yaw操作でEuler Yawが主に変化。3軸の暫定対応（Roll→Euler Pitch、Pitch→Euler Roll、Yaw→Euler Yaw）を記録。
 - BOAT_EXPERIMENT=23をCOM4へビルド・書込み。復帰後Core APIでimu age=636 us、link error=0、ESKF run_state=2/health=1/mount_unvalidatedを確認。
 - COM3は引き続き未操作。
+
+## 2026-08-03 作業終了
+
+- RUN0058–RUN0062の全証跡と解析をGit管理下へ保存。
+- 最終XIAOはCOM4のBOAT_EXPERIMENT=23、COM3未操作。Core COM6シリアル未接続。
+- 3軸の暫定対応は物理Roll→Euler Pitch、物理Pitch→Euler Roll、物理Yaw→Euler Yaw。
+- 最終Core APIはlink error=0、ESKF run_state=2/health=1/mount_unvalidated。
+- 本日の作業を終了し、次回手順をdocs/WORK_HANDOFF_20260803_FINAL.mdへ記録。

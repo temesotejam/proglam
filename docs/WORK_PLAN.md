@@ -291,3 +291,10 @@ Next: inspect, without changing BNO report configuration, why BNO08X kind1 and k
 - [完了] 3軸確認後、BOAT_EXPERIMENT=23をCOM4へビルド・書込み。復帰後Core APIの新周期IMU/ESKF受信、link error=0を確認。ESKFはmount_unvalidated保留。
 - 次は取付姿勢のX/Y軸変換を確定し、必要なら通常周期で静止性能を再確認する。
 - 証跡: docs/BNO_AXIS_YAW_RUN0062_20260803.md、pc-tools/boat_eskf/captures/BNO_AXIS_YAW_20S_20260803/
+
+## 2026-08-03 作業終了時点
+
+- [保存完了] RUN0058–RUN0062の報告・BIN/TXT/API/解析証跡を保存。
+- [完了] 3軸確認後、XIAO COM4をBOAT_EXPERIMENT=23へ復帰。Core APIの通常周期復帰を確認。
+- [保留] BNO取付姿勢のX/Y軸変換確定。ESKFはmount_unvalidatedのまま。
+- [停止] 本日はここで終了。次回はdocs/WORK_HANDOFF_20260803_FINAL.mdから再開。
