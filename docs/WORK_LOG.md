@@ -467,3 +467,11 @@ PCA9685/VESCの全出力経路はコンパイル定数と乾式ランタイム�
 - 通信側 /waypoints /api/waypoints を追加。STOP/DISARMED限定、RUNNING/E_STOP拒否、CRC/revision/range検証、ACK後commit。
 - PC min_shadow_log.py と waypoint_protocol.py、14件のunittestを追加。C++ host PASS、Python unittest/compileall PASS、3環境PlatformIO SUCCESS。
 - 実機・COM3・書込み・センサ試験は行っていない。Draft PR #18のfeature branchへ次回push予定。
+
+## 2026-08-04 PR #18 final hardening
+
+- Audited branch/HEAD before work: feat/proposal-benchmark-replay-20260804 at 862915652aa195e45736b1a0668841b2c0248096, clean worktree, Draft PR #18 unmerged.
+- Implemented strict WaypointSet safety guard and communication UI disable behavior without changing control equations or physical-output settings.
+- Replaced the dummy long-test loop with a Controller::step-based 30-minute deterministic generator. Fixed initial timestamp-zero handling, explicit restart marker, E_STOP reason reporting, global sequence accounting, and invalid-sensor NaN handling in the decoder.
+- Added temporal join fields/checks and Type65 actual VESC sample timing. Rebuilt all three required environments and ran the Python suite.
+- Hardware/COM3/main branch were not touched.

@@ -367,3 +367,10 @@ PCA9685/VESCの全出力経路はコンパイル定数と乾式ランタイム�
 - [x] STOP限定・atomic Waypoint Type66/67と通信側Web UIを追加
 - [x] ホスト/C++/Python/PlatformIOビルドを確認
 - [ ] 実機60秒/長時間試験、COM操作、書込みはハードウェア不在・指示により保留
+
+## 2026-08-04 PR #18 final hardening (current)
+
+- Status: implementation and host/build verification complete; hardware execution remains pending because no hardware/COM operation is authorized.
+- Completed: strict DISARMED-only control-side WaypointSet guard; UI disable guard; temporal INA/VESC decoder; actual 30-minute Controller::step host test; stale/state/safety/slew/STOP-restart checks; Type65 receive timestamp; Python tests and three PlatformIO builds.
+- Evidence: C++ host PASS, 90,000 cycles at 20 ms, 270,002 BIN records, decoder all-zero integrity checks, deterministic SHA-256 match, 14 Python tests PASS, compileall PASS, proposal_shadow_min/proposal_shadow_comm/m5stack-cores3 SUCCESS.
+- Next: commit and push only feat/proposal-benchmark-replay-20260804, update Draft PR #18 body/comment, do not merge or push main. Hardware test is blocked until explicitly authorized with the correct devices.

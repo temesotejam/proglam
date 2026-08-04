@@ -22,3 +22,12 @@ python -m boat_eskf.min_shadow_log RUN.BIN --csv RUN.csv --txt RUN.TXT で Type 
 
 ## 検証
 ホストC++ proposal_min_host PASS、Python unittest（14件）、compileall、PlatformIO の proposal_shadow_min、proposal_shadow_comm、m5stack-cores3 を実行済み。30分相当の100 Hzループはホストの決定的モデルで検証した。これらは実機書込み・COM通信・センサ性能を証明しない。
+## 2026-08-04 PR #18 MIN SHADOW final hardening
+
+- Control-side WaypointSet is accepted only in DISARMED. BOOT, ARMED_IDLE, RUNNING, E_STOP, and FAULT return a WaypointAck with rejected status and a state-specific reason; stored revision and points are not modified.
+- The communication-side Web UI disables waypoint editing when `/api/ui` reports `control_state != DISARMED`. The server endpoint also rejects the request, so UI state is not the only guard.
+- `min_shadow_long_host.cpp` is a real 30-minute host test. It calls `proposal_min::Controller::step()` every 20 ms for 90,000 cycles and emits the actual Type 63/64/65/66/67 record layouts. It injects GNSS/IMU/ToF stale and non-finite windows, STOP followed by an explicit restart, E_STOP, heartbeat failure, and INA/VESC invalid windows.
+- `min_shadow_log.py` joins INA/VESC by record order only. A sample is eligible only when its sample timestamp is not later than the Type 63 control timestamp. CSV records sample time, payload age, control age, source/effective validity, stale, missing, and error fields; invalid samples are not replaced by zero.
+- Type 65 firmware now records the actual last VESC receive timestamp and derives age from the control timestamp. Mechanical RPM remains invalid unless explicitly supported.
+- Host result: 270,002 records (90,000 each of Type 63/64/65 plus one Type 66 and one Type 67), 90,000 CSV rows; all integrity/state/safety/slew/temporal checks are zero. Two deterministic runs produced identical SHA-256 BIN hashes.
+- No actuator equation, gain, MID/FULL, ESKF, UART, SD, buffer, mutex, or hardware setting was changed. No physical output was enabled.
