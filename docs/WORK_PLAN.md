@@ -228,29 +228,29 @@ Next: inspect, without changing BNO report configuration, why BNO08X kind1 and k
 - 通常運用周期への切替は未実施。SH-2 raw sensor timestamp重複/逆行とresetなしESKF累積状態は次の評価課題。
 
 
-## 2026-08-03 �ʏ�^�p�����ւ̐ؑ�
+## 2026-08-03 �ʏ�^�p�����ւ̐ؑ�
 
-- [����] RUN0057���i��ABOAT_EXPERIMENT=23�i�����x100 Hz�E�W���C��100 Hz�E���C20 Hz�AGame/Linear�����j��COM4�̃{�[�g�pXIAO�փr���h�E�����݁BCOM3�͖�����B
-- [�m�F] BNO ready=1�B�N���f�f��kind1/2/4�̂ݗL���Akind3/5��events=0�B����Hz�͖�126.36/100.05/25.02�B
-- [��] COM6��ڑ������Î~��Ԃ�BNO Roll/Pitch/Yaw���m�F�������s���B
-- �ؐ�: docs/NORMAL_OPERATION_SWITCH_20260803.md
-
-
-## 2026-08-03 �ʏ�^�p�Î~�
-
-- [�s����] ����ESKF reset���s��ACoreS3��USB_UART_CHIP_RESET��SoftAP/API��~�BCOM6�V���A�����J������͈Ȍ������B
-- [����] CoreS3 COM6�֑S�C���[�W��ROM no-stub/DIO�����݁AHash verified�BCOM3�͖�����B
-- [����] COM6���J����API�݂̂�ESKF reset_count=1�A12�b�Î~API���ۑ��Bsequence gap/CRC/COBS/length=0�B
-- [�ۗ�] �ʏ�^�p�ł�Game Rotation Vector�����Emount���m��̂��߁ARoll/Pitch/Yaw���m�F�͖����{�B�����������܂��͈ꎞ�f�f�ݒ���m�肷��B
-- �ؐ�: docs/NORMAL_OPERATION_STATIC_BASELINE_20260803.md
+- [����] RUN0057���i��ABOAT_EXPERIMENT=23�i�����x100 Hz�E�W���C��100 Hz�E���C20 Hz�AGame/Linear�����j��COM4�̃{�[�g�pXIAO�փr���h�E�����݁BCOM3�͖�����B
+- [�m�F] BNO ready=1�B�N���f�f��kind1/2/4�̂ݗL���Akind3/5��events=0�B����Hz�͖�126.36/100.05/25.02�B
+- [��] COM6��ڑ������Î~��Ԃ�BNO Roll/Pitch/Yaw���m�F������s���B
+- �ؐ�: docs/NORMAL_OPERATION_SWITCH_20260803.md
 
 
-## 2026-08-03 RUN0058 Game Rotation Vector���m�F����
+## 2026-08-03 �ʏ�^�p�Î~�
 
-- [����] ���m�F�pBOAT_EXPERIMENT=21��COM4�֏����݁BGyro/GVR 100 Hz�B
-- [����] RUN0058 API����10�b�Bkind2/3=999/999�ABIN 2,976 records�Atrailing=0�AP1 ACK=2�AUART/SD/queue�G���[0�B
-- [�ۗ�] �@�̂���]������Roll/Pitch/Yaw���E�����m�F�͖����{�B���͈ꎲ���p�����Œ肵�Ď擾���A�I����BOAT_EXPERIMENT=23�֕��A�B
-- �ؐ�: docs/BNO_ATTITUDE_GVR_10S_20260803.md�Apc-tools/boat_eskf/captures/BNO_ATTITUDE_GVR_10S_20260803/
+- [�s����] ����ESKF reset���s��ACoreS3��USB_UART_CHIP_RESET��SoftAP/API��~�BCOM6�V���A����J������͈Ȍ�����B
+- [����] CoreS3 COM6�֑S�C���[�W��ROM no-stub/DIO�����݁AHash verified�BCOM3�͖�����B
+- [����] COM6��J����API�݂̂�ESKF reset_count=1�A12�b�Î~API���ۑ��Bsequence gap/CRC/COBS/length=0�B
+- [�ۗ�] �ʏ�^�p�ł�Game Rotation Vector�����Emount���m��̂��߁ARoll/Pitch/Yaw���m�F�͖����{�B����������܂��͈ꎞ�f�f�ݒ��m�肷��B
+- �ؐ�: docs/NORMAL_OPERATION_STATIC_BASELINE_20260803.md
+
+
+## 2026-08-03 RUN0058 Game Rotation Vector���m�F����
+
+- [����] ���m�F�pBOAT_EXPERIMENT=21��COM4�֏����݁BGyro/GVR 100 Hz�B
+- [����] RUN0058 API����10�b�Bkind2/3=999/999�ABIN 2,976 records�Atrailing=0�AP1 ACK=2�AUART/SD/queue�G���[0�B
+- [�ۗ�] �@�̂��]������Roll/Pitch/Yaw���E�����m�F�͖����{�B���͈ꎲ���p����Œ肵�Ď擾���A�I����BOAT_EXPERIMENT=23�֕��A�B
+- �ؐ�: docs/BNO_ATTITUDE_GVR_10S_20260803.md�Apc-tools/boat_eskf/captures/BNO_ATTITUDE_GVR_10S_20260803/
 
 
 ## 2026-08-03 現在状態確認
@@ -351,3 +351,11 @@ PCA9685/VESCの全出力経路はコンパイル定数と乾式ランタイム�
 - C++/Python/PlatformIO検証: 完了。
 - 実機書込み・COM操作・60秒試験: 未実施（別承認待ち）。
 - 次の作業: 未計測項目を実機で収集できる対象機と配線を確定してから、Draft PRレビュー後に別手順で実施。
+
+
+## 2026-08-04 現行機構MIN対応追記
+- [x] 既存4出力候補と旧出力経路を監査（物理マッピング不明を停止条件として記録）
+- [x] GNSS→WP/LOS、IMU/ToF→前翼、rear yaw、単一推進のMIN SHADOW計算を共有モジュールへ接続
+- [x] neutral/min/max/sign/slew、stale、安全停止、ControlOutput Type 62を追加
+- [x] ホスト・制御XIAO・通信XIAO Sense・CoreS3ビルド確認
+- [ ] 物理4出力チャンネル、符号、中立、推進方法の実機確定（ハードウェア到着後）

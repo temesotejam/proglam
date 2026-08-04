@@ -72,7 +72,17 @@ constexpr uint16_t kLinkRxByteBudget=512;
 // Mount calibration is deliberately opt-in. The identity matrix keeps the
 // estimator observable for Stage A but reports DEGRADED until the measured
 // BNO-to-body transform has been confirmed on the boat.
-constexpr bool kBnoMountValidated=false;
+constexpr bool kBnoMountValidated=false; // Proposal MIN output/control configuration. Values are normalized until mechanism calibration.
+constexpr float kProposalTargetHeightM=1.2f, kProposalTargetPitchRad=0.0f, kProposalTargetRollRad=0.0f;
+constexpr float kProposalKpHeight=0.7f, kProposalKpPitch=0.8f, kProposalKdPitchRate=0.08f, kProposalKpRoll=1.4f, kProposalKdRollRate=0.25f, kProposalKpYaw=0.8f, kProposalKdYawRate=0.0f;
+constexpr float kProposalPropulsionCommand=0.0f, kProposalPropulsionStop=0.0f;
+constexpr uint32_t kProposalGnssStaleUs=500000UL, kProposalImuStaleUs=100000UL, kProposalTofStaleUs=250000UL, kProposalHeartbeatStaleUs=500000UL;
+constexpr float kProposalWaypointReachM=0.5f, kProposalMinCourseSpeedMps=0.5f;
+constexpr float kProposalLeftNeutral=0.0f, kProposalLeftMin=-1.0f, kProposalLeftMax=1.0f, kProposalLeftSign=1.0f, kProposalLeftSlew=1.0f;
+constexpr float kProposalRightNeutral=0.0f, kProposalRightMin=-1.0f, kProposalRightMax=1.0f, kProposalRightSign=1.0f, kProposalRightSlew=1.0f;
+constexpr float kProposalRearNeutral=0.0f, kProposalRearMin=-1.0f, kProposalRearMax=1.0f, kProposalRearSign=1.0f, kProposalRearSlew=1.0f;
+constexpr float kProposalPropNeutral=0.0f, kProposalPropMin=0.0f, kProposalPropMax=0.0f, kProposalPropSign=1.0f, kProposalPropSlew=1.0f;
+constexpr bool kProposalCalibrationRequired=true, kProposalLeftCalibrationRequired=true, kProposalRightCalibrationRequired=true, kProposalRearCalibrationRequired=true, kProposalPropulsionCalibrationRequired=true;
 constexpr float kBnoBodyXx=1,kBnoBodyXy=0,kBnoBodyXz=0,kBnoBodyYx=0,kBnoBodyYy=1,kBnoBodyYz=0,kBnoBodyZx=0,kBnoBodyZy=0,kBnoBodyZz=1;
 constexpr float kEstimatorKp=1.2f,kEstimatorKi=0.002f,kEstimatorAccelNormGain=0.35f,kEstimatorAccelJerkGain=0.015f,kEstimatorAccelWeightMin=0.05f,kEstimatorWeightRecovery=0.08f,kEstimatorMagKp=0.15f,kEstimatorMagFieldTolerance=0.35f,kEstimatorYawCorrectionDecay=0.92f;
 constexpr uint32_t kEstimatorGyroStaleUs=30000UL,kEstimatorAccelStaleUs=30000UL,kEstimatorMagStaleUs=120000UL,kEstimatorGnssStaleUs=500000UL,kEstimatorTofStaleUs=100000UL,kEstimatedStateTxIntervalMs=100UL,kPrimaryImuSnapshotTxIntervalMs=50UL;

@@ -317,30 +317,30 @@ ec=411 で sdCommand(): Card Failed! cmd: 0x18 が発生。その後CMD0D/CMD00�
 - 証跡：pc-tools/boat_eskf/captures/BNO_ALL_RAW_ENQ_10S_RETRY_20260803/。
 
 
-## 2026-08-03 �ʏ�^�p�����ؑ�
+## 2026-08-03 �ʏ�^�p�����ؑ�
 
-- COM4�iMAC 34:85:18:AB:FA:90�j�݂̂�BOAT_EXPERIMENT=23���r���h�E�����݁B�r���h�����AHash verified�BCOM3�͑��삹���ACOM6�͕ύX�Ȃ��B
-- COM4�N�����8�b�̐��V���A����ۑ��BBNO ready=1�Akind1/2/4�L���Akind3/5�����B����Hz��126.36/100.05/25.02�B
-- Core���ڑ���Ԃ̂���XIAO���S��Ԃ�FAULT�B���m�F������Core�ڑ���Ɏ��{����B
-- �ؐ�: pc-tools/boat_eskf/captures/NORMAL_OPERATION_BOOT_CHECK_20260803/xiao_boot_serial.log
-
-
-## 2026-08-03 �ʏ�^�p�Î~���Core����
-
-- COM6���J�����Î~����s��USB_UART_CHIP_RESET���API��~�B���񎎍s�͕s�����Ƃ��ĕۑ��B
-- CoreS3�S�C���[�W��ROM no-stub/DIO��COM6�֍ď����݁iMAC 30:ED:A0:D4:BF:40�j�AHash verified�BCOM3������B
-- COM6���J�����AAPI�݂̂�ESKF reset queued=true�Areset_count=1�A��12�b�̐Î~API��ۑ��Bsequence gap/CRC/COBS/length=0�B
-- quaternion/RPY�͑S���_��identity/0 rad�B�ʏ�ݒ�ł�Game Rotation Vector�����Amount���m��̂��ߎ��m�F�����͖����{�B
-- �ؐ�: pc-tools/boat_eskf/captures/NORMAL_OPERATION_STATIC_BASELINE_20260803/
+- COM4�iMAC 34:85:18:AB:FA:90�j�݂̂�BOAT_EXPERIMENT=23��r���h�E�����݁B�r���h�����AHash verified�BCOM3�͑��삹���ACOM6�͕ύX�Ȃ��B
+- COM4�N�����8�b�̐��V���A����ۑ��BBNO ready=1�Akind1/2/4�L���Akind3/5�����B����Hz��126.36/100.05/25.02�B
+- Core���ڑ���Ԃ̂���XIAO���S��Ԃ�FAULT�B���m�F������Core�ڑ���Ɏ��{����B
+- �ؐ�: pc-tools/boat_eskf/captures/NORMAL_OPERATION_BOOT_CHECK_20260803/xiao_boot_serial.log
 
 
-## 2026-08-03 RUN0058 GVR��������
+## 2026-08-03 �ʏ�^�p�Î~���Core����
 
-- COM4��BOAT_EXPERIMENT=21�������݁BCore COM6��API�̂ݎg�p�ACOM3������B
-- RUN0058: kind2 Gyro=999�Akind3 Game Rotation Vector=999�ABIN/TXT��������Atrailing=0�Aqueue/SD/UART�G���[0�B
-- GVR�Î~����Roll/Pitch/Yaw=-174.851632/1.461164/-178.638889 deg�Aquaternion norm����0.999994�B
-- raw sensor timestamp�t�s��kind2=354�Akind3=371�Breport sequence�͐���B
-- ����]����͂܂��s���Ă��Ȃ����߁A���m�F�͖������B
+- COM6��J�����Î~����s��USB_UART_CHIP_RESET���API��~�B���񎎍s�͕s�����Ƃ��ĕۑ��B
+- CoreS3�S�C���[�W��ROM no-stub/DIO��COM6�֍ď����݁iMAC 30:ED:A0:D4:BF:40�j�AHash verified�BCOM3������B
+- COM6��J�����AAPI�݂̂�ESKF reset queued=true�Areset_count=1�A��12�b�̐Î~API��ۑ��Bsequence gap/CRC/COBS/length=0�B
+- quaternion/RPY�͑S���_��identity/0 rad�B�ʏ�ݒ�ł�Game Rotation Vector�����Amount���m��̂��ߎ��m�F�����͖����{�B
+- �ؐ�: pc-tools/boat_eskf/captures/NORMAL_OPERATION_STATIC_BASELINE_20260803/
+
+
+## 2026-08-03 RUN0058 GVR��������
+
+- COM4��BOAT_EXPERIMENT=21������݁BCore COM6��API�̂ݎg�p�ACOM3������B
+- RUN0058: kind2 Gyro=999�Akind3 Game Rotation Vector=999�ABIN/TXT��������Atrailing=0�Aqueue/SD/UART�G���[0�B
+- GVR�Î~����Roll/Pitch/Yaw=-174.851632/1.461164/-178.638889 deg�Aquaternion norm����0.999994�B
+- raw sensor timestamp�t�s��kind2=354�Akind3=371�Breport sequence�͐���B
+- ����]����͂܂��s���Ă��Ȃ����߁A���m�F�͖������B
 
 
 ## 2026-08-03 現在状態確認
@@ -452,3 +452,10 @@ PCA9685/VESCの全出力経路はコンパイル定数と乾式ランタイム�
 - C++/Python/PlatformIO検証: 完了。
 - 実機書込み・COM操作・60秒試験: 未実施（別承認待ち）。
 - 次の作業: 未計測項目を実機で収集できる対象機と配線を確定してから、Draft PRレビュー後に別手順で実施。
+
+
+## 2026-08-04 現行機構MIN対応
+- 制御側ソースで確定した旧出力はPCA CH0単一汎用サーボとVESCテレメトリ解析のみ。4実出力マッピングは未確定のため実出力有効化を保留。
+- shared/proposal_minを設定可能な4出力MIN計算へ更新。GNSS stale、IMU stale、ToF stale、heartbeat、STOP/E-STOP、NaN/Infを安全側へ処理。
+- Type 62 ControlOutputを制御・通信・CoreS3のプロトコル定義へ追加し、制御結果のRAW SD記録経路を維持。
+- ホストテスト、Python 11件、制御XIAO通常/MIN、通信XIAO Sense、CoreS3のビルドを確認。実機書込み・COM操作は未実施。

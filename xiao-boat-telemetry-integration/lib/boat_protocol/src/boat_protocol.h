@@ -15,7 +15,7 @@ enum class Type : uint8_t {
   Estop = 37, ClearEstop = 38,
   BenchmarkPrepare = 48, BenchmarkReady = 49, BenchmarkStart = 50,
   BenchmarkStop = 51, BenchmarkResult = 52, BenchmarkEvent = 53,
-  SyntheticData = 54, BenchmarkAbort=55,EskfState=56,EskfInnovation=57,EskfHealth=58,GnssNavV2=59,TimeSyncEstimate=60,EskfCommand=61,
+  SyntheticData = 54, BenchmarkAbort=55,EskfState=56,EskfInnovation=57,EskfHealth=58,GnssNavV2=59,TimeSyncEstimate=60,EskfCommand=61,ControlOutput=62,
 };
 struct __attribute__((packed)) Header {
   uint8_t version, type;
@@ -31,7 +31,7 @@ struct Frame {
 };
 struct __attribute__((packed)) BnoPayload { uint8_t kind, accuracy, sequence, reserved; uint64_t sensorUs, callbackUs, queuePushUs; float v[7]; };
 struct __attribute__((packed)) PrimaryImuSnapshotPayload { uint64_t accelSensorUs, gyroSensorUs, magneticSensorUs; uint8_t accelAccuracy, gyroAccuracy, magneticAccuracy, reserved; float accel[3], gyro[3], magnetic[3]; };
-struct __attribute__((packed)) ProvisionalSystemPayload { uint64_t estimateUs; float rollRad, pitchRad, yawRad; float rollRateRadS, pitchRateRadS, yawRateRadS; double latitudeDeg, longitudeDeg; float groundSpeedMps, courseRad, waterHeightM; float accelDeltaMps2, gyroDeltaRadS; uint32_t primaryAgeMs, secondaryAgeMs, gnssAgeMs, tofAgeMs; uint16_t tofCenterMm; uint8_t flags, virtualMode, reserved[2]; };
+struct __attribute__((packed)) ControlOutputPayload { uint64_t timestampUs; float leftFrontWing,rightFrontWing,rearYaw,propulsion; float leftPrelimit,rightPrelimit,rearYawPrelimit,propulsionPrelimit; float uHeight,uPitch,uRoll,targetCourseRad,courseErrorRad,waypointDistanceM; uint8_t waypointIndex,safety,stopReason,shadowOnly,valid,reserved[3]; }; struct __attribute__((packed)) ProvisionalSystemPayload { uint64_t estimateUs; float rollRad, pitchRad, yawRad; float rollRateRadS, pitchRateRadS, yawRateRadS; double latitudeDeg, longitudeDeg; float groundSpeedMps, courseRad, waterHeightM; float accelDeltaMps2, gyroDeltaRadS; uint32_t primaryAgeMs, secondaryAgeMs, gnssAgeMs, tofAgeMs; uint16_t tofCenterMm; uint8_t flags, virtualMode, reserved[2]; };
 enum class CalibrationKind : uint8_t { Static6Face=1, RotationX=2, RotationY=3, RotationZ=4, GyroBias=5, Magnetic=6, TimeOffset=7, Tof=8, ServoGeometry=9, VescTelemetry=10 };
 enum class CalibrationAction : uint8_t { Start=1, Stop=2 };
 struct __attribute__((packed)) CalibrationMarkerPayload { uint32_t sessionId; uint8_t kind, action, step, reserved; };
