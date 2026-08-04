@@ -394,3 +394,12 @@ ec=411 で sdCommand(): Card Failed! cmd: 0x18 が発生。その後CMD0D/CMD00�
 - 3軸の暫定対応は物理Roll→Euler Pitch、物理Pitch→Euler Roll、物理Yaw→Euler Yaw。
 - 最終Core APIはlink error=0、ESKF run_state=2/health=1/mount_unvalidated。
 - 本日の作業を終了し、次回手順をdocs/WORK_HANDOFF_20260803_FINAL.mdへ記録。
+
+## 2026-08-04 RUN0063候補マウント変換試験と復旧
+
+- RUN0060～0062の符号付きgyroから暫定推定した `bodyX=-sensorY, bodyY=sensorX, bodyZ=sensorZ` をXIAOのESKF入力へ一時反映。`kBnoMountValidated=false`は維持。
+- exp23のビルド成功（RAM 204308/327680、Flash 576389/3342336）。COM4（MAC 34:85:18:AB:FA:90）へ書込み・Hash verified。COM3は未操作。
+- RUN0063開始APIはHTTP202、`eskf_reset_queued=true`。RUN0063.TXTはnormal_stop=1、records=1251、queue_drops=0、sd_write_errors=0、control_cobs_errors=1。
+- 試験中のCore APIは受信フレームが停滞し、ESKF `alignment_incomplete/run_state=1/health=0`。候補変換の正否は判定不能として不成立。
+- 候補変換をソースから除去し、恒等行列・raw ESKF入力へ復旧してCOM4へ再書込み。復旧後はlink connected、sequence gap/CRC/length=0をAPIで確認。ESKFはalignment_incompleteのため合格扱いしない。
+- 証跡: `docs/BNO_MOUNT_CANDIDATE_STATIC20_20260804.md`、`pc-tools/boat_eskf/captures/BNO_MOUNT_CANDIDATE_STATIC20_20260804/`
