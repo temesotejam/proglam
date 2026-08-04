@@ -413,3 +413,12 @@ ec=411 で sdCommand(): Card Failed! cmd: 0x18 が発生。その後CMD0D/CMD00�
 - `xiao-boat-control-integration/platformio.ini` に `ARDUINO_LOOP_STACK_SIZE=16384` を追加。Core/XIAO両方をビルドし、Core COM6はROM no-stub/DIO、XIAO COM4へ書込み、MAC/hash確認。COM3は操作していない。
 - 修正後、リセットAPIは再送せず起動のみ約8秒確認。stack panicなし、BNO event A/G/Mが増加、TX drop/partial/zero=0、Core API linkもsequence gap/CRC/length=0で復旧。XIAO FAULTは安全状態でありACK成功とは扱わない。
 - 証跡: `docs/ESKF_RESET_FLOW_DIAGNOSTIC_20260804.md`、`pc-tools/boat_eskf/captures/ESKF_RESET_FLOW_DIAGNOSTIC_20260804/`。
+## 2026-08-04 提言書実現可能性静的解析
+
+- 添付方針を確認し、優先順位を提言書の2台XIAO実現可能性確認へ変更。ESKF reset再試験、RUN0064、mount候補再適用、15状態ESKF本番接続は実施しない。
+- origin/main `fa5a73b8bef303c46560c2fb16658ded4f6ef97a`を正本として解析。制御側はBno task（core0, priority3, 8192 words）、LinkTx（core0, priority4, 4096 words）、Arduino loop（core1, loop stack 16384 bytes）。通信・記録側CoreはUartRx（core1, priority2, 8192 words）、SdWriter（core1, priority1, 12288 words）、Arduino loop（core1）。
+- XIAOはBNO event queue 96、link TX queue 64、Core logger queue 96、Core UART RX buffer 16384 B、SD buffer 8192 B/512 B chunk、BNO I2C 100 kHz、周辺I2C 400 kHz。BOAT_EXPERIMENT=23はAccel/Gyro 100 Hz、Mag 20 Hz、GVR/Linear無効。
+- P0、BOAT_EXPERIMENT=23、BNO all実験30の静的ビルドを実施し、全て成功。P0/23 RAM 205076 B、Flash 577381 B、all RAM 205076 B、Flash 577417 B。Core既存ビルドはRAM 168156 B、Flash 1034237 B。
+- 提言書機能を静的分類。BNO/GNSS/ToF/SD/UART骨格は存在するが、AS5600、Waypoint/LOS/ILOS、水平EKF、高さKF、大会状態機械、実制御経路は未実装または別途SHADOWが必要。最終判定A/B/C/Dは保留。
+- 構成Cを最初の候補、構成Bを比較候補とした。UART帯域の机上見積りはBNO allだけで約213–218 kbps（921600 bps中）だが、burst/queue/SD/deadlineを含む実測が必要。
+- 証跡文書: `docs/PROPOSAL_FEASIBILITY_STATIC_20260804.md`。実機・COM3操作なし。
