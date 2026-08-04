@@ -403,3 +403,13 @@ ec=411 で sdCommand(): Card Failed! cmd: 0x18 が発生。その後CMD0D/CMD00�
 - 試験中のCore APIは受信フレームが停滞し、ESKF `alignment_incomplete/run_state=1/health=0`。候補変換の正否は判定不能として不成立。
 - 候補変換をソースから除去し、恒等行列・raw ESKF入力へ復旧してCOM4へ再書込み。復旧後はlink connected、sequence gap/CRC/length=0をAPIで確認。ESKFはalignment_incompleteのため合格扱いしない。
 - 証跡: `docs/BNO_MOUNT_CANDIDATE_STATIC20_20260804.md`、`pc-tools/boat_eskf/captures/BNO_MOUNT_CANDIDATE_STATIC20_20260804/`
+
+## 2026-08-04 ESKFリセット経路診断とXIAOスタック修正
+
+- ユーザー指示に従い、BOAT_EXPERIMENT=23、mount transform未確定、COM4 XIAO／COM6 Coreのみで作業。COM3は開かず、P1/RUN0064も開始しなかった。
+- Core側でAPI受付、TX enqueue、TX complete、ACK受信、ACK timeout、reset_count観測を追加。XIAO側でEskfCommandの受信判定と既存CommandAckによる結果通知を追加。BNO周期、ESKF方程式、ログ形式、アクチュエータ設定は変更していない。
+- `/api/eskf/reset` を1回送信し、応答は `queued=true`。Core traceは `api_requests=1, core_tx_enqueued=1, core_tx_complete=1, ack_received=0, ack_timeout=1`、reset_countは0のまま。UART sequence gap/CRC/COBS/lengthは0/0/0/0。
+- XIAOログで `Guru Meditation` / `Stack canary watchpoint triggered (loopTask)`。addr2lineは `eskf::Shadow::updateLinear`（eskf.cpp:97）→`updateGnss`（110）→`processNav`（main.cpp:105）→`linkRxService`（157）→`loop`（177）を示した。ACK未受信の第一原因をloopTaskスタック枯渇と判定。
+- `xiao-boat-control-integration/platformio.ini` に `ARDUINO_LOOP_STACK_SIZE=16384` を追加。Core/XIAO両方をビルドし、Core COM6はROM no-stub/DIO、XIAO COM4へ書込み、MAC/hash確認。COM3は操作していない。
+- 修正後、リセットAPIは再送せず起動のみ約8秒確認。stack panicなし、BNO event A/G/Mが増加、TX drop/partial/zero=0、Core API linkもsequence gap/CRC/length=0で復旧。XIAO FAULTは安全状態でありACK成功とは扱わない。
+- 証跡: `docs/ESKF_RESET_FLOW_DIAGNOSTIC_20260804.md`、`pc-tools/boat_eskf/captures/ESKF_RESET_FLOW_DIAGNOSTIC_20260804/`。

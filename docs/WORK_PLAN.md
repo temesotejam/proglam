@@ -306,3 +306,13 @@ Next: inspect, without changing BNO report configuration, why BNO08X kind1 and k
 - [保存完了] RUN0063 BIN/TXT、開始前・試験中・終了後・復旧後のCore API応答を `pc-tools/boat_eskf/captures/BNO_MOUNT_CANDIDATE_STATIC20_20260804/` に保存。
 - [保留] 候補変換の再適用、mount_valid=true化、通常運用合格判定は行わない。まずESKFリセット後のalignment遷移と通信再開を切り分ける。
 - 証跡: `docs/BNO_MOUNT_CANDIDATE_STATIC20_20260804.md`
+
+## 2026-08-04 ESKFリセット経路診断
+
+- [完了] Core API→Core UART→XIAO受信・dispatch→ESKF reset→ACK→Core APIの診断点を追加。CommandAckの既存wire formatは変更していない。
+- [完了] リセット専用試験を1回だけ実施。API受付1、Core TX enqueue/complete 1/1、ACK 0、ACK timeout 1、reset_count 0→0。RUN0064/P1は未開始。
+- [完了] XIAO生ログのstack canary panicをaddr2lineで `updateLinear→updateGnss→processNav→linkRxService→loopTask` と特定。
+- [完了] 最小修正としてXIAO `ARDUINO_LOOP_STACK_SIZE=16384` を追加し、COM4/COM6へビルド・書込み・hash確認。COM3は未操作。
+- [完了] 修正後のCOM4起動確認でpanic再発なし、BNOイベント継続、Core API link診断復旧。リセットAPIは再送していない。
+- [次] 修正版でリセット専用APIをもう一度だけ確認し、ACKとreset_count+1が成立した場合のみRUN0064へ進む。
+- 詳細: `docs/ESKF_RESET_FLOW_DIAGNOSTIC_20260804.md`、`pc-tools/boat_eskf/captures/ESKF_RESET_FLOW_DIAGNOSTIC_20260804/`
