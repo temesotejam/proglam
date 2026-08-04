@@ -298,3 +298,11 @@ Next: inspect, without changing BNO report configuration, why BNO08X kind1 and k
 - [完了] 3軸確認後、XIAO COM4をBOAT_EXPERIMENT=23へ復帰。Core APIの通常周期復帰を確認。
 - [保留] BNO取付姿勢のX/Y軸変換確定。ESKFはmount_unvalidatedのまま。
 - [停止] 本日はここで終了。次回はdocs/WORK_HANDOFF_20260803_FINAL.mdから再開。
+
+## 2026-08-04 BNOマウント候補変換試験 RUN0063
+
+- [不成立] RUN0063で、RUN0060～0062から推定した候補行列 `bodyX=-sensorY, bodyY=sensorX, bodyZ=sensorZ` をESKF predict入力へ一時反映して20秒API試験を開始したが、ESKFは `alignment_incomplete/run_state=1/health=0` のままで、候補変換の妥当性判定はできなかった。
+- [復旧完了] 候補行列とinline変換を除去し、BOAT_EXPERIMENT=23の恒等行列・raw ESKF入力へ戻してCOM4へビルド・書込み。MAC確認・Hash verified。COM3未操作。
+- [保存完了] RUN0063 BIN/TXT、開始前・試験中・終了後・復旧後のCore API応答を `pc-tools/boat_eskf/captures/BNO_MOUNT_CANDIDATE_STATIC20_20260804/` に保存。
+- [保留] 候補変換の再適用、mount_valid=true化、通常運用合格判定は行わない。まずESKFリセット後のalignment遷移と通信再開を切り分ける。
+- 証跡: `docs/BNO_MOUNT_CANDIDATE_STATIC20_20260804.md`
