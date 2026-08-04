@@ -316,3 +316,11 @@ Next: inspect, without changing BNO report configuration, why BNO08X kind1 and k
 - [完了] 修正後のCOM4起動確認でpanic再発なし、BNOイベント継続、Core API link診断復旧。リセットAPIは再送していない。
 - [次] 修正版でリセット専用APIをもう一度だけ確認し、ACKとreset_count+1が成立した場合のみRUN0064へ進む。
 - 詳細: `docs/ESKF_RESET_FLOW_DIAGNOSTIC_20260804.md`、`pc-tools/boat_eskf/captures/ESKF_RESET_FLOW_DIAGNOSTIC_20260804/`
+## 2026-08-04 提言書実現可能性確認へ方針変更
+
+- [方針変更] 従来のESKF reset再診断、RUN0064、候補BNO軸変換、15状態ESKF alignment修復を一時中断。現行ESKFは削除せずSHADOW/研究用として保持する。
+- [完了] origin/main `fa5a73b8`を正本として、2台XIAO/Core構成、タスク、stack、queue、mutex、周期、I/O、提言書機能の静的解析を実施。実機書込み・COM操作なし、COM3未操作。
+- [完了] P0、BOAT_EXPERIMENT=23、BNO all（30）の静的ビルドを実施。全て成功。RAMはXIAO 205076/327680 B、Flashは577381–577417/3342336 B。これは実時間合格を意味しない。
+- [完了] 暫定分担は構成C（大会最低構成＋EKF/KF SHADOW）から開始し、構成B（高速制御を制御側、GNSS/Waypoint/LOS/Web/SDを通信側）を比較する方針。A/B/Cの最終判定は未実施。
+- [次] 専用feature flag/実験番号で、保存データreplay・固定長algorithm benchmark・P0/P1 SHADOW 60秒・10分試験を段階実施。BOAT_EXPERIMENT=23を上書きしない。
+- 詳細: `docs/PROPOSAL_FEASIBILITY_STATIC_20260804.md`
