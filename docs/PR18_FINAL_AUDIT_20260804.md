@@ -6,7 +6,7 @@
 1. **結論 — 実装済み・ホスト確認済み**
    MIN SHADOWの安全ガード、Waypoint共通C++実装、Type63–67共通wire、30分決定的fixture、診断デコーダと陰性テストを完了。物理出力は無効のまま。実機試験は行っていない。
 2. **初期HEAD / 最終HEAD — 実装済み・ホスト確認済み**
-   監査開始時は `af55ae17d6191cba8816cb9b13a8993837c652b6`（`af55ae1`）。最終HEADは `6cd1a27`（監査実装と報告を含むコミット）である。
+   監査開始時は `af55ae17d6191cba8816cb9b13a8993837c652b6`（`af55ae1`）。最終HEADは `b16e9e6`（UTF-8報告復元を含む最終監査コミット）である。
 3. **ブランチ — 実装済み・ホスト確認済み**
    `feat/proposal-benchmark-replay-20260804`。
 4. **PR — 実装済み・ホスト確認済み**
@@ -66,9 +66,9 @@
 31. **変更ファイル — 実装済み・ホスト確認済み**
     `shared/proposal_min/src/waypoint_apply.{h,cpp}`、`shared/proposal_min/src/proposal_min.cpp`、`xiao-boat-control-integration/src/main.cpp`、`pc-tools/boat_eskf/cpp_tests/{Arduino.h,waypoint_apply_host.cpp,min_shadow_long_host.cpp}`、`pc-tools/boat_eskf/boat_eskf/min_shadow_log.py`、`pc-tools/boat_eskf/tests/test_min_shadow_negative.py`。
 32. **追加コミット — 実装済み・ホスト確認済み**
-    監査実装と報告を既存 `af55ae1` にamendせず、追加コミット `6cd1a27` として保存した。
+    監査実装と報告を既存 `af55ae1` にamendせず、追加コミット `6cd1a27` と最終文書コミット `b16e9e6` として保存した。
 33. **push — 実装済み・ホスト確認済み**
-    feature branchのみoriginへpush済み（`af55ae1..6cd1a27`）。mainへのpush/mergeはしていない。
+    feature branchのみoriginへpush済み（`af55ae1..b16e9e6`）。mainへのpush/mergeはしていない。
 34. **未解決 — ハードウェア不在により保留**
     30分実機連続記録、実際のPCA/VESC/INA出力、microSD、UART負荷、センサ実測、実機BIN完全復号は未確認。正しい対象機材が明示的に使用可能になった後に別試験として実施する。
 
