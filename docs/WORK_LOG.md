@@ -431,3 +431,11 @@ ec=411 で sdCommand(): Card Failed! cmd: 0x18 が発生。その後CMD0D/CMD00�
 - unittest 11件成功、compileall成功。
 - PlatformIO:既存23、proposal BASE/MIN/MID/FULL/LEGACY、CoreS3既存を全てSUCCESS。XIAO RAM205076/327680、Flash577381/3342336、Core RAM168156/327680、Flash1034237/6553600。
 - A/B/C/Dの正式判定、XIAO実時間性能、UART実帯域、SD実書込み、10分耐久は未実施。
+
+## 2026-08-04 MIN SHADOW事前確認で停止
+- 添付手順、PR #18 commit `874e7ac`、`ACTUATOR_OUTPUT_ENABLE=0`等を確認。
+- Windows PnP読み取りでCOM4/COM6（VID:PID 303A:1001）のみ検出。保存済み機器対応ではCOM4=制御側XIAO、COM6=通信側CoreS3。COM3は検出・操作なし。
+- `rg`監査で`kProposalProfile`等は宣言のみ、XIAO実時間MIN計算経路への参照なし。Waypoint/LOS/COG/Roll PD/翼合成等はホスト評価層のみ。
+- `xiao-boat-telemetry-integration`のGNSS/SD/Web仮統合は別既存ファームウェアで、PR #18 MINフラグとは未統合。
+- 対象機・実行経路・コンパイル時出力遮断を確定できないため、書き込み前停止。
+- 証跡: `docs/MIN_SHADOW_PREFLIGHT_BLOCKED_20260804.md`。

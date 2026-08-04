@@ -332,3 +332,9 @@ Next: inspect, without changing BNO report configuration, why BNO08X kind1 and k
 - [完了] XIAO既存23、専用5環境、CoreS3既存環境を実機書込みなしでビルド
 - [完了] 設計書、リプレイ仕様、ビルド比較、次段階SHADOW手順を追加
 - [次] PRはDraftでレビュー待ち。XIAO上60秒／10分SHADOW測定後までA/B/C/D判定を保留
+
+## 2026-08-04 MIN SHADOW事前確認（書き込み前停止）
+- [停止] USB PnPはCOM4/COM6のみ。保存済み対応ではCOM4が制御側XIAO、COM6が通信側CoreS3で、通信側XIAOを確定できない。COM3未操作。
+- [停止] `proposal_replay_min`は識別用feature flagのみで、XIAO実時間MINアルゴリズムへ未接続。ホスト評価コードはファームウェアへリンクされない。
+- [未実施] 書き込み、シリアル接続、SD/API、60秒試験。対象機と実行経路が確定するまで再開しない。
+- [要選択] 通信側XIAOを接続してMIN経路を実装するか、XIAO+CoreS3の既存仮統合SHADOWを対象とするかを確定する。
