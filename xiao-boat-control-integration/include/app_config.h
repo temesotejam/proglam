@@ -23,6 +23,8 @@ static_assert(!BENCHMARK_ENABLE || !ACTUATOR_OUTPUT_ENABLE,
               "proposal benchmark must never enable actuator output");
 static_assert(!REPLAY_ENABLE || !ACTUATOR_OUTPUT_ENABLE,
               "proposal replay must never enable actuator output");
+static_assert(!SHADOW_CONTROL_ENABLE || !ACTUATOR_OUTPUT_ENABLE,
+              "MIN shadow control must never enable actuator output");
 namespace app_config {
 constexpr char kFirmwareName[]="xiao-boat-control-integration";
 constexpr char kFirmwareVersion[]="0.3.5-estimated-state-dry-run";
@@ -50,6 +52,7 @@ constexpr uint8_t kProposalProfile=(uint8_t)PROPOSAL_PROFILE;
 constexpr bool kProposalActuatorPathEnabled = kActuatorOutputEnabled &&
                                                kActuatorOutputCompileEnable &&
                                                !kBenchmarkEnable && !kReplayEnable;
+constexpr bool kPhysicalOutputCompileEnabled = kActuatorOutputCompileEnable && !kShadowControlEnable && !kBenchmarkEnable && !kReplayEnable;
 constexpr bool kPrimaryBnoEnabled=true,kSecondaryBnoEnabled=false;
 constexpr uint32_t kEskfStateIntervalMs=50UL,kEskfHealthIntervalMs=200UL,kEskfAlignmentUs=2000000UL,kEskfCheckpointIntervalUs=50000UL,kEskfImuStaleUs=50000UL;
 constexpr float kEskfGyroNoise=0.020f,kEskfAccelNoise=0.35f,kEskfGyroBiasRw=0.0005f,kEskfAccelBiasRw=0.010f;

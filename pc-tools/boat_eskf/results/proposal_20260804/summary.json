@@ -1,7 +1,7 @@
 {
   "all_benchmark_outputs_finite": true,
   "all_replay_deterministic": true,
-  "benchmark_path": "pc-tools\\boat_eskf\\results\\proposal_20260804\\benchmark.json",
+  "benchmark_path": "C:\\Users\\arika\\Documents\\PlatformIO\\proglam\\pc-tools\\boat_eskf\\results\\proposal_20260804\\benchmark.json",
   "host_timing_only": true,
   "iterations": 10000,
   "modes": [
@@ -11,5 +11,5 @@
     "FULL",
     "LEGACY"
   ],
-  "replay_path": "pc-tools\\boat_eskf\\results\\proposal_20260804\\replay.json"
+  "replay_path": "C:\\Users\\arika\\Documents\\PlatformIO\\proglam\\pc-tools\\boat_eskf\\results\\proposal_20260804\\replay.json"
 }

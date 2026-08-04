@@ -2,8 +2,19 @@
 
 #include <Arduino.h>
 #include "experiment_config.h"
+#ifndef SHADOW_CONTROL_ENABLE
+#define SHADOW_CONTROL_ENABLE 0
+#endif
+#ifndef ACTUATOR_OUTPUT_ENABLE
+#define ACTUATOR_OUTPUT_ENABLE 0
+#endif
+#ifndef PROPOSAL_PROFILE
+#define PROPOSAL_PROFILE 0
+#endif
+static_assert(!SHADOW_CONTROL_ENABLE || !ACTUATOR_OUTPUT_ENABLE, "communication shadow cannot enable actuator output");
 
 namespace app_config {
+constexpr bool kProposalShadowEnable=SHADOW_CONTROL_ENABLE!=0; constexpr uint8_t kProposalProfile=(uint8_t)PROPOSAL_PROFILE; constexpr bool kPhysicalOutputCompileEnabled=ACTUATOR_OUTPUT_ENABLE!=0 && !kProposalShadowEnable;
 constexpr char kFirmwareName[] = "xiao-boat-telemetry-integration";
 constexpr char kFirmwareVersion[] = "0.3.8-provisional-shadow-system";
 constexpr bool kDualImuTransformProvisional = true;
