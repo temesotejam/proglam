@@ -18,7 +18,7 @@
 7. **host dummy値の除去 — 実装済み・ホスト確認済み**
    30分試験はController::stepとproduction `boat_protocol.h`のencode/decodeを使用。Type66/67は実体payloadとCRCを生成し、zero-array dummyを使用しない。host試験限定でpropulsion範囲0..1と0.4 commandを使用し、firmware設定は0..0のまま。
 8. **Type63–67経路 — 実装済み・ホスト確認済み**
-   Type63/64/65/66/67をproduction共通structでencode、COBS/CRC decode、長さ・Waypoint CRC・ACK statusを検査。wire sizeは190/32/48/76/16 bytes。
+   Type63/64/65/66/67をproduction共通structでencode、COBS/CRC decode、長さ・Waypoint CRC・ACK statusを検査。wire sizeは190/32/48/276/16 bytes（Type66は16点分のWaypointGeoを含む）。
 9. **C++ Waypoint 6状態試験 — 実装済み・ホスト確認済み**
    BOOT、DISARMED、ARMED_IDLE、RUNNING、E_STOP、FAULTを検査。DISARMEDのみAccepted。
 10. **reject atomicity — 実装済み・ホスト確認済み**
