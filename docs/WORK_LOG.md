@@ -459,3 +459,11 @@ PCA9685/VESCの全出力経路はコンパイル定数と乾式ランタイム�
 - shared/proposal_minを設定可能な4出力MIN計算へ更新。GNSS stale、IMU stale、ToF stale、heartbeat、STOP/E-STOP、NaN/Infを安全側へ処理。
 - Type 62 ControlOutputを制御・通信・CoreS3のプロトコル定義へ追加し、制御結果のRAW SD記録経路を維持。
 - ホストテスト、Python 11件、制御XIAO通常/MIN、通信XIAO Sense、CoreS3のビルドを確認。実機書込み・COM操作は未実施。
+
+
+## 2026-08-04 MIN SHADOW運用準備実装
+- Type63 ControlSnapshot（190 B）、Type64 INA（32 B）、Type65 VESC（48 B）、Type66/67 Waypoint（276/16 B）を3ノード共通protocolへ追加し、Coreの期待長・型名・static_assertを追加。
+- 制御側はGNSS/IMU/ToF/内部制御量/4出力/validity/state/revisionを100 ms周期でType63送信。INA未設定はvalid=false、VESCはERPMのみでmechanicalRpmValid=false。
+- 通信側 /waypoints /api/waypoints を追加。STOP/DISARMED限定、RUNNING/E_STOP拒否、CRC/revision/range検証、ACK後commit。
+- PC min_shadow_log.py と waypoint_protocol.py、14件のunittestを追加。C++ host PASS、Python unittest/compileall PASS、3環境PlatformIO SUCCESS。
+- 実機・COM3・書込み・センサ試験は行っていない。Draft PR #18のfeature branchへ次回push予定。

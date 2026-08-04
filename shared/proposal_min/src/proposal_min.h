@@ -39,7 +39,8 @@ struct Input {
 struct Output {
   float leftFront = 0, rightFront = 0, rearYaw = 0, propulsion = 0;
   float left_front_wing = 0, right_front_wing = 0, rear_yaw = 0;
-  float u_height = 0, u_pitch = 0, u_roll = 0, targetCourseRad = 0, courseErrorRad = 0;
+  float u_height = 0, u_pitch = 0, u_roll = 0, u_yaw = 0, frontCommon = 0, frontDifferential = 0, targetCourseRad = 0, courseErrorRad = 0;
+  uint16_t tofRawMm = 0; float tofFilteredM = 0, heightErrorM = 0; bool gnssValid = false, imuValid = false, tofValid = false, heightValid = false;
   float leftPrelimit = 0, rightPrelimit = 0, rearYawPrelimit = 0, propulsionPrelimit = 0;
   float waypointDistanceM = 0;
   Safety safety = Safety::Disarmed;

@@ -359,3 +359,11 @@ PCA9685/VESCの全出力経路はコンパイル定数と乾式ランタイム�
 - [x] neutral/min/max/sign/slew、stale、安全停止、ControlOutput Type 62を追加
 - [x] ホスト・制御XIAO・通信XIAO Sense・CoreS3ビルド確認
 - [ ] 物理4出力チャンネル、符号、中立、推進方法の実機確定（ハードウェア到着後）
+
+
+## 2026-08-04 MIN SHADOW運用準備
+- [x] Type63/64/65詳細ログ、Core型長、packed static_assertを追加
+- [x] PC BINデコーダ/CSV、INA無効表現、VESC ERPM区別を追加
+- [x] STOP限定・atomic Waypoint Type66/67と通信側Web UIを追加
+- [x] ホスト/C++/Python/PlatformIOビルドを確認
+- [ ] 実機60秒/長時間試験、COM操作、書込みはハードウェア不在・指示により保留

@@ -15,7 +15,7 @@ enum class Type : uint8_t {
   Estop = 37, ClearEstop = 38,
   BenchmarkPrepare = 48, BenchmarkReady = 49, BenchmarkStart = 50,
   BenchmarkStop = 51, BenchmarkResult = 52, BenchmarkEvent = 53,
-  SyntheticData = 54, BenchmarkAbort=55,EskfState=56,EskfInnovation=57,EskfHealth=58,GnssNavV2=59,TimeSyncEstimate=60,EskfCommand=61,ControlOutput=62,
+  SyntheticData = 54, BenchmarkAbort=55,EskfState=56,EskfInnovation=57,EskfHealth=58,GnssNavV2=59,TimeSyncEstimate=60,EskfCommand=61,ControlOutput=62,ControlSnapshot=63,InaStatus=64,VescTelemetry=65,WaypointSet=66,WaypointAck=67,
 };
 struct __attribute__((packed)) Header {
   uint8_t version, type;
@@ -31,7 +31,14 @@ struct Frame {
 };
 struct __attribute__((packed)) BnoPayload { uint8_t kind, accuracy, sequence, reserved; uint64_t sensorUs, callbackUs, queuePushUs; float v[7]; };
 struct __attribute__((packed)) PrimaryImuSnapshotPayload { uint64_t accelSensorUs, gyroSensorUs, magneticSensorUs; uint8_t accelAccuracy, gyroAccuracy, magneticAccuracy, reserved; float accel[3], gyro[3], magnetic[3]; };
-struct __attribute__((packed)) ControlOutputPayload { uint64_t timestampUs; float leftFrontWing,rightFrontWing,rearYaw,propulsion; float leftPrelimit,rightPrelimit,rearYawPrelimit,propulsionPrelimit; float uHeight,uPitch,uRoll,targetCourseRad,courseErrorRad,waypointDistanceM; uint8_t waypointIndex,safety,stopReason,shadowOnly,valid,reserved[3]; }; struct __attribute__((packed)) ProvisionalSystemPayload { uint64_t estimateUs; float rollRad, pitchRad, yawRad; float rollRateRadS, pitchRateRadS, yawRateRadS; double latitudeDeg, longitudeDeg; float groundSpeedMps, courseRad, waterHeightM; float accelDeltaMps2, gyroDeltaRadS; uint32_t primaryAgeMs, secondaryAgeMs, gnssAgeMs, tofAgeMs; uint16_t tofCenterMm; uint8_t flags, virtualMode, reserved[2]; };
+struct __attribute__((packed)) ControlOutputPayload { uint64_t timestampUs; float leftFrontWing,rightFrontWing,rearYaw,propulsion; float leftPrelimit,rightPrelimit,rearYawPrelimit,propulsionPrelimit; float uHeight,uPitch,uRoll,targetCourseRad,courseErrorRad,waypointDistanceM; uint8_t waypointIndex,safety,stopReason,shadowOnly,valid,reserved[3]; };
+struct __attribute__((packed)) ControlSnapshotPayload { uint64_t timestampUs; uint32_t cycle,waypointRevision,gnssAgeUs,imuAgeUs,tofAgeUs; double latitudeDeg,longitudeDeg,targetWaypointLatitudeDeg,targetWaypointLongitudeDeg; float speedMps,gnssCourseRad,localNorthM,localEastM,targetBearingRad,courseErrorRad,waypointDistanceM; float rollRad,pitchRad,yawRad,rollRateRadS,pitchRateRadS,yawRateRadS; uint16_t tofRawMm; float tofFilteredM,heightErrorM,uHeight,uPitch,uRoll,uYaw,frontCommon,frontDifferential; float leftFrontWing,rightFrontWing,rearYaw,propulsion,leftPrelimit,rightPrelimit,rearYawPrelimit,propulsionPrelimit; uint8_t gnssValid,imuValid,tofValid,heightValid,waypointReached,outputValid,state,safetyReason,mode,activeWaypoint,reserved[2]; };
+struct __attribute__((packed)) InaStatusPayload { uint64_t timestampUs; uint32_t ageUs; float busVoltageV,shuntVoltageV,currentA,powerW; uint8_t valid,errorCode; uint16_t reserved; };
+struct __attribute__((packed)) VescTelemetryPayload { uint64_t timestampUs; uint32_t ageUs; float inputVoltageV,motorCurrentA,inputCurrentA,duty,erpm,mosTempC,motorTempC; int32_t tachometer; uint8_t valid,mechanicalRpmValid,fault,reserved; };
+struct __attribute__((packed)) WaypointGeo { double latitudeDeg,longitudeDeg; };
+struct __attribute__((packed)) WaypointSetPayload { uint32_t requestId,revision; uint8_t action,count,reserved[2]; float reachRadiusM; WaypointGeo points[16]; uint32_t canonicalCrc; };
+struct __attribute__((packed)) WaypointAckPayload { uint32_t requestId,revision; uint8_t status,reason,activeIndex,count; uint32_t canonicalCrc; }; static_assert(sizeof(ControlSnapshotPayload)==190,"ControlSnapshotPayload size"); static_assert(sizeof(InaStatusPayload)==32,"InaStatusPayload size"); static_assert(sizeof(VescTelemetryPayload)==48,"VescTelemetryPayload size"); static_assert(sizeof(WaypointSetPayload)==276,"WaypointSetPayload size"); static_assert(sizeof(WaypointAckPayload)==16,"WaypointAckPayload size");
+struct __attribute__((packed)) ProvisionalSystemPayload { uint64_t estimateUs; float rollRad, pitchRad, yawRad; float rollRateRadS, pitchRateRadS, yawRateRadS; double latitudeDeg, longitudeDeg; float groundSpeedMps, courseRad, waterHeightM; float accelDeltaMps2, gyroDeltaRadS; uint32_t primaryAgeMs, secondaryAgeMs, gnssAgeMs, tofAgeMs; uint16_t tofCenterMm; uint8_t flags, virtualMode, reserved[2]; };
 enum class CalibrationKind : uint8_t { Static6Face=1, RotationX=2, RotationY=3, RotationZ=4, GyroBias=5, Magnetic=6, TimeOffset=7, Tof=8, ServoGeometry=9, VescTelemetry=10 };
 enum class CalibrationAction : uint8_t { Start=1, Stop=2 };
 struct __attribute__((packed)) CalibrationMarkerPayload { uint32_t sessionId; uint8_t kind, action, step, reserved; };

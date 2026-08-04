@@ -93,6 +93,7 @@ Output Controller::step(const Input& in, const ControlConfig& cfg) {
   const bool imuOk = in.imu.valid && fresh(in.nowUs, in.imu.timestampUs, cfg.imuStaleUs) &&
                      isfinite(in.imu.yawRad) && isfinite(in.imu.rollRad) && isfinite(in.imu.pitchRad);
   if (imuOk) { lastGvrUs_ = lastGyroUs_ = in.imu.timestampUs; } else valid = false;
+  out.gnssValid = gnssOk; out.imuValid = imuOk;
   record(metrics_.operation[1], 0, 100000, !imuOk, false, imuOk);
 
   const bool cogOk = gnssOk && isfinite(in.gnss.speedMps) && isfinite(in.gnss.courseRad) &&
@@ -123,14 +124,18 @@ Output Controller::step(const Input& in, const ControlConfig& cfg) {
   if (tofOk) {
     for (uint8_t i = 1; i < n; ++i) { uint16_t x = values[i]; uint8_t j = i; while (j && values[j - 1] > x) { values[j] = values[j - 1]; --j; } values[j] = x; }
     float distanceM = values[n / 2] / 1000.0f;
+    out.tofRawMm = values[n / 2];
     distanceM *= cosf(roll) * cosf(pitch);
     heightM_ = 0.9f * heightM_ + 0.1f * distanceM; lastTofUs_ = in.tof.timestampUs;
   } else if (cfg.requireTofForAuto && safety_ == Safety::Running) valid = false;
+  out.tofValid = tofOk;
   out.u_height = cfg.kpHeight * (cfg.targetHeightM - heightM_);
+  out.tofFilteredM = heightM_; out.heightErrorM = cfg.targetHeightM - heightM_; out.heightValid = tofOk;
   record(metrics_.operation[4], 0, 100000, !tofOk, false, isfinite(heightM_));
   record(metrics_.operation[5], 0, 20000, !tofOk, false, isfinite(out.u_height));
 
   const float common = out.u_height + out.u_pitch;
+  out.u_yaw = uYaw; out.frontCommon = common; out.frontDifferential = out.u_roll;
   out.leftPrelimit = common + out.u_roll + uYaw;
   out.rightPrelimit = common - out.u_roll + uYaw;
   out.rearYawPrelimit = uYaw;
