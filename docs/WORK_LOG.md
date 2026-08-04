@@ -446,3 +446,9 @@ ec=411 で sdCommand(): Card Failed! cmd: 0x18 が発生。その後CMD0D/CMD00�
 PCA9685/VESCの全出力経路はコンパイル定数と乾式ランタイム条件で二重遮断し、通信側にも同じ出力禁止static_assertと`proposal_shadow_comm`環境を追加した。計測構造体にはtask/operation、queue/UART、sensor age、SD/I2C/heap/watchdog予約、NaN/Inf、STOP/E-STOP/heartbeat、saturation、SHADOW出力count/min/maxを追加した。
 
 検証はC++単体PASS、Python unittest 11件PASS、ホストbenchmark/replay全モード有限値・再現性PASS、XIAO通常環境PASS、XIAO proposal_shadow_min PASS、通信側proposal_shadow_comm PASS、CoreS3既存環境PASS。これらは静的/ホスト検証であり実機合格ではない。実機計測の未接続項目は`docs/PROPOSAL_MIN_UNMEASURED_20260804.md`に記載した。
+
+## 2026-08-04 最新作業状態
+- MIN実時間経路、出力ガード、計測、通信側設定、設計文書: 実装済み。
+- C++/Python/PlatformIO検証: 完了。
+- 実機書込み・COM操作・60秒試験: 未実施（別承認待ち）。
+- 次の作業: 未計測項目を実機で収集できる対象機と配線を確定してから、Draft PRレビュー後に別手順で実施。
