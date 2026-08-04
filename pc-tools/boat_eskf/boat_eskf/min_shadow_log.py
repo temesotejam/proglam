@@ -1,6 +1,6 @@
 """MIN SHADOW BIN decoder and temporal/log integrity checks."""
 from __future__ import annotations
-import csv, math, struct
+import csv, math, struct, zlib
 from pathlib import Path
 from typing import Any
 from .binlog import records
@@ -20,6 +20,8 @@ GNSS_STALE_US=500_000
 IMU_STALE_US=100_000
 TOF_STALE_US=250_000
 SLEW_PER_SECOND=50.0
+WAYPOINT_SET_STRUCT=struct.Struct("<2I4Bf32dI")
+WAYPOINT_ACK_STRUCT=struct.Struct("<2I4BI")
 
 BASE_FIELDS=("queue_us","source_us","sequence","timestamp_us","gnss_age_us","imu_age_us","tof_age_us","cycle","waypoint_revision","latitude_deg","longitude_deg",
 "target_waypoint_latitude_deg","target_waypoint_longitude_deg","speed_mps","gnss_course_rad","local_north_m",
@@ -71,7 +73,7 @@ def _join(sample, control_us, threshold):
 
 def _inspect(rows):
     out={"sensor_stale_violations":0,"invalid_state_transitions":0,"safety_reason_mismatches":0,
-         "output_range_violations":0,"slew_violations":0,"stop_restart_violations":0,
+         "output_range_violations":0,"safe_output_violations":0,"slew_violations":0,"stop_restart_violations":0,
          "first_errors":[]}
     prev=None
     stopped=False
@@ -82,6 +84,11 @@ def _inspect(rows):
             if valid and age>limit:
                 out["sensor_stale_violations"]+=1
                 if len(out["first_errors"])<10: out["first_errors"].append(f"{name}_stale_seq_{row['sequence']}")
+        for name, joined in (("ina", row.get("ina_join")), ("vesc", row.get("vesc_join"))):
+            if joined is not None and joined.get("stale"):
+                out["sensor_stale_violations"] += 1
+                if len(out["first_errors"]) < 10:
+                    out["first_errors"].append(f"{name}_stale_seq_{row['sequence']}")
         state=row["state"]
         if state not in (0,1,2,3):
             out["invalid_state_transitions"]+=1
@@ -102,8 +109,10 @@ def _inspect(rows):
             stopped=True
         if stopped and state==1 and prev is not None and prev["state"] in (0,2,3) and not explicit_start:
             out["stop_restart_violations"]+=1
-        for key,lo,hi in (("left_front_wing",-1,1),("right_front_wing",-1,1),("rear_yaw",-1,1),("propulsion",0,0)):
+        for key,lo,hi in (("left_front_wing",-1,1),("right_front_wing",-1,1),("rear_yaw",-1,1),("propulsion",0,1)):
             if not lo-1e-5<=row[key]<=hi+1e-5: out["output_range_violations"]+=1
+        if state in (0,2,3) and any(abs(row[k])>1e-5 for k in ("left_front_wing","right_front_wing","rear_yaw","propulsion")):
+            out["safe_output_violations"]+=1
         prev=row
     return out
 
@@ -112,16 +121,22 @@ def decode_min_shadow(bin_path, csv_path=None, txt_path=None):
     recs=list(records(data))
     result={"records":len(recs),"version_errors":0,"unknown_types":0,"sequence_gaps":0,
             "timestamp_reversals":0,"nonfinite":0,"output_range_errors":0,"csv_rows":0,
-            "transport_diagnostics":{},"ina_temporal_join_errors":0,"vesc_temporal_join_errors":0}
+            "transport_diagnostics":{},"ina_temporal_join_errors":0,"vesc_temporal_join_errors":0,"payload_length_errors":0,"waypoint_crc_errors":0,"waypoint_status_errors":0}
+    expected_lengths={CONTROL_SNAPSHOT:SNAPSHOT.size,INA_STATUS:INA.size,VESC_TELEMETRY:VESC.size,WAYPOINT_SET:WAYPOINT_SET_STRUCT.size,WAYPOINT_ACK:WAYPOINT_ACK_STRUCT.size}
     known={CONTROL_OUTPUT,CONTROL_SNAPSHOT,INA_STATUS,VESC_TELEMETRY,WAYPOINT_SET,WAYPOINT_ACK}
     last_seq={};last_ts={};ina=None;vesc=None;rows=[]; temporal=[]
     for rec in recs:
         if rec["version"]!=1: result["version_errors"]+=1
         typ=rec["type"]
         if typ not in known: result["unknown_types"]+=1
+        if typ in expected_lengths and len(rec["payload"]) != expected_lengths[typ]: result.setdefault("payload_length_errors",0); result["payload_length_errors"]+=1
         boot=rec.get("boot_id",0)
         if boot in last_seq and rec["sequence"]>last_seq[boot]+1: result["sequence_gaps"]+=rec["sequence"]-last_seq[boot]-1
         last_seq[boot]=rec["sequence"]
+        if typ==WAYPOINT_SET and len(rec["payload"])==WAYPOINT_SET_STRUCT.size:
+            fields=WAYPOINT_SET_STRUCT.unpack(rec["payload"]); result.setdefault("waypoint_crc_errors",0); result.setdefault("waypoint_status_errors",0); result["waypoint_crc_errors"] += int((zlib.crc32(rec["payload"][:-4]) & 0xffffffff) != fields[-1])
+        elif typ==WAYPOINT_ACK and len(rec["payload"])==WAYPOINT_ACK_STRUCT.size:
+            fields=WAYPOINT_ACK_STRUCT.unpack(rec["payload"]); result.setdefault("waypoint_crc_errors",0); result.setdefault("waypoint_status_errors",0); result["waypoint_crc_errors"] += int((zlib.crc32(rec["payload"][:-4]) & 0xffffffff) != fields[-1]); result["waypoint_status_errors"] += int(fields[2] not in (0,1,2))
         if typ in last_ts and rec["source_us"]<last_ts[typ]: result["timestamp_reversals"]+=1
         last_ts[typ]=rec["source_us"]
         if typ==INA_STATUS and len(rec["payload"])==INA.size: ina=_sample("ina",rec)
@@ -139,6 +154,7 @@ def decode_min_shadow(bin_path, csv_path=None, txt_path=None):
             if vesc is not None and vesc["timestamp_us"]>row["timestamp_us"]: result["vesc_temporal_join_errors"]+=1;temporal.append(f"future_vesc_seq_{rec['sequence']}")
             row["ina_join"]=ij;row["vesc_join"]=vj;rows.append(row)
     result.update(_inspect(rows))
+    result["output_range_errors"]=result.get("output_range_violations",0)
     result["temporal_first_errors"]=temporal[:10]
     if csv_path is not None:
         with Path(csv_path).open("w",newline="",encoding="utf-8") as f:
@@ -171,3 +187,5 @@ if __name__=="__main__":
     import argparse
     p=argparse.ArgumentParser();p.add_argument("bin");p.add_argument("--csv");p.add_argument("--txt");a=p.parse_args()
     print(decode_min_shadow(a.bin,a.csv,a.txt))
+
+

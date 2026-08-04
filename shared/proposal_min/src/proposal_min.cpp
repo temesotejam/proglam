@@ -146,10 +146,14 @@ Output Controller::step(const Input& in, const ControlConfig& cfg) {
     out.leftPrelimit = out.rightPrelimit = out.rearYawPrelimit = 0;
     out.propulsionPrelimit = cfg.propulsionStop;
   }
-  out.leftFront = slew(out.leftPrelimit, previousOutputs_[0], cfg.leftFrontWing, Saturation::LeftWing);
-  out.rightFront = slew(out.rightPrelimit, previousOutputs_[1], cfg.rightFrontWing, Saturation::RightWing);
-  out.rearYaw = slew(out.rearYawPrelimit, previousOutputs_[2], cfg.rearYaw, Saturation::RearYaw);
-  out.propulsion = slew(out.propulsionPrelimit, previousOutputs_[3], cfg.propulsion, Saturation::Propulsion);
+  const bool forceSafe = safety_ != Safety::Running;
+  if (forceSafe) { out.leftFront = cfg.leftFrontWing.neutral; out.rightFront = cfg.rightFrontWing.neutral; out.rearYaw = cfg.rearYaw.neutral; out.propulsion = cfg.propulsionStop; }
+  else {
+    out.leftFront = slew(out.leftPrelimit, previousOutputs_[0], cfg.leftFrontWing, Saturation::LeftWing);
+    out.rightFront = slew(out.rightPrelimit, previousOutputs_[1], cfg.rightFrontWing, Saturation::RightWing);
+    out.rearYaw = slew(out.rearYawPrelimit, previousOutputs_[2], cfg.rearYaw, Saturation::RearYaw);
+    out.propulsion = slew(out.propulsionPrelimit, previousOutputs_[3], cfg.propulsion, Saturation::Propulsion);
+  }
   previousOutputs_[0] = out.leftFront; previousOutputs_[1] = out.rightFront; previousOutputs_[2] = out.rearYaw; previousOutputs_[3] = out.propulsion;
   if (!isfinite(out.leftFront) || !isfinite(out.rightFront) || !isfinite(out.rearYaw) || !isfinite(out.propulsion)) {
     ++metrics_.nanInf; out.leftFront = out.rightFront = out.rearYaw = out.propulsion = 0; safety_ = Safety::Fault; out.stopReason = 5; valid = false;

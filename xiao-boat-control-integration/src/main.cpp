@@ -16,6 +16,7 @@
 #include "pca9685.h"
 #include "vesc_protocol.h"
 #include <proposal_min.h>
+#include <waypoint_apply.h>
 #include <boat_protocol.h>
 using namespace app_config;
 WebServer web(kDebugHttpPort); HardwareSerial vescUart(1),linkUart(2); SparkFun_VL53L5CX tof; VL53L5CX_ResultsData tofData{}; bno::Reader imu; state_estimator::Estimator estimator; eskf::Shadow shadowEskf; Ina226 ina; Pca9685 pca; vesc::Parser vescParser; vesc::Values vescValues{};
@@ -164,13 +165,13 @@ void sendWaypointAck(uint32_t requestId,uint32_t revision,uint8_t status,uint8_t
 void handleWaypointSet(const boat::Frame& f) {
   if (f.header.length != sizeof(boat::WaypointSetPayload)) { sendWaypointAck(0,proposalWaypointRevision,WaypointRejected,WaypointReasonLength,proposalWaypointActive,proposalWaypointGeoCount); return; }
   boat::WaypointSetPayload p{}; memcpy(&p,f.payload,sizeof(p));
+  proposal_min::WaypointSafetyState ws=proposal_min::WaypointSafetyState::Fault; switch(safety){case SafetyState::BOOT:ws=proposal_min::WaypointSafetyState::Boot;break;case SafetyState::DISARMED:ws=proposal_min::WaypointSafetyState::Disarmed;break;case SafetyState::ARMED_IDLE:ws=proposal_min::WaypointSafetyState::ArmedIdle;break;case SafetyState::RUNNING:ws=proposal_min::WaypointSafetyState::Running;break;case SafetyState::E_STOP:ws=proposal_min::WaypointSafetyState::EStop;break;case SafetyState::FAULT:ws=proposal_min::WaypointSafetyState::Fault;break;}
   if (p.canonicalCrc != boat::canonicalCrc(&p,offsetof(boat::WaypointSetPayload,canonicalCrc))) { sendWaypointAck(p.requestId,p.revision,WaypointRejected,WaypointReasonCrc,proposalWaypointActive,proposalWaypointGeoCount); return; }
-  if (safety != SafetyState::DISARMED) { const uint8_t reason = safety==SafetyState::RUNNING ? WaypointReasonRunning : (safety==SafetyState::E_STOP ? WaypointReasonEstop : WaypointReasonState); sendWaypointAck(p.requestId,p.revision,WaypointRejected,reason,proposalWaypointActive,proposalWaypointGeoCount); return; }
-
-  if (p.revision <= proposalWaypointRevision) { sendWaypointAck(p.requestId,p.revision,WaypointDuplicate,WaypointReasonRevision,proposalWaypointActive,proposalWaypointGeoCount); return; }
-  if (!validateWaypointPayload(p)) { sendWaypointAck(p.requestId,p.revision,WaypointRejected,(p.count==0)?WaypointReasonEmpty:WaypointReasonRange,proposalWaypointActive,proposalWaypointGeoCount); return; }
-  memcpy(proposalWaypointGeo,p.points,sizeof(proposalWaypointGeo)); proposalWaypointGeoCount=p.count; proposalWaypointRevision=p.revision; proposalWaypointRequestId=p.requestId; proposalWaypointReachRadiusM=p.reachRadiusM; proposalWaypointActive=0; proposalMin.reset();
-  sendWaypointAck(p.requestId,p.revision,WaypointAccepted,WaypointReasonNone,0,p.count);
+  proposal_min::WaypointGeo points[16]{}; for(uint8_t i=0;i<p.count&&i<16;++i){points[i].latitudeDeg=p.points[i].latitudeDeg;points[i].longitudeDeg=p.points[i].longitudeDeg;}
+  proposal_min::WaypointStore store{};store.revision=proposalWaypointRevision;store.requestId=proposalWaypointRequestId;store.count=proposalWaypointGeoCount;store.activeIndex=proposalWaypointActive;store.reachRadiusM=proposalWaypointReachRadiusM;for(uint8_t i=0;i<proposalWaypointGeoCount&&i<16;++i){store.points[i].latitudeDeg=proposalWaypointGeo[i].latitudeDeg;store.points[i].longitudeDeg=proposalWaypointGeo[i].longitudeDeg;}
+  proposal_min::WaypointRequest request{};request.requestId=p.requestId;request.revision=p.revision;request.action=p.action;request.count=p.count;request.reachRadiusM=p.reachRadiusM;request.points=points; const proposal_min::WaypointApplyResult applied=proposal_min::applyWaypointSet(ws,request,store);
+  sendWaypointAck(p.requestId,p.revision,(uint8_t)applied.status,(uint8_t)applied.reason,applied.activeIndex,applied.count); if(applied.status!=proposal_min::WaypointApplyStatus::Accepted)return;
+  proposalWaypointRevision=store.revision;proposalWaypointRequestId=store.requestId;proposalWaypointGeoCount=store.count;proposalWaypointActive=store.activeIndex;proposalWaypointReachRadiusM=store.reachRadiusM;for(uint8_t i=0;i<store.count;++i){proposalWaypointGeo[i].latitudeDeg=store.points[i].latitudeDeg;proposalWaypointGeo[i].longitudeDeg=store.points[i].longitudeDeg;} proposalMin.reset();
 }void linkRxService(){
   uint16_t bytes=0;
   while(linkUart.available()&&bytes++<kLinkRxByteBudget){

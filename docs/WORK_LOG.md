@@ -475,3 +475,7 @@ PCA9685/VESCの全出力経路はコンパイル定数と乾式ランタイム�
 - Replaced the dummy long-test loop with a Controller::step-based 30-minute deterministic generator. Fixed initial timestamp-zero handling, explicit restart marker, E_STOP reason reporting, global sequence accounting, and invalid-sensor NaN handling in the decoder.
 - Added temporal join fields/checks and Type65 actual VESC sample timing. Rebuilt all three required environments and ran the Python suite.
 - Hardware/COM3/main branch were not touched.
+
+## 2026-08-04 PR18 final audit addendum
+
+The final audit is recorded in UTF-8 at `docs/PR18_FINAL_AUDIT_20260804.md`. It covers the shared Type63-67 wire path, six-state C++ Waypoint guard, deterministic 30-minute host run, negative diagnostics, safety-output behavior, test/build evidence, and explicit hardware/COM3 hold. Host-only nonzero propulsion fixtures must not be interpreted as enabling firmware propulsion; firmware remains `SHADOW_CONTROL_ENABLE=1` and `ACTUATOR_OUTPUT_ENABLE=0`.

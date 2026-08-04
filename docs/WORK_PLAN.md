@@ -374,3 +374,7 @@ PCA9685/VESCの全出力経路はコンパイル定数と乾式ランタイム�
 - Completed: strict DISARMED-only control-side WaypointSet guard; UI disable guard; temporal INA/VESC decoder; actual 30-minute Controller::step host test; stale/state/safety/slew/STOP-restart checks; Type65 receive timestamp; Python tests and three PlatformIO builds.
 - Evidence: C++ host PASS, 90,000 cycles at 20 ms, 270,002 BIN records, decoder all-zero integrity checks, deterministic SHA-256 match, 14 Python tests PASS, compileall PASS, proposal_shadow_min/proposal_shadow_comm/m5stack-cores3 SUCCESS.
 - Next: commit and push only feat/proposal-benchmark-replay-20260804, update Draft PR #18 body/comment, do not merge or push main. Hardware test is blocked until explicitly authorized with the correct devices.
+
+## 2026-08-04 PR18 final audit addendum
+
+The final audit is recorded in UTF-8 at `docs/PR18_FINAL_AUDIT_20260804.md`. It covers the shared Type63-67 wire path, six-state C++ Waypoint guard, deterministic 30-minute host run, negative diagnostics, safety-output behavior, test/build evidence, and explicit hardware/COM3 hold. Host-only nonzero propulsion fixtures must not be interpreted as enabling firmware propulsion; firmware remains `SHADOW_CONTROL_ENABLE=1` and `ACTUATOR_OUTPUT_ENABLE=0`.

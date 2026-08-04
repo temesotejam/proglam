@@ -31,3 +31,7 @@ python -m boat_eskf.min_shadow_log RUN.BIN --csv RUN.csv --txt RUN.TXT で Type 
 - Type 65 firmware now records the actual last VESC receive timestamp and derives age from the control timestamp. Mechanical RPM remains invalid unless explicitly supported.
 - Host result: 270,002 records (90,000 each of Type 63/64/65 plus one Type 66 and one Type 67), 90,000 CSV rows; all integrity/state/safety/slew/temporal checks are zero. Two deterministic runs produced identical SHA-256 BIN hashes.
 - No actuator equation, gain, MID/FULL, ESKF, UART, SD, buffer, mutex, or hardware setting was changed. No physical output was enabled.
+
+## 2026-08-04 PR18 final audit addendum
+
+The final audit is recorded in UTF-8 at `docs/PR18_FINAL_AUDIT_20260804.md`. It covers the shared Type63-67 wire path, six-state C++ Waypoint guard, deterministic 30-minute host run, negative diagnostics, safety-output behavior, test/build evidence, and explicit hardware/COM3 hold. Host-only nonzero propulsion fixtures must not be interpreted as enabling firmware propulsion; firmware remains `SHADOW_CONTROL_ENABLE=1` and `ACTUATOR_OUTPUT_ENABLE=0`.
