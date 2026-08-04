@@ -422,3 +422,12 @@ ec=411 で sdCommand(): Card Failed! cmd: 0x18 が発生。その後CMD0D/CMD00�
 - 提言書機能を静的分類。BNO/GNSS/ToF/SD/UART骨格は存在するが、AS5600、Waypoint/LOS/ILOS、水平EKF、高さKF、大会状態機械、実制御経路は未実装または別途SHADOWが必要。最終判定A/B/C/Dは保留。
 - 構成Cを最初の候補、構成Bを比較候補とした。UART帯域の机上見積りはBNO allだけで約213–218 kbps（921600 bps中）だが、burst/queue/SD/deadlineを含む実測が必要。
 - 証跡文書: `docs/PROPOSAL_FEASIBILITY_STATIC_20260804.md`。実機・COM3操作なし。
+
+## 2026-08-04 固定長ベンチマーク／リプレイ基盤
+- origin/main `f4e2908`を基準に専用ブランチを作成。COM3、XIAO、CoreS3、センサ、アクチュエータは操作していない。
+- `pc-tools/boat_eskf/boat_eskf/proposal_benchmark.py`を追加。GNSS変換、ウェイポイント、LOS、発進Yaw、COG、Yaw、Roll PD、ToF品質／傾き補正／LPF、高さP、翼角合成、安全状態、SHADOW出力、ILOS、yaw-rate、水平EKF5、高さKF2、LEGACY比較を固定入力10000回で計測。
+- `proposal_replay.py`を追加。正常11フェーズと12異常シナリオを決定的に再生し、同一入力の再現性と異常後ゼロ出力を検証。
+- `run_proposal_evaluation.py`を実行。全モードでoutput 10000/finite 10000、deadline miss 0、NaN/Inf 0、再現性true、全異常安全true。MIN/MID/FULLの飽和回数はそれぞれ10058/10929/10929で、制限動作の計測値として保存。
+- unittest 11件成功、compileall成功。
+- PlatformIO:既存23、proposal BASE/MIN/MID/FULL/LEGACY、CoreS3既存を全てSUCCESS。XIAO RAM205076/327680、Flash577381/3342336、Core RAM168156/327680、Flash1034237/6553600。
+- A/B/C/Dの正式判定、XIAO実時間性能、UART実帯域、SD実書込み、10分耐久は未実施。

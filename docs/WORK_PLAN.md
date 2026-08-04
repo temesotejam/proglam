@@ -324,3 +324,11 @@ Next: inspect, without changing BNO report configuration, why BNO08X kind1 and k
 - [完了] 暫定分担は構成C（大会最低構成＋EKF/KF SHADOW）から開始し、構成B（高速制御を制御側、GNSS/Waypoint/LOS/Web/SDを通信側）を比較する方針。A/B/Cの最終判定は未実施。
 - [次] 専用feature flag/実験番号で、保存データreplay・固定長algorithm benchmark・P0/P1 SHADOW 60秒・10分試験を段階実施。BOAT_EXPERIMENT=23を上書きしない。
 - 詳細: `docs/PROPOSAL_FEASIBILITY_STATIC_20260804.md`
+
+## 2026-08-04 提言書向け固定長ベンチマーク／リプレイ基盤
+- [完了] origin/main `f4e2908366ea139c8d55d2de71f4e2595be25438`を確認し、専用ブランチ `feat/proposal-benchmark-replay-20260804` を作成
+- [完了] `BENCHMARK_ENABLE`、`REPLAY_ENABLE`、`SHADOW_CONTROL_ENABLE`、`ACTUATOR_OUTPUT_ENABLE=0`、`PROPOSAL_PROFILE`を追加（BOAT_EXPERIMENT=23は維持）
+- [完了] BASE/MIN/MID/FULL/LEGACYのホスト固定長10000回ベンチマークと正常・異常リプレイを実装
+- [完了] XIAO既存23、専用5環境、CoreS3既存環境を実機書込みなしでビルド
+- [完了] 設計書、リプレイ仕様、ビルド比較、次段階SHADOW手順を追加
+- [次] PRはDraftでレビュー待ち。XIAO上60秒／10分SHADOW測定後までA/B/C/D判定を保留

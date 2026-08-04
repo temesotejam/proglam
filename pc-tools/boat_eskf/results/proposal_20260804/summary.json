@@ -1,0 +1,15 @@
+{
+  "all_benchmark_outputs_finite": true,
+  "all_replay_deterministic": true,
+  "benchmark_path": "pc-tools\\boat_eskf\\results\\proposal_20260804\\benchmark.json",
+  "host_timing_only": true,
+  "iterations": 10000,
+  "modes": [
+    "BASE",
+    "MIN",
+    "MID",
+    "FULL",
+    "LEGACY"
+  ],
+  "replay_path": "pc-tools\\boat_eskf\\results\\proposal_20260804\\replay.json"
+}

@@ -1,6 +1,28 @@
 #pragma once
 #include <Arduino.h>
 #include "experiment_config.h"
+
+// Proposal evaluation is an opt-in compile-time layer. The defaults are
+// inactive so BOAT_EXPERIMENT=23 keeps its existing behavior.
+#ifndef BENCHMARK_ENABLE
+#define BENCHMARK_ENABLE 0
+#endif
+#ifndef REPLAY_ENABLE
+#define REPLAY_ENABLE 0
+#endif
+#ifndef SHADOW_CONTROL_ENABLE
+#define SHADOW_CONTROL_ENABLE 0
+#endif
+#ifndef ACTUATOR_OUTPUT_ENABLE
+#define ACTUATOR_OUTPUT_ENABLE 0
+#endif
+#ifndef PROPOSAL_PROFILE
+#define PROPOSAL_PROFILE 0
+#endif
+static_assert(!BENCHMARK_ENABLE || !ACTUATOR_OUTPUT_ENABLE,
+              "proposal benchmark must never enable actuator output");
+static_assert(!REPLAY_ENABLE || !ACTUATOR_OUTPUT_ENABLE,
+              "proposal replay must never enable actuator output");
 namespace app_config {
 constexpr char kFirmwareName[]="xiao-boat-control-integration";
 constexpr char kFirmwareVersion[]="0.3.5-estimated-state-dry-run";
@@ -20,6 +42,14 @@ constexpr uint32_t kLinkBaud=921600UL,kProtocolVersion=1,kLinkHeartbeatTimeoutMs
 constexpr bool kDryRunActuators=true; constexpr uint32_t kGnssNavExpectedIntervalMs=100UL,kControlHeartbeatIntervalMs=100UL,kLinkFailSafeTimeoutMs=500UL;
 // ESKF shadow-run configuration. It has no path to PWM, VESC, arming, or navigation control.
 constexpr bool kShadowOnly=true,kActuatorOutputEnabled=false,kEnableIna226=false;
+constexpr bool kBenchmarkEnable=BENCHMARK_ENABLE!=0,kReplayEnable=REPLAY_ENABLE!=0;
+constexpr bool kShadowControlEnable=SHADOW_CONTROL_ENABLE!=0;
+constexpr bool kActuatorOutputCompileEnable=ACTUATOR_OUTPUT_ENABLE!=0;
+constexpr uint8_t kProposalProfile=(uint8_t)PROPOSAL_PROFILE;
+// Future code must use this guard before any PCA9685/VESC write.
+constexpr bool kProposalActuatorPathEnabled = kActuatorOutputEnabled &&
+                                               kActuatorOutputCompileEnable &&
+                                               !kBenchmarkEnable && !kReplayEnable;
 constexpr bool kPrimaryBnoEnabled=true,kSecondaryBnoEnabled=false;
 constexpr uint32_t kEskfStateIntervalMs=50UL,kEskfHealthIntervalMs=200UL,kEskfAlignmentUs=2000000UL,kEskfCheckpointIntervalUs=50000UL,kEskfImuStaleUs=50000UL;
 constexpr float kEskfGyroNoise=0.020f,kEskfAccelNoise=0.35f,kEskfGyroBiasRw=0.0005f,kEskfAccelBiasRw=0.010f;
