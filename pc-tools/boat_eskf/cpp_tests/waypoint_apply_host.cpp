@@ -5,6 +5,7 @@
 #include <iostream>
 #include <boat_protocol.h>
 #include "waypoint_apply.h"
+#include "waypoint_handler.h"
 
 namespace {
 proposal_min::WaypointRequest request(uint32_t revision, uint8_t count, proposal_min::WaypointGeo* points, float radius=0.5f) {
@@ -56,6 +57,14 @@ int main() {
   boat::WaypointSetPayload wire{}; wire.requestId=9; wire.revision=3; wire.action=1; wire.count=1; wire.reachRadiusM=0.5f; wire.points[0]={35.0,139.0}; wire.canonicalCrc=boat::canonicalCrc(&wire,offsetof(boat::WaypointSetPayload,canonicalCrc));
   uint8_t encoded[boat::kMaxEncoded]{}; boat::Header h{boat::kVersion,(uint8_t)boat::Type::WaypointSet,(uint16_t)sizeof(wire),1,7,100,0}; size_t n=boat::encode(h,reinterpret_cast<const uint8_t*>(&wire),encoded,sizeof(encoded)); assert(n>0);
   boat::Decoder decoder; boat::Frame frame{}; bool got=false; for(size_t i=0;i<n;++i) if(decoder.feed(encoded[i],frame)) got=true; assert(got && decoder.crcErrors==0 && decoder.cobsErrors==0 && decoder.lengthErrors==0);
-  encoded[n/2]^=0x01; boat::Decoder badDecoder; boat::Frame badFrame{}; for(size_t i=0;i<n;++i) badDecoder.feed(encoded[i],badFrame); assert(badDecoder.crcErrors>0 || badDecoder.cobsErrors>0);
-  std::cout<<"WAYPOINT_APPLY_HOST_PASS states=6 count0/1/16/>16=covered coordinates=covered radius=covered crc=covered ack_wire=16 atomicity=ok\n";
+  encoded[1]^=0x01; boat::Decoder badDecoder; boat::Frame badFrame{}; for(size_t i=0;i<n;++i) badDecoder.feed(encoded[i],badFrame); assert(badDecoder.crcErrors>0 || badDecoder.cobsErrors>0);
+  struct AckCapture { uint32_t count=0; boat::WaypointAckPayload ack{}; } capture;
+  auto ackSink=[](void* context,const boat::WaypointAckPayload& ack)->bool { auto* c=static_cast<AckCapture*>(context); ++c->count; c->ack=ack; return true; };
+  proposal_min::WaypointStore handlerStore{}; handlerStore.revision=4; handlerStore.requestId=8; handlerStore.count=1; handlerStore.activeIndex=0; handlerStore.reachRadiusM=0.5f; handlerStore.points[0]=points[0];
+  boat::WaypointSetPayload requestWire{}; requestWire.requestId=9; requestWire.revision=5; requestWire.action=1; requestWire.count=1; requestWire.reachRadiusM=0.5f; requestWire.points[0]={35.0,139.0}; requestWire.canonicalCrc=boat::canonicalCrc(&requestWire,offsetof(boat::WaypointSetPayload,canonicalCrc));
+  const proposal_min::WaypointAckSink sink{ackSink,&capture}; const auto handled=proposal_min::handleWaypointSetFrame(reinterpret_cast<const uint8_t*>(&requestWire),sizeof(requestWire),proposal_min::WaypointSafetyState::Disarmed,handlerStore,sink);
+  assert(handled.applied.status==proposal_min::WaypointApplyStatus::Accepted && handled.ackSent && capture.count==1 && capture.ack.status==0 && capture.ack.requestId==9 && capture.ack.revision==5 && capture.ack.count==1 && capture.ack.canonicalCrc==boat::canonicalCrc(&capture.ack,offsetof(boat::WaypointAckPayload,canonicalCrc)));
+  uint8_t ackEncoded[boat::kMaxEncoded]{}; boat::Header ackHeader{boat::kVersion,(uint8_t)boat::Type::WaypointAck,(uint16_t)sizeof(capture.ack),1,7,100,0}; const size_t ackLength=boat::encode(ackHeader,reinterpret_cast<const uint8_t*>(&capture.ack),ackEncoded,sizeof(ackEncoded)); boat::Decoder ackDecoder; boat::Frame ackFrame{}; bool ackGot=false; for(size_t i=0;i<ackLength;++i) if(ackDecoder.feed(ackEncoded[i],ackFrame)) ackGot=true; assert(ackGot && ackFrame.header.type==(uint8_t)boat::Type::WaypointAck && ackFrame.header.length==16 && ackDecoder.crcErrors==0 && ackDecoder.cobsErrors==0 && ackDecoder.lengthErrors==0);
+  const auto beforeReject=handlerStore; boat::WaypointSetPayload reverse=requestWire; reverse.revision=4; reverse.canonicalCrc=boat::canonicalCrc(&reverse,offsetof(boat::WaypointSetPayload,canonicalCrc)); capture.count=0; const auto rejected=proposal_min::handleWaypointSetFrame(reinterpret_cast<const uint8_t*>(&reverse),sizeof(reverse),proposal_min::WaypointSafetyState::Disarmed,handlerStore,sink); assert(rejected.applied.status==proposal_min::WaypointApplyStatus::Rejected && rejected.applied.reason==proposal_min::WaypointApplyReason::Revision && capture.count==1 && std::memcmp(&beforeReject,&handlerStore,sizeof(beforeReject))==0);
+  capture.count=0; const auto malformed=proposal_min::handleWaypointSetFrame(reinterpret_cast<const uint8_t*>(&requestWire),sizeof(requestWire)-1,proposal_min::WaypointSafetyState::Disarmed,handlerStore,sink); assert(malformed.applied.reason==proposal_min::WaypointApplyReason::Length && capture.count==1 && capture.ack.requestId==9 && capture.ack.revision==5);  std::cout<<"WAYPOINT_APPLY_HOST_PASS states=6 count0/1/16/>16=covered coordinates=covered radius=covered crc=covered ack_wire=16 atomicity=ok\n";
 }

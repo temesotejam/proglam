@@ -15,9 +15,10 @@
 #include "app_config.h"
 #include "gnss_receiver.h"
 #include <boat_protocol.h>
+#include "../../shared/bin_record_serializer/src/bin_record_serializer.h"
 
 using namespace app_config;
-constexpr uint32_t kLogMagic = 0x424C4F47UL;  // Bytes on SD: GOLB.
+
 
 HardwareSerial controlUart(1);
 HardwareSerial gnssUart(2);
@@ -301,6 +302,11 @@ bool appendBytes(const void* data, size_t length) {
   }
   return true;
 }
+bool appendBinRecord(const boat::Frame& frame, uint64_t receivedUs) {
+  uint8_t record[boat_bin::kMaxRecordBytes]{}; size_t written = 0;
+  if (!boat_bin::serializeRecord(frame.header, receivedUs, frame.payload, frame.header.length, record, sizeof(record), written)) return false;
+  return appendBytes(record, written);
+}
 
 bool finalizeLog() {
   if (!logFile) return true;
@@ -346,8 +352,7 @@ void stopLog() {
   boat::Frame frame{};
   while (dequeueFrame(frame)) {
     const uint64_t receivedUs = frame.logQueueUs ? frame.logQueueUs : nowUs();
-    if (!appendBytes(&kLogMagic, sizeof(kLogMagic)) || !appendBytes(&receivedUs, sizeof(receivedUs)) ||
-        !appendBytes(&frame.header, sizeof(frame.header)) || !appendBytes(frame.payload, frame.header.length)) { abortLog("SD write failed while stopping"); xSemaphoreGive(logMutex); return; }
+    if (!appendBinRecord(frame, receivedUs)) { abortLog("SD write failed while stopping"); xSemaphoreGive(logMutex); return; }
     ++logStats.records;
   }
   if (!finalizeLog()) { abortLog("SD flush failed while stopping"); xSemaphoreGive(logMutex); return; }
@@ -368,8 +373,7 @@ void serviceLog() {
     frame.sdTaskUs = nowUs();
     const uint32_t queueWaitUs = frame.logQueueUs ? static_cast<uint32_t>(frame.sdTaskUs - frame.logQueueUs) : 0;
     if (queueWaitUs > logStats.maxLogQueueWaitUs) logStats.maxLogQueueWaitUs = queueWaitUs;
-    if (!appendBytes(&kLogMagic, sizeof(kLogMagic)) || !appendBytes(&receivedUs, sizeof(receivedUs)) ||
-        !appendBytes(&frame.header, sizeof(frame.header)) || !appendBytes(frame.payload, frame.header.length)) {
+    if (!appendBinRecord(frame, receivedUs)) {
       abortLog("SD write failed"); xSemaphoreGive(logMutex); return;
     }
     ++logStats.records; emitTimingDiagnostic(frame, queueWaitUs);

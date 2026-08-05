@@ -5,6 +5,7 @@
 #include <WebServer.h>
 #include <esp_timer.h>
 #include <boat_protocol.h>
+#include "../../shared/bin_record_serializer/src/bin_record_serializer.h"
 
 // Communication XIAO: connector wiring is intentionally D7 RX / D6 TX.
 constexpr int kRx = D7, kTx = D6, kCs = 21, kSck = D8, kMiso = D9, kMosi = D10;
@@ -93,27 +94,13 @@ void flushSdBuffer() {
 }
 
 void appendRecord(const boat::Frame &frame) {
-  const size_t recordBytes = 4 + 8 + sizeof(frame.header) + frame.header.length;
-  if (recordBytes > kSdWriteBufferBytes) {
-    ++sdWriteErrors;
-    return;
-  }
-  if (sdWriteUsed + recordBytes > kSdWriteBufferBytes) flushSdBuffer();
-
-  const uint32_t magic = 0x424C4F47;
-  const uint64_t rxUs = esp_timer_get_time();
-  memcpy(sdWriteBuffer + sdWriteUsed, &magic, sizeof(magic));
-  sdWriteUsed += sizeof(magic);
-  memcpy(sdWriteBuffer + sdWriteUsed, &rxUs, sizeof(rxUs));
-  sdWriteUsed += sizeof(rxUs);
-  memcpy(sdWriteBuffer + sdWriteUsed, &frame.header, sizeof(frame.header));
-  sdWriteUsed += sizeof(frame.header);
-  memcpy(sdWriteBuffer + sdWriteUsed, frame.payload, frame.header.length);
-  sdWriteUsed += frame.header.length;
-  ++records;
-  ++sessionRecords;
+  uint8_t record[boat_bin::kMaxRecordBytes]{}; size_t recordBytes=0;
+  const uint64_t rxUs=esp_timer_get_time();
+  if(!boat_bin::serializeRecord(frame.header,rxUs,frame.payload,frame.header.length,record,sizeof(record),recordBytes)){++sdWriteErrors;return;}
+  if(recordBytes>kSdWriteBufferBytes){++sdWriteErrors;return;}
+  if(sdWriteUsed+recordBytes>kSdWriteBufferBytes)flushSdBuffer();
+  memcpy(sdWriteBuffer+sdWriteUsed,record,recordBytes); sdWriteUsed+=recordBytes; ++records; ++sessionRecords;
 }
-
 void serviceLog() {
   if (!sdOk || !logging) return;
   boat::Frame frame;

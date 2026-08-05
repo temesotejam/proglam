@@ -1,8 +1,10 @@
 #include "proposal_min.h"
+#include "state_reason_generated.h"
 #include <math.h>
 #include <stdint.h>
 
 namespace proposal_min {
+static_assert(static_cast<uint8_t>(Safety::Disarmed)==state_reason_generated::kStateDisarmed && static_cast<uint8_t>(Safety::Running)==state_reason_generated::kStateRunning && static_cast<uint8_t>(Safety::EStop)==state_reason_generated::kStateEStop && static_cast<uint8_t>(Safety::Fault)==state_reason_generated::kStateFault, "state numbers must match canonical manifest");
 namespace {
 constexpr float kPi = 3.14159265358979323846f;
 constexpr float kEarthMPerDeg = 111320.0f;
@@ -52,13 +54,13 @@ Output Controller::step(const Input& in, const ControlConfig& cfg) {
   bool valid = true;
   if (in.stop) {
     if (safety_ != Safety::Disarmed) { safety_ = Safety::Disarmed; ++metrics_.stateTransitions; }
-    ++metrics_.stopCount; out.stopReason = 1;
+    ++metrics_.stopCount; out.stopReason = state_reason_generated::kReasonStop;
   } else if (in.estop) {
     if (safety_ != Safety::EStop) { safety_ = Safety::EStop; ++metrics_.stateTransitions; }
-    ++metrics_.estopCount; out.stopReason = 2;
+    ++metrics_.estopCount; out.stopReason = state_reason_generated::kReasonEStop;
   } else if (!in.heartbeatOk) {
     if (safety_ != Safety::Fault) { safety_ = Safety::Fault; ++metrics_.stateTransitions; }
-    ++metrics_.heartbeatTimeout; out.stopReason = 3;
+    ++metrics_.heartbeatTimeout; out.stopReason = state_reason_generated::kReasonHeartbeatTimeout;
   } else if (in.start && safety_ == Safety::Disarmed) {
     safety_ = Safety::Running; ++metrics_.stateTransitions;
   }
@@ -144,10 +146,10 @@ Output Controller::step(const Input& in, const ControlConfig& cfg) {
   if (!running || !gnssOk || !imuOk || (cfg.requireTofForAuto && !tofOk)) {
     if (running && !in.stop && !in.estop && in.heartbeatOk) {
       safety_ = Safety::Fault; ++metrics_.stateTransitions;
-      if (!gnssOk) out.stopReason = !in.gnss.valid ? 4 : ((!isfinite(in.gnss.latitudeDeg) || !isfinite(in.gnss.longitudeDeg)) ? 10 : 5);
-      else if (!imuOk) out.stopReason = !in.imu.valid ? 6 : ((!isfinite(in.imu.yawRad) || !isfinite(in.imu.rollRad) || !isfinite(in.imu.pitchRad)) ? 10 : 7);
-      else if (!tofOk) out.stopReason = in.tof.valid ? 9 : 8;
-      else out.stopReason = 4;
+      if (!gnssOk) out.stopReason = !in.gnss.valid ? state_reason_generated::kReasonGnssInvalid : ((!isfinite(in.gnss.latitudeDeg) || !isfinite(in.gnss.longitudeDeg)) ? state_reason_generated::kReasonNonfinite : state_reason_generated::kReasonGnssStale);
+      else if (!imuOk) out.stopReason = !in.imu.valid ? state_reason_generated::kReasonImuInvalid : ((!isfinite(in.imu.yawRad) || !isfinite(in.imu.rollRad) || !isfinite(in.imu.pitchRad)) ? state_reason_generated::kReasonNonfinite : state_reason_generated::kReasonImuStale);
+      else if (!tofOk) out.stopReason = in.tof.valid ? state_reason_generated::kReasonTofStale : state_reason_generated::kReasonTofInvalid;
+      else out.stopReason = state_reason_generated::kReasonGnssInvalid;
     }
     out.leftPrelimit = out.rightPrelimit = out.rearYawPrelimit = 0;
     out.propulsionPrelimit = cfg.propulsionStop;
@@ -162,7 +164,7 @@ Output Controller::step(const Input& in, const ControlConfig& cfg) {
   }
   previousOutputs_[0] = out.leftFront; previousOutputs_[1] = out.rightFront; previousOutputs_[2] = out.rearYaw; previousOutputs_[3] = out.propulsion;
   if (!isfinite(out.leftFront) || !isfinite(out.rightFront) || !isfinite(out.rearYaw) || !isfinite(out.propulsion)) {
-    ++metrics_.nanInf; out.leftFront = out.rightFront = out.rearYaw = out.propulsion = 0; safety_ = Safety::Fault; out.stopReason = 10; valid = false;
+    ++metrics_.nanInf; out.leftFront = out.rightFront = out.rearYaw = out.propulsion = 0; safety_ = Safety::Fault; out.stopReason = state_reason_generated::kReasonNonfinite; valid = false;
   }
   out.left_front_wing = out.leftFront; out.right_front_wing = out.rightFront; out.rear_yaw = out.rearYaw;
   out.safety = safety_; out.waypointIndex = waypointIndex_; out.inputValid = valid;

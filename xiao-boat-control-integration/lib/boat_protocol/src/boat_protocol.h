@@ -1,5 +1,11 @@
 #pragma once
+#ifdef ARDUINO
 #include <Arduino.h>
+#else
+#include <stddef.h>
+#include <stdint.h>
+#include <string.h>
+#endif
 namespace boat {
 constexpr uint8_t kVersion=1; constexpr size_t kMaxPayload=768,kMaxRaw=800,kMaxEncoded=820;
 enum class Type:uint8_t{Hello=1,BnoAccel=2,BnoGyro=3,BnoQuaternion=4,TofFrame=5,InaSample=6,VescStatus=7,ActuatorState=8,SystemHealth=9,Event=10,TimeSyncReply=11,GnssRaw=12,GnssFix=13,GnssStatus=14,GnssNav=15,GnssProcessResult=16,CommandAck=17,TimeSyncRequest=18,LinkStatistics=19,BnoMagnetic=20,TimingDiagnostic=21,EstimatedState=22,P1Capture=23,PrimaryImuSnapshot=24,ProvisionalSystem=25,CalibrationMarker=26,Heartbeat=32,Arm=33,Disarm=34,StartTest=35,Stop=36,Estop=37,ClearEstop=38,BenchmarkPrepare=48,BenchmarkReady=49,BenchmarkStart=50,BenchmarkStop=51,BenchmarkResult=52,BenchmarkEvent=53,SyntheticData=54,BenchmarkAbort=55,EskfState=56,EskfInnovation=57,EskfHealth=58,GnssNavV2=59,TimeSyncEstimate=60,EskfCommand=61,ControlOutput=62,ControlSnapshot=63,InaStatus=64,VescTelemetry=65,WaypointSet=66,WaypointAck=67};

@@ -12,7 +12,7 @@
 #include "bin_record_writer.h"
 
 namespace {
-using boat_test::writeRecord;
+using boat_test::writeBinRecord;
 
 using SnapshotPayload = boat::ControlSnapshotPayload;
 using InaPayload = boat::InaStatusPayload;
@@ -67,13 +67,13 @@ int main(int argc, char** argv) {
   waypointAck.reason = static_cast<uint8_t>(waypointResult.reason); waypointAck.activeIndex = store.activeIndex; waypointAck.count = store.count;
   waypointAck.canonicalCrc = boat::canonicalCrc(&waypointAck, offsetof(boat::WaypointAckPayload, canonicalCrc));
   uint32_t sequence = 0;
-  writeRecord(out, boat::Type::WaypointSet, sequence, 0, &waypointSet, sizeof(waypointSet));
-  writeRecord(out, boat::Type::WaypointAck, sequence, 1, &waypointAck, sizeof(waypointAck));
-  uint64_t lastGnss = 0, lastImu = 0, lastTof = 0, outputCount = 0, runningNonzero = 0, safeZero = 0;
+  writeBinRecord(out, boat::Type::WaypointSet, sequence, 0, &waypointSet, sizeof(waypointSet));
+  writeBinRecord(out, boat::Type::WaypointAck, sequence, 1, &waypointAck, sizeof(waypointAck));
+  uint64_t lastGnss = 0, lastImu = 0, lastTof = 0, lastInaFreshUs = 0, lastVescFreshUs = 0, outputCount = 0, runningNonzero = 0, safeZero = 0;
   uint32_t resetRecoveries = 0;
   uint32_t starts = 0, stops = 0, estops = 0, heartbeatFaults = 0, sensorFaults = 0;
   uint32_t gnssInvalid = 0, gnssFrozen = 0, imuInvalid = 0, imuFrozen = 0, tofInvalid = 0, tofFrozen = 0;
-  uint32_t inaNormal = 0, inaInvalid = 0, inaMissing = 0, inaFrozen = 0, vescNormal = 0, vescInvalid = 0, vescMissing = 0, vescFrozen = 0, vescFault = 0;
+  uint32_t inaNormal = 0, inaInvalid = 0, inaMissing = 0, inaFrozen = 0, inaStale = 0, vescNormal = 0, vescInvalid = 0, vescMissing = 0, vescFrozen = 0, vescStale = 0, vescFault = 0;
   uint32_t courseWrapSamples = 0; OutputStats stats[4]{}; float previous[4]{}; bool previousValid = false;
   for (uint64_t i = 0; i < steps; ++i) {
     const uint64_t now = (i + 1) * periodUs;
@@ -126,11 +126,11 @@ int main(int argc, char** argv) {
     SnapshotPayload snap{};
     snap.timestampUs=now; snap.cycle=static_cast<uint32_t>(i); snap.waypointRevision=store.revision; snap.gnssAgeUs=lastGnss?(uint32_t)(now-lastGnss):UINT32_MAX; snap.imuAgeUs=lastImu?(uint32_t)(now-lastImu):UINT32_MAX; snap.tofAgeUs=lastTof?(uint32_t)(now-lastTof):UINT32_MAX;
     snap.latitudeDeg=in.gnss.latitudeDeg; snap.longitudeDeg=in.gnss.longitudeDeg; snap.targetWaypointLatitudeDeg=store.points[o.waypointIndex<store.count?o.waypointIndex:0].latitudeDeg; snap.targetWaypointLongitudeDeg=store.points[o.waypointIndex<store.count?o.waypointIndex:0].longitudeDeg; snap.speedMps=in.gnss.speedMps; snap.gnssCourseRad=in.gnss.courseRad; snap.courseErrorRad=o.courseErrorRad; snap.localNorthM=0; snap.localEastM=0; snap.targetBearingRad=o.targetCourseRad; snap.waypointDistanceM=o.waypointDistanceM; snap.rollRad=in.imu.rollRad; snap.pitchRad=in.imu.pitchRad; snap.yawRad=in.imu.yawRad; snap.rollRateRadS=in.imu.rollRateRadS; snap.pitchRateRadS=in.imu.pitchRateRadS; snap.yawRateRadS=in.imu.yawRateRadS; snap.tofRawMm=o.tofRawMm; snap.tofFilteredM=o.tofFilteredM; snap.heightErrorM=o.heightErrorM; snap.uHeight=o.u_height; snap.uPitch=o.u_pitch; snap.uRoll=o.u_roll; snap.uYaw=o.u_yaw; snap.frontCommon=o.frontCommon; snap.frontDifferential=o.frontDifferential; snap.leftFrontWing=o.left_front_wing; snap.rightFrontWing=o.right_front_wing; snap.rearYaw=o.rear_yaw; snap.propulsion=o.propulsion; snap.leftPrelimit=o.leftPrelimit; snap.rightPrelimit=o.rightPrelimit; snap.rearYawPrelimit=o.rearYawPrelimit; snap.propulsionPrelimit=o.propulsionPrelimit; snap.gnssValid=o.gnssValid; snap.imuValid=o.imuValid; snap.tofValid=o.tofValid; snap.heightValid=o.heightValid; snap.waypointReached=o.waypointReached; snap.outputValid=o.inputValid; snap.state=static_cast<uint8_t>(o.safety); snap.safetyReason=o.stopReason; snap.mode=start?2:1; snap.activeWaypoint=o.waypointIndex;
-    writeRecord(out, boat::Type::ControlSnapshot, sequence, now, &snap, sizeof(snap));
-    const bool inaMissingNow = now >= 300000000ULL && now < 305000000ULL; const bool inaInvalidNow = now >= 320000000ULL && now < 325000000ULL; const bool inaFrozenNow = now >= 340000000ULL && now < 345000000ULL;
-    if (inaMissingNow) ++inaMissing; else { InaPayload ina{}; ina.timestampUs=inaFrozenNow?lastGnss:now; ina.ageUs=inaFrozenNow?static_cast<uint32_t>(now-ina.timestampUs):0; ina.valid=!inaInvalidNow; ina.errorCode=inaInvalidNow?2:0; ina.busVoltageV=ina.valid?12.0f:NAN; ina.shuntVoltageV=ina.valid?0.01f:NAN; ina.currentA=ina.valid?1.0f:NAN; ina.powerW=ina.valid?12.0f:NAN; writeRecord(out,boat::Type::InaStatus,sequence,now,&ina,sizeof(ina)); if(inaInvalidNow)++inaInvalid; else if(inaFrozenNow)++inaFrozen; else ++inaNormal; }
-    const bool vescMissingNow = now >= 800000000ULL && now < 805000000ULL; const bool vescInvalidNow = now >= 820000000ULL && now < 825000000ULL; const bool vescFrozenNow = now >= 840000000ULL && now < 845000000ULL; const bool vescFaultNow = now >= 860000000ULL && now < 865000000ULL;
-    if (vescMissingNow) ++vescMissing; else { VescPayload v{}; v.timestampUs=vescFrozenNow?lastImu:now; v.ageUs=vescFrozenNow?static_cast<uint32_t>(now-v.timestampUs):0; v.valid=!vescInvalidNow; v.mechanicalRpmValid=0; v.fault=vescFaultNow?7:0; v.inputVoltageV=v.valid?24.0f:NAN; v.motorCurrentA=v.valid?2.0f:NAN; v.inputCurrentA=v.valid?1.0f:NAN; v.duty=v.valid?0.1f:NAN; v.erpm=v.valid?1000.0f:NAN; v.mosTempC=v.valid?40.0f:NAN; v.motorTempC=v.valid?42.0f:NAN; v.tachometer=0; writeRecord(out,boat::Type::VescTelemetry,sequence,now,&v,sizeof(v)); if(v.valid&&!vescFaultNow&&!vescFrozenNow)++vescNormal; if(vescInvalidNow)++vescInvalid; if(vescFrozenNow)++vescFrozen; if(vescFaultNow)++vescFault; }
+    writeBinRecord(out, boat::Type::ControlSnapshot, sequence, now, &snap, sizeof(snap));
+    const bool inaMissingNow = now >= 280000000ULL && now < 285000000ULL; const bool inaFrozenNow = now >= 300000000ULL && now < 305000000ULL; const bool inaInvalidNow = now >= 320000000ULL && now < 325000000ULL;
+    if (inaMissingNow) ++inaMissing; else { InaPayload ina{}; if (!inaFrozenNow && !inaInvalidNow) lastInaFreshUs=now; ina.timestampUs=inaFrozenNow?lastInaFreshUs:now; ina.ageUs=static_cast<uint32_t>(now-ina.timestampUs); ina.valid=!inaInvalidNow; ina.errorCode=inaInvalidNow?2:0; ina.busVoltageV=ina.valid?12.0f:NAN; ina.shuntVoltageV=ina.valid?0.01f:NAN; ina.currentA=ina.valid?1.0f:NAN; ina.powerW=ina.valid?12.0f:NAN; writeBinRecord(out,boat::Type::InaStatus,sequence,now,&ina,sizeof(ina)); if(inaFrozenNow && ina.ageUs>500000)++inaStale; if(inaInvalidNow)++inaInvalid; else if(inaFrozenNow)++inaFrozen; else ++inaNormal; }
+    const bool vescMissingNow = now >= 700000000ULL && now < 705000000ULL; const bool vescFrozenNow = now >= 720000000ULL && now < 725000000ULL; const bool vescInvalidNow = now >= 740000000ULL && now < 745000000ULL; const bool vescFaultNow = now >= 760000000ULL && now < 765000000ULL;
+    if (vescMissingNow) ++vescMissing; else { VescPayload v{}; if (!vescFrozenNow && !vescInvalidNow && !vescFaultNow) lastVescFreshUs=now; v.timestampUs=vescFrozenNow?lastVescFreshUs:now; v.ageUs=static_cast<uint32_t>(now-v.timestampUs); v.valid=!vescInvalidNow; v.mechanicalRpmValid=0; v.fault=vescFaultNow?7:0; v.inputVoltageV=v.valid?24.0f:NAN; v.motorCurrentA=v.valid?2.0f:NAN; v.inputCurrentA=v.valid?1.0f:NAN; v.duty=v.valid?0.1f:NAN; v.erpm=v.valid?1000.0f:NAN; v.mosTempC=v.valid?40.0f:NAN; v.motorTempC=v.valid?42.0f:NAN; v.tachometer=0; writeBinRecord(out,boat::Type::VescTelemetry,sequence,now,&v,sizeof(v)); if(vescFrozenNow && v.ageUs>500000)++vescStale; if(v.valid&&!vescFaultNow&&!vescFrozenNow)++vescNormal; if(vescInvalidNow)++vescInvalid; if(vescFrozenNow)++vescFrozen; if(vescFaultNow)++vescFault; }
   }
   out.close(); const auto& m=controller.metrics();
   std::cout << "MIN_SHADOW_LONG_PASS duration_s=1800 period_us=20000 steps=90000 outputs=" << outputCount
@@ -138,8 +138,8 @@ int main(int argc, char** argv) {
             << " heartbeat_fault_samples=" << heartbeatFaults << " sensor_fault_samples=" << sensorFaults
             << " gnss_invalid=" << gnssInvalid << " gnss_frozen=" << gnssFrozen << " imu_invalid=" << imuInvalid << " imu_frozen=" << imuFrozen
             << " tof_invalid=" << tofInvalid << " tof_frozen=" << tofFrozen
-            << " ina_normal=" << inaNormal << " ina_invalid=" << inaInvalid << " ina_missing=" << inaMissing << " ina_frozen=" << inaFrozen
-            << " vesc_normal=" << vescNormal << " vesc_invalid=" << vescInvalid << " vesc_missing=" << vescMissing << " vesc_frozen=" << vescFrozen << " vesc_fault=" << vescFault
+            << " ina_normal=" << inaNormal << " ina_invalid=" << inaInvalid << " ina_missing=" << inaMissing << " ina_frozen=" << inaFrozen << " ina_stale=" << inaStale
+            << " vesc_normal=" << vescNormal << " vesc_invalid=" << vescInvalid << " vesc_missing=" << vescMissing << " vesc_frozen=" << vescFrozen << " vesc_stale=" << vescStale << " vesc_fault=" << vescFault
             << " course_wrap_samples=" << courseWrapSamples << " running_nonzero_propulsion=" << runningNonzero << " safe_zero_outputs=" << safeZero
             << " reset_recoveries=" << resetRecoveries << " transitions_last_segment=" << m.stateTransitions << " nan_inf=" << m.nanInf << " deadline_miss=" << m.task.deadlineMiss
             << " output_stats=left:" << stats[0].min << "/" << stats[0].max << "/" << stats[0].nonNeutral << "/" << stats[0].changes << "/" << stats[0].safe

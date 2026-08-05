@@ -17,6 +17,7 @@
 #include "vesc_protocol.h"
 #include <proposal_min.h>
 #include <waypoint_apply.h>
+#include <waypoint_handler.h>
 #include <boat_protocol.h>
 using namespace app_config;
 WebServer web(kDebugHttpPort); HardwareSerial vescUart(1),linkUart(2); SparkFun_VL53L5CX tof; VL53L5CX_ResultsData tofData{}; bno::Reader imu; state_estimator::Estimator estimator; eskf::Shadow shadowEskf; Ina226 ina; Pca9685 pca; vesc::Parser vescParser; vesc::Values vescValues{};
@@ -152,26 +153,21 @@ void endP1Capture(uint32_t captureId){
   portENTER_CRITICAL(&linkMux);p1StopGate=false;portEXIT_CRITICAL(&linkMux);
   Serial.printf("P1_STOP_ACK sequence=%lu last_sequence=%lu queued=%d\n",(unsigned long)ackSequence,(unsigned long)ack.lastSequence,ok?1:0);
   delay(100);printP1TxSnapshot();printEskfTrace();
-}void sendEskfResetAck(uint32_t commandId,uint8_t disposition,uint16_t reason,uint64_t receivedUs,uint64_t appliedUs){boat::CommandAckPayload ack{commandId,(uint8_t)boat::Type::EskfCommand,disposition,(uint8_t)safety,(uint8_t)kDryRunActuators,receivedUs,appliedUs,reason,0};const bool queued=linkSend(boat::Type::CommandAck,(uint8_t*)&ack,sizeof(ack));Serial.printf("ESKF_RESET_ACK_ENQUEUE command_id=%lu queued=%d disposition=%u reason=%u reset_count=%lu\n",(unsigned long)commandId,queued?1:0,(unsigned)disposition,(unsigned)reason,(unsigned long)shadowEskf.state(nowUs()).resetCount);}enum WaypointAckStatus : uint8_t { WaypointAccepted=0, WaypointRejected=1, WaypointDuplicate=2 };
-enum WaypointAckReason : uint8_t { WaypointReasonNone=0, WaypointReasonRunning=1, WaypointReasonEstop=2, WaypointReasonLength=3, WaypointReasonCrc=4, WaypointReasonRange=5, WaypointReasonEmpty=6, WaypointReasonRevision=7, WaypointReasonState=8 };
-bool validateWaypointPayload(const boat::WaypointSetPayload& p) {
-  if (p.action != 1 || p.count == 0 || p.count > 16 || !isfinite(p.reachRadiusM) || p.reachRadiusM <= 0) return false;
-  for (uint8_t i=0;i<p.count;++i) if (!isfinite(p.points[i].latitudeDeg) || !isfinite(p.points[i].longitudeDeg) || p.points[i].latitudeDeg < -90 || p.points[i].latitudeDeg > 90 || p.points[i].longitudeDeg < -180 || p.points[i].longitudeDeg > 180) return false;
-  return true;
-}
-void sendWaypointAck(uint32_t requestId,uint32_t revision,uint8_t status,uint8_t reason,uint8_t active,uint8_t count) {
-  boat::WaypointAckPayload a{}; a.requestId=requestId; a.revision=revision; a.status=status; a.reason=reason; a.activeIndex=active; a.count=count; a.canonicalCrc=boat::canonicalCrc(&a,offsetof(boat::WaypointAckPayload,canonicalCrc)); linkSend(boat::Type::WaypointAck,(uint8_t*)&a,sizeof(a));
+}void sendEskfResetAck(uint32_t commandId,uint8_t disposition,uint16_t reason,uint64_t receivedUs,uint64_t appliedUs){boat::CommandAckPayload ack{commandId,(uint8_t)boat::Type::EskfCommand,disposition,(uint8_t)safety,(uint8_t)kDryRunActuators,receivedUs,appliedUs,reason,0};const bool queued=linkSend(boat::Type::CommandAck,(uint8_t*)&ack,sizeof(ack));Serial.printf("ESKF_RESET_ACK_ENQUEUE command_id=%lu queued=%d disposition=%u reason=%u reset_count=%lu\n",(unsigned long)commandId,queued?1:0,(unsigned)disposition,(unsigned)reason,(unsigned long)shadowEskf.state(nowUs()).resetCount);}struct WaypointAckTransport { };
+bool sendWaypointAckFromHandler(void*, const boat::WaypointAckPayload& ack) {
+  return linkSend(boat::Type::WaypointAck, (uint8_t*)&ack, sizeof(ack));
 }
 void handleWaypointSet(const boat::Frame& f) {
-  if (f.header.length != sizeof(boat::WaypointSetPayload)) { sendWaypointAck(0,proposalWaypointRevision,WaypointRejected,WaypointReasonLength,proposalWaypointActive,proposalWaypointGeoCount); return; }
-  boat::WaypointSetPayload p{}; memcpy(&p,f.payload,sizeof(p));
-  proposal_min::WaypointSafetyState ws=proposal_min::WaypointSafetyState::Fault; switch(safety){case SafetyState::BOOT:ws=proposal_min::WaypointSafetyState::Boot;break;case SafetyState::DISARMED:ws=proposal_min::WaypointSafetyState::Disarmed;break;case SafetyState::ARMED_IDLE:ws=proposal_min::WaypointSafetyState::ArmedIdle;break;case SafetyState::RUNNING:ws=proposal_min::WaypointSafetyState::Running;break;case SafetyState::E_STOP:ws=proposal_min::WaypointSafetyState::EStop;break;case SafetyState::FAULT:ws=proposal_min::WaypointSafetyState::Fault;break;}
-  if (p.canonicalCrc != boat::canonicalCrc(&p,offsetof(boat::WaypointSetPayload,canonicalCrc))) { sendWaypointAck(p.requestId,p.revision,WaypointRejected,WaypointReasonCrc,proposalWaypointActive,proposalWaypointGeoCount); return; }
-  proposal_min::WaypointGeo points[16]{}; for(uint8_t i=0;i<p.count&&i<16;++i){points[i].latitudeDeg=p.points[i].latitudeDeg;points[i].longitudeDeg=p.points[i].longitudeDeg;}
-  proposal_min::WaypointStore store{};store.revision=proposalWaypointRevision;store.requestId=proposalWaypointRequestId;store.count=proposalWaypointGeoCount;store.activeIndex=proposalWaypointActive;store.reachRadiusM=proposalWaypointReachRadiusM;for(uint8_t i=0;i<proposalWaypointGeoCount&&i<16;++i){store.points[i].latitudeDeg=proposalWaypointGeo[i].latitudeDeg;store.points[i].longitudeDeg=proposalWaypointGeo[i].longitudeDeg;}
-  proposal_min::WaypointRequest request{};request.requestId=p.requestId;request.revision=p.revision;request.action=p.action;request.count=p.count;request.reachRadiusM=p.reachRadiusM;request.points=points; const proposal_min::WaypointApplyResult applied=proposal_min::applyWaypointSet(ws,request,store);
-  sendWaypointAck(p.requestId,p.revision,(uint8_t)applied.status,(uint8_t)applied.reason,applied.activeIndex,applied.count); if(applied.status!=proposal_min::WaypointApplyStatus::Accepted)return;
-  proposalWaypointRevision=store.revision;proposalWaypointRequestId=store.requestId;proposalWaypointGeoCount=store.count;proposalWaypointActive=store.activeIndex;proposalWaypointReachRadiusM=store.reachRadiusM;for(uint8_t i=0;i<store.count;++i){proposalWaypointGeo[i].latitudeDeg=store.points[i].latitudeDeg;proposalWaypointGeo[i].longitudeDeg=store.points[i].longitudeDeg;} proposalMin.reset();
+  proposal_min::WaypointSafetyState ws=proposal_min::WaypointSafetyState::Fault;
+  switch(safety){case SafetyState::BOOT:ws=proposal_min::WaypointSafetyState::Boot;break;case SafetyState::DISARMED:ws=proposal_min::WaypointSafetyState::Disarmed;break;case SafetyState::ARMED_IDLE:ws=proposal_min::WaypointSafetyState::ArmedIdle;break;case SafetyState::RUNNING:ws=proposal_min::WaypointSafetyState::Running;break;case SafetyState::E_STOP:ws=proposal_min::WaypointSafetyState::EStop;break;case SafetyState::FAULT:ws=proposal_min::WaypointSafetyState::Fault;break;}
+  proposal_min::WaypointStore store{}; store.revision=proposalWaypointRevision; store.requestId=proposalWaypointRequestId; store.count=proposalWaypointGeoCount; store.activeIndex=proposalWaypointActive; store.reachRadiusM=proposalWaypointReachRadiusM;
+  for(uint8_t i=0;i<store.count&&i<16;++i){store.points[i].latitudeDeg=proposalWaypointGeo[i].latitudeDeg;store.points[i].longitudeDeg=proposalWaypointGeo[i].longitudeDeg;}
+  proposal_min::WaypointAckSink sink{}; sink.send=sendWaypointAckFromHandler;
+  const proposal_min::WaypointHandlerResult result=proposal_min::handleWaypointSetFrame(f.payload,f.header.length,ws,store,sink);
+  if(result.applied.status!=proposal_min::WaypointApplyStatus::Accepted)return;
+  proposalWaypointRevision=store.revision;proposalWaypointRequestId=store.requestId;proposalWaypointGeoCount=store.count;proposalWaypointActive=store.activeIndex;proposalWaypointReachRadiusM=store.reachRadiusM;
+  for(uint8_t i=0;i<store.count&&i<16;++i){proposalWaypointGeo[i].latitudeDeg=store.points[i].latitudeDeg;proposalWaypointGeo[i].longitudeDeg=store.points[i].longitudeDeg;}
+  proposalMin.reset();
 }void linkRxService(){
   uint16_t bytes=0;
   while(linkUart.available()&&bytes++<kLinkRxByteBudget){

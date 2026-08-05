@@ -6,6 +6,7 @@ import struct
 import zlib
 from pathlib import Path
 from .binlog import records
+from .state_reason_generated import REASONS, ALLOWED_TRANSITIONS, FAULT_REASONS
 
 CONTROL_OUTPUT=62; CONTROL_SNAPSHOT=63; INA_STATUS=64; VESC_TELEMETRY=65; WAYPOINT_SET=66; WAYPOINT_ACK=67
 SNAPSHOT=struct.Struct("<Q5I4d7f6fH8f8f12B"); INA=struct.Struct("<QI4fBBH"); VESC=struct.Struct("<QI7fi4B")
@@ -16,7 +17,7 @@ JOIN_FIELDS=("ina_sample_us","ina_payload_age_us","ina_age_us","ina_source_valid
 CSV_FIELDS=BASE_FIELDS+JOIN_FIELDS
 _SNAPSHOT_FLOAT_FIELDS=("latitude_deg","longitude_deg","target_waypoint_latitude_deg","target_waypoint_longitude_deg","speed_mps","gnss_course_rad","local_north_m","local_east_m","target_bearing_rad","course_error_rad","waypoint_distance_m","roll_rad","pitch_rad","yaw_rad","roll_rate_rad_s","pitch_rate_rad_s","yaw_rate_rad_s","tof_filtered_m","height_error_m","u_height","u_pitch","u_roll","u_yaw","front_common","front_differential","left_front_wing","right_front_wing","rear_yaw","propulsion","left_prelimit","right_prelimit","rear_yaw_prelimit","propulsion_prelimit")
 _OUTPUTS=("left_front_wing","right_front_wing","rear_yaw","propulsion"); _OUTPUT_LIMITS={key:(-1.0,1.0) for key in _OUTPUTS}; _OUTPUT_LIMITS["propulsion"]=(0.0,1.0)
-_REASON_NAMES={0:"NONE",1:"STOP",2:"E_STOP",3:"HEARTBEAT_TIMEOUT",4:"GNSS_INVALID",5:"GNSS_STALE",6:"IMU_INVALID",7:"IMU_STALE",8:"TOF_INVALID",9:"TOF_STALE",10:"NONFINITE",11:"VESC_FAULT"}
+_REASON_NAMES={value:key for key,value in REASONS.items()}
 
 def _finite(values): return all(not isinstance(value,float) or math.isfinite(value) for value in values)
 
@@ -39,7 +40,7 @@ def _empty_output_stats():
     return {key:{"min":math.inf,"max":-math.inf,"non_neutral":0,"changes":0,"safe":0,"range_violations":0,"slew_violations":0,"nonfinite":0} for key in _OUTPUTS}
 
 def _inspect(rows):
-    out={"sensor_stale_violations":0,"invalid_state_transitions":0,"safety_reason_mismatches":0,"output_range_violations":0,"safe_output_violations":0,"slew_violations":0,"stop_restart_violations":0,"course_wrap_violations":0,"ina_missing_count":0,"vesc_missing_count":0,"ina_stale_count":0,"vesc_stale_count":0,"ina_invalid_count":0,"vesc_invalid_count":0,"ina_effective_valid_violations":0,"vesc_effective_valid_violations":0,"vesc_fault_count":0,"vesc_fault_violations":0,"first_errors":[],"safety_reason_counts":{},"output_stats":_empty_output_stats()}
+    out={"sensor_stale_violations":0,"invalid_state_transitions":0,"safety_reason_mismatches":0,"safety_reason_mismatches_by_expected_reason":{},"safety_reason_expectation_unavailable":0,"output_range_violations":0,"safe_output_violations":0,"slew_violations":0,"stop_restart_violations":0,"course_wrap_violations":0,"ina_missing_count":0,"vesc_missing_count":0,"ina_stale_count":0,"vesc_stale_count":0,"ina_invalid_count":0,"vesc_invalid_count":0,"ina_effective_valid_violations":0,"vesc_effective_valid_violations":0,"vesc_fault_count":0,"vesc_fault_violations":0,"first_errors":[],"safety_reason_counts":{},"output_stats":_empty_output_stats()}
     previous=None; previous_generations={"ina":-1,"vesc":-1}; stopped=False
     for row in rows:
         reason=row["safety_reason"]; name=_REASON_NAMES.get(reason,f"UNKNOWN_{reason}"); out["safety_reason_counts"][name]=out["safety_reason_counts"].get(name,0)+1
@@ -48,18 +49,30 @@ def _inspect(rows):
         for sensor,joined in (("ina",row.get("ina_join")),("vesc",row.get("vesc_join"))):
             generation=row.get(f"_{sensor}_generation",-1)
             previous_generation=previous.get(f"_{sensor}_generation",-2) if previous is not None else -2
-            if joined is None or (previous is not None and generation == previous_generation): out[f"{sensor}_missing_count"]+=1
-            if joined is None: continue
+            missing = joined is None or (previous is not None and generation == previous_generation)
+            if missing: out[f"{sensor}_missing_count"]+=1; continue
             if joined.get("stale"): out[f"{sensor}_stale_count"]+=1; out["sensor_stale_violations"]+=1
             if not joined.get("valid"): out[f"{sensor}_invalid_count"]+=1
             if not joined.get("valid") and joined.get("effective_valid"): out[f"{sensor}_effective_valid_violations"]+=1
             if sensor=="vesc" and joined.get("fault"): out["vesc_fault_count"]+=1; out["vesc_fault_violations"]+=int(joined.get("effective_valid"))
         state=row["state"]; out["invalid_state_transitions"]+=int(state not in (0,1,2,3))
         dt=0.0 if previous is None else max(1,row["timestamp_us"]-previous["timestamp_us"])/1e6
-        if previous is not None and (previous["state"],state) not in {(0,0),(0,1),(0,2),(0,3),(1,0),(1,1),(1,2),(1,3),(2,2),(2,0),(2,3),(3,3),(3,0)}: out["invalid_state_transitions"]+=1
+        if previous is not None and (previous["state"],state) not in set(ALLOWED_TRANSITIONS): out["invalid_state_transitions"]+=1
         entering_fault = state == 3 and (previous is None or previous["state"] != 3)
-        if state==2 and (previous is None or previous["state"] != 2): out["safety_reason_mismatches"]+=int(reason!=2)
-        if entering_fault: out["safety_reason_mismatches"]+=int(reason not in {3,4,5,6,7,8,9,10,11})
+        if state==2 and (previous is None or previous["state"] != 2):
+            expected=REASONS["E_STOP"]; mismatch=int(reason!=expected); out["safety_reason_mismatches"]+=mismatch
+            if mismatch: out["safety_reason_mismatches_by_expected_reason"]["E_STOP"]=out["safety_reason_mismatches_by_expected_reason"].get("E_STOP",0)+1
+        if entering_fault:
+            expected=None
+            if any(not math.isfinite(row[name]) for name in ("speed_mps","gnss_course_rad","roll_rad","pitch_rad","yaw_rad","roll_rate_rad_s","pitch_rate_rad_s","yaw_rate_rad_s")): expected=REASONS["NONFINITE"]
+            elif not row["gnss_valid"]: expected=REASONS["GNSS_INVALID"]
+            elif not row["imu_valid"]: expected=REASONS["IMU_INVALID"]
+            elif not row["tof_valid"]: expected=REASONS["TOF_INVALID"]
+            if expected is None: out["safety_reason_expectation_unavailable"]+=1
+            else:
+                mismatch=int(reason!=expected); out["safety_reason_mismatches"]+=mismatch
+                if mismatch:
+                    name=_REASON_NAMES[expected]; out["safety_reason_mismatches_by_expected_reason"][name]=out["safety_reason_mismatches_by_expected_reason"].get(name,0)+1
         out["course_wrap_violations"]+=int(not math.isfinite(row["course_error_rad"]) or abs(row["course_error_rad"])>math.pi+1e-5)
         explicit_start=state==1 and row.get("mode")==2
         if explicit_start: stopped=False
@@ -81,7 +94,11 @@ def _inspect(rows):
     return out
 
 def decode_min_shadow(bin_path,csv_path=None,txt_path=None):
-    recs=list(records(Path(bin_path).read_bytes())); result={"records":len(recs),"version_errors":0,"unknown_types":0,"sequence_gaps":0,"timestamp_reversals":0,"nonfinite":0,"output_range_errors":0,"csv_rows":0,"transport_diagnostics":{},"ina_temporal_join_errors":0,"vesc_temporal_join_errors":0,"payload_length_errors":0,"waypoint_crc_errors":0,"waypoint_status_errors":0}
+    recs=list(records(Path(bin_path).read_bytes())); same_time_ina={}; same_time_vesc={}
+    for candidate in recs:
+        if candidate["type"]==INA_STATUS and len(candidate["payload"])==INA.size: same_time_ina[_sample("ina",candidate)["timestamp_us"]]=_sample("ina",candidate)
+        elif candidate["type"]==VESC_TELEMETRY and len(candidate["payload"])==VESC.size: same_time_vesc[_sample("vesc",candidate)["timestamp_us"]]=_sample("vesc",candidate)
+    result={"records":len(recs),"version_errors":0,"unknown_types":0,"sequence_gaps":0,"timestamp_reversals":0,"nonfinite":0,"output_range_errors":0,"csv_rows":0,"transport_diagnostics":{},"ina_temporal_join_errors":0,"vesc_temporal_join_errors":0,"payload_length_errors":0,"waypoint_crc_errors":0,"waypoint_status_errors":0}
     expected={CONTROL_SNAPSHOT:SNAPSHOT.size,INA_STATUS:INA.size,VESC_TELEMETRY:VESC.size,WAYPOINT_SET:WAYPOINT_SET_STRUCT.size,WAYPOINT_ACK:WAYPOINT_ACK_STRUCT.size}; known={CONTROL_OUTPUT,CONTROL_SNAPSHOT,INA_STATUS,VESC_TELEMETRY,WAYPOINT_SET,WAYPOINT_ACK}; last_seq={}; last_ts={}; ina=vesc=None; ina_generation=0; vesc_generation=0; rows=[]; temporal=[]
     for rec in recs:
         result["version_errors"]+=int(rec["version"]!=1); typ=rec["type"]; result["unknown_types"]+=int(typ not in known)
@@ -100,7 +117,7 @@ def decode_min_shadow(bin_path,csv_path=None,txt_path=None):
         elif typ==VESC_TELEMETRY and len(rec["payload"])==VESC.size:
             vesc=_sample("vesc",rec); vesc_generation+=1
         elif typ==CONTROL_SNAPSHOT and len(rec["payload"])==SNAPSHOT.size:
-            row={**rec,**_snapshot(rec["payload"])}; result["nonfinite"]+=int(not _finite([row[key] for key in _SNAPSHOT_FLOAT_FIELDS])); ij=_join(ina,row["timestamp_us"],INA_STALE_US); vj=_join(vesc,row["timestamp_us"],VESC_STALE_US)
+            row={**rec,**_snapshot(rec["payload"])}; result["nonfinite"]+=int(not _finite([row[key] for key in _SNAPSHOT_FLOAT_FIELDS])); ij=_join(same_time_ina.get(row["timestamp_us"],ina),row["timestamp_us"],INA_STALE_US); vj=_join(same_time_vesc.get(row["timestamp_us"],vesc),row["timestamp_us"],VESC_STALE_US)
             if ina is not None and ina["timestamp_us"]>row["timestamp_us"]: result["ina_temporal_join_errors"]+=1; temporal.append(f"future_ina_seq_{rec['sequence']}")
             if vesc is not None and vesc["timestamp_us"]>row["timestamp_us"]: result["vesc_temporal_join_errors"]+=1; temporal.append(f"future_vesc_seq_{rec['sequence']}")
             row["ina_join"],row["vesc_join"]=ij,vj; row["_ina_generation"]=ina_generation; row["_vesc_generation"]=vesc_generation; rows.append(row)

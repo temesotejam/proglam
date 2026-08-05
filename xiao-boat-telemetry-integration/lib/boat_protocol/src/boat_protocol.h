@@ -1,6 +1,12 @@
 #pragma once
 
+#ifdef ARDUINO
 #include <Arduino.h>
+#else
+#include <stddef.h>
+#include <stdint.h>
+#include <string.h>
+#endif
 
 namespace boat {
 constexpr uint8_t kVersion = 1;
