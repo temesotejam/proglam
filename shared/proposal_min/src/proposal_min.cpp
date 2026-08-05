@@ -142,7 +142,13 @@ Output Controller::step(const Input& in, const ControlConfig& cfg) {
   out.propulsionPrelimit = cfg.propulsionCommand;
   const bool running = safety_ == Safety::Running;
   if (!running || !gnssOk || !imuOk || (cfg.requireTofForAuto && !tofOk)) {
-    if (running && !in.stop && !in.estop && in.heartbeatOk) { safety_ = Safety::Fault; ++metrics_.stateTransitions; out.stopReason = 4; }
+    if (running && !in.stop && !in.estop && in.heartbeatOk) {
+      safety_ = Safety::Fault; ++metrics_.stateTransitions;
+      if (!gnssOk) out.stopReason = !in.gnss.valid ? 4 : ((!isfinite(in.gnss.latitudeDeg) || !isfinite(in.gnss.longitudeDeg)) ? 10 : 5);
+      else if (!imuOk) out.stopReason = !in.imu.valid ? 6 : ((!isfinite(in.imu.yawRad) || !isfinite(in.imu.rollRad) || !isfinite(in.imu.pitchRad)) ? 10 : 7);
+      else if (!tofOk) out.stopReason = in.tof.valid ? 9 : 8;
+      else out.stopReason = 4;
+    }
     out.leftPrelimit = out.rightPrelimit = out.rearYawPrelimit = 0;
     out.propulsionPrelimit = cfg.propulsionStop;
   }
@@ -156,7 +162,7 @@ Output Controller::step(const Input& in, const ControlConfig& cfg) {
   }
   previousOutputs_[0] = out.leftFront; previousOutputs_[1] = out.rightFront; previousOutputs_[2] = out.rearYaw; previousOutputs_[3] = out.propulsion;
   if (!isfinite(out.leftFront) || !isfinite(out.rightFront) || !isfinite(out.rearYaw) || !isfinite(out.propulsion)) {
-    ++metrics_.nanInf; out.leftFront = out.rightFront = out.rearYaw = out.propulsion = 0; safety_ = Safety::Fault; out.stopReason = 5; valid = false;
+    ++metrics_.nanInf; out.leftFront = out.rightFront = out.rearYaw = out.propulsion = 0; safety_ = Safety::Fault; out.stopReason = 10; valid = false;
   }
   out.left_front_wing = out.leftFront; out.right_front_wing = out.rightFront; out.rear_yaw = out.rearYaw;
   out.safety = safety_; out.waypointIndex = waypointIndex_; out.inputValid = valid;
@@ -179,6 +185,6 @@ const char* safetyName(Safety state) {
   switch (state) { case Safety::Disarmed: return "DISARMED"; case Safety::Running: return "RUNNING"; case Safety::EStop: return "E_STOP"; default: return "FAULT"; }
 }
 const char* stopReasonName(uint8_t reason) {
-  switch (reason) { case 1: return "STOP"; case 2: return "ESTOP"; case 3: return "HEARTBEAT_TIMEOUT"; case 4: return "SENSOR_STALE"; case 5: return "NONFINITE"; default: return "NONE"; }
+  switch (reason) { case 1: return "STOP"; case 2: return "ESTOP"; case 3: return "HEARTBEAT_TIMEOUT"; case 4: return "GNSS_INVALID"; case 5: return "GNSS_STALE"; case 6: return "IMU_INVALID"; case 7: return "IMU_STALE"; case 8: return "TOF_INVALID"; case 9: return "TOF_STALE"; case 10: return "NONFINITE"; case 11: return "VESC_FAULT"; default: return "NONE"; }
 }
 }  // namespace proposal_min

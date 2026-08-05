@@ -77,3 +77,7 @@
 ```
 MIN_SHADOW_LONG_PASS duration_s=1800 period_us=20000 steps=90000 outputs=90000 starts=8 stops=7 estops=500 heartbeat_fault_windows=500 sensor_fault_samples=1550 running_nonzero_propulsion=73000 safe_zero_outputs=17000 transitions=21 nan_inf=0 deadline_miss=0 waypoint_ack=accepted
 ```
+
+## 2026-08-05 corrective audit supersession
+
+現行の最終判定は `docs/PR18_CORRECTIVE_AUDIT_20260805.md` を正本とする。旧版の14件/15件、270,002件、旧SHAは履歴として保存するが、現行結果はPython 19 tests、Type63/64/65/66/67 = 90,000/89,750/89,750/1/1、合計269,502、SHA-256 `DA09CA479592E67E1E6D0A35EF2DAB2720A337A21E60C11DB1A2AA77EF879893`。正式4出力は左前翼、右前翼、後部ヨー機構、単一推進。実機とCOM3/4/6、main push/mergeは行っていない。

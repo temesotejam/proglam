@@ -479,3 +479,7 @@ PCA9685/VESCの全出力経路はコンパイル定数と乾式ランタイム�
 ## 2026-08-04 PR18 final audit addendum
 
 The final audit is recorded in UTF-8 at `docs/PR18_FINAL_AUDIT_20260804.md`. It covers the shared Type63-67 wire path, six-state C++ Waypoint guard, deterministic 30-minute host run, negative diagnostics, safety-output behavior, test/build evidence, and explicit hardware/COM3 hold. Host-only nonzero propulsion fixtures must not be interpreted as enabling firmware propulsion; firmware remains `SHADOW_CONTROL_ENABLE=1` and `ACTUATOR_OUTPUT_ENABLE=0`.
+
+## 2026-08-05 PR18 corrective audit (current)
+
+添付の最終監査是正指示に基づく現行結果は `docs/PR18_CORRECTIVE_AUDIT_20260805.md` に固定した。正式4出力は左前翼、右前翼、後部ヨー機構、単一推進。Type66は276 bytes、Python診断は19 tests、30分host loopは20 ms/90,000 cyclesである。Type63/64/65/66/67の実測件数は90,000/89,750/89,750/1/1。旧版に記録された14件・15件や旧出力名称は過去履歴であり、現行判定には使用しない。実機・COM3/4/6・main操作は未実施。
