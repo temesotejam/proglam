@@ -490,3 +490,11 @@ The final audit is recorded in UTF-8 at `docs/PR18_FINAL_AUDIT_20260804.md`. It 
 ## 2026-08-05 PR18 最終ホスト監査（現行）
 
 現行の正しいUTF-8監査報告は `docs/PR18_CORRECTIVE_AUDIT_20260805.md`。30分相当は50 Hz / 20 ms / 90,000 cycleで2回実行し、manifest付きreason照合、正式transport診断、CSV各90,000行、INA/VESC freeze復帰、Waypoint本番handler、38 byte goldenを確認した。実機、COM、microSD、upload、mainへの変更は行っていない。
+
+## 2026-08-05 — 大会用SHADOW統合版（着手・未完了）
+
+- [実施中] PR #18のhead `5c6060012c786f66bdee953d28adaf4df7381cb7` から `feat/competition-integrated-shadow-20260805` を作成した。PR #18とmainには変更していない。
+- [完了] `shared/competition_shadow` にMANUAL / ATTITUDE_ASSIST / HEADING_HOLD / AUTO_WAYPOINT用の4出力SHADOWコントローラ、モード別センサ依存、slew、STOP/E-STOP、manual timeout、VESC fault、physical gate常時falseを実装した。
+- [完了] Type 68〜71（mode/manual/heading/ACK）の後方互換wire定義をXIAO/CoreS3双方へ追加し、XIAOでCRC検証・request ID重複拒否・ACK・SHADOW ControlOutput送信を実装した。
+- [完了] `competition_shadow_host` とPlatformIO `competition_shadow` をホスト/ビルド確認した。upload、COM/USB、実機、microSD操作は未実施。
+- [未完了] CoreS3 Web/API・同一BINログ統合、長時間2回再現、全回帰build、文書、Draft PR。これらが終わるまで大会用SHADOW統合版を完了としない。

@@ -16,6 +16,9 @@
 #ifndef ACTUATOR_OUTPUT_ENABLE
 #define ACTUATOR_OUTPUT_ENABLE 0
 #endif
+#ifndef COMPETITION_SHADOW_ENABLE
+#define COMPETITION_SHADOW_ENABLE 0
+#endif
 #ifndef PROPOSAL_PROFILE
 #define PROPOSAL_PROFILE 0
 #endif
@@ -26,6 +29,8 @@ static_assert(!REPLAY_ENABLE || !ACTUATOR_OUTPUT_ENABLE,
 static_assert(!SHADOW_CONTROL_ENABLE || !ACTUATOR_OUTPUT_ENABLE,
               "MIN shadow control must never enable actuator output");
 namespace app_config {
+static_assert(!COMPETITION_SHADOW_ENABLE || (!ACTUATOR_OUTPUT_ENABLE && SHADOW_CONTROL_ENABLE), "competition firmware is SHADOW-only and requires physical output disabled");
+
 constexpr char kFirmwareName[]="xiao-boat-control-integration";
 constexpr char kFirmwareVersion[]="0.3.5-estimated-state-dry-run";
 constexpr int kPeripheralSdaPin=D1,kPeripheralSclPin=D0;
@@ -46,6 +51,7 @@ constexpr bool kDryRunActuators=true; constexpr uint32_t kGnssNavExpectedInterva
 constexpr bool kShadowOnly=true,kActuatorOutputEnabled=false,kEnableIna226=false;
 constexpr bool kBenchmarkEnable=BENCHMARK_ENABLE!=0,kReplayEnable=REPLAY_ENABLE!=0;
 constexpr bool kShadowControlEnable=SHADOW_CONTROL_ENABLE!=0;
+constexpr bool kCompetitionShadowEnable=COMPETITION_SHADOW_ENABLE!=0;
 constexpr bool kActuatorOutputCompileEnable=ACTUATOR_OUTPUT_ENABLE!=0;
 constexpr uint8_t kProposalProfile=(uint8_t)PROPOSAL_PROFILE;
 // Future code must use this guard before any PCA9685/VESC write.
