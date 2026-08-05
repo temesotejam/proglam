@@ -8,11 +8,13 @@
 #include <limits>
 #include <boat_protocol.h>
 #include <proposal_min.h>
+#include <state_reason_generated.h>
 #include <waypoint_apply.h>
 #include "bin_record_writer.h"
 
 namespace {
 using boat_test::writeBinRecord;
+using boat_test::TransportDiagnostics;
 
 using SnapshotPayload = boat::ControlSnapshotPayload;
 using InaPayload = boat::InaStatusPayload;
@@ -38,6 +40,8 @@ void observe(OutputStats& s, float value, bool safe, bool running, bool hasPrevi
 }
 int main(int argc, char** argv) {
   const char* path = argc > 1 ? argv[1] : "min_shadow_30min.BIN";
+  const char* manifestPath = argc > 2 ? argv[2] : "min_shadow_30min.manifest.json";
+  const char* transportPath = argc > 3 ? argv[3] : "min_shadow_30min.transport.json";
   constexpr uint64_t durationUs = 1800ULL * 1000000ULL, periodUs = 20000ULL;
   constexpr uint64_t steps = durationUs / periodUs;
   std::ofstream out(path, std::ios::binary); if (!out) return 2;
@@ -66,9 +70,9 @@ int main(int argc, char** argv) {
   waypointAck.requestId = waypointSet.requestId; waypointAck.revision = store.revision; waypointAck.status = static_cast<uint8_t>(waypointResult.status);
   waypointAck.reason = static_cast<uint8_t>(waypointResult.reason); waypointAck.activeIndex = store.activeIndex; waypointAck.count = store.count;
   waypointAck.canonicalCrc = boat::canonicalCrc(&waypointAck, offsetof(boat::WaypointAckPayload, canonicalCrc));
-  uint32_t sequence = 0;
-  writeBinRecord(out, boat::Type::WaypointSet, sequence, 0, &waypointSet, sizeof(waypointSet));
-  writeBinRecord(out, boat::Type::WaypointAck, sequence, 1, &waypointAck, sizeof(waypointAck));
+  uint32_t sequence = 0; TransportDiagnostics transport{};
+  writeBinRecord(out, transport, boat::Type::WaypointSet, sequence, 0, &waypointSet, sizeof(waypointSet));
+  writeBinRecord(out, transport, boat::Type::WaypointAck, sequence, 1, &waypointAck, sizeof(waypointAck));
   uint64_t lastGnss = 0, lastImu = 0, lastTof = 0, lastInaFreshUs = 0, lastVescFreshUs = 0, outputCount = 0, runningNonzero = 0, safeZero = 0;
   uint32_t resetRecoveries = 0;
   uint32_t starts = 0, stops = 0, estops = 0, heartbeatFaults = 0, sensorFaults = 0;
@@ -77,17 +81,18 @@ int main(int argc, char** argv) {
   uint32_t courseWrapSamples = 0; OutputStats stats[4]{}; float previous[4]{}; bool previousValid = false;
   for (uint64_t i = 0; i < steps; ++i) {
     const uint64_t now = (i + 1) * periodUs;
-    const bool stop = now == 220000000ULL || now == 400000000ULL || now == 580000000ULL || now == 740000000ULL || now == 900000000ULL || now == 1230000000ULL || now == 1430000000ULL;
-    const bool start = i == 0 || now == 240000000ULL || now == 420000000ULL || now == 600000000ULL || now == 760000000ULL || now == 920000000ULL || now == 1250000000ULL || now == 1450000000ULL;
-    const bool estop = now >= 1200000000ULL && now < 1210000000ULL;
-    const bool heartbeatOk = !(now >= 1400000000ULL && now < 1410000000ULL);
-    const bool gnssBad = now >= 180000000ULL && now < 185000000ULL;
-    const bool gnssFreeze = now >= 185000000ULL && now < 190000000ULL;
-    const bool imuBad = now >= 360000000ULL && now < 365000000ULL;
-    const bool imuFreeze = now >= 365000000ULL && now < 370000000ULL;
-    const bool imuNan = now >= 720000000ULL && now < 721000000ULL;
-    const bool tofBad = now >= 540000000ULL && now < 545000000ULL;
-    const bool tofFreeze = now >= 545000000ULL && now < 550000000ULL;
+    const bool resetStart = i==5001 || i==10001 || i==15001 || i==20001 || i==25026 || i==30001 || i==35006 || i==40001 || i==45013 || i==50001;
+    const bool stop = i == 5000;
+    const bool start = i == 0 || resetStart;
+    const bool estop = i == 10000;
+    const bool heartbeatOk = i != 15000;
+    const bool gnssBad = i == 20000;
+    const bool gnssFreeze = i >= 25000 && i <= 25025;
+    const bool imuBad = i == 30000;
+    const bool imuFreeze = i >= 35000 && i <= 35005;
+    const bool imuNan = i == 50000;
+    const bool tofBad = i == 40000;
+    const bool tofFreeze = i >= 45000 && i <= 45012;
     if (start) ++starts;
     if (stop) ++stops;
     if (estop) ++estops;
@@ -113,7 +118,7 @@ int main(int argc, char** argv) {
     if (in.imu.valid && !imuFreeze && !imuNan) lastImu = in.imu.timestampUs;
     in.tof = {ranges, status, 8, now, true}; if (tofBad) in.tof.valid = false; if (tofFreeze) in.tof.timestampUs = lastTof; if (in.tof.valid && !tofFreeze) lastTof = in.tof.timestampUs;
     in.waypoints = route; in.waypointCount = 4;
-    if (start && (now == 240000000ULL || now == 420000000ULL || now == 600000000ULL || now == 760000000ULL || now == 920000000ULL || now == 1250000000ULL || now == 1450000000ULL)) { controller.reset(); ++resetRecoveries; }
+    if (resetStart) { controller.reset(); ++resetRecoveries; }
     const proposal_min::Output o = controller.step(in, cfg); ++outputCount;
     if (o.safety == proposal_min::Safety::Running && o.propulsion > 0) ++runningNonzero;
     if (o.safety != proposal_min::Safety::Running && o.propulsion == 0) ++safeZero;
@@ -126,13 +131,35 @@ int main(int argc, char** argv) {
     SnapshotPayload snap{};
     snap.timestampUs=now; snap.cycle=static_cast<uint32_t>(i); snap.waypointRevision=store.revision; snap.gnssAgeUs=lastGnss?(uint32_t)(now-lastGnss):UINT32_MAX; snap.imuAgeUs=lastImu?(uint32_t)(now-lastImu):UINT32_MAX; snap.tofAgeUs=lastTof?(uint32_t)(now-lastTof):UINT32_MAX;
     snap.latitudeDeg=in.gnss.latitudeDeg; snap.longitudeDeg=in.gnss.longitudeDeg; snap.targetWaypointLatitudeDeg=store.points[o.waypointIndex<store.count?o.waypointIndex:0].latitudeDeg; snap.targetWaypointLongitudeDeg=store.points[o.waypointIndex<store.count?o.waypointIndex:0].longitudeDeg; snap.speedMps=in.gnss.speedMps; snap.gnssCourseRad=in.gnss.courseRad; snap.courseErrorRad=o.courseErrorRad; snap.localNorthM=0; snap.localEastM=0; snap.targetBearingRad=o.targetCourseRad; snap.waypointDistanceM=o.waypointDistanceM; snap.rollRad=in.imu.rollRad; snap.pitchRad=in.imu.pitchRad; snap.yawRad=in.imu.yawRad; snap.rollRateRadS=in.imu.rollRateRadS; snap.pitchRateRadS=in.imu.pitchRateRadS; snap.yawRateRadS=in.imu.yawRateRadS; snap.tofRawMm=o.tofRawMm; snap.tofFilteredM=o.tofFilteredM; snap.heightErrorM=o.heightErrorM; snap.uHeight=o.u_height; snap.uPitch=o.u_pitch; snap.uRoll=o.u_roll; snap.uYaw=o.u_yaw; snap.frontCommon=o.frontCommon; snap.frontDifferential=o.frontDifferential; snap.leftFrontWing=o.left_front_wing; snap.rightFrontWing=o.right_front_wing; snap.rearYaw=o.rear_yaw; snap.propulsion=o.propulsion; snap.leftPrelimit=o.leftPrelimit; snap.rightPrelimit=o.rightPrelimit; snap.rearYawPrelimit=o.rearYawPrelimit; snap.propulsionPrelimit=o.propulsionPrelimit; snap.gnssValid=o.gnssValid; snap.imuValid=o.imuValid; snap.tofValid=o.tofValid; snap.heightValid=o.heightValid; snap.waypointReached=o.waypointReached; snap.outputValid=o.inputValid; snap.state=static_cast<uint8_t>(o.safety); snap.safetyReason=o.stopReason; snap.mode=start?2:1; snap.activeWaypoint=o.waypointIndex;
-    writeBinRecord(out, boat::Type::ControlSnapshot, sequence, now, &snap, sizeof(snap));
+    writeBinRecord(out, transport, boat::Type::ControlSnapshot, sequence, now, &snap, sizeof(snap));
     const bool inaMissingNow = now >= 280000000ULL && now < 285000000ULL; const bool inaFrozenNow = now >= 300000000ULL && now < 305000000ULL; const bool inaInvalidNow = now >= 320000000ULL && now < 325000000ULL;
-    if (inaMissingNow) ++inaMissing; else { InaPayload ina{}; if (!inaFrozenNow && !inaInvalidNow) lastInaFreshUs=now; ina.timestampUs=inaFrozenNow?lastInaFreshUs:now; ina.ageUs=static_cast<uint32_t>(now-ina.timestampUs); ina.valid=!inaInvalidNow; ina.errorCode=inaInvalidNow?2:0; ina.busVoltageV=ina.valid?12.0f:NAN; ina.shuntVoltageV=ina.valid?0.01f:NAN; ina.currentA=ina.valid?1.0f:NAN; ina.powerW=ina.valid?12.0f:NAN; writeBinRecord(out,boat::Type::InaStatus,sequence,now,&ina,sizeof(ina)); if(inaFrozenNow && ina.ageUs>500000)++inaStale; if(inaInvalidNow)++inaInvalid; else if(inaFrozenNow)++inaFrozen; else ++inaNormal; }
+    if (inaMissingNow) ++inaMissing; else { InaPayload ina{}; if (!inaFrozenNow && !inaInvalidNow) lastInaFreshUs=now; ina.timestampUs=inaFrozenNow?lastInaFreshUs:now; ina.ageUs=static_cast<uint32_t>(now-ina.timestampUs); ina.valid=!inaInvalidNow; ina.errorCode=inaInvalidNow?2:0; ina.busVoltageV=ina.valid?12.0f:NAN; ina.shuntVoltageV=ina.valid?0.01f:NAN; ina.currentA=ina.valid?1.0f:NAN; ina.powerW=ina.valid?12.0f:NAN; writeBinRecord(out,transport,boat::Type::InaStatus,sequence,now,&ina,sizeof(ina)); if(inaFrozenNow && ina.ageUs>500000)++inaStale; if(inaInvalidNow)++inaInvalid; else if(inaFrozenNow)++inaFrozen; else ++inaNormal; }
     const bool vescMissingNow = now >= 700000000ULL && now < 705000000ULL; const bool vescFrozenNow = now >= 720000000ULL && now < 725000000ULL; const bool vescInvalidNow = now >= 740000000ULL && now < 745000000ULL; const bool vescFaultNow = now >= 760000000ULL && now < 765000000ULL;
-    if (vescMissingNow) ++vescMissing; else { VescPayload v{}; if (!vescFrozenNow && !vescInvalidNow && !vescFaultNow) lastVescFreshUs=now; v.timestampUs=vescFrozenNow?lastVescFreshUs:now; v.ageUs=static_cast<uint32_t>(now-v.timestampUs); v.valid=!vescInvalidNow; v.mechanicalRpmValid=0; v.fault=vescFaultNow?7:0; v.inputVoltageV=v.valid?24.0f:NAN; v.motorCurrentA=v.valid?2.0f:NAN; v.inputCurrentA=v.valid?1.0f:NAN; v.duty=v.valid?0.1f:NAN; v.erpm=v.valid?1000.0f:NAN; v.mosTempC=v.valid?40.0f:NAN; v.motorTempC=v.valid?42.0f:NAN; v.tachometer=0; writeBinRecord(out,boat::Type::VescTelemetry,sequence,now,&v,sizeof(v)); if(vescFrozenNow && v.ageUs>500000)++vescStale; if(v.valid&&!vescFaultNow&&!vescFrozenNow)++vescNormal; if(vescInvalidNow)++vescInvalid; if(vescFrozenNow)++vescFrozen; if(vescFaultNow)++vescFault; }
+    if (vescMissingNow) ++vescMissing; else { VescPayload v{}; if (!vescFrozenNow && !vescInvalidNow && !vescFaultNow) lastVescFreshUs=now; v.timestampUs=vescFrozenNow?lastVescFreshUs:now; v.ageUs=static_cast<uint32_t>(now-v.timestampUs); v.valid=!vescInvalidNow; v.mechanicalRpmValid=0; v.fault=vescFaultNow?7:0; v.inputVoltageV=v.valid?24.0f:NAN; v.motorCurrentA=v.valid?2.0f:NAN; v.inputCurrentA=v.valid?1.0f:NAN; v.duty=v.valid?0.1f:NAN; v.erpm=v.valid?1000.0f:NAN; v.mosTempC=v.valid?40.0f:NAN; v.motorTempC=v.valid?42.0f:NAN; v.tachometer=0; writeBinRecord(out,transport,boat::Type::VescTelemetry,sequence,now,&v,sizeof(v)); if(vescFrozenNow && v.ageUs>500000)++vescStale; if(v.valid&&!vescFaultNow&&!vescFrozenNow)++vescNormal; if(vescInvalidNow)++vescInvalid; if(vescFrozenNow)++vescFrozen; if(vescFaultNow)++vescFault; }
   }
-  out.close(); const auto& m=controller.metrics();
+  out.close();
+  std::ofstream transportOut(transportPath);
+  transportOut << "{\"decoded_frames\":" << transport.decodedFrames << ",\"crc_errors\":" << transport.crcErrors << ",\"cobs_errors\":" << transport.cobsErrors << ",\"length_errors\":" << transport.lengthErrors << "}\n";
+  std::ofstream manifestOut(manifestPath);
+  const auto emitOverride = [&](uint64_t cycle, const char* cause, proposal_min::Safety state, uint8_t reason, bool& first) {
+    if (!first) { manifestOut << ","; }
+    first=false;
+    manifestOut << "{\"cycle\":" << cycle << ",\"timestamp_us\":" << ((cycle+1)*periodUs) << ",\"cause\":\"" << cause << "\",\"state\":" << static_cast<unsigned>(state) << ",\"reason\":" << static_cast<unsigned>(reason) << "}";
+  };
+  manifestOut << "{\"cycles\":" << steps << ",\"default\":{\"cause\":\"NONE\",\"state\":" << static_cast<unsigned>(proposal_min::Safety::Running) << ",\"reason\":" << static_cast<unsigned>(proposal_min::state_reason_generated::kReasonNone) << "},\"overrides\":[";
+  bool firstOverride=true;
+  emitOverride(5000,"STOP",proposal_min::Safety::Disarmed,proposal_min::state_reason_generated::kReasonStop,firstOverride);
+  emitOverride(10000,"E_STOP",proposal_min::Safety::EStop,proposal_min::state_reason_generated::kReasonEStop,firstOverride);
+  emitOverride(15000,"HEARTBEAT_TIMEOUT",proposal_min::Safety::Fault,proposal_min::state_reason_generated::kReasonHeartbeatTimeout,firstOverride);
+  emitOverride(20000,"GNSS_INVALID",proposal_min::Safety::Fault,proposal_min::state_reason_generated::kReasonGnssInvalid,firstOverride);
+  emitOverride(25025,"GNSS_STALE",proposal_min::Safety::Fault,proposal_min::state_reason_generated::kReasonGnssStale,firstOverride);
+  emitOverride(30000,"IMU_INVALID",proposal_min::Safety::Fault,proposal_min::state_reason_generated::kReasonImuInvalid,firstOverride);
+  emitOverride(35005,"IMU_STALE",proposal_min::Safety::Fault,proposal_min::state_reason_generated::kReasonImuStale,firstOverride);
+  emitOverride(40000,"TOF_INVALID",proposal_min::Safety::Fault,proposal_min::state_reason_generated::kReasonTofInvalid,firstOverride);
+  emitOverride(45012,"TOF_STALE",proposal_min::Safety::Fault,proposal_min::state_reason_generated::kReasonTofStale,firstOverride);
+  emitOverride(50000,"NONFINITE",proposal_min::Safety::Fault,proposal_min::state_reason_generated::kReasonNonfinite,firstOverride);
+  manifestOut << "]}\n";
+  const auto& m=controller.metrics();
   std::cout << "MIN_SHADOW_LONG_PASS duration_s=1800 period_us=20000 steps=90000 outputs=" << outputCount
             << " starts=" << starts << " stops=" << stops << " estops=" << estops
             << " heartbeat_fault_samples=" << heartbeatFaults << " sensor_fault_samples=" << sensorFaults
@@ -146,6 +173,6 @@ int main(int argc, char** argv) {
             << ",right:" << stats[1].min << "/" << stats[1].max << "/" << stats[1].nonNeutral << "/" << stats[1].changes << "/" << stats[1].safe
             << ",rear:" << stats[2].min << "/" << stats[2].max << "/" << stats[2].nonNeutral << "/" << stats[2].changes << "/" << stats[2].safe
             << ",propulsion:" << stats[3].min << "/" << stats[3].max << "/" << stats[3].nonNeutral << "/" << stats[3].changes << "/" << stats[3].safe
-            << " waypoint_ack=accepted\n";
+            << " transport_decoded=" << transport.decodedFrames << " transport_crc=" << transport.crcErrors << " transport_cobs=" << transport.cobsErrors << " transport_length=" << transport.lengthErrors << " waypoint_ack=accepted\n";
   return outputCount==steps && runningNonzero>0 && safeZero>0 && courseWrapSamples>0 ? 0 : 3;
 }

@@ -70,14 +70,14 @@ class IndependentNegativeDiagnosticsTest(unittest.TestCase):
         r=self.decode(lambda f:record(f,63,1,1000,b"x"))
         self.assertEqual(r["payload_length_errors"],1); self.assertEqual(r["unknown_types"],0); self.assertEqual(r["nonfinite"],0)
     def test_nonfinite_only(self):
-        p=bytearray(snapshot()); struct.pack_into("<f",p,60,float("nan")); r=self.decode(lambda f:record(f,63,1,1000,bytes(p)))
+        p=bytearray(snapshot()); struct.pack_into("<f",p,158,float("nan")); r=self.decode(lambda f:record(f,63,1,1000,bytes(p)))
         self.assertEqual(r["nonfinite"],1); self.assertEqual(r["output_range_violations"],0)
     def test_invalid_state_only(self):
         r=self.decode(lambda f:record(f,63,1,1000,snapshot(state=9)))
-        self.assertEqual(r["invalid_state_transitions"],1); self.assertEqual(r["safety_reason_mismatches"],0)
+        self.assertEqual(r["invalid_state_transitions"],1); self.assertIsNone(r["safety_reason_mismatches"]); self.assertEqual(r["safety_reason_expectation_status"],"not_provided")
     def test_safety_reason_mismatch_only(self):
         r=self.decode(lambda f:record(f,63,1,1000,snapshot(state=2,reason=0)))
-        self.assertEqual(r["safety_reason_mismatches"],1); self.assertEqual(r["invalid_state_transitions"],0)
+        self.assertIsNone(r["safety_reason_mismatches"]); self.assertEqual(r["safety_reason_expectation_status"],"not_provided"); self.assertEqual(r["invalid_state_transitions"],0)
     def test_output_range_only(self):
         p=bytearray(snapshot()); struct.pack_into("<f",p,158,2.0); r=self.decode(lambda f:record(f,63,1,1000,bytes(p)))
         self.assertEqual(r["output_range_violations"],1); self.assertEqual(r["safe_output_violations"],0)
@@ -87,7 +87,7 @@ class IndependentNegativeDiagnosticsTest(unittest.TestCase):
     def test_slew_only(self):
         p1=snapshot(1000,1); p2=bytearray(snapshot(2000,2)); struct.pack_into("<f",p2,146,1.0)
         r=self.decode(lambda f:(record(f,63,1,1000,p1),record(f,63,2,2000,bytes(p2))))
-        self.assertGreaterEqual(r["slew_violations"],1); self.assertEqual(r["output_range_violations"],0)
+        self.assertEqual(r["slew_violations"],1); self.assertEqual(r["output_range_violations"],0); self.assertEqual(r["safe_output_violations"],0); self.assertEqual(r["nonfinite"],0); self.assertEqual(r["invalid_state_transitions"],0); self.assertEqual(r["stop_restart_violations"],0)
     def test_stop_restart_only(self):
         p=bytearray(snapshot(2000,2,state=1)); p[186]=1; r=self.decode(lambda f:(record(f,63,1,1000,snapshot(1000,1,state=0)),record(f,63,2,2000,bytes(p))))
         self.assertEqual(r["stop_restart_violations"],1); self.assertEqual(r["invalid_state_transitions"],0)

@@ -186,7 +186,5 @@ Output Controller::step(const Input& in, const ControlConfig& cfg) {
 const char* safetyName(Safety state) {
   switch (state) { case Safety::Disarmed: return "DISARMED"; case Safety::Running: return "RUNNING"; case Safety::EStop: return "E_STOP"; default: return "FAULT"; }
 }
-const char* stopReasonName(uint8_t reason) {
-  switch (reason) { case 1: return "STOP"; case 2: return "ESTOP"; case 3: return "HEARTBEAT_TIMEOUT"; case 4: return "GNSS_INVALID"; case 5: return "GNSS_STALE"; case 6: return "IMU_INVALID"; case 7: return "IMU_STALE"; case 8: return "TOF_INVALID"; case 9: return "TOF_STALE"; case 10: return "NONFINITE"; case 11: return "VESC_FAULT"; default: return "NONE"; }
-}
+const char* stopReasonName(uint8_t reason) { return state_reason_generated::reasonName(reason); }
 }  // namespace proposal_min

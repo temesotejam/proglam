@@ -4,7 +4,8 @@ namespace proposal_min {
 namespace {
 void requestIdentity(const uint8_t* payload, size_t length, uint32_t& requestId, uint32_t& revision) {
   requestId = revision = 0;
-  if (payload && length >= sizeof(uint32_t) * 2) { memcpy(&requestId, payload, sizeof(requestId)); memcpy(&revision, payload + sizeof(requestId), sizeof(revision)); }
+  if (payload && length >= sizeof(uint32_t)) memcpy(&requestId, payload, sizeof(requestId));
+  if (payload && length >= sizeof(uint32_t) * 2) memcpy(&revision, payload + sizeof(requestId), sizeof(revision));
 }
 void sendAck(WaypointHandlerResult& result, const WaypointAckSink& sink) { result.ackSent = sink.send ? sink.send(sink.context, result.ack) : false; }
 }
