@@ -528,3 +528,8 @@ The final audit is recorded in UTF-8 at `docs/PR18_FINAL_AUDIT_20260804.md`. It 
 - Added `ServoMapper` host test and connected it only in `COMPETITION_HARDWARE_ENABLE`; existing competition shadow route remains output-disabled.
 - Added Core safety API for ARM/START/DISARM/STOP/E-STOP using existing protocol types. All four firmware build configurations and host test passed; no upload or output test performed.
 - Blocking condition for physical test: user must confirm propeller removed/secured before the dedicated hardware image is uploaded and armed. BNO mount transform is still unvalidated, so PID tuning remains disabled.
+
+## 2026-08-05 — VESC ramp safety increment (not flashed)
+- Added host-tested DutyRamp. The hardware profile records VESC target/applied duty separately, updates applied duty at 50 Hz, and uses 500 ms normal rise/fall.
+- `safeOutputs()` makes target/applied duty zero, clears ramp state and sends a zero VESC frame immediately. Existing stop/fault/E-STOP/heartbeat paths call it.
+- XIAO competition shadow/hardware builds passed; no serial port, upload or physical test was performed.

@@ -424,3 +424,5 @@ The final audit is recorded in UTF-8 at `docs/PR18_FINAL_AUDIT_20260804.md`. It 
 - [x] Host and four firmware builds pass.
 - [ ] Re-identify COM4/COM6, upload only after physical safety confirmation, then commission servo directions and VESC 1%/3% steps.
 - [ ] Confirm BNO body-axis transform, then implement persistent tuning only after the measured direction/range is known.
+
+- [x] Added target/applied VESC duty separation with 50 Hz 500 ms normal ramp and immediate-zero stop path; host/XIAO builds pass.

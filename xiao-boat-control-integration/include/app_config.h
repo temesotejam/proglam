@@ -49,7 +49,7 @@ constexpr uint32_t kBnoTaskFallbackMs=2UL; constexpr UBaseType_t kBnoTaskPriorit
 constexpr uint32_t kTofFrequencyHz=10UL,kInaSampleUs=20000UL,kServoControlUs=20000UL;
 constexpr uint32_t kOscillatorHz=25000000UL; constexpr float kServoPwmHz=50.0f; constexpr uint8_t kServoChannel=0;
 constexpr uint16_t kHardMinUs=500,kHardMaxUs=2500,kServoCenterUs=1500,kServoIntegrationMinUs=1400,kServoIntegrationMaxUs=1600,kServoSlewUsPerUpdate=5;
-constexpr float kVescMaxDuty=0.03f,kVescTestDuty=0.03f; constexpr uint32_t kVescUartBaud=115200UL,kVescRequestIntervalMs=20UL,kVescFrameTimeoutMs=100UL,kVescMaxPayloadBytes=512,kVescKeepaliveMs=50UL,kMaxTestMs=300000UL;
+constexpr float kVescMaxDuty=0.03f,kVescTestDuty=0.03f,kVescRampRiseSeconds=.5f,kVescRampFallSeconds=.5f; constexpr uint32_t kVescUartBaud=115200UL,kVescRequestIntervalMs=20UL,kVescFrameTimeoutMs=100UL,kVescMaxPayloadBytes=512,kVescKeepaliveMs=50UL,kVescControlIntervalUs=20000UL,kMaxTestMs=300000UL;
 constexpr uint32_t kLinkBaud=921600UL,kProtocolVersion=1,kLinkHeartbeatTimeoutMs=500UL; constexpr bool kRequireHostHeartbeat=false;
 constexpr bool kBenchmarkEnable=BENCHMARK_ENABLE!=0,kReplayEnable=REPLAY_ENABLE!=0;
 constexpr bool kShadowControlEnable=SHADOW_CONTROL_ENABLE!=0;
