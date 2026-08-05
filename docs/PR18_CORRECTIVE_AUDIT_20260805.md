@@ -1,7 +1,62 @@
-# PR #18 髴托ｽｽ陷会｣ｰ騾ｶ・｣隴滂ｽｻ隴擾ｽｯ雎・ｽ｣郢晢ｽｻ陞ｳ蠕｡・ｺ繝ｻ・ｰ・ｱ陷ｻ螂・ｽｼ繝ｻ026-08-05繝ｻ繝ｻ
-陝・ｽｾ髮趣ｽ｡郢晄じﾎ帷ｹ晢ｽｳ郢昶・繝ｻ `feat/proposal-benchmark-replay-20260804`邵ｲ繧・ｽｻ・･闕ｳ荵昴・霑ｴ・ｾ髯ｦ謔淞・､邵ｺ・ｧ隴鯉ｽｧ陜｣・ｱ陷ｻ鄙ｫ・・supersede 邵ｺ蜷ｶ・狗ｸｲ繝ｻ
-1. **鬮｢蜿･・ｧ蛹ｺ蜃ｾHEAD**: `a6c5f3a85918346fff271beee5fb1c98ee61213b`邵ｲ繝ｻ2. **隴擾ｽｯ雎・ｽ｣郢ｧ・ｳ郢晢ｽｼ郢晉ｾｽEAD**: `fff51e5`邵ｲ繝ｻ3. **隴崢驍ｨ・ｱush HEAD**: 隴√・蠍瑚ｭ厄ｽｴ隴・ｽｰ陟募ｾ後・郢晄じﾎ帷ｹ晢ｽｳ郢昶・繝ｻ驕ｶ・ｯ郢ｧ蜊漏郢ｧ・ｳ郢晢ｽ｡郢晢ｽｳ郢晏現竊馴坎蛟ｬ鮖ｸ邵ｺ蜷ｶ・狗ｸｲ繝ｻ4. **PR霑･・ｶ隲ｷ繝ｻ*: PR #18 邵ｺ・ｯ Draft / Open / Unmerged 郢ｧ蝣､・ｶ・ｭ隰問・笘・ｹｧ荵敖繝ｻ5. **main**: main邵ｺ・ｸ邵ｺ・ｮpush邵ｲ・ｻerge邵ｲ縲影base邵ｲ縲赫uash邵ｲ窶冩rce push邵ｺ・ｯ陞ｳ貊灘多邵ｺ蜉ｱ窶ｻ邵ｺ繝ｻ竊醍ｸｺ繝ｻﾂ繝ｻ6. **郢ｧ・ｳ郢晄ｺ倥Ε郢昴・*: 隴鯉ｽ｢陝・･縺慕ｹ晄ｺ倥Ε郢晏現・誕mend邵ｺ蟶吮・邵ｲ竏ｵ蠑崎ｱ・ｽ｣郢ｧ・ｳ郢晄ｺ倥Ε郢晏現・帝恆・ｽ陷会｣ｰ邵ｺ蜉ｱ笳・ｸｲ繝ｻ7. **陞溽判蟲ｩ驕ｽ繝ｻ蟲・*: common BIN serializer邵ｲ莉拌ypoint陷茨ｽｱ鬨ｾ蝟㌢ndler/ACK邵ｲ窶ｦanonical state/reason騾墓ｻ薙・邵ｲ・¨A/VESC隴弱ｇ邯ｾ陷・調・ｵ蜈茨ｽｳ・ｨ陷茨ｽ･邵ｲ竏ｫ蟲｡驕ｶ邇厄ｽｲ・ｰ關謎ｹ敖繝ｻ霑ｺ・ｰ陟・・繝ｳ郢晢ｽｫ郢晉甥・ｯ・ｾ陟｢諛環繝ｻ8. **霑｢・ｬ驕ｶ邇厄ｽｨ・ｺ隴・ｽｭ**: GNSS/IMU/ToF invalid郢晢ｽｻstale邵ｲ・¨A/VESC future/missing/stale/invalid邵ｲ縲ウSC fault郢ｧ蝣､蟲｡驕ｶ荵昴％郢晢ｽｼ郢ｧ・ｹ陋ｹ謔ｶﾂ繝ｻ9. **INA/VESC timestamp**: freeze闕ｳ・ｭpayload timestamp邵ｺ・ｯ隴崢陟募ｾ後・fresh timestamp邵ｺ・ｫ陜暦ｽｺ陞ｳ螢ｹﾂ繧・ｽ､髢繝ｻrecord timestamp邵ｺ・ｯ霑ｴ・ｾ陜ｨ・ｨ隴弱ｇ邯ｾ邵ｲ竏･ge邵ｺ・ｯ陟・懷・邵ｺ蜉ｱﾂ竏晢ｽｾ・ｩ陝ｶ・ｰ陟募ｾ後・fresh邵ｺ・ｸ隰鯉ｽｻ郢ｧ荵敖繝ｻ10. **freeze隰ｨ・ｰ**: 20 ms陷ｻ・ｨ隴帶ｺ伉・¨A/VESC陷ｷ繝ｻ50陜玲ｩｸ・ｼ繝ｻ驕俶慣・ｼ蟲ｨﾂ繧・耳payload timestamp邵ｺ・ｮ郢晢ｽｦ郢昜ｹ昴・郢ｧ・ｯ隰ｨ・ｰ邵ｺ・ｯ1邵ｲ繝ｻ11. **stale鬮｢・ｾ陋滂ｽ､**: INA/VESC邵ｺ・ｨ郢ｧ繝ｻ00,000 us邵ｲ繧・耳freeze邵ｺ・ｧage > 500,000 us邵ｺ・ｯ225陜玲ｧｭﾂ繝ｻ12. **stale隴帶ｺｷ・ｾ繝ｻ陞ｳ貊難ｽｸ・ｬ**: INA `225/225`邵ｲ縲ウSC `225/225`邵ｲ・ｮissing陷ｷ繝ｻ50邵ｲ・・valid陷ｷ繝ｻ50邵ｲ縲ウSC fault 250邵ｲ繝ｻ13. **陜玲ｧｫ・ｾ・ｩ**: freeze驍ｨ繧・ｽｺ繝ｻ・ｾ蠕娯・fresh timestamp郢ｧ雋槭・鬮｢荵敖・ｦffective-valid鬩募供貂夂ｸｺ・ｯ0邵ｲ繝ｻ14. **negative fixture**: future邵ｲ・ｻissing邵ｲ縲閣ale邵ｲ縲覚urce invalid邵ｲ縲ウSC fault邵ｲ縲各quence gap/reversal邵ｲ縲稿rsion邵ｲ縲系known邵ｲ・拌yload length邵ｲ・ｽonfinite邵ｲ縲閣ate邵ｲ縲影ason邵ｲ縲餌nge邵ｲ縲蛎fe output邵ｲ縲獲ew邵ｲ繝ｾTOP restart邵ｲ繧掣pe66 CRC邵ｲ繧掣pe67 CRC/status邵ｲ繝ｻ15. **negative隴帶ｺｷ・ｾ繝ｻﾂ・､**: 陷ｷ繝ｻixture邵ｺ・ｯ陝・ｽｾ髮趣ｽ｡郢ｧ・ｫ郢ｧ・ｦ郢晢ｽｳ郢ｧ・ｿ邵ｺ・ｮ邵ｺ・ｿ隰悶・・ｮ螢ｼﾂ・､邵ｲ繝ｻ譛ｪ鬨ｾ・｣邵ｺ蜉ｱ竊醍ｸｺ繝ｻ縺咲ｹｧ・ｦ郢晢ｽｳ郢ｧ・ｿ邵ｺ・ｯ0邵ｲ・｡assertGreater`邵ｺ・ｯ闖ｴ・ｿ騾包ｽｨ邵ｺ蜉ｱ窶ｻ邵ｺ繝ｻ竊醍ｸｺ繝ｻﾂ繝ｻ16. **Waypoint隴幢ｽｬ騾｡・ｪhandler**: 陷茨ｽｱ鬨ｾ蝟㌢ndler繝ｻ遐ｧain髦ｮ繝ｻ譴孩rapper繝ｻ隴ｰallback sink邵ｲ繝ｻ霑･・ｶ隲ｷ荵敖窶ｦount 0/1/16/>16邵ｲ竏晢ｽｺ・ｧ隶灘生繝ｻradius陟・・髦懃ｸｲ・軍C邵ｲ縲影vision郢ｧ蜻茨ｽ､諛・ｽｨ・ｼ邵ｲ繝ｻ17. **ACK**: 1髫補扱・ｱ繧・・邵ｺ・､邵ｺ讎雁ｮ崎汞繝ｻ竊・陜玲ｧｭﾂ・冨pe67邵ｲ縲司re length 16邵ｲ縲影quest_id/revision/status/count/CRC郢ｧ蝣､・｢・ｺ髫ｱ髦ｪﾂ繝ｻ18. **atomicity**: reject隴弱ｅ繝ｻrequest_id邵ｲ縲影vision邵ｲ窶ｦount邵ｲ竏昴・16霓､・ｹ邵ｲ竏･ctive index郢ｧ雋樊ｧ郢ｧﾂstore陷茨ｽｨ闖ｴ阮吮ｲ闕ｳ讎奇ｽ､蟲ｨﾂ繧・・闕ｳﾂrevision邵ｺ・ｯDuplicate邵ｲ繝ｻﾂ繝ｻ・｡蠕後・Rejected邵ｲ繝ｻ19. **common BIN serializer**: `shared/bin_record_serializer/src/bin_record_serializer.h` 邵ｺ謔滄ｫｪ闕ｳﾂ邵ｺ・ｮ陜暦ｽｺ陞ｳ螢ｹ繝ｻ郢昴・繝郢晢ｽｻlittle-endian serializer邵ｲ繝ｻrduino/SD/ofstream邵ｺ謔滄・闕ｳﾂ鬮｢・｢隰ｨ・ｰ郢ｧ蜑・ｽｽ・ｿ騾包ｽｨ邵ｲ繝ｻ20. **鬩･蟠趣ｽ､繝ｻ・､諛・ｽｴ・｢**: `kLogMagic`邵ｲ・枳BinMagic`邵ｲ・檜riteRecord`邵ｲ竏ｵ辟碑恪遞悠N layout邵ｺ・ｯ霑ｴ・ｾ髯ｦ謔滂ｽｮ貅ｯ・｣繝ｻ竊楢ｰｿ荵晢ｼ邵ｺ・ｦ邵ｺ繝ｻ竊醍ｸｺ繝ｻﾂ・泡RT COBS邵ｺ・ｨBIN serializer邵ｺ・ｯ陋ｻ繝ｻ螻ｬ邵ｲ繝ｻ21. **state/reason canonical**: `shared/proposal_min/state_reason.json`郢ｧ逞ｴource of truth邵ｺ・ｨ邵ｺ蜉ｱﾂ窶彳nerator邵ｺ・ｧC++/Python郢ｧ蝣､蜃ｽ隰瑚・ﾂ繝ｻ22. **reason隶諛・ｽｨ・ｼ**: `safety_reason_mismatches=0`邵ｲ窶・pected陋ｻ・･mismatch `{}`邵ｲ繧奇ｽｦ・ｳ雋ゑｽｬ闕ｳ蟠弱・邵ｺ・ｪheartbeat 1闔会ｽｶ邵ｺ・ｮ邵ｺ・ｿ `safety_reason_expectation_unavailable=1`邵ｲ繝ｻ23. **compiler/霑ｺ・ｰ陟・・*: host C++ `g++ -std=c++17 -Wall -Wextra -Werror`邵ｲ・訓ython 3.9邵ｲ・｣latformIO隰悶・・ｮ繝ｻ霑ｺ・ｰ陟・・ﾂ繝ｻ24. **C++隶諛域ｸ・*: `g++ -std=c++17 -Wall -Wextra -Werror -fsyntax-only -Ipc-tools/boat_eskf/cpp_tests -Ishared/proposal_min/src -Ishared/bin_record_serializer/src -Ixiao-boat-control-integration/lib/boat_protocol/src`邵ｲ繝ｻ25. **隴崢驍ｨ繝ｻ++ executable SHA-256**: `pr18_min_shadow_host_final2.exe` = `BDA91FC3AFBCDDAA24B3D3AD89DDA32469A824AB1ED926FA7653E99D1600754C`邵ｲ繝ｻ26. **30陋ｻ繝ｻ陜玲ｧｫ・ｮ貅ｯ・｡繝ｻ*: 陷ｷ蠕｡・ｸﾂexecutable郢ｧ繝ｻ陜玲ｧｫ・ｮ貅ｯ・｡蠕鯉ｼ邵ｲ竏ｽ・ｸ・｡隴・ｽｹ `MIN_SHADOW_LONG_PASS`邵ｲ繝ｻ27. **郢晢ｽ｢郢昴・ﾎ晉ｹ晢ｽｻ陷ｻ・ｨ隴帶ｺ倥・陜玲ｨ顔・郢晢ｽｻ陞ｳ貊難ｽｸ・ｬ隴弱ｋ菫｣**: `Controller::step()`邵ｲ繝ｻ0 Hz繝ｻ繝ｻ0,000 us繝ｻ蟲ｨﾂ繝ｻ,800 s邵ｲ繝ｻ0,000 cycles邵ｲ縲斬ll A 0.292 s / B 0.285 s邵ｲ繝ｻ28. **Type闔会ｽｶ隰ｨ・ｰ**: Type63=90,000邵ｲ繝ｻ4=89,750邵ｲ繝ｻ5=89,750邵ｲ繝ｻ6=1邵ｲ繝ｻ7=1邵ｲ竏晉ｲ矩坎繝ｻ69,502邵ｲ繝ｻ4/65陷ｷ繝ｻ50闔会ｽｶ邵ｺ・ｮ陝ｾ・ｮ邵ｺ・ｯmissing雎包ｽｨ陷茨ｽ･邵ｲ繝ｻ29. **BIN SHA-256**: `pr18_min_shadow_wall_a.BIN`邵ｺ・ｨ`_b.BIN`邵ｺ・ｯ陷ｷ蠕｡・ｸﾂ邵ｲ・・F3B3DFF6519858D131AB5BDF7470CB7FF3D6BC6A55E14D72A273F114FEA4A76`邵ｲ繧・・269,502闔会ｽｶ陟包ｽｩ陷ｿ・ｷ隰御ｻ咏ｲ･邵ｲ繝ｻ30. **Python**: unittest 38 tests PASS邵ｲ窶ｦompileall PASS邵ｲ繝ｻ31. **PlatformIO**: `proposal_shadow_min` SUCCESS繝ｻ繝ｻAM 208,804 / Flash 587,489繝ｻ蟲ｨﾂ・柝roposal_shadow_comm` SUCCESS繝ｻ繝ｻAM 190,968 / Flash 897,393繝ｻ蟲ｨﾂ・枸5stack-cores3` SUCCESS繝ｻ繝ｻAM 168,156 / Flash 1,034,693繝ｻ蟲ｨﾂ繝ｻ32. **陞ｳ迚吶・flag**: `SHADOW_CONTROL_ENABLE=1`邵ｲ・暸CTUATOR_OUTPUT_ENABLE=0`邵ｲ・ｧirmware propulsion 0..0邵ｲ・¨A陞ｳ貊難ｽｩ貅ｷ蜿呵慕､ｼ笏瑚怏・ｹ邵ｲ・｣CA/VESC write霎滂ｽ｡陷会ｽｹ邵ｲ繝ｻ33. **隴幢ｽｪ陞ｳ貊灘多**: COM3/COM4/COM6隰暦ｽ･驍ｯ螢ｹ繝ｻ隴厄ｽｸ髴趣ｽｼ邵ｺ・ｿ郢晢ｽｻ隰ｫ蝣ｺ・ｽ諛環竏晢ｽｮ貊難ｽｩ貅倥◎郢晢ｽｳ郢ｧ・ｵ髫ｧ・ｦ鬯ｨ阮卍・ｻicroSD隰ｫ蝣ｺ・ｽ諛環・ｻain push/merge邵ｲ・仔fender陞溽判蟲ｩ邵ｲ繝ｻ34. **隹ｿ蛟ｶ・ｻ・ｶ**: 陞ｳ貊難ｽｩ繝ｻ0陋ｻ繝ｻﾂ竏晢ｽｮ谿枴croSD/UART邵ｲ竏晢ｽｮ貅倥◎郢晢ｽｳ郢ｧ・ｵ陷ｻ・ｨ隴帶ｺ伉竏晢ｽｮ貊難ｽｩ讙ｻIN/TXT陟包ｽｩ陷ｿ・ｷ邵ｲ竏ｫ鮟・・・aypoint ACK邵ｺ・ｯ隴幢ｽｪ隶諛・ｽｨ・ｼ邵ｲ繝ｻ35. **髫ｪ・ｼ髴搾ｽ｡**: 隴幢ｽｬ隴厄ｽｸ邵ｲ・枦ocs/PR18_FINAL_AUDIT_20260804.md`邵ｲ・枦ocs/MIN_SHADOW_OPERATION_SPEC_20260804.md`邵ｲ・枦ocs/WORK_PLAN.md`邵ｲ・枦ocs/WORK_LOG.md`邵ｲ・曚:\tmp\pr18_min_shadow_wall_a.BIN/.TXT`邵ｲ・枩b.BIN/.TXT`邵ｲ繝ｻ36. **PR URL**: https://github.com/temesotejam/proglam/pull/18
+# PR #18 最終ホスト監査 是正報告（2026-08-05）
 
-## 隴崢驍ｨ繝ｻIN髫暦ｽ｣隴ｫ蜊・ｦ竏ｫ・ｴ繝ｻ
-`records=269502`邵ｲ・ｷersion/unknown/sequence-gap/timestamp-reversal/payload-length/Waypoint CRC/status/temporal-join errors邵ｺ・ｯ0邵ｲ・ｰutput range/safe/slew/stop-restart/course-wrap郢ｧ繝ｻ邵ｲ繧尉崎摎・ｳ邵ｺ蜉ｱ笳・reeze邵ｺ・ｮ髫包ｽｳ雋ゑｽｬ陋滂ｽ､邵ｺ・ｯ `ina_stale=225`, `vesc_stale=225`邵ｲ・枹ensor_stale_violations=450`繝ｻ蝓湲崎摎・ｳ邵ｺ蜉ｱ笳・tale髫包ｽｳ雋ゑｽｬ邵ｺ・ｮ陷ｷ驛・ｽｨ蛹ｻ縲堤ｸｺ繧・ｽ顔ｸｲ窶惑fective-valid鬩募供貂夂ｸｺ・ｯ0繝ｻ蟲ｨﾂ繝ｻ
-霑夲ｽｩ騾・・繝ｻ陷牙ｸ吶・隴崢陟募ｾ娯穐邵ｺ・ｧ霎滂ｽ｡陷会ｽｹ邵ｲ繧域た陜｣・ｱ陷ｻ鄙ｫ繝ｻpropulsion=0.4邵ｺ・ｯhost fixture邵ｺ・ｮshadow陷茨ｽ･陷牙ｸ吮味邵ｺ莉｣・帝♂・ｺ邵ｺ蜷ｶﾂ繝ｻ
+対象は `feat/proposal-benchmark-replay-20260804` と PR #18 です。本書は UTF-8 で再生成した現行の監査報告であり、旧報告中の文字化け・旧SHA・旧テスト件数・空transport診断を現行値として扱いません。
+
+1. 作業開始HEAD: `2fd66f6604686fe54b8891d4f35c55df57a19589`
+2. 試験対象コードHEAD: `ae2084efc0998c7cc74a23c59ed781f884e79902`
+3. 最終文書・証跡・push HEAD: 文書commit後の完全SHAをPR #18本文と最終コメントへ記録する。
+4. PR状態: Draft / Open / Unmerged を維持する。
+5. mainとの差: base main は `f4e2908366ea139c8d55d2de71f4e2595be25438`。mainへのpush・mergeはしていない。
+6. 今回のコミット: `ae2084e audit: complete PR18 host evidence checks`。
+7. 主な変更: cycle manifest、state/reason生成freshness、正式transport経路、Waypoint本番handler試験、全byte BIN golden、freeze/CSV/report証跡。
+8. 6未達点の是正: 文字化けは本書でUTF-8再生成、reasonはmanifest照合、negativeはCRC/COBS/slew完全一致、Waypointは本番経路、goldenは38 byte完全比較、証跡はZIPまで保存した。
+
+## safety scenario と reason 照合
+
+9. 独立scenario: STOP、E_STOP、HEARTBEAT_TIMEOUT、GNSS_INVALID、GNSS_STALE、IMU_INVALID、IMU_STALE、TOF_INVALID、TOF_STALE、NONFINITEを各1 cycleで発生させ、各後続cycleで `reset()` と明示STARTを行った。
+10. expected reason件数: NONE=89,990、STOP=1、E_STOP=1、HEARTBEAT_TIMEOUT=1、GNSS_INVALID=1、GNSS_STALE=1、IMU_INVALID=1、IMU_STALE=1、TOF_INVALID=1、TOF_STALE=1、NONFINITE=1。
+11. actual reason件数: expectedと完全一致。
+12. mismatch: `safety_reason_mismatches=0`、`safety_reason_mismatches_by_expected_reason={}`、`first_safety_reason_mismatch=null`。
+13. manifestなし解析: `safety_reason_expectation_status=not_provided`、`safety_reason_mismatches=null`。mismatch=0とは表示しない。
+14. 独立negative fixture: INA/VESC future・missing・stale・invalid・fault、sequence gap/reversal、version、unknown、payload length、nonfinite output、state、reason未提供、range、safe output、slew、STOP restart、Type66/67 CRC/status。
+15. fixture非0値: 各fixtureは対象値のみ完全一致。slew fixtureは `slew_violations=1`、range/safe/nonfinite/state/STOP restartは0。
+16. 対象外カウンタ: `test_min_shadow_independent_negative.py` に `assertGreater` / `assertGreaterEqual` は残していない。
+17. CRC-only: 正式 `boat::encode → boat::Decoder` で `crcErrors=1,cobsErrors=0,lengthErrors=0,handler=0,ACK=0`。
+18. COBS-only: 正式Decoderで `cobsErrors=1,crcErrors=0,lengthErrors=0,handler=0,ACK=0`。
+
+## Waypoint
+
+19. apply試験: count 0/1/16/17、緯度/経度の下限上限・範囲外・NaN・Inf、radius 0/負/NaN/Inf、action、revision増加/同一/逆行、6受付状態を独立配列で検査した。
+20. ACK検査: 正常Type66および内容拒否はhandler=1/ACK=1。Type67、16 bytes、request ID、revision、status、reason、active index、count、canonical CRC、transport CRCをdecodeまで確認した。
+21. atomicity: request ID、revision、count、active index、reach radius、16点の緯度経度をfieldwise比較。Duplicate/Rejectedで不変。handlerはController参照を持たない。
+22. malformed length: 0/1/4/7/8/sizeof-1/sizeof/sizeof+1。4 bytes未満はrequest ID=0、4 bytes以上でID取得、8 bytes未満はrevision=0、8 bytes以上でrevision取得。範囲外読取りなし。
+
+## serializer と freeze
+
+23. BIN golden期待38 bytes: `47 4F 4C 42 2E 16 00 00 00 00 00 00 01 43 04 00 09 00 00 00 07 00 00 00 D2 04 00 00 00 00 00 00 AA 55 10 20 30 40`。
+24. BIN golden実測: `written=38`、全38 byte一致、容量1 byte不足・header/payload長不一致・payload上限超過は失敗し `written=0`。
+25. stale閾値: GNSS 500,000 us、IMU 100,000 us、ToF 250,000 us、INA/VESC 500,000 us。sensor stale初回はそれぞれ520,000 / 120,000 / 260,000 usをscenarioで通過した。
+26. INA freeze: fixed timestamp=299,980,000 us、freeze=250、timestamp変化=0、age単調違反=0、first stale=520,000 us、stale=225/225、recovery timestamp=305,000,000 us、recovery failure=0。
+27. VESC freeze: fixed timestamp=719,980,000 us、freeze=250、timestamp変化=0、age単調違反=0、first stale=520,000 us、stale=225/225、recovery timestamp=725,000,000 us、recovery failure=0。
+
+## 最終実行
+
+28. C++環境: MinGW g++、`-std=c++17 -Wall -Wextra -Werror`。
+29. C++ build: `g++ -std=c++17 -Wall -Wextra -Werror -Ipc-tools/boat_eskf/cpp_tests -Ishared/proposal_min/src -Ishared/bin_record_serializer/src -Ixiao-boat-control-integration/lib/boat_protocol/src ...`。
+30. host binary SHA-256: `974E0A574D1832BAA3430EF15D7D7FF212EB76EC665B1E1EB1B7BC7AD27A5BFA`。
+31. 30分試験コマンド: `pr18_final_host.exe <BIN> <manifest.json> <transport.json>` をA/B各1回。Waypoint hostとgolden hostも同HEADで実行。
+32. モデル時間: 1,800 s、周期20 ms（50 Hz）、Controller呼出し90,000回。wall time A=5.497762 s、B=5.411078 s。
+33. Type件数A/B: Type63=90,000、64=89,750、65=89,750、66=1、67=1、合計269,502。
+34. BIN SHA-256 A/B: 両方 `8E4F0D0B510A8A2690AA1BFF453B9851AA8DA09B627EA910426C6845040DB7EF`。
+35. CSV行数 A/B: 90,000 / 90,000。
+36. transport診断 A/B: `decoded_frames=269502,crc_errors=0,cobs_errors=0,length_errors=0`。
+37. Python: CPython 3.9、unittest 39 tests PASS、`compileall` PASS、state/reason generated freshness PASS。
+38. PlatformIO build: proposal_shadow_min SUCCESS (RAM 208,804 / Flash 587,505)、proposal_shadow_comm SUCCESS (RAM 190,968 / Flash 897,393)、m5stack-cores3 SUCCESS (RAM 168,156 / Flash 1,034,693)。uploadはしていない。
+39. 安全flag: `SHADOW_CONTROL_ENABLE=1`、`ACTUATOR_OUTPUT_ENABLE=0`。実機propulsion=0..0、INA226実取得なし、PCA9685物理出力なし、VESC制御送信なし、AS5600不使用。
+40. 実施していない操作: COM/USB探索、COM3/4/6接続、upload、microSD、実機センサ、サーボ/翼/後部ヨー/推進、Defender変更、main push/merge、rebase/squash/force push、Draft解除。
+41. 証跡: `pc-tools/boat_eskf/captures/PR18_FINAL_HOST_AUDIT_20260805.zip`。内部にBIN A/B、CSV A/B、JSON report A/B、manifest A/B、transport A/B、command/decode log、SHA256SUMS、wall time、host binaryを保存。ZIPは固定timestampで作成し、展開後SHA-256を検証した。
+42. 残件: 実機30分、実microSD/UART、実センサ周期、物理Waypoint ACK、実機BIN/TXT復号は未実施。
+43. 更新監査報告: `docs/PR18_CORRECTIVE_AUDIT_20260805.md`。
+44. PR URL: https://github.com/temesotejam/proglam/pull/18
+
+ホスト監査の完了は実機安全確認の完了を意味しない。次の明示指示があるまで実機へ書き込まない。
