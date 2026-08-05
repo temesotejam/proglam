@@ -21,7 +21,7 @@ enum class Type : uint8_t {
   Estop = 37, ClearEstop = 38,
   BenchmarkPrepare = 48, BenchmarkReady = 49, BenchmarkStart = 50,
   BenchmarkStop = 51, BenchmarkResult = 52, BenchmarkEvent = 53,
-  SyntheticData = 54, BenchmarkAbort=55,EskfState=56,EskfInnovation=57,EskfHealth=58,GnssNavV2=59,TimeSyncEstimate=60,EskfCommand=61,ControlOutput=62,ControlSnapshot=63,InaStatus=64,VescTelemetry=65,WaypointSet=66,WaypointAck=67,
+  SyntheticData = 54, BenchmarkAbort=55,EskfState=56,EskfInnovation=57,EskfHealth=58,GnssNavV2=59,TimeSyncEstimate=60,EskfCommand=61,ControlOutput=62,ControlSnapshot=63,InaStatus=64,VescTelemetry=65,WaypointSet=66,WaypointAck=67,ControlModeCommand=68,ManualCommand=69,HeadingTarget=70,ControlCommandAck=71,
 };
 struct __attribute__((packed)) Header {
   uint8_t version, type;

@@ -409,3 +409,12 @@ The final audit is recorded in UTF-8 at `docs/PR18_FINAL_AUDIT_20260804.md`. It 
 - [完了] `COMPETITION_CMD` シリアル診断を追加。duplicate_reapplyとphysical_writesを観測できる。
 - [完了] replay単体、SafetyState単体、実wire encode/decodeを通すcommand ingress統合host test、competition_shadow/proposal_shadow_min buildが成功した。実機・COM・uploadは未実施。
 - [保留] legacy START/STOP/E-STOP/Clear E-STOPおよびType66 WaypointSetは既存の別ACK/wire経路のままであり、このType68--70 ingress統合には未接続。
+## 2026-08-05 — CoreS3 competition command transaction
+
+- [完了] CoreS3にType68/69/70用8 slot固定長transaction managerを追加。payloadとCOBS+CRC wireを作成時に固定し、100 ms/最大3送信のretryでは同一wireを再送する。
+- [完了] Type71をCore UART decoder後にrequest ID/command sequence/typeで照合。ACK applied/rejected/duplicate/conflict/stale/malformed/unmatched/lateとtimeoutを診断・status APIで区別する。
+- [完了] request ID/sequenceはNVS `boatcmd`へ256件reserve-aheadで保存。Core再起動では未使用番号を飛ばし、retry中の再採番をしない。
+- [完了] `/competition` とType68/69/70の最小POST API、`/api/competition/commands`を追加。HTTP 202はpendingのみを返し、XIAO適用済みとは返さない。
+- [完了] manual入力はpending transaction 1件まで、300 msでCore入力stale、旧入力から新規manualを自動生成しない。XIAO側500 ms timeoutは既存仕様を維持。
+- [完了] Core/XIAO往復host test、CoreS3 competition build、XIAO関連host/build回帰を実施。実機・COM・uploadは未実施。
+- [保留] Type66 WaypointSetとlegacy START/STOP/E-STOP/Clear E-STOPは既存別経路のまま。

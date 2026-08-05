@@ -513,3 +513,12 @@ The final audit is recorded in UTF-8 at `docs/PR18_FINAL_AUDIT_20260804.md`. It 
 - Build memory: competition_shadow RAM 211228/327680, Flash 585881/3342336; proposal_shadow_min RAM 211252/327680, Flash 590921/3342336.
 - Not performed: upload, COM/USB access, hardware operation, microSD operation, PCA9685/VESC physical output, main/PR18/PR19 merge or Draft status change.
 - Detailed design/evidence: `docs/COMPETITION_REPLAY_INTEGRATION_20260805.md`.
+## 2026-08-05 — CoreS3 Type68--71 transaction integration
+
+- Start HEAD: `f9960d0949a0b6b0912da93053365ac6ccbdf036` on `feat/competition-integrated-shadow-20260805`, clean worktree. PR #19 remains Draft/Open/Unmerged.
+- Added `m5stack-cores3-telemetry-bridge/lib/competition_command`: fixed eight-slot transaction state, stored encoded wire, three-transmission finite retry, Type71 field matching, and diagnostics, including the once-per-second `COMPETITION_CORE` serial line. Core protocol enum was completed with existing Type68--71 values; payload layouts/static assertions are unchanged.
+- Core NVS reserves request/sequence ranges of 256 at boot, avoiding per-command writes and avoiding reuse after Core-only restart. Manual requests are one pending transaction maximum; no background reissue occurs after 300 ms input stale.
+- Added Core Web routes `/competition`, `/api/competition/mode`, `/api/competition/manual`, `/api/competition/heading`, and `/api/competition/commands`. Submit returns pending only.
+- New host roundtrip passes using Core manager + real encode/decoder + XIAO CommandIngress: Type68/69/70, byte-identical retries, duplicate/manual deadman, timeout, unmatched/malformed ACK, zero physical writes.
+- Core PlatformIO `competition_cores3_shadow` SUCCESS: RAM 175772/327680, Flash 1046149/6553600. No new warnings. No COM/USB/upload/hardware/microSD/physical-output operation performed.
+- Detailed design/evidence: `docs/CORES3_COMPETITION_COMMAND_TRANSACTIONS_20260805.md`.
