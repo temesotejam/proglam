@@ -483,3 +483,6 @@ The final audit is recorded in UTF-8 at `docs/PR18_FINAL_AUDIT_20260804.md`. It 
 ## 2026-08-05 PR18 corrective audit (current)
 
 添付の最終監査是正指示に基づく現行結果は `docs/PR18_CORRECTIVE_AUDIT_20260805.md` に固定した。正式4出力は左前翼、右前翼、後部ヨー機構、単一推進。Type66は276 bytes、Python診断は19 tests、30分host loopは20 ms/90,000 cyclesである。Type63/64/65/66/67の実測件数は90,000/89,750/89,750/1/1。旧版に記録された14件・15件や旧出力名称は過去履歴であり、現行判定には使用しない。実機・COM3/4/6・main操作は未実施。
+## 2026-08-05 PR18 corrective audit supersession
+
+現行の正式な数値と判定は `docs/PR18_CORRECTIVE_AUDIT_20260805.md` を参照する。旧節にあるPythonテスト数、BIN件数、SHA-256、旧HEADは履歴値であり、現行値ではない。現行はPython 38 tests、Type63/64/65/66/67=90000/89750/89750/1/1、合計269502、BIN SHA-256=`9F3B3DFF6519858D131AB5BDF7470CB7FF3D6BC6A55E14D72A273F114FEA4A76`、是正コードHEAD=`fff51e5`。

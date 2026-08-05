@@ -1,42 +1,7 @@
-# PR #18 最終監査是正報告（2026-08-05）
+# PR #18 髴托ｽｽ陷会｣ｰ騾ｶ・｣隴滂ｽｻ隴擾ｽｯ雎・ｽ｣郢晢ｽｻ陞ｳ蠕｡・ｺ繝ｻ・ｰ・ｱ陷ｻ螂・ｽｼ繝ｻ026-08-05繝ｻ繝ｻ
+陝・ｽｾ髮趣ｽ｡郢晄じﾎ帷ｹ晢ｽｳ郢昶・繝ｻ `feat/proposal-benchmark-replay-20260804`邵ｲ繧・ｽｻ・･闕ｳ荵昴・霑ｴ・ｾ髯ｦ謔淞・､邵ｺ・ｧ隴鯉ｽｧ陜｣・ｱ陷ｻ鄙ｫ・・supersede 邵ｺ蜷ｶ・狗ｸｲ繝ｻ
+1. **鬮｢蜿･・ｧ蛹ｺ蜃ｾHEAD**: `a6c5f3a85918346fff271beee5fb1c98ee61213b`邵ｲ繝ｻ2. **隴擾ｽｯ雎・ｽ｣郢ｧ・ｳ郢晢ｽｼ郢晉ｾｽEAD**: `fff51e5`邵ｲ繝ｻ3. **隴崢驍ｨ・ｱush HEAD**: 隴√・蠍瑚ｭ厄ｽｴ隴・ｽｰ陟募ｾ後・郢晄じﾎ帷ｹ晢ｽｳ郢昶・繝ｻ驕ｶ・ｯ郢ｧ蜊漏郢ｧ・ｳ郢晢ｽ｡郢晢ｽｳ郢晏現竊馴坎蛟ｬ鮖ｸ邵ｺ蜷ｶ・狗ｸｲ繝ｻ4. **PR霑･・ｶ隲ｷ繝ｻ*: PR #18 邵ｺ・ｯ Draft / Open / Unmerged 郢ｧ蝣､・ｶ・ｭ隰問・笘・ｹｧ荵敖繝ｻ5. **main**: main邵ｺ・ｸ邵ｺ・ｮpush邵ｲ・ｻerge邵ｲ縲影base邵ｲ縲赫uash邵ｲ窶冩rce push邵ｺ・ｯ陞ｳ貊灘多邵ｺ蜉ｱ窶ｻ邵ｺ繝ｻ竊醍ｸｺ繝ｻﾂ繝ｻ6. **郢ｧ・ｳ郢晄ｺ倥Ε郢昴・*: 隴鯉ｽ｢陝・･縺慕ｹ晄ｺ倥Ε郢晏現・誕mend邵ｺ蟶吮・邵ｲ竏ｵ蠑崎ｱ・ｽ｣郢ｧ・ｳ郢晄ｺ倥Ε郢晏現・帝恆・ｽ陷会｣ｰ邵ｺ蜉ｱ笳・ｸｲ繝ｻ7. **陞溽判蟲ｩ驕ｽ繝ｻ蟲・*: common BIN serializer邵ｲ莉拌ypoint陷茨ｽｱ鬨ｾ蝟㌢ndler/ACK邵ｲ窶ｦanonical state/reason騾墓ｻ薙・邵ｲ・¨A/VESC隴弱ｇ邯ｾ陷・調・ｵ蜈茨ｽｳ・ｨ陷茨ｽ･邵ｲ竏ｫ蟲｡驕ｶ邇厄ｽｲ・ｰ關謎ｹ敖繝ｻ霑ｺ・ｰ陟・・繝ｳ郢晢ｽｫ郢晉甥・ｯ・ｾ陟｢諛環繝ｻ8. **霑｢・ｬ驕ｶ邇厄ｽｨ・ｺ隴・ｽｭ**: GNSS/IMU/ToF invalid郢晢ｽｻstale邵ｲ・¨A/VESC future/missing/stale/invalid邵ｲ縲ウSC fault郢ｧ蝣､蟲｡驕ｶ荵昴％郢晢ｽｼ郢ｧ・ｹ陋ｹ謔ｶﾂ繝ｻ9. **INA/VESC timestamp**: freeze闕ｳ・ｭpayload timestamp邵ｺ・ｯ隴崢陟募ｾ後・fresh timestamp邵ｺ・ｫ陜暦ｽｺ陞ｳ螢ｹﾂ繧・ｽ､髢繝ｻrecord timestamp邵ｺ・ｯ霑ｴ・ｾ陜ｨ・ｨ隴弱ｇ邯ｾ邵ｲ竏･ge邵ｺ・ｯ陟・懷・邵ｺ蜉ｱﾂ竏晢ｽｾ・ｩ陝ｶ・ｰ陟募ｾ後・fresh邵ｺ・ｸ隰鯉ｽｻ郢ｧ荵敖繝ｻ10. **freeze隰ｨ・ｰ**: 20 ms陷ｻ・ｨ隴帶ｺ伉・¨A/VESC陷ｷ繝ｻ50陜玲ｩｸ・ｼ繝ｻ驕俶慣・ｼ蟲ｨﾂ繧・耳payload timestamp邵ｺ・ｮ郢晢ｽｦ郢昜ｹ昴・郢ｧ・ｯ隰ｨ・ｰ邵ｺ・ｯ1邵ｲ繝ｻ11. **stale鬮｢・ｾ陋滂ｽ､**: INA/VESC邵ｺ・ｨ郢ｧ繝ｻ00,000 us邵ｲ繧・耳freeze邵ｺ・ｧage > 500,000 us邵ｺ・ｯ225陜玲ｧｭﾂ繝ｻ12. **stale隴帶ｺｷ・ｾ繝ｻ陞ｳ貊難ｽｸ・ｬ**: INA `225/225`邵ｲ縲ウSC `225/225`邵ｲ・ｮissing陷ｷ繝ｻ50邵ｲ・・valid陷ｷ繝ｻ50邵ｲ縲ウSC fault 250邵ｲ繝ｻ13. **陜玲ｧｫ・ｾ・ｩ**: freeze驍ｨ繧・ｽｺ繝ｻ・ｾ蠕娯・fresh timestamp郢ｧ雋槭・鬮｢荵敖・ｦffective-valid鬩募供貂夂ｸｺ・ｯ0邵ｲ繝ｻ14. **negative fixture**: future邵ｲ・ｻissing邵ｲ縲閣ale邵ｲ縲覚urce invalid邵ｲ縲ウSC fault邵ｲ縲各quence gap/reversal邵ｲ縲稿rsion邵ｲ縲系known邵ｲ・拌yload length邵ｲ・ｽonfinite邵ｲ縲閣ate邵ｲ縲影ason邵ｲ縲餌nge邵ｲ縲蛎fe output邵ｲ縲獲ew邵ｲ繝ｾTOP restart邵ｲ繧掣pe66 CRC邵ｲ繧掣pe67 CRC/status邵ｲ繝ｻ15. **negative隴帶ｺｷ・ｾ繝ｻﾂ・､**: 陷ｷ繝ｻixture邵ｺ・ｯ陝・ｽｾ髮趣ｽ｡郢ｧ・ｫ郢ｧ・ｦ郢晢ｽｳ郢ｧ・ｿ邵ｺ・ｮ邵ｺ・ｿ隰悶・・ｮ螢ｼﾂ・､邵ｲ繝ｻ譛ｪ鬨ｾ・｣邵ｺ蜉ｱ竊醍ｸｺ繝ｻ縺咲ｹｧ・ｦ郢晢ｽｳ郢ｧ・ｿ邵ｺ・ｯ0邵ｲ・｡assertGreater`邵ｺ・ｯ闖ｴ・ｿ騾包ｽｨ邵ｺ蜉ｱ窶ｻ邵ｺ繝ｻ竊醍ｸｺ繝ｻﾂ繝ｻ16. **Waypoint隴幢ｽｬ騾｡・ｪhandler**: 陷茨ｽｱ鬨ｾ蝟㌢ndler繝ｻ遐ｧain髦ｮ繝ｻ譴孩rapper繝ｻ隴ｰallback sink邵ｲ繝ｻ霑･・ｶ隲ｷ荵敖窶ｦount 0/1/16/>16邵ｲ竏晢ｽｺ・ｧ隶灘生繝ｻradius陟・・髦懃ｸｲ・軍C邵ｲ縲影vision郢ｧ蜻茨ｽ､諛・ｽｨ・ｼ邵ｲ繝ｻ17. **ACK**: 1髫補扱・ｱ繧・・邵ｺ・､邵ｺ讎雁ｮ崎汞繝ｻ竊・陜玲ｧｭﾂ・冨pe67邵ｲ縲司re length 16邵ｲ縲影quest_id/revision/status/count/CRC郢ｧ蝣､・｢・ｺ髫ｱ髦ｪﾂ繝ｻ18. **atomicity**: reject隴弱ｅ繝ｻrequest_id邵ｲ縲影vision邵ｲ窶ｦount邵ｲ竏昴・16霓､・ｹ邵ｲ竏･ctive index郢ｧ雋樊ｧ郢ｧﾂstore陷茨ｽｨ闖ｴ阮吮ｲ闕ｳ讎奇ｽ､蟲ｨﾂ繧・・闕ｳﾂrevision邵ｺ・ｯDuplicate邵ｲ繝ｻﾂ繝ｻ・｡蠕後・Rejected邵ｲ繝ｻ19. **common BIN serializer**: `shared/bin_record_serializer/src/bin_record_serializer.h` 邵ｺ謔滄ｫｪ闕ｳﾂ邵ｺ・ｮ陜暦ｽｺ陞ｳ螢ｹ繝ｻ郢昴・繝郢晢ｽｻlittle-endian serializer邵ｲ繝ｻrduino/SD/ofstream邵ｺ謔滄・闕ｳﾂ鬮｢・｢隰ｨ・ｰ郢ｧ蜑・ｽｽ・ｿ騾包ｽｨ邵ｲ繝ｻ20. **鬩･蟠趣ｽ､繝ｻ・､諛・ｽｴ・｢**: `kLogMagic`邵ｲ・枳BinMagic`邵ｲ・檜riteRecord`邵ｲ竏ｵ辟碑恪遞悠N layout邵ｺ・ｯ霑ｴ・ｾ髯ｦ謔滂ｽｮ貅ｯ・｣繝ｻ竊楢ｰｿ荵晢ｼ邵ｺ・ｦ邵ｺ繝ｻ竊醍ｸｺ繝ｻﾂ・泡RT COBS邵ｺ・ｨBIN serializer邵ｺ・ｯ陋ｻ繝ｻ螻ｬ邵ｲ繝ｻ21. **state/reason canonical**: `shared/proposal_min/state_reason.json`郢ｧ逞ｴource of truth邵ｺ・ｨ邵ｺ蜉ｱﾂ窶彳nerator邵ｺ・ｧC++/Python郢ｧ蝣､蜃ｽ隰瑚・ﾂ繝ｻ22. **reason隶諛・ｽｨ・ｼ**: `safety_reason_mismatches=0`邵ｲ窶・pected陋ｻ・･mismatch `{}`邵ｲ繧奇ｽｦ・ｳ雋ゑｽｬ闕ｳ蟠弱・邵ｺ・ｪheartbeat 1闔会ｽｶ邵ｺ・ｮ邵ｺ・ｿ `safety_reason_expectation_unavailable=1`邵ｲ繝ｻ23. **compiler/霑ｺ・ｰ陟・・*: host C++ `g++ -std=c++17 -Wall -Wextra -Werror`邵ｲ・訓ython 3.9邵ｲ・｣latformIO隰悶・・ｮ繝ｻ霑ｺ・ｰ陟・・ﾂ繝ｻ24. **C++隶諛域ｸ・*: `g++ -std=c++17 -Wall -Wextra -Werror -fsyntax-only -Ipc-tools/boat_eskf/cpp_tests -Ishared/proposal_min/src -Ishared/bin_record_serializer/src -Ixiao-boat-control-integration/lib/boat_protocol/src`邵ｲ繝ｻ25. **隴崢驍ｨ繝ｻ++ executable SHA-256**: `pr18_min_shadow_host_final2.exe` = `BDA91FC3AFBCDDAA24B3D3AD89DDA32469A824AB1ED926FA7653E99D1600754C`邵ｲ繝ｻ26. **30陋ｻ繝ｻ陜玲ｧｫ・ｮ貅ｯ・｡繝ｻ*: 陷ｷ蠕｡・ｸﾂexecutable郢ｧ繝ｻ陜玲ｧｫ・ｮ貅ｯ・｡蠕鯉ｼ邵ｲ竏ｽ・ｸ・｡隴・ｽｹ `MIN_SHADOW_LONG_PASS`邵ｲ繝ｻ27. **郢晢ｽ｢郢昴・ﾎ晉ｹ晢ｽｻ陷ｻ・ｨ隴帶ｺ倥・陜玲ｨ顔・郢晢ｽｻ陞ｳ貊難ｽｸ・ｬ隴弱ｋ菫｣**: `Controller::step()`邵ｲ繝ｻ0 Hz繝ｻ繝ｻ0,000 us繝ｻ蟲ｨﾂ繝ｻ,800 s邵ｲ繝ｻ0,000 cycles邵ｲ縲斬ll A 0.292 s / B 0.285 s邵ｲ繝ｻ28. **Type闔会ｽｶ隰ｨ・ｰ**: Type63=90,000邵ｲ繝ｻ4=89,750邵ｲ繝ｻ5=89,750邵ｲ繝ｻ6=1邵ｲ繝ｻ7=1邵ｲ竏晉ｲ矩坎繝ｻ69,502邵ｲ繝ｻ4/65陷ｷ繝ｻ50闔会ｽｶ邵ｺ・ｮ陝ｾ・ｮ邵ｺ・ｯmissing雎包ｽｨ陷茨ｽ･邵ｲ繝ｻ29. **BIN SHA-256**: `pr18_min_shadow_wall_a.BIN`邵ｺ・ｨ`_b.BIN`邵ｺ・ｯ陷ｷ蠕｡・ｸﾂ邵ｲ・・F3B3DFF6519858D131AB5BDF7470CB7FF3D6BC6A55E14D72A273F114FEA4A76`邵ｲ繧・・269,502闔会ｽｶ陟包ｽｩ陷ｿ・ｷ隰御ｻ咏ｲ･邵ｲ繝ｻ30. **Python**: unittest 38 tests PASS邵ｲ窶ｦompileall PASS邵ｲ繝ｻ31. **PlatformIO**: `proposal_shadow_min` SUCCESS繝ｻ繝ｻAM 208,804 / Flash 587,489繝ｻ蟲ｨﾂ・柝roposal_shadow_comm` SUCCESS繝ｻ繝ｻAM 190,968 / Flash 897,393繝ｻ蟲ｨﾂ・枸5stack-cores3` SUCCESS繝ｻ繝ｻAM 168,156 / Flash 1,034,693繝ｻ蟲ｨﾂ繝ｻ32. **陞ｳ迚吶・flag**: `SHADOW_CONTROL_ENABLE=1`邵ｲ・暸CTUATOR_OUTPUT_ENABLE=0`邵ｲ・ｧirmware propulsion 0..0邵ｲ・¨A陞ｳ貊難ｽｩ貅ｷ蜿呵慕､ｼ笏瑚怏・ｹ邵ｲ・｣CA/VESC write霎滂ｽ｡陷会ｽｹ邵ｲ繝ｻ33. **隴幢ｽｪ陞ｳ貊灘多**: COM3/COM4/COM6隰暦ｽ･驍ｯ螢ｹ繝ｻ隴厄ｽｸ髴趣ｽｼ邵ｺ・ｿ郢晢ｽｻ隰ｫ蝣ｺ・ｽ諛環竏晢ｽｮ貊難ｽｩ貅倥◎郢晢ｽｳ郢ｧ・ｵ髫ｧ・ｦ鬯ｨ阮卍・ｻicroSD隰ｫ蝣ｺ・ｽ諛環・ｻain push/merge邵ｲ・仔fender陞溽判蟲ｩ邵ｲ繝ｻ34. **隹ｿ蛟ｶ・ｻ・ｶ**: 陞ｳ貊難ｽｩ繝ｻ0陋ｻ繝ｻﾂ竏晢ｽｮ谿枴croSD/UART邵ｲ竏晢ｽｮ貅倥◎郢晢ｽｳ郢ｧ・ｵ陷ｻ・ｨ隴帶ｺ伉竏晢ｽｮ貊難ｽｩ讙ｻIN/TXT陟包ｽｩ陷ｿ・ｷ邵ｲ竏ｫ鮟・・・aypoint ACK邵ｺ・ｯ隴幢ｽｪ隶諛・ｽｨ・ｼ邵ｲ繝ｻ35. **髫ｪ・ｼ髴搾ｽ｡**: 隴幢ｽｬ隴厄ｽｸ邵ｲ・枦ocs/PR18_FINAL_AUDIT_20260804.md`邵ｲ・枦ocs/MIN_SHADOW_OPERATION_SPEC_20260804.md`邵ｲ・枦ocs/WORK_PLAN.md`邵ｲ・枦ocs/WORK_LOG.md`邵ｲ・曚:\tmp\pr18_min_shadow_wall_a.BIN/.TXT`邵ｲ・枩b.BIN/.TXT`邵ｲ繝ｻ36. **PR URL**: https://github.com/temesotejam/proglam/pull/18
 
-対象ブランチは `feat/proposal-benchmark-replay-20260804`。添付指示に従い、既存履歴を改変せず、制御式・ゲイン・MID/FULL/ESKF/UART/SD/I2C/SPI/mutex/buffer・物理出力設定を変更せずに診断範囲を補強した。正式な4出力名は左前翼、右前翼、後部ヨー機構、単一推進で固定した。
-
-1. **監査開始HEAD**: `a33267e2ab30aed532c48e73c96b5bc8aa36e431`。
-2. **試験コードHEAD**: `fd1931c`（是正コード・テストのpushコミット）。
-3. **最終push HEAD**: 本報告自身のSHAは自己参照を避け、PR本文/コメントに記録したfeature branch最終tipを正とする。
-4. **PR状態**: PR #18はDraft / Open / Unmergedを維持する。
-5. **main差分**: mainへのpush・merge・rebase・squash・force pushは行わない。
-6. **コミット**: 既存コミットをamendせず、是正用の追加コミットを作成する。
-7. **変更ファイル**: `shared/proposal_min/src/proposal_min.cpp`、`pc-tools/boat_eskf/boat_eskf/min_shadow_log.py`、`pc-tools/boat_eskf/cpp_tests/{bin_record_writer.h,min_shadow_long_host.cpp,waypoint_apply_host.cpp}`、`pc-tools/boat_eskf/tests/test_min_shadow_independent_negative.py`、関連文書。
-8. **監査ギャップ結果**:
-
-   |項目|結果|
-   |---|---|
-   |センサ別invalid/stale|GNSS・IMU・ToF、INA、VESCを別カウント。正常データの診断違反0、注入窓は検出|
-   |状態・停止理由|状態遷移、明示START、STOP/E-STOP/heartbeat、センサ別reasonを照合。mismatch 0|
-   |INA/VESC temporal join|未来sampleをjoinせず、missing/stale/invalid/effective-valid/faultを診断|
-   |4出力統計|min/max、non-neutral、changes、safe、range、slew、nonfiniteを集計|
-   |Waypoint|6状態、0/1/16/>16、座標・radius境界、revision/atomicity、CRC/ACKをC++で確認|
-   |共通BIN|Type63–67は共通protocol encode/decode。ホスト固有magic/writeRecordを共通ヘッダへ移動|
-
-9. **30分周期・回数・時間**: `Controller::step()`、20,000 us周期、1,800 s、90,000 cycles。Python復号CSVは90,000行。
-10. **Type別レコード件数**: Type63=90,000、Type64=89,750、Type65=89,750、Type66=1、Type67=1、合計269,502。Type64/65の250件欠落は独立missing窓の注入結果であり、sequence gapではない。
-11. **状態遷移**: START=8、STOP=7、E-STOP samples=500、heartbeat fault samples=500、sensor fault samples=1,550、明示reset/recovery=7。正常復帰には明示STARTを要求した。
-12. **reason件数**: decoderの正常BINで `safety_reason_mismatches=0`。GNSS_INVALID/IMU_INVALID/IMU_STALE/TOF_INVALID、STOP、E_STOP、HEARTBEAT_TIMEOUTを分離。非有限値はNONFINITEへ分類するコードを追加した。
-13. **4出力統計**: left `[-1,1]` non-neutral=72,998 changes=70,618 safe=17,000、right `[-1,1]` 72,991/70,641/17,000、rear `[-1,1]` 72,999/19/17,000、propulsion `[0,0.4]` 73,000/22/17,000。range/slew/nonfinite違反は全て0。
-14. **INA/VESC**: INA normal=89,250、invalid=250、missing=250、frozen=250。VESC normal=89,000、invalid=250、missing=250、frozen=250、fault=250。正常BINのfuture join=0、effective-valid違反=0。missing/stale/faultは注入窓として記録される。
-15. **独立negative fixture期待値/実測値**: future join INA/VESC=1/1、stale INA/VESC=1/1、invalid INA/VESC=1/1、VESC fault=1、transport gap/reversal/version/unknown/payload/Waypoint CRC/statusは各1。Python全19テストPASS。
-16. **Waypoint C++ cases**: BOOT/DISARMED/ARMED_IDLE/RUNNING/E_STOP/FAULTの6状態、count 0/1/16/>16、座標範囲・NaN/Inf、radius 0/負/NaN/Inf、revision duplicate/reverse/reject atomicity、CRC、ACK wire=16を確認。DISARMEDのみAccepted。
-17. **Python件数**: `python -m unittest discover -s pc-tools/boat_eskf/tests -q` は19 tests PASS。`compileall`もPASS。
-18. **BIN SHA-256**: `min_shadow_30min_a.BIN` と `min_shadow_30min_b.BIN` は同一で、SHA-256は `DA09CA479592E67E1E6D0A35EF2DAB2720A337A21E60C11DB1A2AA77EF879893`。
-19. **PlatformIO**: `proposal_shadow_min` SUCCESS（RAM 208,804 / Flash 587,229）、`proposal_shadow_comm` SUCCESS（RAM 190,968 / Flash 896,989）、`m5stack-cores3` SUCCESS（RAM 168,156 / Flash 1,034,473）。
-20. **安全フラグ**: `SHADOW_CONTROL_ENABLE=1`、`ACTUATOR_OUTPUT_ENABLE=0`。firmware propulsion range=0..0、INA226実取得無効、PCA/VESC physical write無効。host fixtureのpropulsion=0.4は試験用入力に限る。
-21. **未実施操作**: COM3/COM4/COM6接続、書込み、実機センサ試験、SDカード操作、モータ・PCA・VESC出力、main push/mergeは行っていない。新規C++実行ファイルはWindows Defenderの誤検知で再実行が阻止されたため、最終ソースは厳格コンパイルと既生成BIN復号で確認した。
-22. **残存制約**: 実機30分連続記録、実microSD/UART負荷、実センサ周期、実物理出力、実機BIN/TXT完全復号は未確認。実機試験は別承認・対象機確認後に行う。
-23. **報告パス**: 本書、`docs/PR18_FINAL_AUDIT_20260804.md`、`docs/MIN_SHADOW_OPERATION_SPEC_20260804.md`、`docs/WORK_PLAN.md`、`docs/WORK_LOG.md`、`詳細な報告.md`。
-24. **PR URL**: https://github.com/temesotejam/proglam/pull/18
-
-## 判定
-
-ホスト診断・独立負例・C++境界試験・3環境ビルドは是正条件を満たす。実機合格や物理出力有効化を意味しない。次回はDraft PRレビューを継続し、実機試験を行う場合もCOM3を対象外として、別途明示承認を得る。
+## 隴崢驍ｨ繝ｻIN髫暦ｽ｣隴ｫ蜊・ｦ竏ｫ・ｴ繝ｻ
+`records=269502`邵ｲ・ｷersion/unknown/sequence-gap/timestamp-reversal/payload-length/Waypoint CRC/status/temporal-join errors邵ｺ・ｯ0邵ｲ・ｰutput range/safe/slew/stop-restart/course-wrap郢ｧ繝ｻ邵ｲ繧尉崎摎・ｳ邵ｺ蜉ｱ笳・reeze邵ｺ・ｮ髫包ｽｳ雋ゑｽｬ陋滂ｽ､邵ｺ・ｯ `ina_stale=225`, `vesc_stale=225`邵ｲ・枹ensor_stale_violations=450`繝ｻ蝓湲崎摎・ｳ邵ｺ蜉ｱ笳・tale髫包ｽｳ雋ゑｽｬ邵ｺ・ｮ陷ｷ驛・ｽｨ蛹ｻ縲堤ｸｺ繧・ｽ顔ｸｲ窶惑fective-valid鬩募供貂夂ｸｺ・ｯ0繝ｻ蟲ｨﾂ繝ｻ
+霑夲ｽｩ騾・・繝ｻ陷牙ｸ吶・隴崢陟募ｾ娯穐邵ｺ・ｧ霎滂ｽ｡陷会ｽｹ邵ｲ繧域た陜｣・ｱ陷ｻ鄙ｫ繝ｻpropulsion=0.4邵ｺ・ｯhost fixture邵ｺ・ｮshadow陷茨ｽ･陷牙ｸ吮味邵ｺ莉｣・帝♂・ｺ邵ｺ蜷ｶﾂ繝ｻ
