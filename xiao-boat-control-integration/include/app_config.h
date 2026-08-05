@@ -1,6 +1,30 @@
 #pragma once
 #include <Arduino.h>
 #include "experiment_config.h"
+
+// Proposal evaluation is an opt-in compile-time layer. The defaults are
+// inactive so BOAT_EXPERIMENT=23 keeps its existing behavior.
+#ifndef BENCHMARK_ENABLE
+#define BENCHMARK_ENABLE 0
+#endif
+#ifndef REPLAY_ENABLE
+#define REPLAY_ENABLE 0
+#endif
+#ifndef SHADOW_CONTROL_ENABLE
+#define SHADOW_CONTROL_ENABLE 0
+#endif
+#ifndef ACTUATOR_OUTPUT_ENABLE
+#define ACTUATOR_OUTPUT_ENABLE 0
+#endif
+#ifndef PROPOSAL_PROFILE
+#define PROPOSAL_PROFILE 0
+#endif
+static_assert(!BENCHMARK_ENABLE || !ACTUATOR_OUTPUT_ENABLE,
+              "proposal benchmark must never enable actuator output");
+static_assert(!REPLAY_ENABLE || !ACTUATOR_OUTPUT_ENABLE,
+              "proposal replay must never enable actuator output");
+static_assert(!SHADOW_CONTROL_ENABLE || !ACTUATOR_OUTPUT_ENABLE,
+              "MIN shadow control must never enable actuator output");
 namespace app_config {
 constexpr char kFirmwareName[]="xiao-boat-control-integration";
 constexpr char kFirmwareVersion[]="0.3.5-estimated-state-dry-run";
@@ -20,6 +44,15 @@ constexpr uint32_t kLinkBaud=921600UL,kProtocolVersion=1,kLinkHeartbeatTimeoutMs
 constexpr bool kDryRunActuators=true; constexpr uint32_t kGnssNavExpectedIntervalMs=100UL,kControlHeartbeatIntervalMs=100UL,kLinkFailSafeTimeoutMs=500UL;
 // ESKF shadow-run configuration. It has no path to PWM, VESC, arming, or navigation control.
 constexpr bool kShadowOnly=true,kActuatorOutputEnabled=false,kEnableIna226=false;
+constexpr bool kBenchmarkEnable=BENCHMARK_ENABLE!=0,kReplayEnable=REPLAY_ENABLE!=0;
+constexpr bool kShadowControlEnable=SHADOW_CONTROL_ENABLE!=0;
+constexpr bool kActuatorOutputCompileEnable=ACTUATOR_OUTPUT_ENABLE!=0;
+constexpr uint8_t kProposalProfile=(uint8_t)PROPOSAL_PROFILE;
+// Future code must use this guard before any PCA9685/VESC write.
+constexpr bool kProposalActuatorPathEnabled = kActuatorOutputEnabled &&
+                                               kActuatorOutputCompileEnable &&
+                                               !kBenchmarkEnable && !kReplayEnable;
+constexpr bool kPhysicalOutputCompileEnabled = kActuatorOutputCompileEnable && !kShadowControlEnable && !kBenchmarkEnable && !kReplayEnable;
 constexpr bool kPrimaryBnoEnabled=true,kSecondaryBnoEnabled=false;
 constexpr uint32_t kEskfStateIntervalMs=50UL,kEskfHealthIntervalMs=200UL,kEskfAlignmentUs=2000000UL,kEskfCheckpointIntervalUs=50000UL,kEskfImuStaleUs=50000UL;
 constexpr float kEskfGyroNoise=0.020f,kEskfAccelNoise=0.35f,kEskfGyroBiasRw=0.0005f,kEskfAccelBiasRw=0.010f;
@@ -39,7 +72,17 @@ constexpr uint16_t kLinkRxByteBudget=512;
 // Mount calibration is deliberately opt-in. The identity matrix keeps the
 // estimator observable for Stage A but reports DEGRADED until the measured
 // BNO-to-body transform has been confirmed on the boat.
-constexpr bool kBnoMountValidated=false;
+constexpr bool kBnoMountValidated=false; // Proposal MIN output/control configuration. Values are normalized until mechanism calibration.
+constexpr float kProposalTargetHeightM=1.2f, kProposalTargetPitchRad=0.0f, kProposalTargetRollRad=0.0f;
+constexpr float kProposalKpHeight=0.7f, kProposalKpPitch=0.8f, kProposalKdPitchRate=0.08f, kProposalKpRoll=1.4f, kProposalKdRollRate=0.25f, kProposalKpYaw=0.8f, kProposalKdYawRate=0.0f;
+constexpr float kProposalPropulsionCommand=0.0f, kProposalPropulsionStop=0.0f;
+constexpr uint32_t kProposalGnssStaleUs=500000UL, kProposalImuStaleUs=100000UL, kProposalTofStaleUs=250000UL, kProposalHeartbeatStaleUs=500000UL;
+constexpr float kProposalWaypointReachM=0.5f, kProposalMinCourseSpeedMps=0.5f;
+constexpr float kProposalLeftNeutral=0.0f, kProposalLeftMin=-1.0f, kProposalLeftMax=1.0f, kProposalLeftSign=1.0f, kProposalLeftSlew=1.0f;
+constexpr float kProposalRightNeutral=0.0f, kProposalRightMin=-1.0f, kProposalRightMax=1.0f, kProposalRightSign=1.0f, kProposalRightSlew=1.0f;
+constexpr float kProposalRearNeutral=0.0f, kProposalRearMin=-1.0f, kProposalRearMax=1.0f, kProposalRearSign=1.0f, kProposalRearSlew=1.0f;
+constexpr float kProposalPropNeutral=0.0f, kProposalPropMin=0.0f, kProposalPropMax=0.0f, kProposalPropSign=1.0f, kProposalPropSlew=1.0f;
+constexpr bool kProposalCalibrationRequired=true, kProposalLeftCalibrationRequired=true, kProposalRightCalibrationRequired=true, kProposalRearCalibrationRequired=true, kProposalPropulsionCalibrationRequired=true;
 constexpr float kBnoBodyXx=1,kBnoBodyXy=0,kBnoBodyXz=0,kBnoBodyYx=0,kBnoBodyYy=1,kBnoBodyYz=0,kBnoBodyZx=0,kBnoBodyZy=0,kBnoBodyZz=1;
 constexpr float kEstimatorKp=1.2f,kEstimatorKi=0.002f,kEstimatorAccelNormGain=0.35f,kEstimatorAccelJerkGain=0.015f,kEstimatorAccelWeightMin=0.05f,kEstimatorWeightRecovery=0.08f,kEstimatorMagKp=0.15f,kEstimatorMagFieldTolerance=0.35f,kEstimatorYawCorrectionDecay=0.92f;
 constexpr uint32_t kEstimatorGyroStaleUs=30000UL,kEstimatorAccelStaleUs=30000UL,kEstimatorMagStaleUs=120000UL,kEstimatorGnssStaleUs=500000UL,kEstimatorTofStaleUs=100000UL,kEstimatedStateTxIntervalMs=100UL,kPrimaryImuSnapshotTxIntervalMs=50UL;

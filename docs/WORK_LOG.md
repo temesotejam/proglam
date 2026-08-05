@@ -317,30 +317,30 @@ ec=411 で sdCommand(): Card Failed! cmd: 0x18 が発生。その後CMD0D/CMD00�
 - 証跡：pc-tools/boat_eskf/captures/BNO_ALL_RAW_ENQ_10S_RETRY_20260803/。
 
 
-## 2026-08-03 �ʏ�^�p�����ؑ�
+## 2026-08-03 �ʏ�^�p�����ؑ�
 
-- COM4�iMAC 34:85:18:AB:FA:90�j�݂̂�BOAT_EXPERIMENT=23���r���h�E�����݁B�r���h�����AHash verified�BCOM3�͑��삹���ACOM6�͕ύX�Ȃ��B
-- COM4�N�����8�b�̐��V���A����ۑ��BBNO ready=1�Akind1/2/4�L���Akind3/5�����B����Hz��126.36/100.05/25.02�B
-- Core���ڑ���Ԃ̂���XIAO���S��Ԃ�FAULT�B���m�F������Core�ڑ���Ɏ��{����B
-- �ؐ�: pc-tools/boat_eskf/captures/NORMAL_OPERATION_BOOT_CHECK_20260803/xiao_boot_serial.log
-
-
-## 2026-08-03 �ʏ�^�p�Î~���Core����
-
-- COM6���J�����Î~����s��USB_UART_CHIP_RESET���API��~�B���񎎍s�͕s�����Ƃ��ĕۑ��B
-- CoreS3�S�C���[�W��ROM no-stub/DIO��COM6�֍ď����݁iMAC 30:ED:A0:D4:BF:40�j�AHash verified�BCOM3������B
-- COM6���J�����AAPI�݂̂�ESKF reset queued=true�Areset_count=1�A��12�b�̐Î~API��ۑ��Bsequence gap/CRC/COBS/length=0�B
-- quaternion/RPY�͑S���_��identity/0 rad�B�ʏ�ݒ�ł�Game Rotation Vector�����Amount���m��̂��ߎ��m�F�����͖����{�B
-- �ؐ�: pc-tools/boat_eskf/captures/NORMAL_OPERATION_STATIC_BASELINE_20260803/
+- COM4�iMAC 34:85:18:AB:FA:90�j�݂̂�BOAT_EXPERIMENT=23��r���h�E�����݁B�r���h�����AHash verified�BCOM3�͑��삹���ACOM6�͕ύX�Ȃ��B
+- COM4�N�����8�b�̐��V���A����ۑ��BBNO ready=1�Akind1/2/4�L���Akind3/5�����B����Hz��126.36/100.05/25.02�B
+- Core���ڑ���Ԃ̂���XIAO���S��Ԃ�FAULT�B���m�F������Core�ڑ���Ɏ��{����B
+- �ؐ�: pc-tools/boat_eskf/captures/NORMAL_OPERATION_BOOT_CHECK_20260803/xiao_boot_serial.log
 
 
-## 2026-08-03 RUN0058 GVR��������
+## 2026-08-03 �ʏ�^�p�Î~���Core����
 
-- COM4��BOAT_EXPERIMENT=21�������݁BCore COM6��API�̂ݎg�p�ACOM3������B
-- RUN0058: kind2 Gyro=999�Akind3 Game Rotation Vector=999�ABIN/TXT��������Atrailing=0�Aqueue/SD/UART�G���[0�B
-- GVR�Î~����Roll/Pitch/Yaw=-174.851632/1.461164/-178.638889 deg�Aquaternion norm����0.999994�B
-- raw sensor timestamp�t�s��kind2=354�Akind3=371�Breport sequence�͐���B
-- ����]����͂܂��s���Ă��Ȃ����߁A���m�F�͖������B
+- COM6��J�����Î~����s��USB_UART_CHIP_RESET���API��~�B���񎎍s�͕s�����Ƃ��ĕۑ��B
+- CoreS3�S�C���[�W��ROM no-stub/DIO��COM6�֍ď����݁iMAC 30:ED:A0:D4:BF:40�j�AHash verified�BCOM3������B
+- COM6��J�����AAPI�݂̂�ESKF reset queued=true�Areset_count=1�A��12�b�̐Î~API��ۑ��Bsequence gap/CRC/COBS/length=0�B
+- quaternion/RPY�͑S���_��identity/0 rad�B�ʏ�ݒ�ł�Game Rotation Vector�����Amount���m��̂��ߎ��m�F�����͖����{�B
+- �ؐ�: pc-tools/boat_eskf/captures/NORMAL_OPERATION_STATIC_BASELINE_20260803/
+
+
+## 2026-08-03 RUN0058 GVR��������
+
+- COM4��BOAT_EXPERIMENT=21������݁BCore COM6��API�̂ݎg�p�ACOM3������B
+- RUN0058: kind2 Gyro=999�Akind3 Game Rotation Vector=999�ABIN/TXT��������Atrailing=0�Aqueue/SD/UART�G���[0�B
+- GVR�Î~����Roll/Pitch/Yaw=-174.851632/1.461164/-178.638889 deg�Aquaternion norm����0.999994�B
+- raw sensor timestamp�t�s��kind2=354�Akind3=371�Breport sequence�͐���B
+- ����]����͂܂��s���Ă��Ȃ����߁A���m�F�͖������B
 
 
 ## 2026-08-03 現在状態確認
@@ -422,3 +422,71 @@ ec=411 で sdCommand(): Card Failed! cmd: 0x18 が発生。その後CMD0D/CMD00�
 - 提言書機能を静的分類。BNO/GNSS/ToF/SD/UART骨格は存在するが、AS5600、Waypoint/LOS/ILOS、水平EKF、高さKF、大会状態機械、実制御経路は未実装または別途SHADOWが必要。最終判定A/B/C/Dは保留。
 - 構成Cを最初の候補、構成Bを比較候補とした。UART帯域の机上見積りはBNO allだけで約213–218 kbps（921600 bps中）だが、burst/queue/SD/deadlineを含む実測が必要。
 - 証跡文書: `docs/PROPOSAL_FEASIBILITY_STATIC_20260804.md`。実機・COM3操作なし。
+
+## 2026-08-04 固定長ベンチマーク／リプレイ基盤
+- origin/main `f4e2908`を基準に専用ブランチを作成。COM3、XIAO、CoreS3、センサ、アクチュエータは操作していない。
+- `pc-tools/boat_eskf/boat_eskf/proposal_benchmark.py`を追加。GNSS変換、ウェイポイント、LOS、発進Yaw、COG、Yaw、Roll PD、ToF品質／傾き補正／LPF、高さP、翼角合成、安全状態、SHADOW出力、ILOS、yaw-rate、水平EKF5、高さKF2、LEGACY比較を固定入力10000回で計測。
+- `proposal_replay.py`を追加。正常11フェーズと12異常シナリオを決定的に再生し、同一入力の再現性と異常後ゼロ出力を検証。
+- `run_proposal_evaluation.py`を実行。全モードでoutput 10000/finite 10000、deadline miss 0、NaN/Inf 0、再現性true、全異常安全true。MIN/MID/FULLの飽和回数はそれぞれ10058/10929/10929で、制限動作の計測値として保存。
+- unittest 11件成功、compileall成功。
+- PlatformIO:既存23、proposal BASE/MIN/MID/FULL/LEGACY、CoreS3既存を全てSUCCESS。XIAO RAM205076/327680、Flash577381/3342336、Core RAM168156/327680、Flash1034237/6553600。
+- A/B/C/Dの正式判定、XIAO実時間性能、UART実帯域、SD実書込み、10分耐久は未実施。
+
+## 2026-08-04 MIN SHADOW事前確認で停止
+- 添付手順、PR #18 commit `874e7ac`、`ACTUATOR_OUTPUT_ENABLE=0`等を確認。
+- Windows PnP読み取りでCOM4/COM6（VID:PID 303A:1001）のみ検出。保存済み機器対応ではCOM4=制御側XIAO、COM6=通信側CoreS3。COM3は検出・操作なし。
+- `rg`監査で`kProposalProfile`等は宣言のみ、XIAO実時間MIN計算経路への参照なし。Waypoint/LOS/COG/Roll PD/翼合成等はホスト評価層のみ。
+- `xiao-boat-telemetry-integration`のGNSS/SD/Web仮統合は別既存ファームウェアで、PR #18 MINフラグとは未統合。
+- 対象機・実行経路・コンパイル時出力遮断を確定できないため、書き込み前停止。
+- 証跡: `docs/MIN_SHADOW_PREFLIGHT_BLOCKED_20260804.md`。
+## 2026-08-04 ソフトウェア実装結果（最新）
+
+最新方針に従い、実機書込み・COM操作・センサ試験は行わず、Draft PR #18ブランチへ実時間MIN経路を実装した。`shared/proposal_min`を追加し、GNSS局所NED変換、waypoint、LOS/launch yaw、COG妥当性、roll PD、ToF中央値/傾き補正/LPF、高さP、左右前翼＋後部ヨー＋推進shadow、安全状態を固定長で接続した。`proposal_shadow_min`はBOAT_EXPERIMENT=23、SHADOW_CONTROL_ENABLE=1、ACTUATOR_OUTPUT_ENABLE=0、PROPOSAL_PROFILE=1である。
+
+PCA9685/VESCの全出力経路はコンパイル定数と乾式ランタイム条件で二重遮断し、通信側にも同じ出力禁止static_assertと`proposal_shadow_comm`環境を追加した。計測構造体にはtask/operation、queue/UART、sensor age、SD/I2C/heap/watchdog予約、NaN/Inf、STOP/E-STOP/heartbeat、saturation、SHADOW出力count/min/maxを追加した。
+
+検証はC++単体PASS、Python unittest 11件PASS、ホストbenchmark/replay全モード有限値・再現性PASS、XIAO通常環境PASS、XIAO proposal_shadow_min PASS、通信側proposal_shadow_comm PASS、CoreS3既存環境PASS。これらは静的/ホスト検証であり実機合格ではない。実機計測の未接続項目は`docs/PROPOSAL_MIN_UNMEASURED_20260804.md`に記載した。
+
+## 2026-08-04 最新作業状態
+- MIN実時間経路、出力ガード、計測、通信側設定、設計文書: 実装済み。
+- C++/Python/PlatformIO検証: 完了。
+- 実機書込み・COM操作・60秒試験: 未実施（別承認待ち）。
+- 次の作業: 未計測項目を実機で収集できる対象機と配線を確定してから、Draft PRレビュー後に別手順で実施。
+
+
+## 2026-08-04 現行機構MIN対応
+- 制御側ソースで確定した旧出力はPCA CH0単一汎用サーボとVESCテレメトリ解析のみ。4実出力マッピングは未確定のため実出力有効化を保留。
+- shared/proposal_minを設定可能な4出力MIN計算へ更新。GNSS stale、IMU stale、ToF stale、heartbeat、STOP/E-STOP、NaN/Infを安全側へ処理。
+- Type 62 ControlOutputを制御・通信・CoreS3のプロトコル定義へ追加し、制御結果のRAW SD記録経路を維持。
+- ホストテスト、Python 11件、制御XIAO通常/MIN、通信XIAO Sense、CoreS3のビルドを確認。実機書込み・COM操作は未実施。
+
+
+## 2026-08-04 MIN SHADOW運用準備実装
+- Type63 ControlSnapshot（190 B）、Type64 INA（32 B）、Type65 VESC（48 B）、Type66/67 Waypoint（276/16 B）を3ノード共通protocolへ追加し、Coreの期待長・型名・static_assertを追加。
+- 制御側はGNSS/IMU/ToF/内部制御量/4出力/validity/state/revisionを100 ms周期でType63送信。INA未設定はvalid=false、VESCはERPMのみでmechanicalRpmValid=false。
+- 通信側 /waypoints /api/waypoints を追加。STOP/DISARMED限定、RUNNING/E_STOP拒否、CRC/revision/range検証、ACK後commit。
+- PC min_shadow_log.py と waypoint_protocol.py、14件のunittestを追加。C++ host PASS、Python unittest/compileall PASS、3環境PlatformIO SUCCESS。
+- 実機・COM3・書込み・センサ試験は行っていない。Draft PR #18のfeature branchへ次回push予定。
+
+## 2026-08-04 PR #18 final hardening
+
+- Audited branch/HEAD before work: feat/proposal-benchmark-replay-20260804 at 862915652aa195e45736b1a0668841b2c0248096, clean worktree, Draft PR #18 unmerged.
+- Implemented strict WaypointSet safety guard and communication UI disable behavior without changing control equations or physical-output settings.
+- Replaced the dummy long-test loop with a Controller::step-based 30-minute deterministic generator. Fixed initial timestamp-zero handling, explicit restart marker, E_STOP reason reporting, global sequence accounting, and invalid-sensor NaN handling in the decoder.
+- Added temporal join fields/checks and Type65 actual VESC sample timing. Rebuilt all three required environments and ran the Python suite.
+- Hardware/COM3/main branch were not touched.
+
+## 2026-08-04 PR18 final audit addendum
+
+The final audit is recorded in UTF-8 at `docs/PR18_FINAL_AUDIT_20260804.md`. It covers the shared Type63-67 wire path, six-state C++ Waypoint guard, deterministic 30-minute host run, negative diagnostics, safety-output behavior, test/build evidence, and explicit hardware/COM3 hold. Host-only nonzero propulsion fixtures must not be interpreted as enabling firmware propulsion; firmware remains `SHADOW_CONTROL_ENABLE=1` and `ACTUATOR_OUTPUT_ENABLE=0`.
+
+## 2026-08-05 PR18 corrective audit (current)
+
+添付の最終監査是正指示に基づく現行結果は `docs/PR18_CORRECTIVE_AUDIT_20260805.md` に固定した。正式4出力は左前翼、右前翼、後部ヨー機構、単一推進。Type66は276 bytes、Python診断は19 tests、30分host loopは20 ms/90,000 cyclesである。Type63/64/65/66/67の実測件数は90,000/89,750/89,750/1/1。旧版に記録された14件・15件や旧出力名称は過去履歴であり、現行判定には使用しない。実機・COM3/4/6・main操作は未実施。
+## 2026-08-05 PR18 corrective audit supersession
+
+現行の正式な数値と判定は `docs/PR18_CORRECTIVE_AUDIT_20260805.md` を参照する。旧節にあるPythonテスト数、BIN件数、SHA-256、旧HEADは履歴値であり、現行値ではない。現行はPython 38 tests、Type63/64/65/66/67=90000/89750/89750/1/1、合計269502、BIN SHA-256=`9F3B3DFF6519858D131AB5BDF7470CB7FF3D6BC6A55E14D72A273F114FEA4A76`、是正コードHEAD=`fff51e5`。
+
+## 2026-08-05 PR18 最終ホスト監査（現行）
+
+現行の正しいUTF-8監査報告は `docs/PR18_CORRECTIVE_AUDIT_20260805.md`。30分相当は50 Hz / 20 ms / 90,000 cycleで2回実行し、manifest付きreason照合、正式transport診断、CSV各90,000行、INA/VESC freeze復帰、Waypoint本番handler、38 byte goldenを確認した。実機、COM、microSD、upload、mainへの変更は行っていない。

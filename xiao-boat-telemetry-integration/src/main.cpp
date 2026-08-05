@@ -15,9 +15,10 @@
 #include "app_config.h"
 #include "gnss_receiver.h"
 #include <boat_protocol.h>
+#include "../../shared/bin_record_serializer/src/bin_record_serializer.h"
 
 using namespace app_config;
-constexpr uint32_t kLogMagic = 0x424C4F47UL;  // Bytes on SD: GOLB.
+
 
 HardwareSerial controlUart(1);
 HardwareSerial gnssUart(2);
@@ -75,6 +76,15 @@ struct LinkLatest {
   boat::CommandAckPayload ack{};
   boat::EstimatedStatePayload estimatedState{};
 } linkLatest;
+constexpr uint8_t kWaypointMax = 16;
+boat::WaypointGeo waypointStore[kWaypointMax]{};
+boat::WaypointGeo pendingWaypoints[kWaypointMax]{};
+uint8_t waypointCount = 0, pendingWaypointCount = 0, waypointActiveIndex = 0;
+uint32_t waypointRevision = 0, pendingWaypointRevision = 0, waypointRequestId = 0;
+float waypointReachRadiusM = 0.5f;
+bool waypointPending = false;
+uint8_t waypointAckStatus = 255, waypointAckReason = 255;
+uint64_t waypointAckUs = 0;
 struct PrimaryImuLatest { boat::PrimaryImuSnapshotPayload sample{}; uint64_t receivedUs=0; } primaryImu;
 struct TofLatest { uint32_t frame=0; uint16_t centerMm=0; uint8_t centerStatus=0; uint64_t receivedUs=0; } tofLatest;
 enum ProvisionalFlag : uint8_t { ProvisionalAttitudeBaseline=1u<<0, ProvisionalDualImuAccepted=1u<<1, ProvisionalGnssAccepted=1u<<2, ProvisionalTofAccepted=1u<<3, ProvisionalOutputBlocked=1u<<4, ProvisionalCalibrationPending=1u<<5 };
@@ -292,6 +302,11 @@ bool appendBytes(const void* data, size_t length) {
   }
   return true;
 }
+bool appendBinRecord(const boat::Frame& frame, uint64_t receivedUs) {
+  uint8_t record[boat_bin::kMaxRecordBytes]{}; size_t written = 0;
+  if (!boat_bin::serializeRecord(frame.header, receivedUs, frame.payload, frame.header.length, record, sizeof(record), written)) return false;
+  return appendBytes(record, written);
+}
 
 bool finalizeLog() {
   if (!logFile) return true;
@@ -337,8 +352,7 @@ void stopLog() {
   boat::Frame frame{};
   while (dequeueFrame(frame)) {
     const uint64_t receivedUs = frame.logQueueUs ? frame.logQueueUs : nowUs();
-    if (!appendBytes(&kLogMagic, sizeof(kLogMagic)) || !appendBytes(&receivedUs, sizeof(receivedUs)) ||
-        !appendBytes(&frame.header, sizeof(frame.header)) || !appendBytes(frame.payload, frame.header.length)) { abortLog("SD write failed while stopping"); xSemaphoreGive(logMutex); return; }
+    if (!appendBinRecord(frame, receivedUs)) { abortLog("SD write failed while stopping"); xSemaphoreGive(logMutex); return; }
     ++logStats.records;
   }
   if (!finalizeLog()) { abortLog("SD flush failed while stopping"); xSemaphoreGive(logMutex); return; }
@@ -359,8 +373,7 @@ void serviceLog() {
     frame.sdTaskUs = nowUs();
     const uint32_t queueWaitUs = frame.logQueueUs ? static_cast<uint32_t>(frame.sdTaskUs - frame.logQueueUs) : 0;
     if (queueWaitUs > logStats.maxLogQueueWaitUs) logStats.maxLogQueueWaitUs = queueWaitUs;
-    if (!appendBytes(&kLogMagic, sizeof(kLogMagic)) || !appendBytes(&receivedUs, sizeof(receivedUs)) ||
-        !appendBytes(&frame.header, sizeof(frame.header)) || !appendBytes(frame.payload, frame.header.length)) {
+    if (!appendBinRecord(frame, receivedUs)) {
       abortLog("SD write failed"); xSemaphoreGive(logMutex); return;
     }
     ++logStats.records; emitTimingDiagnostic(frame, queueWaitUs);
@@ -391,7 +404,7 @@ void controlRxTask(void*) {
           if (result.canonicalCrc == boat::canonicalCrc(&result, offsetof(boat::GnssProcessResultPayload, canonicalCrc))) { linkLatest.result=result; ++linkLatest.resultRx; linkLatest.lastResultUs=lastControlFrameUs; }
           else ++linkLatest.resultBadCrc;
         }
-        if (type == boat::Type::CommandAck && frame.header.length == sizeof(boat::CommandAckPayload)) { memcpy(&linkLatest.ack,frame.payload,sizeof(linkLatest.ack)); linkLatest.lastCommandId=linkLatest.ack.commandId; ++linkLatest.commandAckRx; linkLatest.lastAckUs=lastControlFrameUs; }
+        if (type == boat::Type::CommandAck && frame.header.length == sizeof(boat::CommandAckPayload)) { memcpy(&linkLatest.ack,frame.payload,sizeof(linkLatest.ack)); linkLatest.lastCommandId=linkLatest.ack.commandId; ++linkLatest.commandAckRx; linkLatest.lastAckUs=lastControlFrameUs; } if (type == boat::Type::WaypointAck && frame.header.length == sizeof(boat::WaypointAckPayload)) { boat::WaypointAckPayload ack{}; memcpy(&ack,frame.payload,sizeof(ack)); if (ack.canonicalCrc == boat::canonicalCrc(&ack, offsetof(boat::WaypointAckPayload, canonicalCrc))) { waypointAckStatus=ack.status; waypointAckReason=ack.reason; waypointAckUs=lastControlFrameUs; waypointActiveIndex=ack.activeIndex; if (ack.status==0 && waypointPending && ack.requestId==waypointRequestId) { memcpy(waypointStore,pendingWaypoints,sizeof(waypointStore)); waypointCount=pendingWaypointCount; waypointRevision=ack.revision; waypointPending=false; } else if (ack.requestId==waypointRequestId) waypointPending=false; } }
         if (type == boat::Type::EstimatedState && frame.header.length == sizeof(boat::EstimatedStatePayload)) { memcpy(&linkLatest.estimatedState,frame.payload,sizeof(linkLatest.estimatedState)); linkLatest.estimatedStateUs=lastControlFrameUs; }
         if (type == boat::Type::PrimaryImuSnapshot && frame.header.length == sizeof(boat::PrimaryImuSnapshotPayload)) { memcpy(&primaryImu.sample,frame.payload,sizeof(primaryImu.sample)); primaryImu.receivedUs=lastControlFrameUs; }
         if (type == boat::Type::TofFrame && frame.header.length == 196) {
@@ -586,7 +599,8 @@ void serviceGnss() {
   }
 }
 
-bool sendControl(boat::Type type, const void* payload = nullptr, uint16_t payloadLength = 0) {
+bool sendControl(boat::Type type, const void* payload = nullptr, uint16_t payloadLength = 0);
+bool sendControl(boat::Type type, const void* payload, uint16_t payloadLength) {
   // This is a separate direction of the link. Keep SD-log sequence numbers
   // contiguous so an offline parser can use gaps as loss evidence.
   boat::Header header{boat::kVersion,static_cast<uint8_t>(type),payloadLength,++controlTxSequence,commBootId,nowUs(),0};
@@ -598,6 +612,17 @@ bool sendControl(boat::Type type, const void* payload = nullptr, uint16_t payloa
   const size_t written=controlUart.write(encoded,length);
   if (controlTxMutex) xSemaphoreGive(controlTxMutex);
   return written == length;
+}
+
+bool sendWaypointSet() {
+  if (!waypointPending || pendingWaypointCount == 0) return false;
+  boat::WaypointSetPayload p{};
+  p.requestId=waypointRequestId; p.revision=pendingWaypointRevision; p.action=1; p.count=pendingWaypointCount; p.reachRadiusM=waypointReachRadiusM;
+  memcpy(p.points,pendingWaypoints,sizeof(p.points));
+  p.canonicalCrc=boat::canonicalCrc(&p,offsetof(boat::WaypointSetPayload,canonicalCrc));
+  if(!sendControl(boat::Type::WaypointSet,&p,sizeof(p))) return false;
+  emitLocal(boat::Type::WaypointSet,&p,sizeof(p),1);
+  return true;
 }
 
 bool sendP1Capture(boat::P1CaptureAction action) {
@@ -747,6 +772,32 @@ void apiLatest() {
   snprintf(json,sizeof(json),"{\"sd\":\"%s\",\"logging\":%s,\"run\":\"%s\",\"records\":%lu,\"queue\":%u,\"drops\":%lu,\"control_frames\":%lu,\"control_errors\":%lu,\"control_age_ms\":%lu,\"bno\":%s,\"bno_fault\":\"%s\",\"accel_age_ms\":%lu,\"gyro_age_ms\":%lu,\"quat_age_ms\":%lu,\"magnetic_age_ms\":%lu,\"magnetic_valid\":%s,\"magnetic_accuracy\":%u,\"ax\":%.5f,\"ay\":%.5f,\"az\":%.5f,\"mx_ut\":%.3f,\"my_ut\":%.3f,\"mz_ut\":%.3f,\"gnss_receiving\":%s,\"gnss_fix\":%s,\"gnss_age_ms\":%lu,\"lat\":%.8f,\"lon\":%.8f,\"alt_m\":%.2f,\"speed_mps\":%.3f,\"course_deg\":%.2f,\"sats\":%u,\"hdop\":%.2f,\"lat_valid\":%s,\"lon_valid\":%s,\"alt_valid\":%s,\"speed_valid\":%s,\"sats_valid\":%s}",logStats.sdReady?"ready":"error",logStats.logging?"true":"false",logStats.runName,(unsigned long)logStats.records,used,(unsigned long)logStats.queueDrops,(unsigned long)logStats.controlFrames,(unsigned long)(logStats.controlCrc+logStats.controlCobs+logStats.controlLength),(unsigned long)ageMs(lastControlFrameUs,now),bno.ready?"true":"false",bno.fault,(unsigned long)ageMs(bno.accelUs,now),(unsigned long)ageMs(bno.gyroUs,now),(unsigned long)ageMs(bno.quatUs,now),(unsigned long)ageMs(bno.magneticUs,now),bno.magneticValid?"true":"false",bno.magneticAccuracy,bno.ax,bno.ay,bno.az,bno.mx,bno.my,bno.mz,gnssRx.receiving(now)?"true":"false",(g.flags&gnss::FixValid)?"true":"false",(unsigned long)ageMs(g.lastSentenceEndUs,now),g.latitude,g.longitude,g.altitudeM,g.speedMps,g.courseDeg,g.satellites,g.hdop,(g.flags&gnss::LatitudeValid)?"true":"false",(g.flags&gnss::LongitudeValid)?"true":"false",(g.flags&gnss::AltitudeValid)?"true":"false",(g.flags&gnss::SpeedValid)?"true":"false",(g.flags&gnss::SatellitesValid)?"true":"false");
   web.send(200,"application/json",json);
 }
+void apiWaypoints() {
+  char json[1800]; size_t used=0;
+  used += snprintf(json+used,sizeof(json)-used,"{\"revision\":%lu,\"count\":%u,\"active_index\":%u,\"pending\":%s,\"ack_status\":%u,\"ack_reason\":%u,\"points\":[",(unsigned long)waypointRevision,(unsigned)waypointCount,(unsigned)waypointActiveIndex,waypointPending?"true":"false",(unsigned)waypointAckStatus,(unsigned)waypointAckReason);
+  for(uint8_t i=0;i<waypointCount && used<sizeof(json);++i) used += snprintf(json+used,sizeof(json)-used,"%s{\"lat\":%.8f,\"lon\":%.8f}",i?",":"",waypointStore[i].latitudeDeg,waypointStore[i].longitudeDeg);
+  snprintf(json+used,sizeof(json)-used,"]}");
+  web.send(200,"application/json",json);
+}
+void requestWaypoints() {
+  const uint8_t state=linkLatest.result.safetyState;
+  if (state==3 || state==4) { web.send(409,"application/json","{\"error\":\"waypoint changes are disabled while RUNNING or E_STOP\"}"); return; }
+  if (state!=1) { web.send(409,"application/json","{\"error\":\"waypoint changes require STOP/DISARMED state\"}"); return; }
+  if (!web.hasArg("count") || !web.hasArg("revision")) { web.send(400,"application/json","{\"error\":\"count and revision required\"}"); return; }
+  const int count=web.arg("count").toInt(); const uint32_t revision=(uint32_t)web.arg("revision").toInt();
+  if (count<1 || count>kWaypointMax || revision<=waypointRevision) { web.send(400,"application/json","{\"error\":\"invalid count or revision\"}"); return; }
+  boat::WaypointGeo candidate[kWaypointMax]{};
+  for(int i=0;i<count;++i) {
+    const String la=String("lat")+i, lo=String("lon")+i;
+    if(!web.hasArg(la)||!web.hasArg(lo)){web.send(400,"application/json","{\"error\":\"all point coordinates required\"}");return;}
+    candidate[i].latitudeDeg=web.arg(la).toDouble(); candidate[i].longitudeDeg=web.arg(lo).toDouble();
+    if(!isfinite(candidate[i].latitudeDeg)||!isfinite(candidate[i].longitudeDeg)||candidate[i].latitudeDeg<-90||candidate[i].latitudeDeg>90||candidate[i].longitudeDeg<-180||candidate[i].longitudeDeg>180){web.send(400,"application/json","{\"error\":\"coordinate out of range\"}");return;}
+  }
+  memcpy(pendingWaypoints,candidate,sizeof(candidate)); pendingWaypointCount=count; pendingWaypointRevision=revision; waypointRequestId++; if(!waypointRequestId) waypointRequestId=1; waypointPending=true; waypointAckStatus=255; waypointAckReason=255;
+  if(!sendWaypointSet()){waypointPending=false;web.send(503,"application/json","{\"error\":\"control link unavailable\"}");return;}
+  web.send(202,"application/json","{\"requested\":\"waypoint_set\",\"atomic\":true}");
+}
+const char waypointPage[] PROGMEM = R"HTML(<!doctype html><html lang=ja><meta name=viewport content="width=device-width,initial-scale=1"><style>body{font:16px system-ui;margin:12px;background:#101720;color:#edf3fa}.c{background:#1d2a38;border-radius:9px;padding:10px;margin:8px 0}textarea,input,button{font:inherit;padding:8px;margin:3px;width:100%;box-sizing:border-box}pre{white-space:pre-wrap}</style><h2>Waypoint（STOP中のみ）</h2><div class=c><p>1行1点: latitude,longitude</p><pre id=s>状態取得中</pre><textarea id=p rows=6 placeholder="35.000000,139.000000"></textarea><input id=r type=number value=1 min=1><button id=b onclick=save()>STOP中に原子的に適用</button><pre id=o></pre></div><script>async function load(){let j=await(await fetch('/api/waypoints')).json(),u=await(await fetch('/api/ui')).json();let editable=u.control_state===1;p.disabled=r.disabled=b.disabled=!editable;s.textContent='状態='+u.control_state+' / 編集='+(editable?'可能':'不可')+(editable?'':'（DISARMEDのみ）');r.value=j.revision+1;p.value=j.points.map(x=>x.lat+','+x.lon).join('\\n');o.textContent=JSON.stringify(j,null,2)}async function save(){let a=p.value.trim().split(/\\n+/).map(x=>x.split(',').map(Number));let q='?count='+a.length+'&revision='+r.value;a.forEach((x,i)=>q+='&lat'+i+'='+encodeURIComponent(x[0])+'&lon'+i+'='+encodeURIComponent(x[1]));let z=await fetch('/api/waypoints'+q,{method:'POST'});o.textContent=await z.text();setTimeout(load,500)}load()</script></html>)HTML";
 void requestStart() { if(!web.hasArg("confirm") || web.arg("confirm")!="1") { web.send(400,"application/json","{\"error\":\"confirmation required\"}"); return; } pendingCommand=CommandStartLog; web.send(202,"application/json","{\"requested\":\"start\"}"); }
 void requestStop() { pendingCommand=CommandStopLog; web.send(202,"application/json","{\"requested\":\"stop\"}"); }
 void requestP1Start() { if(!web.hasArg("confirm") || web.arg("confirm")!="1") { web.send(400,"application/json","{\"error\":\"confirmation required\"}"); return; } if(loggingActive()) { web.send(409,"application/json","{\"error\":\"another log is active\"}"); return; } pendingCommand=CommandStartP1; web.send(202,"application/json","{\"requested\":\"p1_start\"}"); }
@@ -920,9 +971,9 @@ const char estimatedStatePage[] PROGMEM = R"HTML(<!doctype html><html lang="ja">
 const char sensorPage2[] PROGMEM=R"HTML(<!doctype html><html lang=ja><meta name=viewport content="width=device-width,initial-scale=1"><style>body{font:16px system-ui;margin:12px;background:#101720;color:#edf3fa}.c{background:#1d2a38;border-radius:10px;padding:12px;white-space:pre-wrap}</style><h2>BNO08X sensor values</h2><div class=c id=v>Loading...</div><script>async function u(){try{let j=await(await fetch('/api/sensors',{cache:'no-store'})).json();v.textContent=`Acceleration [m/s2]  X ${j.ax.toFixed(3)}  Y ${j.ay.toFixed(3)}  Z ${j.az.toFixed(3)}\nGyroscope [rad/s]  X ${j.gx.toFixed(3)}  Y ${j.gy.toFixed(3)}  Z ${j.gz.toFixed(3)}\nMagnetic field [uT]  X ${j.mx_ut.toFixed(2)}  Y ${j.my_ut.toFixed(2)}  Z ${j.mz_ut.toFixed(2)}\nMagnetic: ${j.magnetic_valid?'valid':'invalid'} / accuracy ${j.magnetic_accuracy}/3 / age ${j.magnetic_age_ms} ms\nBNO: ${j.bno?'ready':'fault'} ${j.fault} / reinitializations ${j.reinits}\n\nINT edges ${j.int_edges} / fallback wakeups ${j.task_fallbacks} / SH-2 services ${j.service_calls}\nCallback events ${j.callback_events} (accel ${j.accel_events}, gyro ${j.gyro_events}, magnetic ${j.magnetic_events})\nDecode errors ${j.decode_errors} / event-queue drops ${j.event_queue_drops}\nEvent queue used/high-water ${j.event_queue_used}/${j.event_queue_high_water} of 96 / max service ${j.max_service_us} us`;}catch(e){v.textContent='Update error'}}setInterval(u,50);u()</script></html>)HTML";
 void beginWeb() {
   WiFi.persistent(false); WiFi.mode(WIFI_AP); WiFi.softAP(kApSsid,kApPassword);
-  web.on("/",HTTP_GET,[]{ web.send_P(200,"text/html; charset=utf-8",simpleBenchmarkPage); }); web.on("/sensors",HTTP_GET,[]{ web.send_P(200,"text/html; charset=utf-8",sensorPage2); }); web.on("/state",HTTP_GET,[]{ web.send_P(200,"text/html; charset=utf-8",estimatedStatePage); }); web.on("/p1",HTTP_GET,[]{ web.send_P(200,"text/html; charset=utf-8",p1Page); }); web.on("/calibration",HTTP_GET,[]{ web.send_P(200,"text/html; charset=utf-8",calibrationPage); }); web.on("/dual-imu",HTTP_GET,[]{ web.send_P(200,"text/html; charset=utf-8",dualImuPage); }); web.on("/provisional-system",HTTP_GET,[]{ web.send_P(200,"text/html; charset=utf-8",provisionalSystemPage); }); web.on("/api/latest",HTTP_GET,apiLatest); web.on("/api/sensors",HTTP_GET,apiSensors); web.on("/api/dual-imu",HTTP_GET,apiDualImu); web.on("/api/provisional-system",HTTP_GET,apiProvisionalSystem); web.on("/api/estimated-state",HTTP_GET,apiEstimatedState); web.on("/api/p1",HTTP_GET,apiP1); web.on("/api/calibration",HTTP_GET,apiCalibration); web.on("/api/link",HTTP_GET,apiLink); web.on("/api/ui",HTTP_GET,apiUi); web.on("/api/manual",HTTP_GET,apiManual); web.on("/api/benchmark",HTTP_GET,apiBenchmark); web.on("/api/download",HTTP_GET,apiDownload);
+  web.on("/",HTTP_GET,[]{ web.send_P(200,"text/html; charset=utf-8",simpleBenchmarkPage); }); web.on("/sensors",HTTP_GET,[]{ web.send_P(200,"text/html; charset=utf-8",sensorPage2); }); web.on("/state",HTTP_GET,[]{ web.send_P(200,"text/html; charset=utf-8",estimatedStatePage); }); web.on("/p1",HTTP_GET,[]{ web.send_P(200,"text/html; charset=utf-8",p1Page); }); web.on("/calibration",HTTP_GET,[]{ web.send_P(200,"text/html; charset=utf-8",calibrationPage); }); web.on("/dual-imu",HTTP_GET,[]{ web.send_P(200,"text/html; charset=utf-8",dualImuPage); }); web.on("/provisional-system",HTTP_GET,[]{ web.send_P(200,"text/html; charset=utf-8",provisionalSystemPage); }); web.on("/api/latest",HTTP_GET,apiLatest); web.on("/waypoints",HTTP_GET,[]{ web.send_P(200,"text/html; charset=utf-8",waypointPage); }); web.on("/api/waypoints",HTTP_GET,apiWaypoints); web.on("/api/sensors",HTTP_GET,apiSensors); web.on("/api/dual-imu",HTTP_GET,apiDualImu); web.on("/api/provisional-system",HTTP_GET,apiProvisionalSystem); web.on("/api/estimated-state",HTTP_GET,apiEstimatedState); web.on("/api/p1",HTTP_GET,apiP1); web.on("/api/calibration",HTTP_GET,apiCalibration); web.on("/api/link",HTTP_GET,apiLink); web.on("/api/ui",HTTP_GET,apiUi); web.on("/api/manual",HTTP_GET,apiManual); web.on("/api/benchmark",HTTP_GET,apiBenchmark); web.on("/api/download",HTTP_GET,apiDownload);
   web.on("/api/log/start",HTTP_POST,requestStart); web.on("/api/log/stop",HTTP_POST,requestStop); web.on("/api/p1/start",HTTP_POST,requestP1Start); web.on("/api/p1/stop",HTTP_POST,requestP1Stop); web.on("/api/calibration/start",HTTP_POST,requestCalibrationStart); web.on("/api/calibration/stop",HTTP_POST,requestCalibrationStop);
-  web.on("/api/benchmark/start",HTTP_POST,requestBenchmarkStart); web.on("/api/benchmark/stop",HTTP_POST,requestBenchmarkStop);
+  web.on("/api/waypoints",HTTP_POST,requestWaypoints); web.on("/api/benchmark/start",HTTP_POST,requestBenchmarkStart); web.on("/api/benchmark/stop",HTTP_POST,requestBenchmarkStop);
   web.on("/api/control/stop",HTTP_POST,requestControlStop); web.on("/api/control/estop",HTTP_POST,requestControlEstop); web.begin();
 }
 

@@ -1,0 +1,48 @@
+# MIN SHADOW 運用準備（2026-08-04）
+
+## 範囲
+この段階は feat/proposal-benchmark-replay-20260804 上の MIN SHADOW 経路だけを対象とする。SHADOW_CONTROL_ENABLE=1、ACTUATOR_OUTPUT_ENABLE=0 を維持し、PCA9685・VESC・サーボ・翼への実出力は行わない。MID/FULL/ESKFゲイン調整、センサ性能評価、実機書込みは対象外である。
+
+## ログプロトコル
+既存 Type 62 ControlOutput は後方互換の4出力・prelimit・制御量を保持する。追加型は同じ protocol version 1 の packed little-endian payload とする。
+
+- Type 63 ControlSnapshotPayload (190 bytes): cycle/revision、GNSS（lat/lon/speed/course/local N/E）、IMU姿勢・角速度、ToF raw/filtered/height error、u_height/u_pitch/u_roll/u_yaw、front common/differential、4出力・prelimit、validity、state/safety reason、active waypoint。
+- Type 64 InaStatusPayload (32 bytes): bus/shunt/current/power、age、valid、error code。INA226が無効または未設定のときは valid=false、errorCode=DISABLED/NOT_CONFIGURED 相当を出し、0を代入して測定値と誤認させない。
+- Type 65 VescTelemetryPayload (48 bytes): input voltage、motor/input current、duty、ERPM、温度、tachometer、validity/fault。ERPMはVESC電気回転数であり、機械RPMは未実装なので mechanicalRpmValid=false。
+- Type 66 WaypointSetPayload (276 bytes): request id、monotonic revision、action、1〜16点の緯度経度、reach radius、canonical CRC。
+- Type 67 WaypointAckPayload (16 bytes): request/revision、accepted/rejected/duplicate、reason、active index/count、canonical CRC。既存 Type 23 は P1Capture START/STOP ACK のまま。
+
+CoreS3 の型名・期待payload長・size static_assertを更新し、未知型扱いを防止した。
+
+## PCデコーダ
+python -m boat_eskf.min_shadow_log RUN.BIN --csv RUN.csv --txt RUN.TXT で Type 63〜65 を解析し、時刻逆行、型別sequence gap、NaN/Inf、出力範囲、version、trailing/transport sidecar診断を集計する。BINには復号済みフレームが入るため CRC/COBS/length の一次値はTXT診断を参照する。CSVは要求されたセンサ・制御・INA・VESC列を含む。実機BIN未投入のためBIN実データ件数は未確認。
+
+## Waypoint運用
+通信側 Web UI /waypoints と /api/waypoints を追加した。設定は STOP/DISARMED のみ受理し、RUNNING/E_STOP/状態不明は拒否する。座標・個数・revisionを検証してpending領域へ一括コピーし、制御側 Type 66 ACK が accepted の場合だけcanonical storeへ反映する。CRC、revision重複、範囲、空配列を拒否する。制御側は受理時にMIN内部をresetし、次のRUNNING開始で再初期化する。
+
+## 検証
+ホストC++ proposal_min_host PASS、Python unittest（14件）、compileall、PlatformIO の proposal_shadow_min、proposal_shadow_comm、m5stack-cores3 を実行済み。30分相当の100 Hzループはホストの決定的モデルで検証した。これらは実機書込み・COM通信・センサ性能を証明しない。
+## 2026-08-04 PR #18 MIN SHADOW final hardening
+
+- Control-side WaypointSet is accepted only in DISARMED. BOOT, ARMED_IDLE, RUNNING, E_STOP, and FAULT return a WaypointAck with rejected status and a state-specific reason; stored revision and points are not modified.
+- The communication-side Web UI disables waypoint editing when `/api/ui` reports `control_state != DISARMED`. The server endpoint also rejects the request, so UI state is not the only guard.
+- `min_shadow_long_host.cpp` is a real 30-minute host test. It calls `proposal_min::Controller::step()` every 20 ms for 90,000 cycles and emits the actual Type 63/64/65/66/67 record layouts. It injects GNSS/IMU/ToF stale and non-finite windows, STOP followed by an explicit restart, E_STOP, heartbeat failure, and INA/VESC invalid windows.
+- `min_shadow_log.py` joins INA/VESC by record order only. A sample is eligible only when its sample timestamp is not later than the Type 63 control timestamp. CSV records sample time, payload age, control age, source/effective validity, stale, missing, and error fields; invalid samples are not replaced by zero.
+- Type 65 firmware now records the actual last VESC receive timestamp and derives age from the control timestamp. Mechanical RPM remains invalid unless explicitly supported.
+- Host result: 270,002 records (90,000 each of Type 63/64/65 plus one Type 66 and one Type 67), 90,000 CSV rows; all integrity/state/safety/slew/temporal checks are zero. Two deterministic runs produced identical SHA-256 BIN hashes.
+- No actuator equation, gain, MID/FULL, ESKF, UART, SD, buffer, mutex, or hardware setting was changed. No physical output was enabled.
+
+## 2026-08-04 PR18 final audit addendum
+
+The final audit is recorded in UTF-8 at `docs/PR18_FINAL_AUDIT_20260804.md`. It covers the shared Type63-67 wire path, six-state C++ Waypoint guard, deterministic 30-minute host run, negative diagnostics, safety-output behavior, test/build evidence, and explicit hardware/COM3 hold. Host-only nonzero propulsion fixtures must not be interpreted as enabling firmware propulsion; firmware remains `SHADOW_CONTROL_ENABLE=1` and `ACTUATOR_OUTPUT_ENABLE=0`.
+
+## 2026-08-05 PR18 corrective audit (current)
+
+添付の最終監査是正指示に基づく現行結果は `docs/PR18_CORRECTIVE_AUDIT_20260805.md` に固定した。正式4出力は左前翼、右前翼、後部ヨー機構、単一推進。Type66は276 bytes、Python診断は19 tests、30分host loopは20 ms/90,000 cyclesである。Type63/64/65/66/67の実測件数は90,000/89,750/89,750/1/1。旧版に記録された14件・15件や旧出力名称は過去履歴であり、現行判定には使用しない。実機・COM3/4/6・main操作は未実施。
+## 2026-08-05 PR18 corrective audit supersession
+
+現行の正式な数値と判定は `docs/PR18_CORRECTIVE_AUDIT_20260805.md` を参照する。旧節にあるPythonテスト数、BIN件数、SHA-256、旧HEADは履歴値であり、現行値ではない。現行はPython 38 tests、Type63/64/65/66/67=90000/89750/89750/1/1、合計269502、BIN SHA-256=`9F3B3DFF6519858D131AB5BDF7470CB7FF3D6BC6A55E14D72A273F114FEA4A76`、是正コードHEAD=`fff51e5`。
+
+## 2026-08-05 PR18 最終ホスト監査（現行）
+
+現行の正しいUTF-8監査報告は `docs/PR18_CORRECTIVE_AUDIT_20260805.md`。30分相当は50 Hz / 20 ms / 90,000 cycleで2回実行し、manifest付きreason照合、正式transport診断、CSV各90,000行、INA/VESC freeze復帰、Waypoint本番handler、38 byte goldenを確認した。実機、COM、microSD、upload、mainへの変更は行っていない。

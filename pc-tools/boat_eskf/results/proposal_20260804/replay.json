@@ -1,0 +1,5917 @@
+{
+  "BASE": {
+    "all_faults_safe": true,
+    "faults": {
+      "bno_stopped": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "BNO_STOPPED",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "HEARTBEAT_TIMEOUT",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 1,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 1,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "BASE",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "BNO_STOPPED",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "cog_unstable": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "COG_UNSTABLE",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 1,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "BASE",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "COG_UNSTABLE",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "e_stop": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "E_STOP",
+            "t_ms": 100,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "E_STOP",
+        "mode": "BASE",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "E_STOP"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "E_STOP",
+            "from": "START",
+            "t_ms": 100,
+            "to": "E_STOP"
+          }
+        ]
+      },
+      "gnss_stale": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "GNSS_STALE",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "HEARTBEAT_TIMEOUT",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 1,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 1,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "BASE",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "GNSS_STALE",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "gvr_missing": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "GVR_MISSING",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 1,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "BASE",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "GVR_MISSING",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "heartbeat_timeout": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "HEARTBEAT_TIMEOUT",
+            "t_ms": 100,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 1,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "BASE",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "HEARTBEAT_TIMEOUT",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "nan_inf": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "NAN_INPUT",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "E_STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 1,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "E_STOP",
+        "mode": "BASE",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "E_STOP"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "NAN_INPUT",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          },
+          {
+            "event": "E_STOP",
+            "from": "DISARMED",
+            "t_ms": 200,
+            "to": "E_STOP"
+          }
+        ]
+      },
+      "sd_error": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "SD_WRITE_ERROR",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 1,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "BASE",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "SD_WRITE_ERROR",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "stop": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 100,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "BASE",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "STOP",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "timestamp_jump": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "TIMESTAMP_JUMP",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 1,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "BASE",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "TIMESTAMP_JUMP",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "tof_invalid": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "TOF_INVALID",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 1,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "BASE",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "TOF_INVALID",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "uart_gap": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "UART_SEQUENCE_GAP",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 1
+        },
+        "final_state": "DISARMED",
+        "mode": "BASE",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "UART_SEQUENCE_GAP",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      }
+    },
+    "mode": "BASE",
+    "normal": {
+      "all_shadow_finite": true,
+      "errors": [],
+      "events": [
+        {
+          "kind": "STOPPED",
+          "t_ms": 0,
+          "value": null
+        },
+        {
+          "kind": "INITIAL_PLACED",
+          "t_ms": 100,
+          "value": null
+        },
+        {
+          "kind": "START",
+          "t_ms": 200,
+          "value": null
+        },
+        {
+          "kind": "LAUNCH_ALIGN",
+          "t_ms": 300,
+          "value": null
+        },
+        {
+          "kind": "START_RAMP",
+          "t_ms": 400,
+          "value": null
+        },
+        {
+          "kind": "GNSS_SPEED_UP",
+          "t_ms": 1200,
+          "value": null
+        },
+        {
+          "kind": "COG_VALIDATING",
+          "t_ms": 1800,
+          "value": null
+        },
+        {
+          "kind": "LOS_NAVIGATION",
+          "t_ms": 2400,
+          "value": null
+        },
+        {
+          "kind": "WAYPOINT_1",
+          "t_ms": 3500,
+          "value": null
+        },
+        {
+          "kind": "WAYPOINT_2",
+          "t_ms": 5200,
+          "value": null
+        },
+        {
+          "kind": "GOAL_STOP",
+          "t_ms": 7000,
+          "value": null
+        }
+      ],
+      "fault_counters": {
+        "bno_stopped": 0,
+        "cog_unstable": 0,
+        "gnss_stale": 0,
+        "gvr_missing": 0,
+        "heartbeat_timeout": 0,
+        "nan_inf": 0,
+        "sd_write_error": 0,
+        "timestamp_jump": 0,
+        "tof_invalid": 0,
+        "uart_sequence_gap": 0
+      },
+      "final_state": "GOAL_STOP",
+      "mode": "BASE",
+      "outputs": [
+        {
+          "index": 0,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "STOPPED"
+        },
+        {
+          "index": 1,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "INITIAL_PLACED"
+        },
+        {
+          "index": 2,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "START"
+        },
+        {
+          "index": 3,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "LAUNCH_ALIGN"
+        },
+        {
+          "index": 4,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "START_RAMP"
+        },
+        {
+          "index": 5,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "GNSS_SPEED_UP"
+        },
+        {
+          "index": 6,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "COG_VALIDATING"
+        },
+        {
+          "index": 7,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "LOS_NAVIGATION"
+        },
+        {
+          "index": 8,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "WAYPOINT_1"
+        },
+        {
+          "index": 9,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "WAYPOINT_2"
+        },
+        {
+          "index": 10,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "GOAL_STOP"
+        }
+      ],
+      "safe_output_after_stop": true,
+      "transitions": [
+        {
+          "event": "INITIAL_PLACED",
+          "from": "STOPPED",
+          "t_ms": 100,
+          "to": "INITIAL_PLACED"
+        },
+        {
+          "event": "START",
+          "from": "INITIAL_PLACED",
+          "t_ms": 200,
+          "to": "START"
+        },
+        {
+          "event": "LAUNCH_ALIGN",
+          "from": "START",
+          "t_ms": 300,
+          "to": "LAUNCH_ALIGN"
+        },
+        {
+          "event": "START_RAMP",
+          "from": "LAUNCH_ALIGN",
+          "t_ms": 400,
+          "to": "START_RAMP"
+        },
+        {
+          "event": "GNSS_SPEED_UP",
+          "from": "START_RAMP",
+          "t_ms": 1200,
+          "to": "GNSS_SPEED_UP"
+        },
+        {
+          "event": "COG_VALIDATING",
+          "from": "GNSS_SPEED_UP",
+          "t_ms": 1800,
+          "to": "COG_VALIDATING"
+        },
+        {
+          "event": "LOS_NAVIGATION",
+          "from": "COG_VALIDATING",
+          "t_ms": 2400,
+          "to": "LOS_NAVIGATION"
+        },
+        {
+          "event": "WAYPOINT_1",
+          "from": "LOS_NAVIGATION",
+          "t_ms": 3500,
+          "to": "WAYPOINT_1"
+        },
+        {
+          "event": "WAYPOINT_2",
+          "from": "WAYPOINT_1",
+          "t_ms": 5200,
+          "to": "WAYPOINT_2"
+        },
+        {
+          "event": "GOAL_STOP",
+          "from": "WAYPOINT_2",
+          "t_ms": 7000,
+          "to": "GOAL_STOP"
+        }
+      ]
+    },
+    "normal_phase_coverage": [
+      "INITIAL_PLACED",
+      "START",
+      "LAUNCH_ALIGN",
+      "START_RAMP",
+      "GNSS_SPEED_UP",
+      "COG_VALIDATING",
+      "LOS_NAVIGATION",
+      "WAYPOINT_1",
+      "WAYPOINT_2",
+      "GOAL_STOP"
+    ],
+    "normal_reproducible": true,
+    "required_normal_phases": [
+      "STOPPED",
+      "INITIAL_PLACED",
+      "START",
+      "LAUNCH_ALIGN",
+      "START_RAMP",
+      "GNSS_SPEED_UP",
+      "COG_VALIDATING",
+      "LOS_NAVIGATION",
+      "WAYPOINT_1",
+      "WAYPOINT_2",
+      "GOAL_STOP"
+    ]
+  },
+  "FULL": {
+    "all_faults_safe": true,
+    "faults": {
+      "bno_stopped": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "BNO_STOPPED",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "HEARTBEAT_TIMEOUT",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 1,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 1,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "FULL",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.4302522964687763,
+              -0.4297477035312236,
+              -0.42999999999999994
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "BNO_STOPPED",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "cog_unstable": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "COG_UNSTABLE",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 1,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "FULL",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.4302522964687763,
+              -0.4297477035312236,
+              -0.42999999999999994
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "COG_UNSTABLE",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "e_stop": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "E_STOP",
+            "t_ms": 100,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "E_STOP",
+        "mode": "FULL",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.4302522964687763,
+              -0.4297477035312236,
+              -0.42999999999999994
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "E_STOP"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "E_STOP",
+            "from": "START",
+            "t_ms": 100,
+            "to": "E_STOP"
+          }
+        ]
+      },
+      "gnss_stale": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "GNSS_STALE",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "HEARTBEAT_TIMEOUT",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 1,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 1,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "FULL",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.4302522964687763,
+              -0.4297477035312236,
+              -0.42999999999999994
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "GNSS_STALE",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "gvr_missing": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "GVR_MISSING",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 1,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "FULL",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.4302522964687763,
+              -0.4297477035312236,
+              -0.42999999999999994
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "GVR_MISSING",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "heartbeat_timeout": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "HEARTBEAT_TIMEOUT",
+            "t_ms": 100,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 1,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "FULL",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.4302522964687763,
+              -0.4297477035312236,
+              -0.42999999999999994
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "HEARTBEAT_TIMEOUT",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "nan_inf": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "NAN_INPUT",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "E_STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 1,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "E_STOP",
+        "mode": "FULL",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.4302522964687763,
+              -0.4297477035312236,
+              -0.42999999999999994
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "E_STOP"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "NAN_INPUT",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          },
+          {
+            "event": "E_STOP",
+            "from": "DISARMED",
+            "t_ms": 200,
+            "to": "E_STOP"
+          }
+        ]
+      },
+      "sd_error": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "SD_WRITE_ERROR",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 1,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "FULL",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.4302522964687763,
+              -0.4297477035312236,
+              -0.42999999999999994
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "SD_WRITE_ERROR",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "stop": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 100,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "FULL",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.4302522964687763,
+              -0.4297477035312236,
+              -0.42999999999999994
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "STOP",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "timestamp_jump": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "TIMESTAMP_JUMP",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 1,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "FULL",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.4302522964687763,
+              -0.4297477035312236,
+              -0.42999999999999994
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "TIMESTAMP_JUMP",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "tof_invalid": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "TOF_INVALID",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 1,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "FULL",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.4302522964687763,
+              -0.4297477035312236,
+              -0.42999999999999994
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "TOF_INVALID",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "uart_gap": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "UART_SEQUENCE_GAP",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 1
+        },
+        "final_state": "DISARMED",
+        "mode": "FULL",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.4302522964687763,
+              -0.4297477035312236,
+              -0.42999999999999994
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "UART_SEQUENCE_GAP",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      }
+    },
+    "mode": "FULL",
+    "normal": {
+      "all_shadow_finite": true,
+      "errors": [],
+      "events": [
+        {
+          "kind": "STOPPED",
+          "t_ms": 0,
+          "value": null
+        },
+        {
+          "kind": "INITIAL_PLACED",
+          "t_ms": 100,
+          "value": null
+        },
+        {
+          "kind": "START",
+          "t_ms": 200,
+          "value": null
+        },
+        {
+          "kind": "LAUNCH_ALIGN",
+          "t_ms": 300,
+          "value": null
+        },
+        {
+          "kind": "START_RAMP",
+          "t_ms": 400,
+          "value": null
+        },
+        {
+          "kind": "GNSS_SPEED_UP",
+          "t_ms": 1200,
+          "value": null
+        },
+        {
+          "kind": "COG_VALIDATING",
+          "t_ms": 1800,
+          "value": null
+        },
+        {
+          "kind": "LOS_NAVIGATION",
+          "t_ms": 2400,
+          "value": null
+        },
+        {
+          "kind": "WAYPOINT_1",
+          "t_ms": 3500,
+          "value": null
+        },
+        {
+          "kind": "WAYPOINT_2",
+          "t_ms": 5200,
+          "value": null
+        },
+        {
+          "kind": "GOAL_STOP",
+          "t_ms": 7000,
+          "value": null
+        }
+      ],
+      "fault_counters": {
+        "bno_stopped": 0,
+        "cog_unstable": 0,
+        "gnss_stale": 0,
+        "gvr_missing": 0,
+        "heartbeat_timeout": 0,
+        "nan_inf": 0,
+        "sd_write_error": 0,
+        "timestamp_jump": 0,
+        "tof_invalid": 0,
+        "uart_sequence_gap": 0
+      },
+      "final_state": "GOAL_STOP",
+      "mode": "FULL",
+      "outputs": [
+        {
+          "index": 0,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "STOPPED"
+        },
+        {
+          "index": 1,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "INITIAL_PLACED"
+        },
+        {
+          "index": 2,
+          "shadow": [
+            -0.8420613024910191,
+            -0.8395371301796064,
+            -0.8407992163353127
+          ],
+          "state": "START"
+        },
+        {
+          "index": 3,
+          "shadow": [
+            -0.8915241359480611,
+            -0.8880554467379776,
+            -0.8897897913430194
+          ],
+          "state": "LAUNCH_ALIGN"
+        },
+        {
+          "index": 4,
+          "shadow": [
+            -0.9472890499004061,
+            -0.9429000679272315,
+            -0.9450945589138188
+          ],
+          "state": "START_RAMP"
+        },
+        {
+          "index": 5,
+          "shadow": [
+            -1.0,
+            -1.0,
+            -1.0
+          ],
+          "state": "GNSS_SPEED_UP"
+        },
+        {
+          "index": 6,
+          "shadow": [
+            -1.0,
+            -1.0,
+            -1.0
+          ],
+          "state": "COG_VALIDATING"
+        },
+        {
+          "index": 7,
+          "shadow": [
+            -1.0,
+            -1.0,
+            -1.0
+          ],
+          "state": "LOS_NAVIGATION"
+        },
+        {
+          "index": 8,
+          "shadow": [
+            -1.0,
+            -1.0,
+            -1.0
+          ],
+          "state": "WAYPOINT_1"
+        },
+        {
+          "index": 9,
+          "shadow": [
+            -1.0,
+            -1.0,
+            -1.0
+          ],
+          "state": "WAYPOINT_2"
+        },
+        {
+          "index": 10,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "GOAL_STOP"
+        }
+      ],
+      "safe_output_after_stop": true,
+      "transitions": [
+        {
+          "event": "INITIAL_PLACED",
+          "from": "STOPPED",
+          "t_ms": 100,
+          "to": "INITIAL_PLACED"
+        },
+        {
+          "event": "START",
+          "from": "INITIAL_PLACED",
+          "t_ms": 200,
+          "to": "START"
+        },
+        {
+          "event": "LAUNCH_ALIGN",
+          "from": "START",
+          "t_ms": 300,
+          "to": "LAUNCH_ALIGN"
+        },
+        {
+          "event": "START_RAMP",
+          "from": "LAUNCH_ALIGN",
+          "t_ms": 400,
+          "to": "START_RAMP"
+        },
+        {
+          "event": "GNSS_SPEED_UP",
+          "from": "START_RAMP",
+          "t_ms": 1200,
+          "to": "GNSS_SPEED_UP"
+        },
+        {
+          "event": "COG_VALIDATING",
+          "from": "GNSS_SPEED_UP",
+          "t_ms": 1800,
+          "to": "COG_VALIDATING"
+        },
+        {
+          "event": "LOS_NAVIGATION",
+          "from": "COG_VALIDATING",
+          "t_ms": 2400,
+          "to": "LOS_NAVIGATION"
+        },
+        {
+          "event": "WAYPOINT_1",
+          "from": "LOS_NAVIGATION",
+          "t_ms": 3500,
+          "to": "WAYPOINT_1"
+        },
+        {
+          "event": "WAYPOINT_2",
+          "from": "WAYPOINT_1",
+          "t_ms": 5200,
+          "to": "WAYPOINT_2"
+        },
+        {
+          "event": "GOAL_STOP",
+          "from": "WAYPOINT_2",
+          "t_ms": 7000,
+          "to": "GOAL_STOP"
+        }
+      ]
+    },
+    "normal_phase_coverage": [
+      "INITIAL_PLACED",
+      "START",
+      "LAUNCH_ALIGN",
+      "START_RAMP",
+      "GNSS_SPEED_UP",
+      "COG_VALIDATING",
+      "LOS_NAVIGATION",
+      "WAYPOINT_1",
+      "WAYPOINT_2",
+      "GOAL_STOP"
+    ],
+    "normal_reproducible": true,
+    "required_normal_phases": [
+      "STOPPED",
+      "INITIAL_PLACED",
+      "START",
+      "LAUNCH_ALIGN",
+      "START_RAMP",
+      "GNSS_SPEED_UP",
+      "COG_VALIDATING",
+      "LOS_NAVIGATION",
+      "WAYPOINT_1",
+      "WAYPOINT_2",
+      "GOAL_STOP"
+    ]
+  },
+  "LEGACY": {
+    "all_faults_safe": true,
+    "faults": {
+      "bno_stopped": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "BNO_STOPPED",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "HEARTBEAT_TIMEOUT",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 1,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 1,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "LEGACY",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "BNO_STOPPED",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "cog_unstable": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "COG_UNSTABLE",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 1,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "LEGACY",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "COG_UNSTABLE",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "e_stop": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "E_STOP",
+            "t_ms": 100,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "E_STOP",
+        "mode": "LEGACY",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "E_STOP"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "E_STOP",
+            "from": "START",
+            "t_ms": 100,
+            "to": "E_STOP"
+          }
+        ]
+      },
+      "gnss_stale": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "GNSS_STALE",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "HEARTBEAT_TIMEOUT",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 1,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 1,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "LEGACY",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "GNSS_STALE",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "gvr_missing": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "GVR_MISSING",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 1,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "LEGACY",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "GVR_MISSING",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "heartbeat_timeout": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "HEARTBEAT_TIMEOUT",
+            "t_ms": 100,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 1,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "LEGACY",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "HEARTBEAT_TIMEOUT",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "nan_inf": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "NAN_INPUT",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "E_STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 1,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "E_STOP",
+        "mode": "LEGACY",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "E_STOP"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "NAN_INPUT",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          },
+          {
+            "event": "E_STOP",
+            "from": "DISARMED",
+            "t_ms": 200,
+            "to": "E_STOP"
+          }
+        ]
+      },
+      "sd_error": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "SD_WRITE_ERROR",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 1,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "LEGACY",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "SD_WRITE_ERROR",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "stop": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 100,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "LEGACY",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "STOP",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "timestamp_jump": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "TIMESTAMP_JUMP",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 1,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "LEGACY",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "TIMESTAMP_JUMP",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "tof_invalid": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "TOF_INVALID",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 1,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "LEGACY",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "TOF_INVALID",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "uart_gap": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "UART_SEQUENCE_GAP",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 1
+        },
+        "final_state": "DISARMED",
+        "mode": "LEGACY",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "UART_SEQUENCE_GAP",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      }
+    },
+    "mode": "LEGACY",
+    "normal": {
+      "all_shadow_finite": true,
+      "errors": [],
+      "events": [
+        {
+          "kind": "STOPPED",
+          "t_ms": 0,
+          "value": null
+        },
+        {
+          "kind": "INITIAL_PLACED",
+          "t_ms": 100,
+          "value": null
+        },
+        {
+          "kind": "START",
+          "t_ms": 200,
+          "value": null
+        },
+        {
+          "kind": "LAUNCH_ALIGN",
+          "t_ms": 300,
+          "value": null
+        },
+        {
+          "kind": "START_RAMP",
+          "t_ms": 400,
+          "value": null
+        },
+        {
+          "kind": "GNSS_SPEED_UP",
+          "t_ms": 1200,
+          "value": null
+        },
+        {
+          "kind": "COG_VALIDATING",
+          "t_ms": 1800,
+          "value": null
+        },
+        {
+          "kind": "LOS_NAVIGATION",
+          "t_ms": 2400,
+          "value": null
+        },
+        {
+          "kind": "WAYPOINT_1",
+          "t_ms": 3500,
+          "value": null
+        },
+        {
+          "kind": "WAYPOINT_2",
+          "t_ms": 5200,
+          "value": null
+        },
+        {
+          "kind": "GOAL_STOP",
+          "t_ms": 7000,
+          "value": null
+        }
+      ],
+      "fault_counters": {
+        "bno_stopped": 0,
+        "cog_unstable": 0,
+        "gnss_stale": 0,
+        "gvr_missing": 0,
+        "heartbeat_timeout": 0,
+        "nan_inf": 0,
+        "sd_write_error": 0,
+        "timestamp_jump": 0,
+        "tof_invalid": 0,
+        "uart_sequence_gap": 0
+      },
+      "final_state": "GOAL_STOP",
+      "mode": "LEGACY",
+      "outputs": [
+        {
+          "index": 0,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "STOPPED"
+        },
+        {
+          "index": 1,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "INITIAL_PLACED"
+        },
+        {
+          "index": 2,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "START"
+        },
+        {
+          "index": 3,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "LAUNCH_ALIGN"
+        },
+        {
+          "index": 4,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "START_RAMP"
+        },
+        {
+          "index": 5,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "GNSS_SPEED_UP"
+        },
+        {
+          "index": 6,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "COG_VALIDATING"
+        },
+        {
+          "index": 7,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "LOS_NAVIGATION"
+        },
+        {
+          "index": 8,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "WAYPOINT_1"
+        },
+        {
+          "index": 9,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "WAYPOINT_2"
+        },
+        {
+          "index": 10,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "GOAL_STOP"
+        }
+      ],
+      "safe_output_after_stop": true,
+      "transitions": [
+        {
+          "event": "INITIAL_PLACED",
+          "from": "STOPPED",
+          "t_ms": 100,
+          "to": "INITIAL_PLACED"
+        },
+        {
+          "event": "START",
+          "from": "INITIAL_PLACED",
+          "t_ms": 200,
+          "to": "START"
+        },
+        {
+          "event": "LAUNCH_ALIGN",
+          "from": "START",
+          "t_ms": 300,
+          "to": "LAUNCH_ALIGN"
+        },
+        {
+          "event": "START_RAMP",
+          "from": "LAUNCH_ALIGN",
+          "t_ms": 400,
+          "to": "START_RAMP"
+        },
+        {
+          "event": "GNSS_SPEED_UP",
+          "from": "START_RAMP",
+          "t_ms": 1200,
+          "to": "GNSS_SPEED_UP"
+        },
+        {
+          "event": "COG_VALIDATING",
+          "from": "GNSS_SPEED_UP",
+          "t_ms": 1800,
+          "to": "COG_VALIDATING"
+        },
+        {
+          "event": "LOS_NAVIGATION",
+          "from": "COG_VALIDATING",
+          "t_ms": 2400,
+          "to": "LOS_NAVIGATION"
+        },
+        {
+          "event": "WAYPOINT_1",
+          "from": "LOS_NAVIGATION",
+          "t_ms": 3500,
+          "to": "WAYPOINT_1"
+        },
+        {
+          "event": "WAYPOINT_2",
+          "from": "WAYPOINT_1",
+          "t_ms": 5200,
+          "to": "WAYPOINT_2"
+        },
+        {
+          "event": "GOAL_STOP",
+          "from": "WAYPOINT_2",
+          "t_ms": 7000,
+          "to": "GOAL_STOP"
+        }
+      ]
+    },
+    "normal_phase_coverage": [
+      "INITIAL_PLACED",
+      "START",
+      "LAUNCH_ALIGN",
+      "START_RAMP",
+      "GNSS_SPEED_UP",
+      "COG_VALIDATING",
+      "LOS_NAVIGATION",
+      "WAYPOINT_1",
+      "WAYPOINT_2",
+      "GOAL_STOP"
+    ],
+    "normal_reproducible": true,
+    "required_normal_phases": [
+      "STOPPED",
+      "INITIAL_PLACED",
+      "START",
+      "LAUNCH_ALIGN",
+      "START_RAMP",
+      "GNSS_SPEED_UP",
+      "COG_VALIDATING",
+      "LOS_NAVIGATION",
+      "WAYPOINT_1",
+      "WAYPOINT_2",
+      "GOAL_STOP"
+    ]
+  },
+  "MID": {
+    "all_faults_safe": true,
+    "faults": {
+      "bno_stopped": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "BNO_STOPPED",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "HEARTBEAT_TIMEOUT",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 1,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 1,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "MID",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.43022159037408203,
+              -0.42977840962591785,
+              -0.42999999999999994
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "BNO_STOPPED",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "cog_unstable": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "COG_UNSTABLE",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 1,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "MID",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.43022159037408203,
+              -0.42977840962591785,
+              -0.42999999999999994
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "COG_UNSTABLE",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "e_stop": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "E_STOP",
+            "t_ms": 100,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "E_STOP",
+        "mode": "MID",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.43022159037408203,
+              -0.42977840962591785,
+              -0.42999999999999994
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "E_STOP"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "E_STOP",
+            "from": "START",
+            "t_ms": 100,
+            "to": "E_STOP"
+          }
+        ]
+      },
+      "gnss_stale": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "GNSS_STALE",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "HEARTBEAT_TIMEOUT",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 1,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 1,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "MID",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.43022159037408203,
+              -0.42977840962591785,
+              -0.42999999999999994
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "GNSS_STALE",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "gvr_missing": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "GVR_MISSING",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 1,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "MID",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.43022159037408203,
+              -0.42977840962591785,
+              -0.42999999999999994
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "GVR_MISSING",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "heartbeat_timeout": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "HEARTBEAT_TIMEOUT",
+            "t_ms": 100,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 1,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "MID",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.43022159037408203,
+              -0.42977840962591785,
+              -0.42999999999999994
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "HEARTBEAT_TIMEOUT",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "nan_inf": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "NAN_INPUT",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "E_STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 1,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "E_STOP",
+        "mode": "MID",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.43022159037408203,
+              -0.42977840962591785,
+              -0.42999999999999994
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "E_STOP"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "NAN_INPUT",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          },
+          {
+            "event": "E_STOP",
+            "from": "DISARMED",
+            "t_ms": 200,
+            "to": "E_STOP"
+          }
+        ]
+      },
+      "sd_error": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "SD_WRITE_ERROR",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 1,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "MID",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.43022159037408203,
+              -0.42977840962591785,
+              -0.42999999999999994
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "SD_WRITE_ERROR",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "stop": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 100,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "MID",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.43022159037408203,
+              -0.42977840962591785,
+              -0.42999999999999994
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "STOP",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "timestamp_jump": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "TIMESTAMP_JUMP",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 1,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "MID",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.43022159037408203,
+              -0.42977840962591785,
+              -0.42999999999999994
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "TIMESTAMP_JUMP",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "tof_invalid": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "TOF_INVALID",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 1,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "MID",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.43022159037408203,
+              -0.42977840962591785,
+              -0.42999999999999994
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "TOF_INVALID",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "uart_gap": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "UART_SEQUENCE_GAP",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 1
+        },
+        "final_state": "DISARMED",
+        "mode": "MID",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.43022159037408203,
+              -0.42977840962591785,
+              -0.42999999999999994
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "UART_SEQUENCE_GAP",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      }
+    },
+    "mode": "MID",
+    "normal": {
+      "all_shadow_finite": true,
+      "errors": [],
+      "events": [
+        {
+          "kind": "STOPPED",
+          "t_ms": 0,
+          "value": null
+        },
+        {
+          "kind": "INITIAL_PLACED",
+          "t_ms": 100,
+          "value": null
+        },
+        {
+          "kind": "START",
+          "t_ms": 200,
+          "value": null
+        },
+        {
+          "kind": "LAUNCH_ALIGN",
+          "t_ms": 300,
+          "value": null
+        },
+        {
+          "kind": "START_RAMP",
+          "t_ms": 400,
+          "value": null
+        },
+        {
+          "kind": "GNSS_SPEED_UP",
+          "t_ms": 1200,
+          "value": null
+        },
+        {
+          "kind": "COG_VALIDATING",
+          "t_ms": 1800,
+          "value": null
+        },
+        {
+          "kind": "LOS_NAVIGATION",
+          "t_ms": 2400,
+          "value": null
+        },
+        {
+          "kind": "WAYPOINT_1",
+          "t_ms": 3500,
+          "value": null
+        },
+        {
+          "kind": "WAYPOINT_2",
+          "t_ms": 5200,
+          "value": null
+        },
+        {
+          "kind": "GOAL_STOP",
+          "t_ms": 7000,
+          "value": null
+        }
+      ],
+      "fault_counters": {
+        "bno_stopped": 0,
+        "cog_unstable": 0,
+        "gnss_stale": 0,
+        "gvr_missing": 0,
+        "heartbeat_timeout": 0,
+        "nan_inf": 0,
+        "sd_write_error": 0,
+        "timestamp_jump": 0,
+        "tof_invalid": 0,
+        "uart_sequence_gap": 0
+      },
+      "final_state": "GOAL_STOP",
+      "mode": "MID",
+      "outputs": [
+        {
+          "index": 0,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "STOPPED"
+        },
+        {
+          "index": 1,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "INITIAL_PLACED"
+        },
+        {
+          "index": 2,
+          "shadow": [
+            -0.8419795410977897,
+            -0.8396188915728358,
+            -0.8407992163353127
+          ],
+          "state": "START"
+        },
+        {
+          "index": 3,
+          "shadow": [
+            -0.8914218062528106,
+            -0.8881577764332281,
+            -0.8897897913430194
+          ],
+          "state": "LAUNCH_ALIGN"
+        },
+        {
+          "index": 4,
+          "shadow": [
+            -0.9471681631480675,
+            -0.94302095467957,
+            -0.9450945589138188
+          ],
+          "state": "START_RAMP"
+        },
+        {
+          "index": 5,
+          "shadow": [
+            -1.0,
+            -1.0,
+            -1.0
+          ],
+          "state": "GNSS_SPEED_UP"
+        },
+        {
+          "index": 6,
+          "shadow": [
+            -1.0,
+            -1.0,
+            -1.0
+          ],
+          "state": "COG_VALIDATING"
+        },
+        {
+          "index": 7,
+          "shadow": [
+            -1.0,
+            -1.0,
+            -1.0
+          ],
+          "state": "LOS_NAVIGATION"
+        },
+        {
+          "index": 8,
+          "shadow": [
+            -1.0,
+            -1.0,
+            -1.0
+          ],
+          "state": "WAYPOINT_1"
+        },
+        {
+          "index": 9,
+          "shadow": [
+            -1.0,
+            -1.0,
+            -1.0
+          ],
+          "state": "WAYPOINT_2"
+        },
+        {
+          "index": 10,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "GOAL_STOP"
+        }
+      ],
+      "safe_output_after_stop": true,
+      "transitions": [
+        {
+          "event": "INITIAL_PLACED",
+          "from": "STOPPED",
+          "t_ms": 100,
+          "to": "INITIAL_PLACED"
+        },
+        {
+          "event": "START",
+          "from": "INITIAL_PLACED",
+          "t_ms": 200,
+          "to": "START"
+        },
+        {
+          "event": "LAUNCH_ALIGN",
+          "from": "START",
+          "t_ms": 300,
+          "to": "LAUNCH_ALIGN"
+        },
+        {
+          "event": "START_RAMP",
+          "from": "LAUNCH_ALIGN",
+          "t_ms": 400,
+          "to": "START_RAMP"
+        },
+        {
+          "event": "GNSS_SPEED_UP",
+          "from": "START_RAMP",
+          "t_ms": 1200,
+          "to": "GNSS_SPEED_UP"
+        },
+        {
+          "event": "COG_VALIDATING",
+          "from": "GNSS_SPEED_UP",
+          "t_ms": 1800,
+          "to": "COG_VALIDATING"
+        },
+        {
+          "event": "LOS_NAVIGATION",
+          "from": "COG_VALIDATING",
+          "t_ms": 2400,
+          "to": "LOS_NAVIGATION"
+        },
+        {
+          "event": "WAYPOINT_1",
+          "from": "LOS_NAVIGATION",
+          "t_ms": 3500,
+          "to": "WAYPOINT_1"
+        },
+        {
+          "event": "WAYPOINT_2",
+          "from": "WAYPOINT_1",
+          "t_ms": 5200,
+          "to": "WAYPOINT_2"
+        },
+        {
+          "event": "GOAL_STOP",
+          "from": "WAYPOINT_2",
+          "t_ms": 7000,
+          "to": "GOAL_STOP"
+        }
+      ]
+    },
+    "normal_phase_coverage": [
+      "INITIAL_PLACED",
+      "START",
+      "LAUNCH_ALIGN",
+      "START_RAMP",
+      "GNSS_SPEED_UP",
+      "COG_VALIDATING",
+      "LOS_NAVIGATION",
+      "WAYPOINT_1",
+      "WAYPOINT_2",
+      "GOAL_STOP"
+    ],
+    "normal_reproducible": true,
+    "required_normal_phases": [
+      "STOPPED",
+      "INITIAL_PLACED",
+      "START",
+      "LAUNCH_ALIGN",
+      "START_RAMP",
+      "GNSS_SPEED_UP",
+      "COG_VALIDATING",
+      "LOS_NAVIGATION",
+      "WAYPOINT_1",
+      "WAYPOINT_2",
+      "GOAL_STOP"
+    ]
+  },
+  "MIN": {
+    "all_faults_safe": true,
+    "faults": {
+      "bno_stopped": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "BNO_STOPPED",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "HEARTBEAT_TIMEOUT",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 1,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 1,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "MIN",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.28022159037408206,
+              -0.2797784096259179,
+              -0.27999999999999997
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "BNO_STOPPED",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "cog_unstable": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "COG_UNSTABLE",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 1,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "MIN",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.28022159037408206,
+              -0.2797784096259179,
+              -0.27999999999999997
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "COG_UNSTABLE",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "e_stop": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "E_STOP",
+            "t_ms": 100,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "E_STOP",
+        "mode": "MIN",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.28022159037408206,
+              -0.2797784096259179,
+              -0.27999999999999997
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "E_STOP"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "E_STOP",
+            "from": "START",
+            "t_ms": 100,
+            "to": "E_STOP"
+          }
+        ]
+      },
+      "gnss_stale": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "GNSS_STALE",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "HEARTBEAT_TIMEOUT",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 1,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 1,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "MIN",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.28022159037408206,
+              -0.2797784096259179,
+              -0.27999999999999997
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "GNSS_STALE",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "gvr_missing": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "GVR_MISSING",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 1,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "MIN",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.28022159037408206,
+              -0.2797784096259179,
+              -0.27999999999999997
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "GVR_MISSING",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "heartbeat_timeout": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "HEARTBEAT_TIMEOUT",
+            "t_ms": 100,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 1,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "MIN",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.28022159037408206,
+              -0.2797784096259179,
+              -0.27999999999999997
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "HEARTBEAT_TIMEOUT",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "nan_inf": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "NAN_INPUT",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "E_STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 1,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "E_STOP",
+        "mode": "MIN",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.28022159037408206,
+              -0.2797784096259179,
+              -0.27999999999999997
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "E_STOP"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "NAN_INPUT",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          },
+          {
+            "event": "E_STOP",
+            "from": "DISARMED",
+            "t_ms": 200,
+            "to": "E_STOP"
+          }
+        ]
+      },
+      "sd_error": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "SD_WRITE_ERROR",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 1,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "MIN",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.28022159037408206,
+              -0.2797784096259179,
+              -0.27999999999999997
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "SD_WRITE_ERROR",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "stop": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 100,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "MIN",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.28022159037408206,
+              -0.2797784096259179,
+              -0.27999999999999997
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "STOP",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "timestamp_jump": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "TIMESTAMP_JUMP",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 1,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "MIN",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.28022159037408206,
+              -0.2797784096259179,
+              -0.27999999999999997
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "TIMESTAMP_JUMP",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "tof_invalid": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "TOF_INVALID",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 1,
+          "uart_sequence_gap": 0
+        },
+        "final_state": "DISARMED",
+        "mode": "MIN",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.28022159037408206,
+              -0.2797784096259179,
+              -0.27999999999999997
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "TOF_INVALID",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      },
+      "uart_gap": {
+        "all_shadow_finite": true,
+        "errors": [],
+        "events": [
+          {
+            "kind": "START",
+            "t_ms": 0,
+            "value": null
+          },
+          {
+            "kind": "UART_SEQUENCE_GAP",
+            "t_ms": 100,
+            "value": null
+          },
+          {
+            "kind": "STOP",
+            "t_ms": 200,
+            "value": null
+          }
+        ],
+        "fault_counters": {
+          "bno_stopped": 0,
+          "cog_unstable": 0,
+          "gnss_stale": 0,
+          "gvr_missing": 0,
+          "heartbeat_timeout": 0,
+          "nan_inf": 0,
+          "sd_write_error": 0,
+          "timestamp_jump": 0,
+          "tof_invalid": 0,
+          "uart_sequence_gap": 1
+        },
+        "final_state": "DISARMED",
+        "mode": "MIN",
+        "outputs": [
+          {
+            "index": 0,
+            "shadow": [
+              -0.28022159037408206,
+              -0.2797784096259179,
+              -0.27999999999999997
+            ],
+            "state": "START"
+          },
+          {
+            "index": 1,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          },
+          {
+            "index": 2,
+            "shadow": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "state": "DISARMED"
+          }
+        ],
+        "safe_output_after_stop": true,
+        "transitions": [
+          {
+            "event": "START",
+            "from": "STOPPED",
+            "t_ms": 0,
+            "to": "START"
+          },
+          {
+            "event": "UART_SEQUENCE_GAP",
+            "from": "START",
+            "t_ms": 100,
+            "to": "DISARMED"
+          }
+        ]
+      }
+    },
+    "mode": "MIN",
+    "normal": {
+      "all_shadow_finite": true,
+      "errors": [],
+      "events": [
+        {
+          "kind": "STOPPED",
+          "t_ms": 0,
+          "value": null
+        },
+        {
+          "kind": "INITIAL_PLACED",
+          "t_ms": 100,
+          "value": null
+        },
+        {
+          "kind": "START",
+          "t_ms": 200,
+          "value": null
+        },
+        {
+          "kind": "LAUNCH_ALIGN",
+          "t_ms": 300,
+          "value": null
+        },
+        {
+          "kind": "START_RAMP",
+          "t_ms": 400,
+          "value": null
+        },
+        {
+          "kind": "GNSS_SPEED_UP",
+          "t_ms": 1200,
+          "value": null
+        },
+        {
+          "kind": "COG_VALIDATING",
+          "t_ms": 1800,
+          "value": null
+        },
+        {
+          "kind": "LOS_NAVIGATION",
+          "t_ms": 2400,
+          "value": null
+        },
+        {
+          "kind": "WAYPOINT_1",
+          "t_ms": 3500,
+          "value": null
+        },
+        {
+          "kind": "WAYPOINT_2",
+          "t_ms": 5200,
+          "value": null
+        },
+        {
+          "kind": "GOAL_STOP",
+          "t_ms": 7000,
+          "value": null
+        }
+      ],
+      "fault_counters": {
+        "bno_stopped": 0,
+        "cog_unstable": 0,
+        "gnss_stale": 0,
+        "gvr_missing": 0,
+        "heartbeat_timeout": 0,
+        "nan_inf": 0,
+        "sd_write_error": 0,
+        "timestamp_jump": 0,
+        "tof_invalid": 0,
+        "uart_sequence_gap": 0
+      },
+      "final_state": "GOAL_STOP",
+      "mode": "MIN",
+      "outputs": [
+        {
+          "index": 0,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "STOPPED"
+        },
+        {
+          "index": 1,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "INITIAL_PLACED"
+        },
+        {
+          "index": 2,
+          "shadow": [
+            -0.556289592509229,
+            -0.5539289429842751,
+            -0.5551092677467521
+          ],
+          "state": "START"
+        },
+        {
+          "index": 3,
+          "shadow": [
+            -0.5906412657415291,
+            -0.5873772359219466,
+            -0.5890092508317378
+          ],
+          "state": "LAUNCH_ALIGN"
+        },
+        {
+          "index": 4,
+          "shadow": [
+            -0.6296011523996428,
+            -0.6254539439311453,
+            -0.627527548165394
+          ],
+          "state": "START_RAMP"
+        },
+        {
+          "index": 5,
+          "shadow": [
+            -0.6741419403508565,
+            -0.6691494578495395,
+            -0.671645699100198
+          ],
+          "state": "GNSS_SPEED_UP"
+        },
+        {
+          "index": 6,
+          "shadow": [
+            -0.7255399691274982,
+            -0.7197123112787374,
+            -0.7226261402031178
+          ],
+          "state": "COG_VALIDATING"
+        },
+        {
+          "index": 7,
+          "shadow": [
+            -0.7854236560768562,
+            -0.7787962012695411,
+            -0.7821099286731986
+          ],
+          "state": "LOS_NAVIGATION"
+        },
+        {
+          "index": 8,
+          "shadow": [
+            -0.8559584380796109,
+            -0.8485433907768513,
+            -0.8522509144282311
+          ],
+          "state": "WAYPOINT_1"
+        },
+        {
+          "index": 9,
+          "shadow": [
+            -0.9399855590912815,
+            -0.9318070757558538,
+            -0.9358963174235676
+          ],
+          "state": "WAYPOINT_2"
+        },
+        {
+          "index": 10,
+          "shadow": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "state": "GOAL_STOP"
+        }
+      ],
+      "safe_output_after_stop": true,
+      "transitions": [
+        {
+          "event": "INITIAL_PLACED",
+          "from": "STOPPED",
+          "t_ms": 100,
+          "to": "INITIAL_PLACED"
+        },
+        {
+          "event": "START",
+          "from": "INITIAL_PLACED",
+          "t_ms": 200,
+          "to": "START"
+        },
+        {
+          "event": "LAUNCH_ALIGN",
+          "from": "START",
+          "t_ms": 300,
+          "to": "LAUNCH_ALIGN"
+        },
+        {
+          "event": "START_RAMP",
+          "from": "LAUNCH_ALIGN",
+          "t_ms": 400,
+          "to": "START_RAMP"
+        },
+        {
+          "event": "GNSS_SPEED_UP",
+          "from": "START_RAMP",
+          "t_ms": 1200,
+          "to": "GNSS_SPEED_UP"
+        },
+        {
+          "event": "COG_VALIDATING",
+          "from": "GNSS_SPEED_UP",
+          "t_ms": 1800,
+          "to": "COG_VALIDATING"
+        },
+        {
+          "event": "LOS_NAVIGATION",
+          "from": "COG_VALIDATING",
+          "t_ms": 2400,
+          "to": "LOS_NAVIGATION"
+        },
+        {
+          "event": "WAYPOINT_1",
+          "from": "LOS_NAVIGATION",
+          "t_ms": 3500,
+          "to": "WAYPOINT_1"
+        },
+        {
+          "event": "WAYPOINT_2",
+          "from": "WAYPOINT_1",
+          "t_ms": 5200,
+          "to": "WAYPOINT_2"
+        },
+        {
+          "event": "GOAL_STOP",
+          "from": "WAYPOINT_2",
+          "t_ms": 7000,
+          "to": "GOAL_STOP"
+        }
+      ]
+    },
+    "normal_phase_coverage": [
+      "INITIAL_PLACED",
+      "START",
+      "LAUNCH_ALIGN",
+      "START_RAMP",
+      "GNSS_SPEED_UP",
+      "COG_VALIDATING",
+      "LOS_NAVIGATION",
+      "WAYPOINT_1",
+      "WAYPOINT_2",
+      "GOAL_STOP"
+    ],
+    "normal_reproducible": true,
+    "required_normal_phases": [
+      "STOPPED",
+      "INITIAL_PLACED",
+      "START",
+      "LAUNCH_ALIGN",
+      "START_RAMP",
+      "GNSS_SPEED_UP",
+      "COG_VALIDATING",
+      "LOS_NAVIGATION",
+      "WAYPOINT_1",
+      "WAYPOINT_2",
+      "GOAL_STOP"
+    ]
+  }
+}

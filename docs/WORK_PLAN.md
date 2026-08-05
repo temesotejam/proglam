@@ -228,29 +228,29 @@ Next: inspect, without changing BNO report configuration, why BNO08X kind1 and k
 - 通常運用周期への切替は未実施。SH-2 raw sensor timestamp重複/逆行とresetなしESKF累積状態は次の評価課題。
 
 
-## 2026-08-03 �ʏ�^�p�����ւ̐ؑ�
+## 2026-08-03 �ʏ�^�p�����ւ̐ؑ�
 
-- [����] RUN0057���i��ABOAT_EXPERIMENT=23�i�����x100 Hz�E�W���C��100 Hz�E���C20 Hz�AGame/Linear�����j��COM4�̃{�[�g�pXIAO�փr���h�E�����݁BCOM3�͖�����B
-- [�m�F] BNO ready=1�B�N���f�f��kind1/2/4�̂ݗL���Akind3/5��events=0�B����Hz�͖�126.36/100.05/25.02�B
-- [��] COM6��ڑ������Î~��Ԃ�BNO Roll/Pitch/Yaw���m�F�������s���B
-- �ؐ�: docs/NORMAL_OPERATION_SWITCH_20260803.md
-
-
-## 2026-08-03 �ʏ�^�p�Î~�
-
-- [�s����] ����ESKF reset���s��ACoreS3��USB_UART_CHIP_RESET��SoftAP/API��~�BCOM6�V���A�����J������͈Ȍ������B
-- [����] CoreS3 COM6�֑S�C���[�W��ROM no-stub/DIO�����݁AHash verified�BCOM3�͖�����B
-- [����] COM6���J����API�݂̂�ESKF reset_count=1�A12�b�Î~API���ۑ��Bsequence gap/CRC/COBS/length=0�B
-- [�ۗ�] �ʏ�^�p�ł�Game Rotation Vector�����Emount���m��̂��߁ARoll/Pitch/Yaw���m�F�͖����{�B�����������܂��͈ꎞ�f�f�ݒ���m�肷��B
-- �ؐ�: docs/NORMAL_OPERATION_STATIC_BASELINE_20260803.md
+- [����] RUN0057���i��ABOAT_EXPERIMENT=23�i�����x100 Hz�E�W���C��100 Hz�E���C20 Hz�AGame/Linear�����j��COM4�̃{�[�g�pXIAO�փr���h�E�����݁BCOM3�͖�����B
+- [�m�F] BNO ready=1�B�N���f�f��kind1/2/4�̂ݗL���Akind3/5��events=0�B����Hz�͖�126.36/100.05/25.02�B
+- [��] COM6��ڑ������Î~��Ԃ�BNO Roll/Pitch/Yaw���m�F������s���B
+- �ؐ�: docs/NORMAL_OPERATION_SWITCH_20260803.md
 
 
-## 2026-08-03 RUN0058 Game Rotation Vector���m�F����
+## 2026-08-03 �ʏ�^�p�Î~�
 
-- [����] ���m�F�pBOAT_EXPERIMENT=21��COM4�֏����݁BGyro/GVR 100 Hz�B
-- [����] RUN0058 API����10�b�Bkind2/3=999/999�ABIN 2,976 records�Atrailing=0�AP1 ACK=2�AUART/SD/queue�G���[0�B
-- [�ۗ�] �@�̂���]������Roll/Pitch/Yaw���E�����m�F�͖����{�B���͈ꎲ���p�����Œ肵�Ď擾���A�I����BOAT_EXPERIMENT=23�֕��A�B
-- �ؐ�: docs/BNO_ATTITUDE_GVR_10S_20260803.md�Apc-tools/boat_eskf/captures/BNO_ATTITUDE_GVR_10S_20260803/
+- [�s����] ����ESKF reset���s��ACoreS3��USB_UART_CHIP_RESET��SoftAP/API��~�BCOM6�V���A����J������͈Ȍ�����B
+- [����] CoreS3 COM6�֑S�C���[�W��ROM no-stub/DIO�����݁AHash verified�BCOM3�͖�����B
+- [����] COM6��J����API�݂̂�ESKF reset_count=1�A12�b�Î~API���ۑ��Bsequence gap/CRC/COBS/length=0�B
+- [�ۗ�] �ʏ�^�p�ł�Game Rotation Vector�����Emount���m��̂��߁ARoll/Pitch/Yaw���m�F�͖����{�B����������܂��͈ꎞ�f�f�ݒ��m�肷��B
+- �ؐ�: docs/NORMAL_OPERATION_STATIC_BASELINE_20260803.md
+
+
+## 2026-08-03 RUN0058 Game Rotation Vector���m�F����
+
+- [����] ���m�F�pBOAT_EXPERIMENT=21��COM4�֏����݁BGyro/GVR 100 Hz�B
+- [����] RUN0058 API����10�b�Bkind2/3=999/999�ABIN 2,976 records�Atrailing=0�AP1 ACK=2�AUART/SD/queue�G���[0�B
+- [�ۗ�] �@�̂��]������Roll/Pitch/Yaw���E�����m�F�͖����{�B���͈ꎲ���p����Œ肵�Ď擾���A�I����BOAT_EXPERIMENT=23�֕��A�B
+- �ؐ�: docs/BNO_ATTITUDE_GVR_10S_20260803.md�Apc-tools/boat_eskf/captures/BNO_ATTITUDE_GVR_10S_20260803/
 
 
 ## 2026-08-03 現在状態確認
@@ -324,3 +324,68 @@ Next: inspect, without changing BNO report configuration, why BNO08X kind1 and k
 - [完了] 暫定分担は構成C（大会最低構成＋EKF/KF SHADOW）から開始し、構成B（高速制御を制御側、GNSS/Waypoint/LOS/Web/SDを通信側）を比較する方針。A/B/Cの最終判定は未実施。
 - [次] 専用feature flag/実験番号で、保存データreplay・固定長algorithm benchmark・P0/P1 SHADOW 60秒・10分試験を段階実施。BOAT_EXPERIMENT=23を上書きしない。
 - 詳細: `docs/PROPOSAL_FEASIBILITY_STATIC_20260804.md`
+
+## 2026-08-04 提言書向け固定長ベンチマーク／リプレイ基盤
+- [完了] origin/main `f4e2908366ea139c8d55d2de71f4e2595be25438`を確認し、専用ブランチ `feat/proposal-benchmark-replay-20260804` を作成
+- [完了] `BENCHMARK_ENABLE`、`REPLAY_ENABLE`、`SHADOW_CONTROL_ENABLE`、`ACTUATOR_OUTPUT_ENABLE=0`、`PROPOSAL_PROFILE`を追加（BOAT_EXPERIMENT=23は維持）
+- [完了] BASE/MIN/MID/FULL/LEGACYのホスト固定長10000回ベンチマークと正常・異常リプレイを実装
+- [完了] XIAO既存23、専用5環境、CoreS3既存環境を実機書込みなしでビルド
+- [完了] 設計書、リプレイ仕様、ビルド比較、次段階SHADOW手順を追加
+- [次] PRはDraftでレビュー待ち。XIAO上60秒／10分SHADOW測定後までA/B/C/D判定を保留
+
+## 2026-08-04 MIN SHADOW事前確認（書き込み前停止）
+- [停止] USB PnPはCOM4/COM6のみ。保存済み対応ではCOM4が制御側XIAO、COM6が通信側CoreS3で、通信側XIAOを確定できない。COM3未操作。
+- [停止] `proposal_replay_min`は識別用feature flagのみで、XIAO実時間MINアルゴリズムへ未接続。ホスト評価コードはファームウェアへリンクされない。
+- [未実施] 書き込み、シリアル接続、SD/API、60秒試験。対象機と実行経路が確定するまで再開しない。
+- [要選択] 通信側XIAOを接続してMIN経路を実装するか、XIAO+CoreS3の既存仮統合SHADOWを対象とするかを確定する。
+## 2026-08-04 ソフトウェア実装結果（最新）
+
+最新方針に従い、実機書込み・COM操作・センサ試験は行わず、Draft PR #18ブランチへ実時間MIN経路を実装した。`shared/proposal_min`を追加し、GNSS局所NED変換、waypoint、LOS/launch yaw、COG妥当性、roll PD、ToF中央値/傾き補正/LPF、高さP、左右前翼＋後部ヨー＋推進shadow、安全状態を固定長で接続した。`proposal_shadow_min`はBOAT_EXPERIMENT=23、SHADOW_CONTROL_ENABLE=1、ACTUATOR_OUTPUT_ENABLE=0、PROPOSAL_PROFILE=1である。
+
+PCA9685/VESCの全出力経路はコンパイル定数と乾式ランタイム条件で二重遮断し、通信側にも同じ出力禁止static_assertと`proposal_shadow_comm`環境を追加した。計測構造体にはtask/operation、queue/UART、sensor age、SD/I2C/heap/watchdog予約、NaN/Inf、STOP/E-STOP/heartbeat、saturation、SHADOW出力count/min/maxを追加した。
+
+検証はC++単体PASS、Python unittest 11件PASS、ホストbenchmark/replay全モード有限値・再現性PASS、XIAO通常環境PASS、XIAO proposal_shadow_min PASS、通信側proposal_shadow_comm PASS、CoreS3既存環境PASS。これらは静的/ホスト検証であり実機合格ではない。実機計測の未接続項目は`docs/PROPOSAL_MIN_UNMEASURED_20260804.md`に記載した。
+
+## 2026-08-04 最新作業状態
+- MIN実時間経路、出力ガード、計測、通信側設定、設計文書: 実装済み。
+- C++/Python/PlatformIO検証: 完了。
+- 実機書込み・COM操作・60秒試験: 未実施（別承認待ち）。
+- 次の作業: 未計測項目を実機で収集できる対象機と配線を確定してから、Draft PRレビュー後に別手順で実施。
+
+
+## 2026-08-04 現行機構MIN対応追記
+- [x] 既存4出力候補と旧出力経路を監査（物理マッピング不明を停止条件として記録）
+- [x] GNSS→WP/LOS、IMU/ToF→前翼、rear yaw、単一推進のMIN SHADOW計算を共有モジュールへ接続
+- [x] neutral/min/max/sign/slew、stale、安全停止、ControlOutput Type 62を追加
+- [x] ホスト・制御XIAO・通信XIAO Sense・CoreS3ビルド確認
+- [ ] 物理4出力チャンネル、符号、中立、推進方法の実機確定（ハードウェア到着後）
+
+
+## 2026-08-04 MIN SHADOW運用準備
+- [x] Type63/64/65詳細ログ、Core型長、packed static_assertを追加
+- [x] PC BINデコーダ/CSV、INA無効表現、VESC ERPM区別を追加
+- [x] STOP限定・atomic Waypoint Type66/67と通信側Web UIを追加
+- [x] ホスト/C++/Python/PlatformIOビルドを確認
+- [ ] 実機60秒/長時間試験、COM操作、書込みはハードウェア不在・指示により保留
+
+## 2026-08-04 PR #18 final hardening (current)
+
+- Status: implementation and host/build verification complete; hardware execution remains pending because no hardware/COM operation is authorized.
+- Completed: strict DISARMED-only control-side WaypointSet guard; UI disable guard; temporal INA/VESC decoder; actual 30-minute Controller::step host test; stale/state/safety/slew/STOP-restart checks; Type65 receive timestamp; Python tests and three PlatformIO builds.
+- Evidence: C++ host PASS, 90,000 cycles at 20 ms, 270,002 BIN records, decoder all-zero integrity checks, deterministic SHA-256 match, 14 Python tests PASS, compileall PASS, proposal_shadow_min/proposal_shadow_comm/m5stack-cores3 SUCCESS.
+- Next: commit and push only feat/proposal-benchmark-replay-20260804, update Draft PR #18 body/comment, do not merge or push main. Hardware test is blocked until explicitly authorized with the correct devices.
+
+## 2026-08-04 PR18 final audit addendum
+
+The final audit is recorded in UTF-8 at `docs/PR18_FINAL_AUDIT_20260804.md`. It covers the shared Type63-67 wire path, six-state C++ Waypoint guard, deterministic 30-minute host run, negative diagnostics, safety-output behavior, test/build evidence, and explicit hardware/COM3 hold. Host-only nonzero propulsion fixtures must not be interpreted as enabling firmware propulsion; firmware remains `SHADOW_CONTROL_ENABLE=1` and `ACTUATOR_OUTPUT_ENABLE=0`.
+
+## 2026-08-05 PR18 corrective audit (current)
+
+添付の最終監査是正指示に基づく現行結果は `docs/PR18_CORRECTIVE_AUDIT_20260805.md` に固定した。正式4出力は左前翼、右前翼、後部ヨー機構、単一推進。Type66は276 bytes、Python診断は19 tests、30分host loopは20 ms/90,000 cyclesである。Type63/64/65/66/67の実測件数は90,000/89,750/89,750/1/1。旧版に記録された14件・15件や旧出力名称は過去履歴であり、現行判定には使用しない。実機・COM3/4/6・main操作は未実施。
+## 2026-08-05 PR18 corrective audit supersession
+
+現行の正式な数値と判定は `docs/PR18_CORRECTIVE_AUDIT_20260805.md` を参照する。旧節にあるPythonテスト数、BIN件数、SHA-256、旧HEADは履歴値であり、現行値ではない。現行はPython 38 tests、Type63/64/65/66/67=90000/89750/89750/1/1、合計269502、BIN SHA-256=`9F3B3DFF6519858D131AB5BDF7470CB7FF3D6BC6A55E14D72A273F114FEA4A76`、是正コードHEAD=`fff51e5`。
+
+## 2026-08-05 PR18 最終ホスト監査（現行）
+
+現行の正しいUTF-8監査報告は `docs/PR18_CORRECTIVE_AUDIT_20260805.md`。30分相当は50 Hz / 20 ms / 90,000 cycleで2回実行し、manifest付きreason照合、正式transport診断、CSV各90,000行、INA/VESC freeze復帰、Waypoint本番handler、38 byte goldenを確認した。実機、COM、microSD、upload、mainへの変更は行っていない。
