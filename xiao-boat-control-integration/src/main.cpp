@@ -198,7 +198,7 @@ void runCompetitionShadow(){if(!kCompetitionControlEnable)return;const uint64_t 
     else if(type==boat::Type::ClearEstop){ if(safety==SafetyState::E_STOP)setState(SafetyState::DISARMED); }
   }
 }
-void linkHealth(){if(millis()-lastHostHeartbeatMs>kLinkFailSafeTimeoutMs&&safety!=SafetyState::FAULT){safeOutputs();profile=TestProfile::None;setState(SafetyState::FAULT);}}
+void linkHealth(){const uint32_t now=millis();if(lastHostHeartbeatMs&&now-lastHostHeartbeatMs>kLinkFailSafeTimeoutMs&&safety!=SafetyState::FAULT){safeOutputs();profile=TestProfile::None;setState(SafetyState::FAULT);}}
 void runProposalMinShadow(){
   if(!kShadowControlEnable || kProposalProfile!=1) return;
   const uint64_t t=nowUs(); const boat::EstimatedStatePayload e=estimator.snapshot(t);

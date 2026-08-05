@@ -533,3 +533,13 @@ The final audit is recorded in UTF-8 at `docs/PR18_FINAL_AUDIT_20260804.md`. It 
 - Added host-tested DutyRamp. The hardware profile records VESC target/applied duty separately, updates applied duty at 50 Hz, and uses 500 ms normal rise/fall.
 - `safeOutputs()` makes target/applied duty zero, clears ramp state and sends a zero VESC frame immediately. Existing stop/fault/E-STOP/heartbeat paths call it.
 - XIAO competition shadow/hardware builds passed; no serial port, upload or physical test was performed.
+
+## 2026-08-05 Competition hardware upload and safe-state check
+
+- User-designated device boundary honored: COM4 = boat control XIAO, COM6 = boat CoreS3. COM3 was not opened, uploaded, reset, or operated.
+- Four dedicated images rebuilt before upload: XIAO competition shadow/hardware and CoreS3 competition shadow/hardware all passed. COM4 XIAO hardware image was uploaded and hash-verified. COM6 CoreS3 hardware upload initially failed before write using the esptool stub; ROM no-stub upload completed with application hash verification.
+- First XIAO hardware boot entered FAULT without a received host heartbeat. Root cause: link-health timeout compared a zero initial timestamp. `linkHealth()` now applies timeout only after the first received heartbeat; established-link timeout behavior remains FAULT with immediate zero VESC/PCA safe output. Four firmware configurations were rebuilt; COM4 was re-uploaded and hash-verified.
+- COM4 read-only diagnostics observed BNO ready, DISARMED, VESC target/applied/reported duty all zero, `physical_writes=0`, and no VESC fault. No ARM/START/manual/servo/VESC test command was issued.
+- COM6 USB serial observation is not accepted as a startup pass: opening it caused USB_UART_CHIP_RESET followed by a serial I/O disconnect twice. Core identity, SoftAP, SD, UART link, and no-auto-arm status remain unconfirmed. No physical actuator testing is authorized from this state.
+- The requested individual CH0/CH1/CH2 procedure cannot safely use the current RUNNING route because it applies neutral to all PCA channels. A bounded exclusive single-channel commissioning route is required before any physical servo motion. Propeller securement is also not yet confirmed; VESC testing remains prohibited.
+- Full detailed evidence and next gate: `docs/COMPETITION_ACTUATOR_COMMISSIONING_20260805.md`.

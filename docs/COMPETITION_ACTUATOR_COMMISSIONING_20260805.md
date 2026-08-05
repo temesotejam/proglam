@@ -38,3 +38,28 @@ This document records the second safety increment before any hardware upload.
 - XIAO `competition_hardware`: PASS, RAM 211348/327680, Flash 588237/3342336
 
 No device port has been opened, no firmware has been uploaded and no physical output test has been run for this increment.
+## Actual hardware commissioning — 2026-08-05 (partial)
+
+### Device boundary
+
+- Only the boat devices were used: COM4 = control XIAO ESP32S3 and COM6 = communication/logging CoreS3. COM3 was not opened, reset, uploaded, or otherwise operated.
+- PnP identity observed before upload: both COM4 and COM6 reported USB VID:PID `303A:1001`; the operator-designated mapping above was used. XIAO MAC reported by esptool: `34:85:18:AB:FA:90`. CoreS3 MAC: `30:ED:A0:D4:BF:40`.
+
+### Rebuild and upload evidence
+
+- Rebuilt before upload: XIAO `competition_shadow` PASS (RAM 211324/327680, Flash 586681/3342336); XIAO `competition_hardware` PASS (RAM 211348/327680, Flash 588237/3342336); CoreS3 `competition_cores3_shadow` PASS (RAM 175772/327680, Flash 1047661/6553600); CoreS3 `competition_cores3_hardware` PASS (RAM 175772/327680, Flash 1047677/6553600).
+- XIAO `competition_hardware` was uploaded to COM4 twice. Both uploads reported complete image hash verification.
+- The first XIAO boot showed `FAULT` before any host heartbeat. This was traced to `linkHealth()` treating the initial zero heartbeat timestamp as a timeout. The fix faults only after at least one host heartbeat has been received; timeout after an established heartbeat remains a FAULT with immediate safe output. All four configurations were rebuilt after this change and the XIAO hardware image was re-uploaded to COM4 with hash verification.
+- Initial CoreS3 COM6 upload using the esptool stub failed before any image write with `Unable to verify flash chip connection (No serial data received)`. The dedicated CoreS3 hardware environment now uses ROM `--no-stub`. Rebuild and COM6 upload then completed; bootloader, partition table, and application were written, and the 1,048,048-byte application image hash was verified.
+
+### Safe-state observation
+
+- COM4 read-only diagnostics after the fixed image: `state=DISARMED`, `bno_ready=1`, `physical_writes=0`, VESC `target=0.0000`, `applied=0.0000`, `active=0`, reported VESC duty `0.0000`, and no VESC fault. Observed supply voltage was about 9.70 V. This meets the XIAO boot safety check.
+- No ARM, START, manual motion, servo command, PID command, VESC test, SD log, or Web control request was sent. Therefore no physical actuator motion has occurred in this commissioning step.
+- CoreS3 COM6 read-only serial access immediately produced `USB_UART_CHIP_RESET` and then an I/O disconnect on two attempts. A small amount of pre-reset application output was seen, but not enough to prove firmware identity, SoftAP, SD initialization, or XIAO link state. CoreS3 startup validation is **unconfirmed**, not passed. This serial-access/reset behavior must be resolved or observed through a non-resetting method before ARM or physical actuator testing.
+
+### Physical-test hold
+
+- The requested one-channel sequence must not use the present RUNNING path as-is: it drives all PCA channels to their commanded neutral values, whereas the required procedure needs exclusive CH0/CH1/CH2 excitation. A dedicated, bounded single-channel commissioning command (others Full OFF, VESC zero, no PID) is required before the CH0 1500/1520/1500/1480/1500 observation sequence.
+- Propeller removal/securement has not been confirmed. No VESC motion test may be performed until the operator explicitly confirms it.
+- Next safe software action: add and host-test that exclusive single-channel commissioning command; then rebuild both hardware images, re-upload as necessary, re-confirm the CoreS3 startup state, and wait for the operator before every physical servo step.

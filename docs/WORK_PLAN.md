@@ -426,3 +426,13 @@ The final audit is recorded in UTF-8 at `docs/PR18_FINAL_AUDIT_20260804.md`. It 
 - [ ] Confirm BNO body-axis transform, then implement persistent tuning only after the measured direction/range is known.
 
 - [x] Added target/applied VESC duty separation with 50 Hz 500 ms normal ramp and immediate-zero stop path; host/XIAO builds pass.
+
+## 2026-08-05 Competition hardware commissioning — current
+
+- [x] COM4 XIAO and COM6 CoreS3 dedicated hardware images rebuilt; COM4/COM6 images uploaded with image hash verification. COM3 untouched.
+- [x] Fixed XIAO initial heartbeat timeout so a boot without any prior heartbeat remains DISARMED.
+- [x] XIAO COM4 read-only diagnostics confirm DISARMED, BNO ready, VESC target/applied 0, reported duty 0, and `physical_writes=0`.
+- [ ] CoreS3 COM6 application startup is unconfirmed: opening its USB serial causes USB_UART_CHIP_RESET/disconnect. Do not ARM or start physical actuator testing until identity, SD, link, and no-auto-arm status are observed by a non-resetting method.
+- [ ] Implement and test a bounded exclusive single-channel servo commissioning path. The existing RUNNING output path is not suitable for the requested one-channel-only procedure.
+- [ ] After Core validation and operator confirmation, perform CH0 only at 1500 → 1520 → 1500 → 1480 → 1500 us, pausing for observation after each command; then CH1 and CH2.
+- [ ] Confirm propeller removed/secured before any VESC test. PID remains zero and no attitude/heading tuning is allowed while mount mapping is unvalidated.
