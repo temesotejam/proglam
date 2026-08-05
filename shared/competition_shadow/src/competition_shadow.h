@@ -1,76 +1,21 @@
 #pragma once
-
 #include <stdint.h>
-
 namespace competition_shadow {
-
-// This module is intentionally platform independent.  It is the single source
-// of the competition SHADOW control calculation used by host tests and the
-// firmware adapter; it does not write PCA9685 or VESC hardware.
-enum class SafetyState : uint8_t { Boot = 0, Disarmed = 1, ArmedIdle = 2, Running = 3, EStop = 4, Fault = 5 };
-enum class ControlMode : uint8_t { Manual = 0, AttitudeAssist = 1, HeadingHold = 2, AutoWaypoint = 3 };
-enum class OutputPolicy : uint8_t { Shadow = 0, Physical = 1 };
-enum class Ack : uint8_t { Accepted = 0, Rejected = 1, Duplicate = 2 };
-enum class StopReason : uint8_t { None = 0, Stop = 1, EStop = 2, Heartbeat = 3, ManualTimeout = 4, ImuInvalid = 5, ImuStale = 6, TofInvalid = 7, TofStale = 8, GnssInvalid = 9, GnssStale = 10, VescFault = 11, NonFinite = 12, FinalWaypoint = 13 };
-
-struct ManualCommand { float leftFront = 0, rightFront = 0, rearYaw = 0, propulsion = 0; uint32_t requestId = 0, sequence = 0; uint64_t sourceUs = 0; ManualCommand() = default; ManualCommand(float l,float r,float y,float p,uint32_t id,uint32_t seq,uint64_t source):leftFront(l),rightFront(r),rearYaw(y),propulsion(p),requestId(id),sequence(seq),sourceUs(source){} };
-struct CommandResult { Ack ack = Ack::Rejected; uint16_t reason = 0; CommandResult() = default; CommandResult(Ack value,uint16_t why):ack(value),reason(why){} };
-struct SensorInput {
-  bool heartbeat = false, imuValid = false, tofValid = false, gnssValid = false, vescFault = false;
-  uint64_t nowUs = 0, heartbeatUs = 0, imuUs = 0, tofUs = 0, gnssUs = 0;
-  float rollRad = 0, pitchRad = 0, yawRad = 0, rollRateRadS = 0, pitchRateRadS = 0, yawRateRadS = 0;
-  float tofM = 0, northM = 0, eastM = 0;
-};
-struct Waypoint { float northM = 0, eastM = 0; };
-struct PhysicalConfig {
-  uint8_t leftChannel = 0xff, rightChannel = 0xff, rearChannel = 0xff, propulsionChannel = 0xff;
-  float leftMinUs = 0, leftCenterUs = 0, leftMaxUs = 0;
-  float rightMinUs = 0, rightCenterUs = 0, rightMaxUs = 0;
-  float rearMinUs = 0, rearCenterUs = 0, rearMaxUs = 0;
-  float propMinUs = 0, propStopUs = 0, propMaxUs = 0;
-  bool calibrationComplete = false;
-};
-struct Config {
-  float kpPitch = .8f, kdPitch = .08f, kpRoll = 1.4f, kdRoll = .25f, kpHeight = .7f, kpYaw = .8f, kdYaw = .0f;
-  float targetPitch = 0, targetRoll = 0, targetHeightM = 1.2f, autoPropulsion = 0;
-  float slewPerStep = 0.08f, waypointReachM = .5f;
-  uint32_t heartbeatStaleUs = 500000, imuStaleUs = 100000, tofStaleUs = 250000, gnssStaleUs = 500000, manualStaleUs = 500000;
-  PhysicalConfig physical{};
-};
-struct Output {
-  float leftFront = 0, rightFront = 0, rearYaw = 0, propulsion = 0;
-  float leftPrelimit = 0, rightPrelimit = 0, rearPrelimit = 0, propulsionPrelimit = 0;
-  float uHeight = 0, uPitch = 0, uRoll = 0, uYaw = 0, targetYaw = 0, waypointDistanceM = 0;
-  SafetyState safety = SafetyState::Disarmed; ControlMode mode = ControlMode::Manual; StopReason reason = StopReason::None;
-  uint8_t activeWaypoint = 0; bool saturated = false, physicalGate = false, waypointReached = false;
-};
-
-class Controller {
- public:
-  explicit Controller(const Config& config = Config{});
-  void reset();
-  CommandResult setMode(ControlMode mode, uint32_t requestId);
-  CommandResult setManual(const ManualCommand& command, uint64_t receivedUs);
-  CommandResult setHeading(float yawRad, uint32_t requestId);
-  CommandResult setWaypoints(const Waypoint* points, uint8_t count, uint32_t requestId);
-  Output step(const SensorInput& input, bool start, bool stop, bool estop, bool clearEstop);
-  SafetyState safety() const { return safety_; }
-  ControlMode mode() const { return mode_; }
-  uint32_t physicalWriteCount() const { return physicalWriteCount_; }
-  static bool physicalConfigurationValid(const PhysicalConfig& config);
- private:
-  bool fresh(bool valid, uint64_t timestamp, uint64_t now, uint32_t limit) const;
-  bool finite(float value) const;
-  float limit(float value, float previous, bool& saturated) const;
-  void safe(Output& output, StopReason reason);
-  Config config_{}; SafetyState safety_ = SafetyState::Disarmed; ControlMode mode_ = ControlMode::Manual;
-  ManualCommand manual_{}; uint64_t manualReceivedUs_ = 0; uint32_t lastModeRequest_ = 0, lastManualRequest_ = 0, lastHeadingRequest_ = 0, lastWaypointRequest_ = 0;
-  float targetYaw_ = 0; bool headingSet_ = false; Waypoint waypoints_[16]{}; uint8_t waypointCount_ = 0, activeWaypoint_ = 0;
-  float previous_[4]{}; uint32_t physicalWriteCount_ = 0;
-};
-
-const char* safetyName(SafetyState value);
-const char* modeName(ControlMode value);
-const char* reasonName(StopReason value);
-
-}  // namespace competition_shadow
+// XIAO firmware owns this state.  The controller only consumes it; it never
+// keeps or transitions a second safety state machine.
+enum class AuthoritativeSafety : uint8_t { Boot=0, Disarmed=1, ArmedIdle=2, Running=3, EStop=4, Fault=5 };
+enum class ControlMode : uint8_t { Manual=0, AttitudeAssist=1, HeadingHold=2, AutoWaypoint=3 };
+enum class OutputPolicy : uint8_t { Shadow=0, Physical=1 };
+enum class Ack : uint8_t { Accepted=0, Rejected=1, Duplicate=2, ProtocolConflict=3, Stale=4 };
+enum class SafetyRequest : uint8_t { None=0, Disarm=1, Fault=2 };
+enum class StopReason : uint8_t { None=0, Stop=1, EStop=2, Heartbeat=3, ManualTimeout=4, ImuInvalid=5, ImuStale=6, TofInvalid=7, TofStale=8, GnssInvalid=9, GnssStale=10, VescFault=11, NonFinite=12, FinalWaypoint=13 };
+struct ManualCommand { float leftFront=0,rightFront=0,rearYaw=0,propulsion=0;uint32_t requestId=0,sequence=0;uint64_t sourceUs=0;ManualCommand()=default;ManualCommand(float l,float r,float y,float p,uint32_t id,uint32_t seq,uint64_t source):leftFront(l),rightFront(r),rearYaw(y),propulsion(p),requestId(id),sequence(seq),sourceUs(source){} };
+struct CommandResult { Ack ack=Ack::Rejected;uint16_t reason=0;CommandResult()=default;CommandResult(Ack a,uint16_t r):ack(a),reason(r){} };
+struct SensorInput { bool heartbeat=false,imuValid=false,tofValid=false,gnssValid=false,vescFault=false;AuthoritativeSafety safety=AuthoritativeSafety::Disarmed;uint64_t nowUs=0,heartbeatUs=0,imuUs=0,tofUs=0,gnssUs=0;float rollRad=0,pitchRad=0,yawRad=0,rollRateRadS=0,pitchRateRadS=0,yawRateRadS=0,tofM=0,northM=0,eastM=0; };
+struct Waypoint { float northM=0,eastM=0; };
+struct PhysicalConfig { uint8_t leftChannel=0xff,rightChannel=0xff,rearChannel=0xff,propulsionChannel=0xff;float leftMinUs=0,leftCenterUs=0,leftMaxUs=0,rightMinUs=0,rightCenterUs=0,rightMaxUs=0,rearMinUs=0,rearCenterUs=0,rearMaxUs=0,propMinUs=0,propStopUs=0,propMaxUs=0;bool calibrationComplete=false; };
+struct Config { float kpPitch=.8f,kdPitch=.08f,kpRoll=1.4f,kdRoll=.25f,kpHeight=.7f,kpYaw=.8f,kdYaw=0,targetPitch=0,targetRoll=0,targetHeightM=1.2f,autoPropulsion=0,slewPerStep=.08f,waypointReachM=.5f;uint32_t heartbeatStaleUs=500000,imuStaleUs=100000,tofStaleUs=250000,gnssStaleUs=500000,manualStaleUs=500000;PhysicalConfig physical{}; };
+struct Output { float leftFront=0,rightFront=0,rearYaw=0,propulsion=0,leftPrelimit=0,rightPrelimit=0,rearPrelimit=0,propulsionPrelimit=0,uHeight=0,uPitch=0,uRoll=0,uYaw=0,targetYaw=0,waypointDistanceM=0;AuthoritativeSafety safety=AuthoritativeSafety::Disarmed;ControlMode mode=ControlMode::Manual;StopReason reason=StopReason::None;SafetyRequest safetyRequest=SafetyRequest::None;uint8_t activeWaypoint=0;bool saturated=false,physicalGate=false,waypointReached=false; };
+class Controller { public: explicit Controller(const Config& c=Config{});void reset();CommandResult setMode(ControlMode mode,uint32_t requestId,AuthoritativeSafety safety);CommandResult setManual(const ManualCommand& command,uint64_t receivedUs);CommandResult setHeading(float yawRad,uint32_t requestId);CommandResult setWaypoints(const Waypoint* points,uint8_t count,uint32_t requestId,AuthoritativeSafety safety);Output step(const SensorInput& input);ControlMode mode()const{return mode_;}uint32_t physicalWriteCount()const{return physicalWriteCount_;}static bool physicalConfigurationValid(const PhysicalConfig& config);private:bool fresh(bool valid,uint64_t timestamp,uint64_t now,uint32_t limit)const;bool finite(float value)const;float limit(float value,float previous,bool& saturated)const;void safe(Output& output,StopReason reason,SafetyRequest request)const;Config config_{};ControlMode mode_=ControlMode::Manual;ManualCommand manual_{};uint64_t manualReceivedUs_=0;float targetYaw_=0;bool headingSet_=false;Waypoint waypoints_[16]{};uint8_t waypointCount_=0,activeWaypoint_=0;float previous_[4]{};uint32_t physicalWriteCount_=0;};
+const char* safetyName(AuthoritativeSafety value);const char* modeName(ControlMode value);const char* reasonName(StopReason value);
+} // namespace competition_shadow

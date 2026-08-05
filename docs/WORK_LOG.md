@@ -498,3 +498,4 @@ The final audit is recorded in UTF-8 at `docs/PR18_FINAL_AUDIT_20260804.md`. It 
 - [完了] Type 68〜71（mode/manual/heading/ACK）の後方互換wire定義をXIAO/CoreS3双方へ追加し、XIAOでCRC検証・request ID重複拒否・ACK・SHADOW ControlOutput送信を実装した。
 - [完了] `competition_shadow_host` とPlatformIO `competition_shadow` をホスト/ビルド確認した。upload、COM/USB、実機、microSD操作は未実施。
 - [未完了] CoreS3 Web/API・同一BINログ統合、長時間2回再現、全回帰build、文書、Draft PR。これらが終わるまで大会用SHADOW統合版を完了としない。
+- [完了] 競技用コントローラから内部SafetyStateを削除し、XIAOの正式SafetyStateを一箇所の変換関数から入力する形に変更した。controllerはFAULT/DISARM要求のみを返し、既存XIAO状態機械が遷移を決定する。
