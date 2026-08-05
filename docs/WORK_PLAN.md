@@ -389,3 +389,50 @@ The final audit is recorded in UTF-8 at `docs/PR18_FINAL_AUDIT_20260804.md`. It 
 ## 2026-08-05 PR18 最終ホスト監査（現行）
 
 現行の正しいUTF-8監査報告は `docs/PR18_CORRECTIVE_AUDIT_20260805.md`。30分相当は50 Hz / 20 ms / 90,000 cycleで2回実行し、manifest付きreason照合、正式transport診断、CSV各90,000行、INA/VESC freeze復帰、Waypoint本番handler、38 byte goldenを確認した。実機、COM、microSD、upload、mainへの変更は行っていない。
+
+## 2026-08-05 — 大会用SHADOW統合版（着手・未完了）
+
+- [実施中] PR #18のhead `5c6060012c786f66bdee953d28adaf4df7381cb7` から `feat/competition-integrated-shadow-20260805` を作成した。PR #18とmainには変更していない。
+- [完了] `shared/competition_shadow` にMANUAL / ATTITUDE_ASSIST / HEADING_HOLD / AUTO_WAYPOINT用の4出力SHADOWコントローラ、モード別センサ依存、slew、STOP/E-STOP、manual timeout、VESC fault、physical gate常時falseを実装した。
+- [完了] Type 68〜71（mode/manual/heading/ACK）の後方互換wire定義をXIAO/CoreS3双方へ追加し、XIAOでCRC検証・request ID重複拒否・ACK・SHADOW ControlOutput送信を実装した。
+- [完了] `competition_shadow_host` とPlatformIO `competition_shadow` をホスト/ビルド確認した。upload、COM/USB、実機、microSD操作は未実施。
+- [未完了] CoreS3 Web/API・同一BINログ統合、長時間2回再現、全回帰build、文書、Draft PR。これらが終わるまで大会用SHADOW統合版を完了としない。
+- [完了] 競技用コントローラから内部SafetyStateを削除し、XIAOの正式SafetyStateを一箇所の変換関数から入力する形に変更した。controllerはFAULT/DISARM要求のみを返し、既存XIAO状態機械が遷移を決定する。
+
+- [実施中] Type 68〜70用の64件固定長replay windowを共有モジュールへ追加。RFC1982型比較、完全一致duplicate、ID/sequence衝突、stale、wrapと半周差をホスト試験で確認。XIAO正式受信への接続は未完了。
+
+## 2026-08-05 — Competition replay ingress (Type 68--70)
+
+- [完了] 既存64件固定長replay windowを、制御XIAOの正式UART受信経路 `linkRxService()` → `handleCompetitionCommand()` → `CommandIngress` に接続した。
+- [完了] Type 68/69/70はpayload size/version/canonical CRC/enum/finite/range検証後にcanonical identityへ変換し、NEWだけを適用する。構文上有効だがSafetyStateで拒否されたNEW結果も保存する。
+- [完了] duplicateはoriginal reason/applied timeを使うType71 ACKのみを返し、manual freshnessを更新しない。conflict/stale/半周差/malformedは適用しない。malformedはwindowへ保存しない。
+- [完了] `COMPETITION_CMD` シリアル診断を追加。duplicate_reapplyとphysical_writesを観測できる。
+- [完了] replay単体、SafetyState単体、実wire encode/decodeを通すcommand ingress統合host test、competition_shadow/proposal_shadow_min buildが成功した。実機・COM・uploadは未実施。
+- [保留] legacy START/STOP/E-STOP/Clear E-STOPおよびType66 WaypointSetは既存の別ACK/wire経路のままであり、このType68--70 ingress統合には未接続。
+## 2026-08-05 — CoreS3 competition command transaction
+
+- [完了] CoreS3にType68/69/70用8 slot固定長transaction managerを追加。payloadとCOBS+CRC wireを作成時に固定し、100 ms/最大3送信のretryでは同一wireを再送する。
+- [完了] Type71をCore UART decoder後にrequest ID/command sequence/typeで照合。ACK applied/rejected/duplicate/conflict/stale/malformed/unmatched/lateとtimeoutを診断・status APIで区別する。
+- [完了] request ID/sequenceはNVS `boatcmd`へ256件reserve-aheadで保存。Core再起動では未使用番号を飛ばし、retry中の再採番をしない。
+- [完了] `/competition` とType68/69/70の最小POST API、`/api/competition/commands`を追加。HTTP 202はpendingのみを返し、XIAO適用済みとは返さない。
+- [完了] manual入力はpending transaction 1件まで、300 msでCore入力stale、旧入力から新規manualを自動生成しない。XIAO側500 ms timeoutは既存仕様を維持。
+- [完了] Core/XIAO往復host test、CoreS3 competition build、XIAO関連host/build回帰を実施。実機・COM・uploadは未実施。
+- [保留] Type66 WaypointSetとlegacy START/STOP/E-STOP/Clear E-STOPは既存別経路のまま。
+## 2026-08-05 Competition hardware commissioning (partial)
+- [x] Audited PCA9685/VESC pin definitions and added separate XIAO/CoreS3 hardware build environments.
+- [x] Added narrow-range/rate-limited PCA mapping, zero-gain hardware defaults, and Core safety-operation API; shadow builds remain output-disabled.
+- [x] Host and four firmware builds pass.
+- [ ] Re-identify COM4/COM6, upload only after physical safety confirmation, then commission servo directions and VESC 1%/3% steps.
+- [ ] Confirm BNO body-axis transform, then implement persistent tuning only after the measured direction/range is known.
+
+- [x] Added target/applied VESC duty separation with 50 Hz 500 ms normal ramp and immediate-zero stop path; host/XIAO builds pass.
+
+## 2026-08-05 Competition hardware commissioning — current
+
+- [x] COM4 XIAO and COM6 CoreS3 dedicated hardware images rebuilt; COM4/COM6 images uploaded with image hash verification. COM3 untouched.
+- [x] Fixed XIAO initial heartbeat timeout so a boot without any prior heartbeat remains DISARMED.
+- [x] XIAO COM4 read-only diagnostics confirm DISARMED, BNO ready, VESC target/applied 0, reported duty 0, and `physical_writes=0`.
+- [ ] CoreS3 COM6 application startup is unconfirmed: opening its USB serial causes USB_UART_CHIP_RESET/disconnect. Do not ARM or start physical actuator testing until identity, SD, link, and no-auto-arm status are observed by a non-resetting method.
+- [ ] Implement and test a bounded exclusive single-channel servo commissioning path. The existing RUNNING output path is not suitable for the requested one-channel-only procedure.
+- [ ] After Core validation and operator confirmation, perform CH0 only at 1500 → 1520 → 1500 → 1480 → 1500 us, pausing for observation after each command; then CH1 and CH2.
+- [ ] Confirm propeller removed/secured before any VESC test. PID remains zero and no attitude/heading tuning is allowed while mount mapping is unvalidated.

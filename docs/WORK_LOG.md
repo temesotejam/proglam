@@ -490,3 +490,56 @@ The final audit is recorded in UTF-8 at `docs/PR18_FINAL_AUDIT_20260804.md`. It 
 ## 2026-08-05 PR18 最終ホスト監査（現行）
 
 現行の正しいUTF-8監査報告は `docs/PR18_CORRECTIVE_AUDIT_20260805.md`。30分相当は50 Hz / 20 ms / 90,000 cycleで2回実行し、manifest付きreason照合、正式transport診断、CSV各90,000行、INA/VESC freeze復帰、Waypoint本番handler、38 byte goldenを確認した。実機、COM、microSD、upload、mainへの変更は行っていない。
+
+## 2026-08-05 — 大会用SHADOW統合版（着手・未完了）
+
+- [実施中] PR #18のhead `5c6060012c786f66bdee953d28adaf4df7381cb7` から `feat/competition-integrated-shadow-20260805` を作成した。PR #18とmainには変更していない。
+- [完了] `shared/competition_shadow` にMANUAL / ATTITUDE_ASSIST / HEADING_HOLD / AUTO_WAYPOINT用の4出力SHADOWコントローラ、モード別センサ依存、slew、STOP/E-STOP、manual timeout、VESC fault、physical gate常時falseを実装した。
+- [完了] Type 68〜71（mode/manual/heading/ACK）の後方互換wire定義をXIAO/CoreS3双方へ追加し、XIAOでCRC検証・request ID重複拒否・ACK・SHADOW ControlOutput送信を実装した。
+- [完了] `competition_shadow_host` とPlatformIO `competition_shadow` をホスト/ビルド確認した。upload、COM/USB、実機、microSD操作は未実施。
+- [未完了] CoreS3 Web/API・同一BINログ統合、長時間2回再現、全回帰build、文書、Draft PR。これらが終わるまで大会用SHADOW統合版を完了としない。
+- [完了] 競技用コントローラから内部SafetyStateを削除し、XIAOの正式SafetyStateを一箇所の変換関数から入力する形に変更した。controllerはFAULT/DISARM要求のみを返し、既存XIAO状態機械が遷移を決定する。
+
+- [実施中] Type 68〜70用の64件固定長replay windowを共有モジュールへ追加。RFC1982型比較、完全一致duplicate、ID/sequence衝突、stale、wrapと半周差をホスト試験で確認。XIAO正式受信への接続は未完了。
+
+## 2026-08-05 — Type 68--70 replay ingress integration
+
+- Start HEAD: `7407bf851b5f4b0cc32564f80b24230fd8d37ecd` on `feat/competition-integrated-shadow-20260805`; PR #19 was retained Draft/Open/Unmerged.
+- Added shared `CommandIngress` and wired XIAO Type68/69/70 handling through it.  Decoder acceptance occurs before ingress.  Ingress validates payload layout/version/canonical CRC/enum/finite/range before inspecting the pre-existing shared 64-entry replay window.
+- NEW calls the existing controller once and stores both accepted and SafetyState-rejected outcomes. Duplicate resends a Type71 ACK with `Ack::Duplicate`, original reason, and original applied time. No duplicate manual freshness update occurs. Conflict/stale/ambiguous and malformed input do not apply. Malformed input does not enter the window.
+- The existing replay entry aggregate initialization was changed to explicit field assignment so the Arduino toolchain default C++ mode builds it; replay behavior and capacity are unchanged.
+- Added serial `COMPETITION_CMD` diagnostics and a host integration test using actual `boat::encode`/`boat::Decoder` plus the exact `CommandIngress` firmware function. The ingress test also covers frame CRC, payload length, canonical CRC, NaN, Inf, and invalid enum malformed cases.
+- Commands passed (all exit 0): strict C++ replay host, strict C++ authoritative-safety host, strict C++ ingress host, PlatformIO `competition_shadow`, PlatformIO `proposal_shadow_min`. No new warnings were emitted by the successful PlatformIO builds.
+- Build memory: competition_shadow RAM 211228/327680, Flash 585881/3342336; proposal_shadow_min RAM 211252/327680, Flash 590921/3342336.
+- Not performed: upload, COM/USB access, hardware operation, microSD operation, PCA9685/VESC physical output, main/PR18/PR19 merge or Draft status change.
+- Detailed design/evidence: `docs/COMPETITION_REPLAY_INTEGRATION_20260805.md`.
+## 2026-08-05 — CoreS3 Type68--71 transaction integration
+
+- Start HEAD: `f9960d0949a0b6b0912da93053365ac6ccbdf036` on `feat/competition-integrated-shadow-20260805`, clean worktree. PR #19 remains Draft/Open/Unmerged.
+- Added `m5stack-cores3-telemetry-bridge/lib/competition_command`: fixed eight-slot transaction state, stored encoded wire, three-transmission finite retry, Type71 field matching, and diagnostics, including the once-per-second `COMPETITION_CORE` serial line. Core protocol enum was completed with existing Type68--71 values; payload layouts/static assertions are unchanged.
+- Core NVS reserves request/sequence ranges of 256 at boot, avoiding per-command writes and avoiding reuse after Core-only restart. Manual requests are one pending transaction maximum; no background reissue occurs after 300 ms input stale.
+- Added Core Web routes `/competition`, `/api/competition/mode`, `/api/competition/manual`, `/api/competition/heading`, and `/api/competition/commands`. Submit returns pending only.
+- New host roundtrip passes using Core manager + real encode/decoder + XIAO CommandIngress: Type68/69/70, byte-identical retries, duplicate/manual deadman, timeout, request-ID/sequence/type-mismatched ACK, late/malformed ACK, queue-full, wrap-near identifiers, zero physical writes.
+- Core PlatformIO `competition_cores3_shadow` SUCCESS: RAM 175772/327680, Flash 1046149/6553600. No new warnings. No COM/USB/upload/hardware/microSD/physical-output operation performed.
+- Detailed design/evidence: `docs/CORES3_COMPETITION_COMMAND_TRANSACTIONS_20260805.md`.
+## 2026-08-05 — Competition hardware output preparation (not yet flashed)
+- Audited source wiring: PCA9685 `0x40`; channels 0/1/2; VESC XIAO D8 RX, D9 TX. COM ports were not opened.
+- Added mutually exclusive `competition_hardware` environments. Hardware startup is DISARMED with zero VESC duty, zero PID gains, 1480–1520 us servo limits and 100 us/s rate limiting.
+- Added `ServoMapper` host test and connected it only in `COMPETITION_HARDWARE_ENABLE`; existing competition shadow route remains output-disabled.
+- Added Core safety API for ARM/START/DISARM/STOP/E-STOP using existing protocol types. All four firmware build configurations and host test passed; no upload or output test performed.
+- Blocking condition for physical test: user must confirm propeller removed/secured before the dedicated hardware image is uploaded and armed. BNO mount transform is still unvalidated, so PID tuning remains disabled.
+
+## 2026-08-05 — VESC ramp safety increment (not flashed)
+- Added host-tested DutyRamp. The hardware profile records VESC target/applied duty separately, updates applied duty at 50 Hz, and uses 500 ms normal rise/fall.
+- `safeOutputs()` makes target/applied duty zero, clears ramp state and sends a zero VESC frame immediately. Existing stop/fault/E-STOP/heartbeat paths call it.
+- XIAO competition shadow/hardware builds passed; no serial port, upload or physical test was performed.
+
+## 2026-08-05 Competition hardware upload and safe-state check
+
+- User-designated device boundary honored: COM4 = boat control XIAO, COM6 = boat CoreS3. COM3 was not opened, uploaded, reset, or operated.
+- Four dedicated images rebuilt before upload: XIAO competition shadow/hardware and CoreS3 competition shadow/hardware all passed. COM4 XIAO hardware image was uploaded and hash-verified. COM6 CoreS3 hardware upload initially failed before write using the esptool stub; ROM no-stub upload completed with application hash verification.
+- First XIAO hardware boot entered FAULT without a received host heartbeat. Root cause: link-health timeout compared a zero initial timestamp. `linkHealth()` now applies timeout only after the first received heartbeat; established-link timeout behavior remains FAULT with immediate zero VESC/PCA safe output. Four firmware configurations were rebuilt; COM4 was re-uploaded and hash-verified.
+- COM4 read-only diagnostics observed BNO ready, DISARMED, VESC target/applied/reported duty all zero, `physical_writes=0`, and no VESC fault. No ARM/START/manual/servo/VESC test command was issued.
+- COM6 USB serial observation is not accepted as a startup pass: opening it caused USB_UART_CHIP_RESET followed by a serial I/O disconnect twice. Core identity, SoftAP, SD, UART link, and no-auto-arm status remain unconfirmed. No physical actuator testing is authorized from this state.
+- The requested individual CH0/CH1/CH2 procedure cannot safely use the current RUNNING route because it applies neutral to all PCA channels. A bounded exclusive single-channel commissioning route is required before any physical servo motion. Propeller securement is also not yet confirmed; VESC testing remains prohibited.
+- Full detailed evidence and next gate: `docs/COMPETITION_ACTUATOR_COMMISSIONING_20260805.md`.
