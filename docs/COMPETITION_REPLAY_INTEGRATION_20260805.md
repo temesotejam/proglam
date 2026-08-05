@@ -35,7 +35,7 @@ The regular XIAO serial diagnostics now emit `COMPETITION_CMD` with: new, applie
 
 ## Host evidence
 
-`competition_command_ingress_host.cpp` uses `boat::encode` and `boat::Decoder` before calling the same `CommandIngress::process()` used by the XIAO firmware.  It passed Type 68/69/70 first application; duplicate ACK resend; rejected command retry without reevaluation; ID/sequence/type/payload conflicts; malformed protocol-version, NaN, and COBS frames; a valid frame after malformed input with the same identity; wrap; half-range rejection; and >64 entries.
+`competition_command_ingress_host.cpp` uses `boat::encode` and `boat::Decoder` before calling the same `CommandIngress::process()` used by the XIAO firmware.  It passed Type 68/69/70 first application; duplicate ACK resend; rejected command retry without reevaluation; ID/sequence/type/payload conflicts; malformed protocol-version, payload-length, canonical-CRC, NaN, Inf, invalid-enum, COBS, and frame-CRC inputs; a valid frame after malformed input with the same identity; wrap; half-range rejection; and >64 entries.
 
 The manual timing path was asserted as follows:
 
