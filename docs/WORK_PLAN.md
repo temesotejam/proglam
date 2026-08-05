@@ -418,3 +418,9 @@ The final audit is recorded in UTF-8 at `docs/PR18_FINAL_AUDIT_20260804.md`. It 
 - [完了] manual入力はpending transaction 1件まで、300 msでCore入力stale、旧入力から新規manualを自動生成しない。XIAO側500 ms timeoutは既存仕様を維持。
 - [完了] Core/XIAO往復host test、CoreS3 competition build、XIAO関連host/build回帰を実施。実機・COM・uploadは未実施。
 - [保留] Type66 WaypointSetとlegacy START/STOP/E-STOP/Clear E-STOPは既存別経路のまま。
+## 2026-08-05 Competition hardware commissioning (partial)
+- [x] Audited PCA9685/VESC pin definitions and added separate XIAO/CoreS3 hardware build environments.
+- [x] Added narrow-range/rate-limited PCA mapping, zero-gain hardware defaults, and Core safety-operation API; shadow builds remain output-disabled.
+- [x] Host and four firmware builds pass.
+- [ ] Re-identify COM4/COM6, upload only after physical safety confirmation, then commission servo directions and VESC 1%/3% steps.
+- [ ] Confirm BNO body-axis transform, then implement persistent tuning only after the measured direction/range is known.

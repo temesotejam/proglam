@@ -522,3 +522,9 @@ The final audit is recorded in UTF-8 at `docs/PR18_FINAL_AUDIT_20260804.md`. It 
 - New host roundtrip passes using Core manager + real encode/decoder + XIAO CommandIngress: Type68/69/70, byte-identical retries, duplicate/manual deadman, timeout, request-ID/sequence/type-mismatched ACK, late/malformed ACK, queue-full, wrap-near identifiers, zero physical writes.
 - Core PlatformIO `competition_cores3_shadow` SUCCESS: RAM 175772/327680, Flash 1046149/6553600. No new warnings. No COM/USB/upload/hardware/microSD/physical-output operation performed.
 - Detailed design/evidence: `docs/CORES3_COMPETITION_COMMAND_TRANSACTIONS_20260805.md`.
+## 2026-08-05 — Competition hardware output preparation (not yet flashed)
+- Audited source wiring: PCA9685 `0x40`; channels 0/1/2; VESC XIAO D8 RX, D9 TX. COM ports were not opened.
+- Added mutually exclusive `competition_hardware` environments. Hardware startup is DISARMED with zero VESC duty, zero PID gains, 1480–1520 us servo limits and 100 us/s rate limiting.
+- Added `ServoMapper` host test and connected it only in `COMPETITION_HARDWARE_ENABLE`; existing competition shadow route remains output-disabled.
+- Added Core safety API for ARM/START/DISARM/STOP/E-STOP using existing protocol types. All four firmware build configurations and host test passed; no upload or output test performed.
+- Blocking condition for physical test: user must confirm propeller removed/secured before the dedicated hardware image is uploaded and armed. BNO mount transform is still unvalidated, so PID tuning remains disabled.

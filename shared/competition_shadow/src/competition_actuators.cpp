@@ -1,0 +1,8 @@
+#include "competition_actuators.h"
+#include <cmath>
+namespace competition_shadow { namespace { float clampf(float v,float lo,float hi){return v<lo?lo:(v>hi?hi:v);} }
+ServoMapper::ServoMapper(const ServoTuning&t):tuning_(t){reset();}
+bool ServoMapper::valid(const ServoTuning&t){return std::isfinite(t.minUs)&&std::isfinite(t.neutralUs)&&std::isfinite(t.maxUs)&&std::isfinite(t.maxRateUsPerSecond)&&t.minUs>=500.0f&&t.maxUs<=2500.0f&&t.minUs<t.neutralUs&&t.neutralUs<t.maxUs&&t.maxRateUsPerSecond>0.0f;}
+void ServoMapper::reset(){previousUs_=valid(tuning_)?static_cast<uint16_t>(tuning_.neutralUs+.5f):1500;}
+ServoResult ServoMapper::map(float normalized,float dtSeconds){ServoResult r{};r.finite=std::isfinite(normalized)&&std::isfinite(dtSeconds)&&valid(tuning_);if(!r.finite){r.pulseUs=previousUs_;r.clamped=true;return r;}if(tuning_.reversed)normalized=-normalized;const float constrained=clampf(normalized,-1.0f,1.0f);r.clamped=constrained!=normalized;float target=constrained>=0?tuning_.neutralUs+constrained*(tuning_.maxUs-tuning_.neutralUs):tuning_.neutralUs+constrained*(tuning_.neutralUs-tuning_.minUs);const float maxDelta=tuning_.maxRateUsPerSecond*clampf(dtSeconds,0.0f,.10f);target=clampf(target,static_cast<float>(previousUs_)-maxDelta,static_cast<float>(previousUs_)+maxDelta);target=clampf(target,tuning_.minUs,tuning_.maxUs);previousUs_=static_cast<uint16_t>(target+.5f);r.pulseUs=previousUs_;return r;}
+}
