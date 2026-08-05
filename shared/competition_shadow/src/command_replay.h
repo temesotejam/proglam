@@ -11,6 +11,7 @@ class CommandReplayWindow {
   static bool newer(uint32_t candidate,uint32_t baseline);
   static bool ambiguous(uint32_t candidate,uint32_t baseline);
   uint32_t duplicateCount()const{return duplicateCount_;} uint32_t conflictCount()const{return conflictCount_;} uint32_t staleCount()const{return staleCount_;} uint32_t appliedCount()const{return appliedCount_;}
+  bool hasHighWatermark()const{return hasHigh_;} uint32_t highWatermark()const{return high_;}
  private:
   ReplayEntry entries_[kCapacity]{}; uint8_t next_=0; bool hasHigh_=false; uint32_t high_=0; mutable uint32_t duplicateCount_=0,conflictCount_=0,staleCount_=0; uint32_t appliedCount_=0;
 };

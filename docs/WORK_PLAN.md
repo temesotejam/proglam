@@ -400,3 +400,12 @@ The final audit is recorded in UTF-8 at `docs/PR18_FINAL_AUDIT_20260804.md`. It 
 - [完了] 競技用コントローラから内部SafetyStateを削除し、XIAOの正式SafetyStateを一箇所の変換関数から入力する形に変更した。controllerはFAULT/DISARM要求のみを返し、既存XIAO状態機械が遷移を決定する。
 
 - [実施中] Type 68〜70用の64件固定長replay windowを共有モジュールへ追加。RFC1982型比較、完全一致duplicate、ID/sequence衝突、stale、wrapと半周差をホスト試験で確認。XIAO正式受信への接続は未完了。
+
+## 2026-08-05 — Competition replay ingress (Type 68--70)
+
+- [完了] 既存64件固定長replay windowを、制御XIAOの正式UART受信経路 `linkRxService()` → `handleCompetitionCommand()` → `CommandIngress` に接続した。
+- [完了] Type 68/69/70はpayload size/version/canonical CRC/enum/finite/range検証後にcanonical identityへ変換し、NEWだけを適用する。構文上有効だがSafetyStateで拒否されたNEW結果も保存する。
+- [完了] duplicateはoriginal reason/applied timeを使うType71 ACKのみを返し、manual freshnessを更新しない。conflict/stale/半周差/malformedは適用しない。malformedはwindowへ保存しない。
+- [完了] `COMPETITION_CMD` シリアル診断を追加。duplicate_reapplyとphysical_writesを観測できる。
+- [完了] replay単体、SafetyState単体、実wire encode/decodeを通すcommand ingress統合host test、competition_shadow/proposal_shadow_min buildが成功した。実機・COM・uploadは未実施。
+- [保留] legacy START/STOP/E-STOP/Clear E-STOPおよびType66 WaypointSetは既存の別ACK/wire経路のままであり、このType68--70 ingress統合には未接続。

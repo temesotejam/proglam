@@ -1,0 +1,33 @@
+#include <assert.h>
+#include <cmath>
+#include <cstdio>
+#include <cstring>
+#include <limits>
+#include <initializer_list>
+#include "boat_protocol.h"
+#include "competition_shadow.h"
+#include "command_ingress.h"
+using namespace competition_shadow;
+template<class T> static boat::Frame wire(boat::Type type,const T& payload,uint32_t sequence=1){boat::Header h{};h.version=boat::kVersion;h.type=(uint8_t)type;h.length=sizeof(T);h.sequence=sequence;h.bootId=7;h.sourceUs=99;uint8_t encoded[boat::kMaxEncoded]{};const size_t n=boat::encode(h,(const uint8_t*)&payload,encoded,sizeof(encoded));assert(n);boat::Decoder d;boat::Frame f{};bool done=false;for(size_t i=0;i<n;++i)if(d.feed(encoded[i],f))done=true;assert(done);return f;}
+static boat::ControlModeCommandPayload mode(uint32_t id,uint32_t seq,uint8_t value){boat::ControlModeCommandPayload p{};p.protocolVersion=boat::kVersion;p.mode=value;p.requestId=id;p.commandSequence=seq;p.sourceUs=1000+seq;p.canonicalCrc=boat::canonicalCrc(&p,offsetof(boat::ControlModeCommandPayload,canonicalCrc));return p;}
+static boat::ManualCommandPayload manual(uint32_t id,uint32_t seq){boat::ManualCommandPayload p{};p.protocolVersion=boat::kVersion;p.requestId=id;p.commandSequence=seq;p.sourceUs=2000+seq;p.leftFrontWing=.2f;p.rightFrontWing=-.2f;p.rearYaw=.3f;p.propulsion=.4f;p.canonicalCrc=boat::canonicalCrc(&p,offsetof(boat::ManualCommandPayload,canonicalCrc));return p;}
+static boat::HeadingTargetPayload heading(uint32_t id,uint32_t seq,float value=.4f){boat::HeadingTargetPayload p{};p.protocolVersion=boat::kVersion;p.requestId=id;p.commandSequence=seq;p.sourceUs=3000+seq;p.targetYawRad=value;p.canonicalCrc=boat::canonicalCrc(&p,offsetof(boat::HeadingTargetPayload,canonicalCrc));return p;}
+static SensorInput healthy(uint64_t now){SensorInput x{};x.nowUs=now;x.safety=AuthoritativeSafety::Running;x.heartbeat=x.imuValid=x.tofValid=x.gnssValid=true;x.heartbeatUs=x.imuUs=x.tofUs=x.gnssUs=now;x.tofM=1.2f;return x;}
+int main(){
+ Controller controller;CommandIngress ingress;
+ auto r=ingress.process(wire(boat::Type::ControlModeCommand,mode(1,1,0)),AuthoritativeSafety::Disarmed,controller,1000);assert(r.ackGenerated&&r.result.ack==Ack::Accepted&&controller.mode()==ControlMode::Manual&&r.appliedUs==1000);
+ r=ingress.process(wire(boat::Type::ManualCommand,manual(2,2)),AuthoritativeSafety::Running,controller,0);assert(r.result.ack==Ack::Accepted&&r.appliedUs==0);const uint64_t originalApplied=r.appliedUs;
+ for(uint64_t t=100000;t<=400000;t+=100000){r=ingress.process(wire(boat::Type::ManualCommand,manual(2,2)),AuthoritativeSafety::Running,controller,t);assert(r.result.ack==Ack::Duplicate&&r.original.ack==Ack::Accepted&&r.appliedUs==originalApplied);}
+ SensorInput x=healthy(500001);auto o=controller.step(x);assert(o.reason==StopReason::ManualTimeout&&o.safetyRequest==SafetyRequest::Disarm);
+ r=ingress.process(wire(boat::Type::HeadingTarget,heading(3,3)),AuthoritativeSafety::Disarmed,controller,600000);assert(r.result.ack==Ack::Accepted);
+ r=ingress.process(wire(boat::Type::HeadingTarget,heading(3,3)),AuthoritativeSafety::Disarmed,controller,700000);assert(r.result.ack==Ack::Duplicate&&r.appliedUs==600000);
+ r=ingress.process(wire(boat::Type::ControlModeCommand,mode(4,4,2)),AuthoritativeSafety::Running,controller,800000);assert(r.result.ack==Ack::Rejected);r=ingress.process(wire(boat::Type::ControlModeCommand,mode(4,4,2)),AuthoritativeSafety::Disarmed,controller,900000);assert(r.result.ack==Ack::Duplicate&&r.original.ack==Ack::Rejected&&controller.mode()==ControlMode::Manual);
+ r=ingress.process(wire(boat::Type::ManualCommand,manual(2,5)),AuthoritativeSafety::Running,controller,1000000);assert(r.result.ack==Ack::ProtocolConflict);r=ingress.process(wire(boat::Type::ManualCommand,manual(6,2)),AuthoritativeSafety::Running,controller,1000000);assert(r.result.ack==Ack::ProtocolConflict);
+ auto collision=heading(3,3,.7f);r=ingress.process(wire(boat::Type::HeadingTarget,collision),AuthoritativeSafety::Disarmed,controller,1000000);assert(r.result.ack==Ack::ProtocolConflict);
+ auto bad=manual(7,7);bad.protocolVersion=2;bad.canonicalCrc=boat::canonicalCrc(&bad,offsetof(boat::ManualCommandPayload,canonicalCrc));r=ingress.process(wire(boat::Type::ManualCommand,bad),AuthoritativeSafety::Running,controller,1000000);assert(r.malformed&&!r.ackGenerated);r=ingress.process(wire(boat::Type::ManualCommand,manual(7,7)),AuthoritativeSafety::Running,controller,1000001);assert(r.result.ack==Ack::Accepted);
+ auto nan=manual(8,8);nan.leftFrontWing=std::numeric_limits<float>::quiet_NaN();nan.canonicalCrc=boat::canonicalCrc(&nan,offsetof(boat::ManualCommandPayload,canonicalCrc));r=ingress.process(wire(boat::Type::ManualCommand,nan),AuthoritativeSafety::Running,controller,1000002);assert(r.malformed);r=ingress.process(wire(boat::Type::ManualCommand,manual(8,8)),AuthoritativeSafety::Running,controller,1000003);assert(r.result.ack==Ack::Accepted);
+ boat::Decoder broken;uint8_t cobs[]={4,1,0};boat::Frame ignored{};assert(!broken.feed(cobs[0],ignored)&&!broken.feed(cobs[1],ignored)&&!broken.feed(cobs[2],ignored));assert(broken.cobsErrors==1);
+ CommandIngress wrap;Controller wc;for(uint32_t s: {0xfffffffeu,0xffffffffu,0u,1u}){r=wrap.process(wire(boat::Type::ControlModeCommand,mode(100+s,s,0)),AuthoritativeSafety::Disarmed,wc,2000000+s);assert(r.result.ack==Ack::Accepted);}r=wrap.process(wire(boat::Type::ControlModeCommand,mode(200,0x80000001u,0)),AuthoritativeSafety::Disarmed,wc,3000000);assert(r.result.ack==Ack::Stale&&r.result.reason==(uint16_t)CommandReason::AmbiguousSequence);
+ for(uint32_t s=2;s<67;++s){r=wrap.process(wire(boat::Type::ControlModeCommand,mode(1000+s,s,0)),AuthoritativeSafety::Disarmed,wc,4000000+s);assert(r.result.ack==Ack::Accepted);}r=wrap.process(wire(boat::Type::ControlModeCommand,mode(9999,1,0)),AuthoritativeSafety::Disarmed,wc,5000000);assert(r.result.ack==Ack::Stale);
+ const auto& m=ingress.metrics();assert(m.duplicates==6&&m.rejectedCommands==1&&m.malformed==2&&m.duplicateReapply==0&&controller.physicalWriteCount()==0);std::puts("COMPETITION_COMMAND_INGRESS_HOST_PASS wire=encode_decoder types=68_69_70 duplicate_timeout=ok malformed_clean=ok wrap=ok physical_writes=0");
+}

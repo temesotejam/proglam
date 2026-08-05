@@ -501,3 +501,15 @@ The final audit is recorded in UTF-8 at `docs/PR18_FINAL_AUDIT_20260804.md`. It 
 - [完了] 競技用コントローラから内部SafetyStateを削除し、XIAOの正式SafetyStateを一箇所の変換関数から入力する形に変更した。controllerはFAULT/DISARM要求のみを返し、既存XIAO状態機械が遷移を決定する。
 
 - [実施中] Type 68〜70用の64件固定長replay windowを共有モジュールへ追加。RFC1982型比較、完全一致duplicate、ID/sequence衝突、stale、wrapと半周差をホスト試験で確認。XIAO正式受信への接続は未完了。
+
+## 2026-08-05 — Type 68--70 replay ingress integration
+
+- Start HEAD: `7407bf851b5f4b0cc32564f80b24230fd8d37ecd` on `feat/competition-integrated-shadow-20260805`; PR #19 was retained Draft/Open/Unmerged.
+- Added shared `CommandIngress` and wired XIAO Type68/69/70 handling through it.  Decoder acceptance occurs before ingress.  Ingress validates payload layout/version/canonical CRC/enum/finite/range before inspecting the pre-existing shared 64-entry replay window.
+- NEW calls the existing controller once and stores both accepted and SafetyState-rejected outcomes. Duplicate resends a Type71 ACK with `Ack::Duplicate`, original reason, and original applied time. No duplicate manual freshness update occurs. Conflict/stale/ambiguous and malformed input do not apply. Malformed input does not enter the window.
+- The existing replay entry aggregate initialization was changed to explicit field assignment so the Arduino toolchain default C++ mode builds it; replay behavior and capacity are unchanged.
+- Added serial `COMPETITION_CMD` diagnostics and a host integration test using actual `boat::encode`/`boat::Decoder` plus the exact `CommandIngress` firmware function.
+- Commands passed (all exit 0): strict C++ replay host, strict C++ authoritative-safety host, strict C++ ingress host, PlatformIO `competition_shadow`, PlatformIO `proposal_shadow_min`. No new warnings were emitted by the successful PlatformIO builds.
+- Build memory: competition_shadow RAM 211228/327680, Flash 585881/3342336; proposal_shadow_min RAM 211252/327680, Flash 590921/3342336.
+- Not performed: upload, COM/USB access, hardware operation, microSD operation, PCA9685/VESC physical output, main/PR18/PR19 merge or Draft status change.
+- Detailed design/evidence: `docs/COMPETITION_REPLAY_INTEGRATION_20260805.md`.
