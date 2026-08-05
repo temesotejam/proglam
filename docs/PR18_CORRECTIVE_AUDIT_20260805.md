@@ -4,7 +4,7 @@
 
 1. **監査開始HEAD**: `a33267e2ab30aed532c48e73c96b5bc8aa36e431`。
 2. **試験コードHEAD**: `fd1931c`（是正コード・テストのpushコミット）。
-3. **最終push HEAD**: `fd1931c`（feature branch最終push HEAD）。
+3. **最終push HEAD**: 本報告自身のSHAは自己参照を避け、PR本文/コメントに記録したfeature branch最終tipを正とする。
 4. **PR状態**: PR #18はDraft / Open / Unmergedを維持する。
 5. **main差分**: mainへのpush・merge・rebase・squash・force pushは行わない。
 6. **コミット**: 既存コミットをamendせず、是正用の追加コミットを作成する。
