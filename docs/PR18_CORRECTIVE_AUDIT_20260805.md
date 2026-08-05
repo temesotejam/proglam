@@ -3,8 +3,8 @@
 対象ブランチは `feat/proposal-benchmark-replay-20260804`。添付指示に従い、既存履歴を改変せず、制御式・ゲイン・MID/FULL/ESKF/UART/SD/I2C/SPI/mutex/buffer・物理出力設定を変更せずに診断範囲を補強した。正式な4出力名は左前翼、右前翼、後部ヨー機構、単一推進で固定した。
 
 1. **監査開始HEAD**: `a33267e2ab30aed532c48e73c96b5bc8aa36e431`。
-2. **試験コードHEAD**: 監査開始HEADに対する未コミット是正作業ツリー（コミット後のSHAはPRコメントへ記録）。
-3. **最終push HEAD**: 追加コミット後にPRコメントと本報告を更新する。
+2. **試験コードHEAD**: `fd1931c`（是正コード・テストのpushコミット）。
+3. **最終push HEAD**: `fd1931c`（feature branch最終push HEAD）。
 4. **PR状態**: PR #18はDraft / Open / Unmergedを維持する。
 5. **main差分**: mainへのpush・merge・rebase・squash・force pushは行わない。
 6. **コミット**: 既存コミットをamendせず、是正用の追加コミットを作成する。
