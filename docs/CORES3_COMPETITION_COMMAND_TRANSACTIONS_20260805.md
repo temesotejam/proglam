@@ -40,6 +40,6 @@ Successful submit responses are HTTP 202 and report `status:"pending"`; they nev
 
 ## Validation evidence
 
-`core_command_transaction_host.cpp` uses CoreS3 `Manager`, real `boat::encode`/`boat::Decoder`, and XIAO `CommandIngress` in one path. It verifies Type 68/69/70 acknowledgement, byte-identical retry, two lost ACK retries, duplicate manual behavior and XIAO 500 ms timeout, finite retry timeout, unmatched ACK, malformed ACK, and zero physical writes.
+`core_command_transaction_host.cpp` uses CoreS3 `Manager`, real `boat::encode`/`boat::Decoder`, and XIAO `CommandIngress` in one path. It verifies Type 68/69/70 acknowledgement, byte-identical retry, two lost ACK retries, duplicate manual behavior and XIAO 500 ms timeout, finite retry timeout, request-ID/sequence/type-mismatched ACKs, late ACK, malformed ACK, queue-full behavior, wrap-near identifiers, and zero physical writes.
 
 PlatformIO environment: `competition_cores3_shadow`.
